@@ -11,25 +11,59 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
+    var window: UIWindow?
+    var topMargin: CGFloat!
+    
+    var topContainer:UIView!
+    var normalPageBtn:UIButton!
+    var shopPageBtn:UIButton!
+    var topLine:UIView!
+    var nowPage = 0
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        //addTopButton()
         return true
     }
-
-    // MARK: UISceneSession Lifecycle
-
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    
+    //MAKR: - Utility
+    class func shared() -> AppDelegate
+    {
+        return UIApplication.shared.delegate as! AppDelegate
     }
-
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+    
+    //頂部兩個按鈕
+    func addTopButton() {
+        
+        let window = UIApplication.shared.keyWindow
+        
+        topContainer = UIView(frame: CGRect.init(x: 0, y: topMargin, width: window!.bounds.width, height: 40))
+        window!.addSubview(topContainer);
+        topContainer.backgroundColor = UIColor.black
+        normalPageBtn = UIButton.init(frame: CGRect(x: 0, y: 0, width: topContainer.frame.size.width/2, height: topContainer.frame.size.height))
+        normalPageBtn.backgroundColor = UIColor.black
+        normalPageBtn.setTitle("REMIT", for: .normal)
+        topContainer.addSubview(normalPageBtn)
+        
+        shopPageBtn = UIButton.init(frame: CGRect(x: topContainer.frame.size.width/2, y: 0, width: topContainer.frame.size.width/2, height: topContainer.frame.size.height))
+        shopPageBtn.backgroundColor = UIColor.black
+        shopPageBtn.setTitle("SHOPPING", for: .normal)
+        topContainer.addSubview(shopPageBtn)
+        
+        topLine = UIView.init(frame: CGRect.init(x: 0, y: topContainer.frame.size.height-2, width: topContainer.frame.size.width/2, height: 2))
+        topLine.backgroundColor = UIColor.init(red: 26/255, green: 143/255, blue: 246/255, alpha: 1)
+        topContainer.addSubview(topLine)
+        
+        initLinePosX()
+    }
+    
+    //底部線條
+    func initLinePosX() {
+        if nowPage == 0 {
+            topLine.frame =  CGRect.init(x: 0, y: topContainer.frame.size.height-2, width: topContainer.frame.size.width/2, height: 2)
+        } else {
+            topLine.frame =  CGRect.init(x: topContainer.frame.size.width/2, y: topContainer.frame.size.height-2, width: topContainer.frame.size.width/2, height: 2)
+        }
     }
 
 
