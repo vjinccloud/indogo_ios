@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings
+  indogo
+
+  Created by mac on 2020/7/11.
+  Copyright © 2020 DIM. All rights reserved.
+*/
+
+"remit" = "REMIT"; //匯款
+"shopping" = "SHOPPING"; //商城
+"agree" = "SETUJU"; //同意/確認
+"cancel" = "BATAL"; //取消
+"login" = "Masuk"; //登入
+"recover passcode" = "Lupa Kata Sandi"; //密碼回復
+"register" = "REGISTRASI"; //註冊
+"remember passcode" = "Simpan Kata Sandi"; //記憶密碼
+"pic scan" = "MULAI/SCAN"; //拍照/掃描
+"back" = "KEMBALI"; //返回
+"send" = "KIRIM"; //送出
+"ok" = "Lanjut"; //繼續
+"API DecodeFail" = "Server sedang sibuk, silakan coba lagi nanti"; //伺服器忙線中，請稍候再試

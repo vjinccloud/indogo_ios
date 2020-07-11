@@ -146,6 +146,16 @@
 		049687FA24B78AFA005EF74A /* view_w@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0496877624B78AFA005EF74A /* view_w@3x.png */; };
 		049687FB24B78AFA005EF74A /* select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0496877724B78AFA005EF74A /* select@2x.png */; };
 		049687FD24B79B3C005EF74A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049687FC24B79B3C005EF74A /* SceneDelegate.swift */; };
+		0496880024B8D03C005EF74A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0496880224B8D03C005EF74A /* Localizable.strings */; };
+		0496880D24B8D61E005EF74A /* RootNavVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496880724B8D61E005EF74A /* RootNavVC.swift */; };
+		0496880E24B8D61E005EF74A /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496880824B8D61E005EF74A /* Log.swift */; };
+		0496880F24B8D61E005EF74A /* AppDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496880924B8D61E005EF74A /* AppDefine.swift */; };
+		0496881024B8D61E005EF74A /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496880A24B8D61E005EF74A /* BaseVC.swift */; };
+		0496881124B8D61E005EF74A /* UIView+constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496880B24B8D61E005EF74A /* UIView+constraints.swift */; };
+		0496881224B8D61E005EF74A /* ImageSliderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496880C24B8D61E005EF74A /* ImageSliderVC.swift */; };
+		0496881424B8D666005EF74A /* APIHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496881324B8D666005EF74A /* APIHandle.swift */; };
+		0496881624B8D693005EF74A /* UtilityTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496881524B8D693005EF74A /* UtilityTool.swift */; };
+		0496881A24B99235005EF74A /* PromoPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496881924B99235005EF74A /* PromoPageVC.swift */; };
 		30BB9E1B472E6087D196338F /* Pods_indogo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6A89A548EE6EDFBF9DF3D6 /* Pods_indogo.framework */; };
 /* End PBXBuildFile section */
 
@@ -291,6 +301,16 @@
 		0496877624B78AFA005EF74A /* view_w@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "view_w@3x.png"; sourceTree = "<group>"; };
 		0496877724B78AFA005EF74A /* select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "select@2x.png"; sourceTree = "<group>"; };
 		049687FC24B79B3C005EF74A /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		0496880124B8D03C005EF74A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0496880724B8D61E005EF74A /* RootNavVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootNavVC.swift; sourceTree = "<group>"; };
+		0496880824B8D61E005EF74A /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		0496880924B8D61E005EF74A /* AppDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDefine.swift; sourceTree = "<group>"; };
+		0496880A24B8D61E005EF74A /* BaseVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
+		0496880B24B8D61E005EF74A /* UIView+constraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+constraints.swift"; sourceTree = "<group>"; };
+		0496880C24B8D61E005EF74A /* ImageSliderVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSliderVC.swift; sourceTree = "<group>"; };
+		0496881324B8D666005EF74A /* APIHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHandle.swift; sourceTree = "<group>"; };
+		0496881524B8D693005EF74A /* UtilityTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityTool.swift; sourceTree = "<group>"; };
+		0496881924B99235005EF74A /* PromoPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoPageVC.swift; sourceTree = "<group>"; };
 		7CA1F9F82732C7F1B5DBE582 /* Pods-indogo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-indogo.release.xcconfig"; path = "Target Support Files/Pods-indogo/Pods-indogo.release.xcconfig"; sourceTree = "<group>"; };
 		DC6A89A548EE6EDFBF9DF3D6 /* Pods_indogo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_indogo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F747AC83F0BA5460AAA2A63B /* Pods-indogo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-indogo.debug.xcconfig"; path = "Target Support Files/Pods-indogo/Pods-indogo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -330,7 +350,9 @@
 		049686DB24B6EFB0005EF74A /* indogo */ = {
 			isa = PBXGroup;
 			children = (
+				0496881724B99212005EF74A /* View */,
 				049687FC24B79B3C005EF74A /* SceneDelegate.swift */,
+				0496880624B8D61E005EF74A /* Base */,
 				049686F224B78ABC005EF74A /* Stuff */,
 				049686DC24B6EFB0005EF74A /* AppDelegate.swift */,
 				049686E024B6EFB0005EF74A /* ViewController.swift */,
@@ -338,6 +360,7 @@
 				049686E524B6EFB2005EF74A /* Assets.xcassets */,
 				049686E724B6EFB2005EF74A /* LaunchScreen.storyboard */,
 				049686EA24B6EFB2005EF74A /* Info.plist */,
+				0496880224B8D03C005EF74A /* Localizable.strings */,
 			);
 			path = indogo;
 			sourceTree = "<group>";
@@ -489,6 +512,37 @@
 			path = 20200708;
 			sourceTree = "<group>";
 		};
+		0496880624B8D61E005EF74A /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				0496880724B8D61E005EF74A /* RootNavVC.swift */,
+				0496880824B8D61E005EF74A /* Log.swift */,
+				0496880924B8D61E005EF74A /* AppDefine.swift */,
+				0496880A24B8D61E005EF74A /* BaseVC.swift */,
+				0496880B24B8D61E005EF74A /* UIView+constraints.swift */,
+				0496880C24B8D61E005EF74A /* ImageSliderVC.swift */,
+				0496881324B8D666005EF74A /* APIHandle.swift */,
+				0496881524B8D693005EF74A /* UtilityTool.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		0496881724B99212005EF74A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0496881824B99217005EF74A /* Promo */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0496881824B99217005EF74A /* Promo */ = {
+			isa = PBXGroup;
+			children = (
+				0496881924B99235005EF74A /* PromoPageVC.swift */,
+			);
+			path = Promo;
+			sourceTree = "<group>";
+		};
 		13F29C287ADD8803E66CDFC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -550,6 +604,7 @@
 			knownRegions = (
 				en,
 				Base,
+				id,
 			);
 			mainGroup = 049686D024B6EFB0005EF74A;
 			productRefGroup = 049686DA24B6EFB0005EF74A /* Products */;
@@ -580,6 +635,7 @@
 				0496878F24B78AFA005EF74A /* take_id_back@3x.png in Resources */,
 				049687B424B78AFA005EF74A /* phone@2x.png in Resources */,
 				049687D624B78AFA005EF74A /* select@3x.png in Resources */,
+				0496880024B8D03C005EF74A /* Localizable.strings in Resources */,
 				0496879F24B78AFA005EF74A /* account@3x.png in Resources */,
 				049687C124B78AFA005EF74A /* signature_2.png in Resources */,
 				049687D424B78AFA005EF74A /* memo@2x.png in Resources */,
@@ -754,9 +810,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0496881624B8D693005EF74A /* UtilityTool.swift in Sources */,
+				0496881424B8D666005EF74A /* APIHandle.swift in Sources */,
+				0496880D24B8D61E005EF74A /* RootNavVC.swift in Sources */,
+				0496880E24B8D61E005EF74A /* Log.swift in Sources */,
+				0496881024B8D61E005EF74A /* BaseVC.swift in Sources */,
 				049686E124B6EFB0005EF74A /* ViewController.swift in Sources */,
 				049686DD24B6EFB0005EF74A /* AppDelegate.swift in Sources */,
+				0496881A24B99235005EF74A /* PromoPageVC.swift in Sources */,
 				049687FD24B79B3C005EF74A /* SceneDelegate.swift in Sources */,
+				0496881124B8D61E005EF74A /* UIView+constraints.swift in Sources */,
+				0496880F24B8D61E005EF74A /* AppDefine.swift in Sources */,
+				0496881224B8D61E005EF74A /* ImageSliderVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -779,6 +844,14 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		0496880224B8D03C005EF74A /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0496880124B8D03C005EF74A /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -786,6 +859,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -832,7 +906,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -846,6 +920,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -886,7 +961,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

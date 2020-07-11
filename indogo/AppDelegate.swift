@@ -7,10 +7,19 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
+import UserNotifications
+import iProgressHUD
+import PKHUD
+import CryptoKit
+import CommonCrypto
+import Firebase
+import FirebaseMessaging
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
     var topMargin: CGFloat!
     
@@ -20,13 +29,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var topLine:UIView!
     var nowPage = 0
     
+    public var promoUrlAry:[String] = []
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         //addTopButton()
         return true
     }
     
-    //MAKR: - Utility
+    //MARK: - Utility
     class func shared() -> AppDelegate
     {
         return UIApplication.shared.delegate as! AppDelegate
@@ -65,7 +76,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             topLine.frame =  CGRect.init(x: topContainer.frame.size.width/2, y: topContainer.frame.size.height-2, width: topContainer.frame.size.width/2, height: 2)
         }
     }
-
-
+    
+    //正在讀取
+    func addLoadingView() {
+        PKHUD.sharedHUD.contentView = PKHUDProgressView()
+        PKHUD.sharedHUD.show()
+    }
+    
+    //關掉讀取按鈕
+    func removeLoadingView() {
+        PKHUD.sharedHUD.hide()
+    }
+    
+    //跳出alert
+    func showAlertWithWindow (_ onVC:UIViewController, Message msg:String) {
+        let vc = UIAlertController(title: "", message: msg, preferredStyle: .alert)
+        vc.addAction(UIAlertAction(title: "確定", style: .default, handler: { action in
+            
+        }))
+        onVC.present(vc, animated: true, completion: nil)
+    }
 }
 
