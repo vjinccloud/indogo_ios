@@ -20,7 +20,7 @@ var FirebaseToken = ""
 public let Color_Main_Bule = UtilityTool().hexStringToUIColor(hex: "#2a65ec")
 
 //開發階段
-let DevMode = false
+let DevMode = true
 let Lang_APIDecodeFail = NSLocalizedString("API DecodeFail", comment: "伺服器忙線中，請稍候再試")
 
 let AppVersion = "1.0"
@@ -35,10 +35,12 @@ let orderTicketTimeLimitSecs:Double = 300
 
 //API後續網址設定
 let API_Promo = ServerURL + "/app/remit/app_photos"
+let API_Login = ServerURL + "/app/remit/login"
+let API_CheckLogin = ServerURL + "/app/remit/check_token"
 
 let API_Register = ServerURL + "/Account/register"
-let API_Confirm = ServerURL + "/Account/activateUser"
-let API_Login = ServerURL + "/Account/login"
+
+
 let API_TokenLogin = ServerURL + "/Account/checkToken"
 let API_ForgetPass = ServerURL + "/Account/forgotPassword"
 let API_ConfirmCodePass = ServerURL + "/Account/verifyConfirmCode"

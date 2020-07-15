@@ -12,11 +12,11 @@ import SwiftyJSON
 
 class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewControllerDataSource {
     
-    @IBOutlet weak var accountL: UILabel!
     @IBOutlet weak var accountBtn: UIButton!
+    @IBOutlet weak var accountTextfield: UITextField!
     
-    @IBOutlet weak var passL: UILabel!
     @IBOutlet weak var passBtn: UIButton!
+    @IBOutlet weak var passTextField: UITextField!
     
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var remeberBtn: UIButton!
@@ -24,6 +24,7 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
     @IBOutlet weak var lupaBtn: UIButton!
     @IBOutlet weak var registerBtn: UIButton!
     
+    @IBOutlet weak var showPassBtn: UIButton!
     @IBOutlet weak var topScrollView: UIScrollView!
     @IBOutlet weak var promoView: UIView!
     @IBOutlet weak var promoPageCtrl: UIPageControl!
@@ -34,7 +35,110 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
     
     var loadOnce:Bool = false
     
+    //MARK: - Button-Action
+    @IBAction func showPassAction(_ sender: Any) {
+        passTextField.isSecureTextEntry.toggle()
+        
+        if passTextField.isSecureTextEntry {
+            showPassBtn.setBackgroundImage(UIImage.init(named: "noview_b"), for: .normal)
+        } else {
+            showPassBtn.setBackgroundImage(UIImage.init(named: "view_w"), for: .normal)
+        }
+    }
+    
+    @IBAction func loginAction(_ sender: Any) {
+        if accountTextfield.text?.count == 0 {
+            AppDelegate.shared().showAlertWithWindow(self, Message: "請輸入帳號")
+            return
+        }
+        
+        if passTextField.text?.count == 0 {
+            AppDelegate.shared().showAlertWithWindow(self, Message: "請輸入密碼")
+            return
+        }
+        
+        loginNext()
+    }
+    
+    @IBAction func forgotPassAction(_ sender: Any) {
+        let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassMainVC") as? ForgotPassMainVC
+        self.navigationController?.pushViewController(nextVC!, animated: true)
+    }
+    
+    @IBAction func registAction(_ sender: Any) {
+    }
+    
     //MARK: - API
+    func checkTokenLogin() {
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken]
+        let headers: HTTPHeaders = [:]
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_CheckLogin;
+        
+        Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
+        
+        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("responseStr = \(responseStr ?? "")")
+                
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint)
+                if result == ResponseState.ok {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: "Hi, \(AppDelegate.shared().memberData["member_name"] ?? "") 自動登入成功")
+                } else if result == ResponseState.error {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                }
+        }
+    }
+    
+    func loginNext() {
+        let parameters:Parameters = ["login_id":accountTextfield.text!, "login_password": UtilityTool().sha256(Code: passTextField.text!)]
+        let headers: HTTPHeaders = [:]
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_Login;
+        
+        Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
+        
+        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("responseStr = \(responseStr ?? "")")
+                
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint)
+                if result == ResponseState.ok {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: "Hi, \(AppDelegate.shared().memberData["member_name"] ?? "") 登入成功")
+                } else if result == ResponseState.error {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                }
+        }
+    }
+    
     func getPromo() {
         
         let parameters:Parameters = [:]
@@ -58,7 +162,7 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                 Dlog("responseStr = \(responseStr ?? "")")
-                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: API_Promo)
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint)
                 if result == ResponseState.ok {
                     
                     self.promoNum = AppDelegate.shared().promoUrlAry.count
@@ -95,6 +199,11 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         return nextIndex > self.promoPageVC.count - 1 ? nil : self.promoPageVC![nextIndex] as? PromoPageVC
     }
     
+    @objc func endPromo() {
+        self.promoView.removeFromSuperview()
+        self.topScrollView.isHidden = false
+    }
+    
     func setController() {
         promoPageVC = NSMutableArray()
         let scenseView = UIStoryboard(name: "Main", bundle: nil)
@@ -107,6 +216,10 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 page.promoUrl = str
                 promoPageVC.add(page)
                 page.setImage()
+                if promoNum == (AppDelegate.shared().promoUrlAry.count-1) { //最後一頁
+                    page.endBtn.isHidden = false
+                    page.endBtn.addTarget(self, action: #selector(endPromo), for: .touchUpInside)
+                }
             }
             promoNum += 1
         }
@@ -138,7 +251,9 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
     //MARK: - View-Life
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view.
+        self.setupHideKeyboardOnTap()
         promoView.isHidden = true
         promoPageCtrl.isHidden = true
         
@@ -150,7 +265,19 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         lupaBtn.layer.borderColor = UIColor.white.cgColor
         lupaBtn.layer.borderWidth = 0.5
         
+        accountTextfield.placeholder = NSLocalizedString("account", comment: "")
+        passTextField.placeholder = NSLocalizedString("passcode", comment: "")
+        loginBtn.setTitle(NSLocalizedString("login", comment: ""), for: .normal)
+        lupaBtn.setTitle(NSLocalizedString("recover passcode", comment: ""), for: .normal)
+        registerBtn.setTitle(NSLocalizedString("register", comment: ""), for: .normal)
+        
+        passTextField.isSecureTextEntry = true
         registerBtn.layer.cornerRadius = registerBtn.frame.height/2
+        
+        if DevMode {
+            accountTextfield.text = "XX00000078"
+            passTextField.text = "123456"
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -166,8 +293,19 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         AppDelegate.shared().topMargin = self.view.safeAreaInsets.top
         AppDelegate.shared().addTopButton()
         
+        //AppDelegate.shared().floatingButtonController = FloatingButtonController()
+        //AppDelegate.shared().floatingButtonController?.button.addTarget(self, action: #selector(AppDelegate.floatingButtonWasTapped), for: .touchUpInside)
+        AppDelegate.shared().addFloatingBtn()
+        
         //取得Promo
-        getPromo()
+        //getPromo()
+        
+        //自動登入
+        let userDefaults = UserDefaults.standard
+        if userDefaults.value(forKey: "sessionToken") != nil {
+            AppDelegate.shared().sessionToken = userDefaults.value(forKey: "sessionToken") as! String
+            //checkTokenLogin()
+        }
     }
 
 

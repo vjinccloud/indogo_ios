@@ -16,11 +16,12 @@ class PromoPageVC: UIViewController {
     @IBOutlet weak var unitImv: UIImageView!
     var promoUrl:String = ""
     
+    @IBOutlet weak var endBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
     }
     
     func setImage() {
@@ -34,6 +35,8 @@ class PromoPageVC: UIViewController {
         unitImv.kf.setImage(with: urlhaed, options: [.processor(WebPProcessor.default), .cacheSerializer(WebPSerializer.default)])
         
         //unitImv.image = UIImage.init(named: "id_back.png")
+        endBtn.isHidden = true
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
