@@ -17,6 +17,8 @@ class ForgotPassIntroVC: UIViewController {
     
     //MARK: - Button-Action
     @IBAction func nextAction(_ sender: Any) {
+        let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassScanVC") as? ForgotPassScanVC
+        self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
     @IBAction func backAction(_ sender: Any) {

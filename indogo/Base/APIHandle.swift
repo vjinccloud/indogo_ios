@@ -14,6 +14,7 @@ public enum ResponseState {
     case failed
     case ok
     case error
+    case member_not_exist
 }
 
 class APIHandle {
@@ -33,7 +34,12 @@ class APIHandle {
         var endIndex = resStr.index(resStr.startIndex, offsetBy: 13)
         let stateStr = String(resStr[startIndex..<endIndex])
         if stateStr != "0" {
-            return ResponseState.error
+            //特殊狀況
+            if apiStr == API_CheckMemExist && stateStr == "3" {
+                return ResponseState.member_not_exist
+            } else {
+                return ResponseState.error
+            }
         }
         
         startIndex = resStr.index(resStr.startIndex, offsetBy: 14)
@@ -51,12 +57,21 @@ class APIHandle {
         case API_CheckLogin:
             login(DataStr: resultStr)
             break
+        case API_CheckMemExist:
+            checkMemExist(DataStr: resultStr)
+            break
         default:
             break
         }
         
         return ResponseState.ok
     }
+    
+    //remit_reply 0 phone_no
+    private func checkMemExist(DataStr dataStr:String) {
+        AppDelegate.shared().forgotPassTempPhone = dataStr
+    }
+    
     //let API_Login = ServerURL + "/app/remit/login"    //token(31)member_name(31)kurs_value(31)kurs_lm_time(31)service_charge(31)remit_point(31)free_service_charge(31)share_id(31)app_phone_no(31)app_share_bonus(31)google_map_url(31)app_version(31)app_market(31)line_url(31)games_url
     private func login(DataStr dataStr:String) {
         //目前直接用zero width空格

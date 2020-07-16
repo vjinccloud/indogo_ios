@@ -177,6 +177,7 @@
 		0496884224BCD3F0005EF74A /* cover2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0496883024BCD3F0005EF74A /* cover2.png */; };
 		0496884424BCDDF2005EF74A /* UIViewController+TapToDissmiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496884324BCDDF2005EF74A /* UIViewController+TapToDissmiss.swift */; };
 		0496884724BE2942005EF74A /* ForgotPassMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496884624BE2942005EF74A /* ForgotPassMainVC.swift */; };
+		049DB77D24BED018006CB436 /* ForgotPassScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049DB77C24BED018006CB436 /* ForgotPassScanVC.swift */; };
 		04B480CF24BE2BA2004EF723 /* ForgotPassIntroVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B480CE24BE2BA2004EF723 /* ForgotPassIntroVC.swift */; };
 		30BB9E1B472E6087D196338F /* Pods_indogo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6A89A548EE6EDFBF9DF3D6 /* Pods_indogo.framework */; };
 /* End PBXBuildFile section */
@@ -354,6 +355,7 @@
 		0496883024BCD3F0005EF74A /* cover2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover2.png; sourceTree = "<group>"; };
 		0496884324BCDDF2005EF74A /* UIViewController+TapToDissmiss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+TapToDissmiss.swift"; sourceTree = "<group>"; };
 		0496884624BE2942005EF74A /* ForgotPassMainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassMainVC.swift; sourceTree = "<group>"; };
+		049DB77C24BED018006CB436 /* ForgotPassScanVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassScanVC.swift; sourceTree = "<group>"; };
 		04B480CE24BE2BA2004EF723 /* ForgotPassIntroVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassIntroVC.swift; sourceTree = "<group>"; };
 		7CA1F9F82732C7F1B5DBE582 /* Pods-indogo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-indogo.release.xcconfig"; path = "Target Support Files/Pods-indogo/Pods-indogo.release.xcconfig"; sourceTree = "<group>"; };
 		DC6A89A548EE6EDFBF9DF3D6 /* Pods_indogo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_indogo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -629,6 +631,7 @@
 			children = (
 				0496884624BE2942005EF74A /* ForgotPassMainVC.swift */,
 				04B480CE24BE2BA2004EF723 /* ForgotPassIntroVC.swift */,
+				049DB77C24BED018006CB436 /* ForgotPassScanVC.swift */,
 			);
 			path = ForgetPass;
 			sourceTree = "<group>";
@@ -921,6 +924,7 @@
 				0496881624B8D693005EF74A /* UtilityTool.swift in Sources */,
 				0496881C24BC3E81005EF74A /* FloatingButtonController.swift in Sources */,
 				0496881424B8D666005EF74A /* APIHandle.swift in Sources */,
+				049DB77D24BED018006CB436 /* ForgotPassScanVC.swift in Sources */,
 				0496880D24B8D61E005EF74A /* RootNavVC.swift in Sources */,
 				0496884424BCDDF2005EF74A /* UIViewController+TapToDissmiss.swift in Sources */,
 				0496884724BE2942005EF74A /* ForgotPassMainVC.swift in Sources */,

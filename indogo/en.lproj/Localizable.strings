@@ -27,3 +27,4 @@
 "intro for forgoet main" = "Silahkan scan Barcode ARC\nAnda dibawah ini :";//忘記密碼首頁的說明
 "top for forgoet sec" = "Cara Scan\nBarcode ARC";
 "bottom for forgoet sec" = "Pastikan seluruh barcode\nberada dalam kotak yang ditentukan";
+"top for forget arc scan" = "Silahkan scan barcode ARC\nyang tertera di bawah ARC Anda";

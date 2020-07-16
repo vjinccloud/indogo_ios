@@ -37,6 +37,7 @@ let orderTicketTimeLimitSecs:Double = 300
 let API_Promo = ServerURL + "/app/remit/app_photos"
 let API_Login = ServerURL + "/app/remit/login"
 let API_CheckLogin = ServerURL + "/app/remit/check_token"
+let API_CheckMemExist = ServerURL + "/app/remit/check_mem_exists"
 
 let API_Register = ServerURL + "/Account/register"
 
