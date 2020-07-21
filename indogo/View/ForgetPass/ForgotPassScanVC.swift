@@ -29,7 +29,7 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
     //MARK: - Utility
     func simulatorNextAction() {
         //試試測試帳號
-        scanNext(Code: "FA20051866")
+        scanNext(Code: "FA20051865")
     }
     
     func scanNext(Code code:String) {
@@ -54,14 +54,18 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
                 
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                 Dlog("responseStr = \(responseStr ?? "")")
-                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint)
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, VC: self)
+                AppDelegate.shared().forgotPassTempMemID = code
                 if result == ResponseState.ok {
                     //有電話
-                    
+                    let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassCheckPhoneVC") as? ForgotPassCheckPhoneVC
+                    nextVC?.checkType = 0
+                    self.navigationController?.pushViewController(nextVC!, animated: true)
                 } else if result == ResponseState.member_not_exist {
                     //會員不存在，註冊
-                } else if result == ResponseState.error {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassCheckPhoneVC") as? ForgotPassCheckPhoneVC
+                    nextVC?.checkType = 1
+                    self.navigationController?.pushViewController(nextVC!, animated: true)
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
                 }

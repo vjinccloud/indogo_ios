@@ -18,6 +18,9 @@ var FirebaseToken = ""
 
 //顏色
 public let Color_Main_Bule = UtilityTool().hexStringToUIColor(hex: "#2a65ec")
+public let Color_Main_Red = UtilityTool().hexStringToUIColor(hex: "#b20808")
+public let Color_Main_LightGray = UtilityTool().hexStringToUIColor(hex: "#d6d7d8")
+public let Color_Main_DarkGray = UtilityTool().hexStringToUIColor(hex: "#3b3f47")
 
 //開發階段
 let DevMode = true
@@ -38,6 +41,7 @@ let API_Promo = ServerURL + "/app/remit/app_photos"
 let API_Login = ServerURL + "/app/remit/login"
 let API_CheckLogin = ServerURL + "/app/remit/check_token"
 let API_CheckMemExist = ServerURL + "/app/remit/check_mem_exists"
+let API_SendSMS = ServerURL + "/app/remit/password_forget_sms"
 
 let API_Register = ServerURL + "/Account/register"
 

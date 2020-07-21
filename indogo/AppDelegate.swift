@@ -36,7 +36,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     public var sessionToken:String = ""
     public var memberData:[String:String] = [:]
     
+    public var forgotPassTempMemID:String = ""
     public var forgotPassTempPhone:String = ""
+    public var forgotPassTempSMS:String = ""
+    public var forgotPassTempEnterCode:String = ""
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

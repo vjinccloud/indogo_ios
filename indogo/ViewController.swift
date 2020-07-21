@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewControllerDataSource {
+class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewControllerDataSource, CustomAlertDelegate {
     
     @IBOutlet weak var accountBtn: UIButton!
     @IBOutlet weak var accountTextfield: UITextField!
@@ -66,6 +66,18 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
     }
     
     @IBAction func registAction(_ sender: Any) {
+        let customAlert = CustomAlertView.init(frame: topScrollView.frame)
+        customAlert.initAlert(Title: NSLocalizedString("Main Register Alert Title" , comment: ""), Content: NSLocalizedString("Main Register Alert Content" , comment: ""), NextBtn1Str: NSLocalizedString("agree" , comment: ""), CancelBtn1Str: NSLocalizedString("cancel" , comment: ""))
+        self.view.addSubview(customAlert)
+        customAlert.customDelegate = self
+    }
+    
+    func customAlertnextAction(Ref obj: CustomAlertView) {
+        obj.removeFromSuperview()
+        
+        //進入註冊
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterAgreementVC") as? RegisterAgreementVC
+        self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
     //MARK: - API
@@ -93,11 +105,9 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                 Dlog("responseStr = \(responseStr ?? "")")
                 
-                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint)
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, VC: self)
                 if result == ResponseState.ok {
                     AppDelegate.shared().showAlertWithWindow(self, Message: "Hi, \(AppDelegate.shared().memberData["member_name"] ?? "") 自動登入成功")
-                } else if result == ResponseState.error {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
                 }
@@ -128,11 +138,9 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                 Dlog("responseStr = \(responseStr ?? "")")
                 
-                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint)
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, VC: self)
                 if result == ResponseState.ok {
                     AppDelegate.shared().showAlertWithWindow(self, Message: "Hi, \(AppDelegate.shared().memberData["member_name"] ?? "") 登入成功")
-                } else if result == ResponseState.error {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
                 }
@@ -162,14 +170,12 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                 Dlog("responseStr = \(responseStr ?? "")")
-                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint)
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, VC: self)
                 if result == ResponseState.ok {
                     
                     self.promoNum = AppDelegate.shared().promoUrlAry.count
                     self.setController()
                     
-                } else if result == ResponseState.error {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
                 }
@@ -254,6 +260,7 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         
         // Do any additional setup after loading the view.
         self.setupHideKeyboardOnTap()
+        
         promoView.isHidden = true
         promoPageCtrl.isHidden = true
         

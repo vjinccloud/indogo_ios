@@ -25,7 +25,7 @@ class APIHandle {
     
     //MARK: - Basic
     //取得回傳的狀態
-    func getResponseState(ResponseStr resStr:String, APIStr apiStr:String) -> ResponseState {
+    func getResponseState(ResponseStr resStr:String, APIStr apiStr:String, VC vc:UIViewController) -> ResponseState {
         if !resStr.hasPrefix("remit_reply") || resStr.count < 13 {
             return ResponseState.failed
         }
@@ -33,19 +33,23 @@ class APIHandle {
         var startIndex = resStr.index(resStr.startIndex, offsetBy: 12)
         var endIndex = resStr.index(resStr.startIndex, offsetBy: 13)
         let stateStr = String(resStr[startIndex..<endIndex])
-        if stateStr != "0" {
-            //特殊狀況
-            if apiStr == API_CheckMemExist && stateStr == "3" {
-                return ResponseState.member_not_exist
-            } else {
-                return ResponseState.error
-            }
-        }
         
         startIndex = resStr.index(resStr.startIndex, offsetBy: 14)
         endIndex = resStr.endIndex
         let resultStr = String(resStr[startIndex..<endIndex]).trimmingCharacters(in: .whitespaces)
         Dlog("resultStr = \(resultStr)")
+        
+        if stateStr != "0" {
+            //特殊狀況
+            if apiStr == API_CheckMemExist && stateStr == "3" {
+                return ResponseState.member_not_exist
+            } else {
+                //取得最後訊息並顯示
+                AppDelegate.shared().showAlertWithWindow(vc, Message: resultStr)
+                return ResponseState.error
+            }
+        }
+        
         //根據 API 字串處理後續
         switch apiStr {
         case API_Promo:
@@ -60,11 +64,19 @@ class APIHandle {
         case API_CheckMemExist:
             checkMemExist(DataStr: resultStr)
             break
+        case API_SendSMS:
+            sendSMS(DataStr: resultStr)
+            break
         default:
             break
         }
         
         return ResponseState.ok
+    }
+    
+    //remit_reply 0 phone_no
+    private func sendSMS(DataStr dataStr:String) {
+        AppDelegate.shared().forgotPassTempSMS = dataStr
     }
     
     //remit_reply 0 phone_no

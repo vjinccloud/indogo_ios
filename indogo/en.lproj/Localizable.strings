@@ -14,6 +14,7 @@
 "recover passcode" = "Lupa Kata Sandi"; //密碼回復
 "register" = "REGISTRASI"; //註冊
 "remember passcode" = "Simpan Kata Sandi"; //記憶密碼
+"pic take" = "MULAI"; //拍照
 "pic scan" = "MULAI/SCAN"; //拍照/掃描
 "pic scan 2" = "MULAI SCAN"; //拍照/掃描
 "back" = "KEMBALI"; //返回
@@ -22,9 +23,40 @@
 "API DecodeFail" = "Server sedang sibuk, silakan coba lagi nanti"; //伺服器忙線中，請稍候再試
 "account" = "Nomor ARC"; //帳號
 "passcode" = "Kata Sandi"; //密碼
+"scan again" = "SCAN ULANG"; //再次掃描
 
 //忘記密碼
 "intro for forgoet main" = "Silahkan scan Barcode ARC\nAnda dibawah ini :";//忘記密碼首頁的說明
 "top for forgoet sec" = "Cara Scan\nBarcode ARC";
 "bottom for forgoet sec" = "Pastikan seluruh barcode\nberada dalam kotak yang ditentukan";
 "top for forget arc scan" = "Silahkan scan barcode ARC\nyang tertera di bawah ARC Anda";
+"top for forget result has phone" = "Silahkan scan Barcode ARC\nAnda dibawah ini :";
+"TFFRHP Msg Title" = "Mohon Perhatian";
+"TFFRHP Msg Top" = "Pastikan No. Telepon Anda Aktif";
+"TFFRHP Msg End" = "Kami akan mengirimkan Kode\nSMS ke No. Telepon Anda";
+
+"TFFRHP Msg Register Title" = "Mohon Maaf";
+"TFFRHP Msg Register Top" = "Nomor ARC Anda\nBelum Terdaftar\n\nSilahkan melakukan Registrasi";
+
+"TFFRHP Enter Title" = "Masukkan Kode SMS";
+"TFFRHP Enter Top" = "Kami telah mengirimkan\nkode SMS ke nomor\n";
+"TFFRHP Enter Send Again" = "Minta Ulang Kode SMS";
+
+"TFFRHP Change placehold2" = "Ketik Ulang Kata Sandi";
+"TFFRHP Change warn" = "*Masukan kata sandi minimal 4 angka";
+"TFFRHP Change warn2" = "*Ulangi kata sandi";
+
+//註冊
+"Main Register Alert Title" = "Izin Akses\nData Perangkat";
+"Main Register Alert Content" = "Demi meningkatkan layanan aplikasi, kami memperbaharui Kebijakan Privasi dan memerlukan izin Anda terhadap akses data perangkat";
+"Register Agreement Title" = "SYARAT DAN KETENTUAN";
+
+"Register Intro Top Title" = "Lengkapi Data Anda";
+"Register Intro Top" = "Anda hanya memerlukan waktu\nbeberapa menit";
+"Register Intro Bottom" = "Mohon untuk menyiapkan\nARC Anda";
+
+"Register Input Foto" = "Foto Profil";
+"Register Input Name" = "Nama";
+"Register Input Phone" = "Nomor HP";
+"Register Input Pass" = "Kata Sandi";
+"Register Input rePass" = "Ketik Ulang Kata Sandi";

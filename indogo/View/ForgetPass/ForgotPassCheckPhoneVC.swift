@@ -1,0 +1,122 @@
+//
+//  ForgotPassCheckPhoneVC.swift
+//  indogo
+//
+//  Created by mac on 2020/7/16.
+//  Copyright © 2020 DIM. All rights reserved.
+//
+
+import UIKit
+import SwiftyJSON
+import AVFoundation
+import Alamofire
+
+class ForgotPassCheckPhoneVC: UIViewController {
+    @IBOutlet weak var backL: UILabel!
+    @IBOutlet weak var introL: UILabel!
+    @IBOutlet weak var memIDL: UILabel!
+    @IBOutlet weak var msgTitleL: UILabel!
+    @IBOutlet weak var msgL: UILabel!
+    @IBOutlet weak var msgBoxView: UIView!
+    @IBOutlet weak var nextBtn: UIButton!
+    @IBOutlet weak var cancelBtn: UIButton!
+    
+    public var checkType:Int = 0
+    
+    //MARK: - API
+    func sendSMS() {
+        let parameters:Parameters = ["arc_no":AppDelegate.shared().forgotPassTempMemID, "phone_no":AppDelegate.shared().forgotPassTempPhone]
+        let headers: HTTPHeaders = [:]
+        
+        Dlog("parameters=\(parameters)")
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_SendSMS;
+        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("responseStr = \(responseStr ?? "")")
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, VC: self)
+                
+                if result == ResponseState.ok {
+                    let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassEnterCodeVC") as? ForgotPassEnterCodeVC
+                    self.navigationController?.pushViewController(nextVC!, animated: true)
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                }
+        }
+    }
+    
+    //MARK: - Button-Action
+    @IBAction func nextAction(_ sender: Any) {
+        if checkType == 0 { //忘記密碼下一步
+            sendSMS()
+        } else if checkType == 1 { //再次掃描(回上一頁)
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    @IBAction func cancelAction(_ sender: Any) {
+        if checkType == 0 { //取消回上一頁
+            self.navigationController?.popViewController(animated: true)
+        } else if checkType == 1 { //註冊
+            
+        }
+    }
+    
+    @IBAction func backAction(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    //MARK: - View-Life
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+        backL.text = NSLocalizedString("back", comment: "")
+        introL.text = NSLocalizedString("top for forget result has phone", comment: "")
+        memIDL.text = AppDelegate.shared().forgotPassTempMemID
+        memIDL.adjustsFontSizeToFitWidth = true
+        
+        msgBoxView.layer.cornerRadius = 20
+        
+        nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2
+        cancelBtn.layer.cornerRadius = nextBtn.frame.size.height/2
+        cancelBtn.layer.borderWidth = 1
+        cancelBtn.layer.borderColor = nextBtn.backgroundColor?.cgColor
+        
+        if checkType == 0 { //電話
+            msgTitleL.text = NSLocalizedString("TFFRHP Msg Title", comment: "")
+            msgL.text = NSLocalizedString("TFFRHP Msg Top", comment: "") + "\n\n" + AppDelegate.shared().forgotPassTempPhone + "\n\n" + NSLocalizedString("TFFRHP Msg End", comment: "")
+            nextBtn.setTitle(NSLocalizedString("send", comment: ""), for: .normal)
+            cancelBtn.setTitle(NSLocalizedString("cancel", comment: ""), for: .normal)
+        } else if checkType == 1 { //再次掃描
+            msgTitleL.text = NSLocalizedString("TFFRHP Msg Register Title", comment: "")
+            msgL.text = NSLocalizedString("TFFRHP Msg Register Top", comment: "")
+            nextBtn.setTitle(NSLocalizedString("scan again", comment: ""), for: .normal)
+            cancelBtn.setTitle(NSLocalizedString("register", comment: ""), for: .normal)
+        }
+        
+    }
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}
