@@ -15,11 +15,9 @@ class ForgotPassCheckPhoneVC: UIViewController {
     @IBOutlet weak var backL: UILabel!
     @IBOutlet weak var introL: UILabel!
     @IBOutlet weak var memIDL: UILabel!
-    @IBOutlet weak var msgTitleL: UILabel!
     @IBOutlet weak var msgL: UILabel!
-    @IBOutlet weak var msgBoxView: UIView!
-    @IBOutlet weak var nextBtn: UIButton!
-    @IBOutlet weak var cancelBtn: UIButton!
+    @IBOutlet weak var downBtn: UIButton!
+    @IBOutlet weak var upBtn: UIButton!
     
     public var checkType:Int = 0
     
@@ -58,7 +56,7 @@ class ForgotPassCheckPhoneVC: UIViewController {
     }
     
     //MARK: - Button-Action
-    @IBAction func nextAction(_ sender: Any) {
+    @IBAction func upAction(_ sender: Any) {
         if checkType == 0 { //忘記密碼下一步
             sendSMS()
         } else if checkType == 1 { //再次掃描(回上一頁)
@@ -66,7 +64,7 @@ class ForgotPassCheckPhoneVC: UIViewController {
         }
     }
     
-    @IBAction func cancelAction(_ sender: Any) {
+    @IBAction func downAction(_ sender: Any) {
         if checkType == 0 { //取消回上一頁
             self.navigationController?.popViewController(animated: true)
         } else if checkType == 1 { //註冊
@@ -83,28 +81,41 @@ class ForgotPassCheckPhoneVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        backL.text = NSLocalizedString("back", comment: "")
+        backL.text = NSLocalizedString("TFFRHP Msg Register Title", comment: "")
         introL.text = NSLocalizedString("top for forget result has phone", comment: "")
         memIDL.text = AppDelegate.shared().forgotPassTempMemID
         memIDL.adjustsFontSizeToFitWidth = true
         
-        msgBoxView.layer.cornerRadius = 20
+        upBtn.layer.cornerRadius = upBtn.frame.size.height/2
+        downBtn.layer.cornerRadius = downBtn.frame.size.height/2
         
-        nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2
-        cancelBtn.layer.cornerRadius = nextBtn.frame.size.height/2
-        cancelBtn.layer.borderWidth = 1
-        cancelBtn.layer.borderColor = nextBtn.backgroundColor?.cgColor
         
         if checkType == 0 { //電話
-            msgTitleL.text = NSLocalizedString("TFFRHP Msg Title", comment: "")
             msgL.text = NSLocalizedString("TFFRHP Msg Top", comment: "") + "\n\n" + AppDelegate.shared().forgotPassTempPhone + "\n\n" + NSLocalizedString("TFFRHP Msg End", comment: "")
-            nextBtn.setTitle(NSLocalizedString("send", comment: ""), for: .normal)
-            cancelBtn.setTitle(NSLocalizedString("cancel", comment: ""), for: .normal)
-        } else if checkType == 1 { //再次掃描
-            msgTitleL.text = NSLocalizedString("TFFRHP Msg Register Title", comment: "")
+            
+            upBtn.setTitle(NSLocalizedString("send", comment: ""), for: .normal)
+            downBtn.setTitle(NSLocalizedString("cancel", comment: ""), for: .normal)
+            
+            upBtn.backgroundColor = Color_Main_Red
+            upBtn.setTitleColor(.white, for: .normal)
+            
+            downBtn.backgroundColor = .clear
+            downBtn.setTitleColor(.white, for: .normal)
+            downBtn.layer.borderWidth = 0.5
+            downBtn.layer.borderColor = Color_Main_Red.cgColor
+            
+        } else if checkType == 1 { //可以註冊
             msgL.text = NSLocalizedString("TFFRHP Msg Register Top", comment: "")
-            nextBtn.setTitle(NSLocalizedString("scan again", comment: ""), for: .normal)
-            cancelBtn.setTitle(NSLocalizedString("register", comment: ""), for: .normal)
+            upBtn.setTitle(NSLocalizedString("scan again", comment: ""), for: .normal)
+            downBtn.setTitle(NSLocalizedString("register", comment: ""), for: .normal)
+            
+            upBtn.backgroundColor = .clear
+            upBtn.layer.borderWidth = 0.5
+            upBtn.layer.borderColor = Color_Main_Red.cgColor
+            upBtn.setTitleColor(.white, for: .normal)
+            
+            downBtn.setTitleColor(.black, for: .normal)
+            downBtn.backgroundColor = .white
         }
         
     }

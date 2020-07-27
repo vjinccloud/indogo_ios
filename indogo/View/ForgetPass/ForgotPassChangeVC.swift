@@ -23,6 +23,17 @@ class ForgotPassChangeVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var nextBtn: UIButton!
     
+    //MARK: - Utility
+    func checkState() {
+        if passTextField.text!.count>0, repassTextField.text!.count>0 {
+            nextBtn.isEnabled = true
+            nextBtn.backgroundColor = Color_Main_Red
+        } else {
+            nextBtn.isEnabled = false
+            nextBtn.backgroundColor = .clear
+        }
+    }
+    
     //MARK: - Button-Action
     @IBAction func nextAction(_ sender: Any) {
     }
@@ -75,6 +86,7 @@ class ForgotPassChangeVC: UIViewController, UITextFieldDelegate {
             repassBtn.backgroundColor = Color_Main_DarkGray
             warn2L.isHidden = true
         }
+        checkState()
     }
     
     //MARK: - View-Life
@@ -89,10 +101,15 @@ class ForgotPassChangeVC: UIViewController, UITextFieldDelegate {
         repassBtn.layer.cornerRadius = repassBtn.frame.size.height/2
         nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2
         
-        passTextField.placeholder = NSLocalizedString("passcode", comment: "")
-        repassTextField.placeholder = NSLocalizedString("TFFRHP Change placehold2", comment: "")
-        nextBtn.setTitle(NSLocalizedString("send", comment: ""), for: .normal)
+        passTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("passcode", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        repassTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("TFFRHP Change placehold2", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
+        nextBtn.setTitle(NSLocalizedString("send", comment: ""), for: .normal)
+        nextBtn.backgroundColor = .clear
+        nextBtn.layer.borderColor = Color_Main_Red.cgColor
+        nextBtn.layer.borderWidth = 0.5
+        
+        nextBtn.isEnabled = false
         passTextField.isSecureTextEntry = true
         repassTextField.isSecureTextEntry = true
         

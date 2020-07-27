@@ -41,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     public var forgotPassTempSMS:String = ""
     public var forgotPassTempEnterCode:String = ""
     
+    //MARK: - App Life
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         //addTopButton()
@@ -55,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         floatingButton.frame = CGRect(origin: CGPoint(x: (window?.frame.size.width)!-65, y: (window?.frame.size.height)!-132), size: CGSize(width: 55, height: 55))
         floatingButton.imageView?.contentMode = .scaleToFill
         //floatingButton.setImage(UIImage.init(named: "question.png"), for: .normal)
-        floatingButton.setBackgroundImage(UIImage.init(named: "question.png"), for: .normal)
+        floatingButton.setBackgroundImage(UIImage.init(named: "online_service.png"), for: .normal)
         floatingButton.backgroundColor = UIColor.clear
         floatingButton.layer.shadowColor = UIColor.black.cgColor
         floatingButton.layer.shadowRadius = 3
@@ -172,6 +173,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         topContainer.addSubview(topLine)
         
         initLinePosX()
+    }
+    
+    func showTopButton() {
+        topContainer.isHidden = false
+    }
+    
+    func hideTopButton() {
+        topContainer.isHidden = true
     }
     
     //底部線條

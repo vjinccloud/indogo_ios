@@ -17,7 +17,8 @@
 "pic take" = "MULAI"; //拍照
 "pic scan" = "MULAI/SCAN"; //拍照/掃描
 "pic scan 2" = "MULAI SCAN"; //拍照/掃描
-"back" = "KEMBALI"; //返回
+"back" = ""; //返回(改成不顯示)
+"back Show" = "KEMBALI"; //返回
 "send" = "KIRIM"; //送出
 "ok" = "Lanjut"; //繼續
 "API DecodeFail" = "Server sedang sibuk, silakan coba lagi nanti"; //伺服器忙線中，請稍候再試
@@ -26,14 +27,15 @@
 "scan again" = "SCAN ULANG"; //再次掃描
 
 //忘記密碼
-"intro for forgoet main" = "Silahkan scan Barcode ARC\nAnda dibawah ini :";//忘記密碼首頁的說明
+"top for forgoet main" = "Mohon untuk menyiapkan\nARC Anda";//忘記密碼首頁的說明
+"intro for forgoet main" = "Silahkan scan Barcode ARC\nAnda dibawah ini :";
 "top for forgoet sec" = "Cara Scan\nBarcode ARC";
 "bottom for forgoet sec" = "Pastikan seluruh barcode\nberada dalam kotak yang ditentukan";
 "top for forget arc scan" = "Silahkan scan barcode ARC\nyang tertera di bawah ARC Anda";
-"top for forget result has phone" = "Silahkan scan Barcode ARC\nAnda dibawah ini :";
+"top for forget result has phone" = "Nomor ARC yang Anda masukan :";
 "TFFRHP Msg Title" = "Mohon Perhatian";
 "TFFRHP Msg Top" = "Pastikan No. Telepon Anda Aktif";
-"TFFRHP Msg End" = "Kami akan mengirimkan Kode\nSMS ke No. Telepon Anda";
+"TFFRHP Msg End" = "Kami akan mengirimkan Kode\nSMS ke No. Telepon Anda\n\n\nJika Anda berhasil mengganti\nKata Sandi baru,\n\nMaka sistem akan otomatis\nmemotong Poin Anda sebanyak\n5 Poin";
 
 "TFFRHP Msg Register Title" = "Mohon Maaf";
 "TFFRHP Msg Register Top" = "Nomor ARC Anda\nBelum Terdaftar\n\nSilahkan melakukan Registrasi";
@@ -60,3 +62,12 @@
 "Register Input Phone" = "Nomor HP";
 "Register Input Pass" = "Kata Sandi";
 "Register Input rePass" = "Ketik Ulang Kata Sandi";
+"Register Input ARC Placehold" = "Saya mau isi kode poin dari teman";
+
+//註冊輸入分享碼and Scan
+"Register Share Input Title" = "Masukan Kode Poin";
+"Register Share Input Top" = "Silahkan scan barcode member ID\nteman Anda";
+"Register Share Input Scan" = "SCAN\nSEKARANG";
+"Register Share Input Msg" = "Anda dan teman Anda akan mendapatkan 200 bonus poin setelah selesai mengscan barcode member ID teman Anda";
+"Register Share Input Div" = "ATAU";
+"Register Share Input Below" = "Masukan no. member ID teman Anda";

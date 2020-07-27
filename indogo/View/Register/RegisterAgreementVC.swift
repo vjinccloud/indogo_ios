@@ -23,11 +23,13 @@ class RegisterAgreementVC: UIViewController {
     
     @IBAction func backAction(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
+        AppDelegate.shared().showTopButton()
     }
     
     //MARK: - View-Life
     override func viewDidLoad() {
         super.viewDidLoad()
+        AppDelegate.shared().hideTopButton()
 
         // Do any additional setup after loading the view.
         backL.text = NSLocalizedString("Register Agreement Title", comment: "")

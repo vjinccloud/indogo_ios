@@ -40,18 +40,27 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var showRePassBtn: UIButton!
     
     @IBOutlet weak var noArcView: UIView!
+    @IBOutlet weak var hasArcView: UIView!
+    @IBOutlet weak var acrNumL: UILabel!
+    
     @IBOutlet weak var inputArcView: UIView!
     @IBOutlet weak var arcTextfield: UITextField!
     
     @IBOutlet weak var registerBtn: UIButton!
     
     //MARK: - Button-Action
+    @IBAction func shareCodeInputAction(_ sender: Any) {
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterShareInputVC") as? RegisterShareInputVC
+        self.navigationController?.pushViewController(nextVC!, animated: true)
+    }
+    
     @IBAction func nextAction(_ sender: Any) {
     }
     
     @IBAction func cancelAction(_ sender: Any) {
         
     }
+    
     @IBAction func callCamActon(_ sender: Any) {
     }
     
@@ -83,19 +92,15 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         inputMoreSpaceView.isHidden = false
         if textField == accountTextfield {
-            //topScrollView.contentOffset = CGPoint(x: 0, y: 1200)
             accountBtn.backgroundColor = Color_Main_LightGray
             accountTextfield.textColor = .black
         } else if textField == phoneTextfield {
-            //topScrollView.contentOffset = CGPoint(x: 0, y: 1262)
             phoneBtn.backgroundColor = Color_Main_LightGray
             phoneTextfield.textColor = .black
         } else if textField == passTextField {
-            //topScrollView.contentOffset = CGPoint(x: 0, y: 1324)
             passBtn.backgroundColor = Color_Main_LightGray
             passTextField.textColor = .black
         } else if textField == rePassTextField {
-            //topScrollView.contentOffset = CGPoint(x: 0, y: 1386)
             rePassBtn.backgroundColor = Color_Main_LightGray
             rePassTextField.textColor = .black
         }
@@ -103,18 +108,39 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         inputMoreSpaceView.isHidden = true
+        
         if textField == accountTextfield {
-            accountBtn.backgroundColor = Color_Main_DarkGray
-            accountTextfield.textColor = .white
+            if textField.text!.count == 0 {
+                accountBtn.backgroundColor = Color_Main_DarkGray
+                accountTextfield.textColor = .white
+            } else {
+                accountBtn.backgroundColor = Color_Main_LightGray
+                accountTextfield.textColor = .black
+            }
         } else if textField == phoneTextfield {
-            phoneBtn.backgroundColor = Color_Main_DarkGray
-            phoneTextfield.textColor = .white
+            if textField.text!.count == 0 {
+                phoneBtn.backgroundColor = Color_Main_DarkGray
+                phoneTextfield.textColor = .white
+            } else {
+                phoneBtn.backgroundColor = Color_Main_LightGray
+                phoneTextfield.textColor = .black
+            }
         } else if textField == passTextField {
-            passBtn.backgroundColor = Color_Main_DarkGray
-            passTextField.textColor = .white
+            if textField.text!.count == 0 {
+                passBtn.backgroundColor = Color_Main_DarkGray
+                passTextField.textColor = .white
+            } else {
+                passBtn.backgroundColor = Color_Main_LightGray
+                passTextField.textColor = .black
+            }
         } else if textField == rePassTextField {
-            rePassBtn.backgroundColor = Color_Main_DarkGray
-            rePassTextField.textColor = .white
+            if textField.text!.count == 0 {
+                rePassBtn.backgroundColor = Color_Main_DarkGray
+                rePassTextField.textColor = .white
+            } else {
+                rePassBtn.backgroundColor = Color_Main_LightGray
+                rePassTextField.textColor = .black
+            }
         }
     }
     
@@ -125,6 +151,17 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate {
         }
         return true
     }*/
+    //MARK: - Utility
+    public func setShareCode(Code code:String) {
+        noArcView.isHidden = true
+        hasArcView.isHidden = false
+        acrNumL.text = "FD30471099"
+    }
+    
+    public func showShareCodeInputview() {
+        noArcView.isHidden = false
+        hasArcView.isHidden = true
+    }
     
     //MARK: - View-Life
     override func viewDidLoad() {
@@ -147,18 +184,22 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate {
         passTextField.isSecureTextEntry = true
         rePassTextField.isSecureTextEntry = true
         
+        //setShareCode(Code: "FD30471099")
+        showShareCodeInputview()
+        
         accountTextfield.delegate = self
         phoneTextfield.delegate = self
         passTextField.delegate = self
         rePassTextField.delegate = self
         arcTextfield.isEnabled = false
         
-        accountTextfield.placeholder = NSLocalizedString("Register Input Name", comment: "")
-        phoneTextfield.placeholder = NSLocalizedString("Register Input Phone", comment: "")
-        passTextField.placeholder = NSLocalizedString("Register Input Pass", comment: "")
-        rePassTextField.placeholder = NSLocalizedString("Register Input rePass", comment: "")
+        accountTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register Input Name", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        phoneTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register Input Phone", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        passTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register Input Pass", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        rePassTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register Input rePass", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        arcTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register Input ARC Placehold", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
-        inputArcView.isHidden = true
+        //inputArcView.isHidden = true
         inputMoreSpaceView.isHidden = true
         nameL.text = NSLocalizedString("Register Input Foto", comment: "")
     }

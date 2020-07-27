@@ -11,6 +11,7 @@ import UIKit
 class ForgotPassMainVC: UIViewController {
 
     @IBOutlet weak var backL: UILabel!
+    @IBOutlet weak var topL: UILabel!
     @IBOutlet weak var introL: UILabel!
     
     //MARK: - Button-Action
@@ -21,6 +22,8 @@ class ForgotPassMainVC: UIViewController {
     
     @IBAction func backAction(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
+        
+        AppDelegate.shared().showTopButton()
     }
     
     //MARK: - View-Life
@@ -29,7 +32,10 @@ class ForgotPassMainVC: UIViewController {
 
         // Do any additional setup after loading the view.
         backL.text = NSLocalizedString("back", comment: "")
+        topL.text = NSLocalizedString("top for forgoet main", comment: "")
         introL.text = NSLocalizedString("intro for forgoet main", comment: "")
+        
+        AppDelegate.shared().hideTopButton()
     }
     
 

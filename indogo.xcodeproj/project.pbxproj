@@ -193,6 +193,7 @@
 		04D8562A24C22088007BD825 /* ForgotPassChangeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D8562924C22088007BD825 /* ForgotPassChangeVC.swift */; };
 		04D8562C24C2D14C007BD825 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D8562B24C2D14C007BD825 /* CustomAlertView.swift */; };
 		04D8562E24C2DB5C007BD825 /* Register.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04D8562D24C2DB5C007BD825 /* Register.storyboard */; };
+		04F6FF1324CF1ADA00887E80 /* RegisterShareInputVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F6FF1224CF1ADA00887E80 /* RegisterShareInputVC.swift */; };
 		30BB9E1B472E6087D196338F /* Pods_indogo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6A89A548EE6EDFBF9DF3D6 /* Pods_indogo.framework */; };
 /* End PBXBuildFile section */
 
@@ -385,6 +386,7 @@
 		04D8562924C22088007BD825 /* ForgotPassChangeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassChangeVC.swift; sourceTree = "<group>"; };
 		04D8562B24C2D14C007BD825 /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		04D8562D24C2DB5C007BD825 /* Register.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Register.storyboard; sourceTree = "<group>"; };
+		04F6FF1224CF1ADA00887E80 /* RegisterShareInputVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterShareInputVC.swift; sourceTree = "<group>"; };
 		7CA1F9F82732C7F1B5DBE582 /* Pods-indogo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-indogo.release.xcconfig"; path = "Target Support Files/Pods-indogo/Pods-indogo.release.xcconfig"; sourceTree = "<group>"; };
 		DC6A89A548EE6EDFBF9DF3D6 /* Pods_indogo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_indogo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F747AC83F0BA5460AAA2A63B /* Pods-indogo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-indogo.debug.xcconfig"; path = "Target Support Files/Pods-indogo/Pods-indogo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -408,6 +410,7 @@
 				0472E23C24C2DC8600CC48A0 /* RegisterAgreementVC.swift */,
 				0426B0DF24C5915A009BEDFE /* RegisterIntroVC.swift */,
 				041E9D4224C70ABF00763D53 /* RegisterInputVC.swift */,
+				04F6FF1224CF1ADA00887E80 /* RegisterShareInputVC.swift */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -1000,6 +1003,7 @@
 				0496881124B8D61E005EF74A /* UIView+constraints.swift in Sources */,
 				0496880F24B8D61E005EF74A /* AppDefine.swift in Sources */,
 				0496881224B8D61E005EF74A /* ImageSliderVC.swift in Sources */,
+				04F6FF1324CF1ADA00887E80 /* RegisterShareInputVC.swift in Sources */,
 				0466A81A24C04AB9008F6D38 /* ForgotPassCheckPhoneVC.swift in Sources */,
 				04B480CF24BE2BA2004EF723 /* ForgotPassIntroVC.swift in Sources */,
 			);

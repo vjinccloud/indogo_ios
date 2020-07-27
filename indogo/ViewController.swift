@@ -66,10 +66,17 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
     }
     
     @IBAction func registAction(_ sender: Any) {
+        
+        //進入註冊
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterAgreementVC") as? RegisterAgreementVC
+        self.navigationController?.pushViewController(nextVC!, animated: true)
+        
+        /*
         let customAlert = CustomAlertView.init(frame: topScrollView.frame)
         customAlert.initAlert(Title: NSLocalizedString("Main Register Alert Title" , comment: ""), Content: NSLocalizedString("Main Register Alert Content" , comment: ""), NextBtn1Str: NSLocalizedString("agree" , comment: ""), CancelBtn1Str: NSLocalizedString("cancel" , comment: ""))
         self.view.addSubview(customAlert)
         customAlert.customDelegate = self
+         */
     }
     
     func customAlertnextAction(Ref obj: CustomAlertView) {
