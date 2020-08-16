@@ -427,7 +427,7 @@ Anda dibawah ini :</string>
         <!--Navigation Controller-->
         <scene sceneID="zvV-ad-b4T">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="sye-Df-j8R" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="MainNC" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="sye-Df-j8R" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yOS-XG-dek">
                         <autoresizingMask key="autoresizingMask"/>
@@ -487,7 +487,7 @@ Anda dibawah ini :</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xfg-ki-McS">
-                                <rect key="frame" x="0.0" y="84" width="414" height="812"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fBR-xk-RW5">
                                         <rect key="frame" x="70" y="578.5" width="274" height="44"/>
@@ -603,7 +603,7 @@ berada dalam kotak yang ditentukan</string>
                         <constraints>
                             <constraint firstItem="Xfg-ki-McS" firstAttribute="leading" secondItem="mza-RT-jC8" secondAttribute="leading" id="2Eq-2g-jr2"/>
                             <constraint firstItem="mza-RT-jC8" firstAttribute="trailing" secondItem="Xfg-ki-McS" secondAttribute="trailing" id="Efw-Wu-92l"/>
-                            <constraint firstItem="Xfg-ki-McS" firstAttribute="top" secondItem="mza-RT-jC8" secondAttribute="top" constant="40" id="XJe-Pj-mDM"/>
+                            <constraint firstItem="Xfg-ki-McS" firstAttribute="top" secondItem="mza-RT-jC8" secondAttribute="top" id="XJe-Pj-mDM"/>
                             <constraint firstItem="Xfg-ki-McS" firstAttribute="bottom" secondItem="OvC-m8-uIF" secondAttribute="bottom" id="ueS-Oz-Kwx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="mza-RT-jC8"/>
@@ -628,7 +628,7 @@ berada dalam kotak yang ditentukan</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uKN-Qj-DMB">
-                                <rect key="frame" x="0.0" y="84" width="414" height="812"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RjP-Ug-YZN" userLabel="BarView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
@@ -737,7 +737,7 @@ berada dalam kotak yang ditentukan</string>
                         <constraints>
                             <constraint firstItem="uKN-Qj-DMB" firstAttribute="bottom" secondItem="AR8-76-u8l" secondAttribute="bottom" id="2c0-SS-v9N"/>
                             <constraint firstItem="vvP-O8-cS3" firstAttribute="trailing" secondItem="uKN-Qj-DMB" secondAttribute="trailing" id="GpD-06-C8R"/>
-                            <constraint firstItem="uKN-Qj-DMB" firstAttribute="top" secondItem="vvP-O8-cS3" secondAttribute="top" constant="40" id="bLR-g4-4mz"/>
+                            <constraint firstItem="uKN-Qj-DMB" firstAttribute="top" secondItem="vvP-O8-cS3" secondAttribute="top" id="bLR-g4-4mz"/>
                             <constraint firstItem="uKN-Qj-DMB" firstAttribute="leading" secondItem="vvP-O8-cS3" secondAttribute="leading" id="kff-Gs-lsr"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vvP-O8-cS3"/>

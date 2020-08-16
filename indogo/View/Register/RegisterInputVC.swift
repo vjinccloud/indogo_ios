@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class RegisterInputVC: UIViewController, UITextFieldDelegate {
+class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate, CustomAlertDelegate {
 
     @IBOutlet weak var inputMoreSpaceView: UIView!
     @IBOutlet weak var backL: UILabel!
@@ -41,12 +41,16 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var noArcView: UIView!
     @IBOutlet weak var hasArcView: UIView!
-    @IBOutlet weak var acrNumL: UILabel!
     
     @IBOutlet weak var inputArcView: UIView!
     @IBOutlet weak var arcTextfield: UITextField!
     
     @IBOutlet weak var registerBtn: UIButton!
+    @IBOutlet weak var arcCodeL: UILabel!
+    
+    var hasSharedCode = false
+    var hasMeCode = false
+    var meImg:UIImage!
     
     //MARK: - Button-Action
     @IBAction func shareCodeInputAction(_ sender: Any) {
@@ -55,13 +59,66 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func nextAction(_ sender: Any) {
+        AppDelegate.shared().tempRegisterObj = RegisterDataObj()
+        AppDelegate.shared().tempRegisterObj.meImg = meImg
+        AppDelegate.shared().tempRegisterObj.account = accountTextfield.text
+        AppDelegate.shared().tempRegisterObj.phoneNum = phoneTextfield.text
+        AppDelegate.shared().tempRegisterObj.passwaord = passTextField.text
+        AppDelegate.shared().tempRegisterObj.arcNum = arcCodeL.text
+        if hasSharedCode {
+            AppDelegate.shared().tempRegisterObj.shareCode =  arcTextfield.text!
+        } else {
+            AppDelegate.shared().tempRegisterObj.shareCode = ""
+        }
+        
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterIDTakePhotoVC") as? RegisterIDTakePhotoVC
+        self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
     @IBAction func cancelAction(_ sender: Any) {
         
     }
     
+    @IBAction func callScanArcActon(_ sender: Any) {
+        let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassIntroVC") as? ForgotPassIntroVC
+        nextVC!.fromType = .register
+        self.navigationController?.pushViewController(nextVC!, animated: true)
+    }
+    
     @IBAction func callCamActon(_ sender: Any) {
+        let customAlert = CustomAlertView.init(frame: topScrollView.frame)
+        customAlert.initTwoActionAlert(Title: NSLocalizedString("Register Input Foto Select Title" , comment: ""), Content: "", NextBtn1Str: NSLocalizedString("Register Input Foto Select Camera" , comment: ""), NextBtn2Str: NSLocalizedString("Register Input Foto Select Gallery" , comment: ""), CancelBtn1Str: NSLocalizedString("cancel" , comment: ""))
+        self.view.addSubview(customAlert)
+        customAlert.customDelegate = self
+    }
+    
+    func customAlertnextAction(Ref obj: CustomAlertView) {
+        obj.removeFromSuperview()
+        ImagePicker.GetCameraStatus(view: self,completion: { (scuess)->Void in
+            if(scuess){
+                //拍照
+                let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterSelfPhotoVC") as? RegisterSelfPhotoVC
+                nextVC?.takePhotoType = .normal
+                self.navigationController?.pushViewController(nextVC!, animated: true)
+            }
+            else{
+                print("無法使用相機")
+            }
+        })
+    }
+    
+    func customAlertnextActionSecond(Ref obj: CustomAlertView) {
+        obj.removeFromSuperview()
+        ImagePicker.GetPhotoStatus(view: self,completion: { (scuess)->Void in
+            if(scuess){
+                self.initPhotoPicker()
+            }
+            else{
+                print("無法使用相簿")
+            }
+        })
+        
+        
     }
     
     @IBAction func backAction(_ sender: Any) {
@@ -86,6 +143,46 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate {
         } else {
             showRePassBtn.setBackgroundImage(UIImage.init(named: "view_w"), for: .normal)
         }
+    }
+    
+    //MARK: - Camera
+    func initPhotoPicker(){
+        DispatchQueue.main.async{
+            let photoPicker =  UIImagePickerController()
+            photoPicker.delegate = self
+            photoPicker.allowsEditing = false
+            photoPicker.sourceType = .photoLibrary
+            //在需要的地方present出来
+            self.present(photoPicker, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        //UIImagePickerControllerOriginalImage  原始圖像
+        //UIImagePickerControllerEditedImage    編輯後的圖片(開啓編輯該對象才存在)
+        
+        self.dismiss(animated: true, completion: {
+            var img:UIImage? = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+            if picker.allowsEditing {
+                img = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
+            }
+            
+            let data = img!.ImgPress(LimitInBytes: ImageLimitInBytes)
+            print("allcount = \(data.count)")
+            //img!.jpegData(compressionQuality: 0.2)
+            if(data.count>512000){
+                AppDelegate.shared().showAlertWithWindow(self, Message: "圖片過大，請重新選擇")
+                return
+            }
+            
+            self.setImage(Image: UIImage.init(data: data)!)
+        })
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        print("imagePickerControllerDidCancel")
+        picker.dismiss(animated: true, completion: nil) // 退出相機介面
     }
     
     //MARK: - Text Delegate
@@ -142,6 +239,8 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate {
                 rePassTextField.textColor = .black
             }
         }
+        
+        checkNextBtnState()
     }
     
     /*
@@ -152,10 +251,50 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate {
         return true
     }*/
     //MARK: - Utility
+    func checkNextBtnState() {
+        var pass = true
+        
+        if accountTextfield.text?.count == 0 || phoneTextfield.text?.count == 0 || passTextField.text?.count == 0 || rePassTextField.text?.count == 0 || arcCodeL.text?.count == 0 {
+            pass = false
+        } else if passTextField.text != rePassTextField.text {
+            pass = false
+        } else if !hasMeCode {
+            pass = false
+        }
+        
+        
+        if pass {
+            registerBtn.backgroundColor = Color_Main_Red
+            registerBtn.isEnabled = true
+        } else {
+            registerBtn.backgroundColor = .clear
+            registerBtn.isEnabled = false
+        }
+    }
+    
+    public func setArcCodeString(Code code:String) {
+        noArcView.isHidden = true
+        hasArcView.isHidden = false
+        arcCodeL.text = code
+        checkNextBtnState()
+    }
+    
+    public func setImage(Image img:UIImage) {
+        iconBtn.setImage(img, for: .normal)
+        iconBtn.imageView?.contentMode = .scaleAspectFill
+        iconBtn.layer.cornerRadius = iconBtn.frame.size.height/2
+        iconBtn.clipsToBounds = true
+        meImg = img
+        hasMeCode = true
+        checkNextBtnState()
+    }
+    
     public func setShareCode(Code code:String) {
         noArcView.isHidden = true
         hasArcView.isHidden = false
-        acrNumL.text = "FD30471099"
+        arcTextfield.text = code
+        hasSharedCode = true
+        checkNextBtnState()
     }
     
     public func showShareCodeInputview() {
@@ -199,11 +338,34 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate {
         rePassTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register Input rePass", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         arcTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register Input ARC Placehold", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
+        registerBtn.layer.borderColor = Color_Main_Red.cgColor
+        registerBtn.layer.borderWidth = 0.5
+        
         //inputArcView.isHidden = true
         inputMoreSpaceView.isHidden = true
         nameL.text = NSLocalizedString("Register Input Foto", comment: "")
+        checkNextBtnState()
+        #if targetEnvironment(simulator)
+        //模擬器直接秀下一步
+        self.simulatorNextAction()
+        #else
+        //--should--
+        if DevMode {
+            self.simulatorNextAction()
+        }
+        #endif
     }
     
+    //測試用(僅在模擬器發生)
+    func simulatorNextAction() {
+        accountTextfield.text = "ask"
+        phoneTextfield.text = "0935499332"
+        passTextField.text = "a12345"
+        rePassTextField.text = "a12345"
+        setArcCodeString(Code: "XX00000037")
+        
+        checkNextBtnState()
+    }
 
     /*
     // MARK: - Navigation

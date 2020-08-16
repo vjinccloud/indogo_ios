@@ -1,0 +1,157 @@
+//
+//  NoticeMainVC.swift
+//  indogo
+//
+//  Created by mac on 2020/8/12.
+//  Copyright © 2020 DIM. All rights reserved.
+//
+
+import UIKit
+import Alamofire
+import Kingfisher
+import KingfisherWebP
+import SwiftyJSON
+
+class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+
+    @IBOutlet weak var showPhotoView: UIView!
+    @IBOutlet weak var myTableView: UITableView!
+    @IBOutlet weak var backL: UILabel!
+    var loadOnce = false
+    var nowPage = 0
+    
+    //MARK: - API
+    func getNotice() {
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "page":1, "limit":10]
+        let headers: HTTPHeaders = [:]
+        
+        Dlog("parameters=\(parameters)")
+        
+        if nowPage == 0 {
+            AppDelegate.shared().noteListObjs = []
+        }
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_NoticeRecordList;
+        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("todoEndpoint = \(todoEndpoint),responseStr = \(responseStr ?? "")")
+                
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, VC: self)
+                
+                if result == ResponseState.ok {
+                    self.myTableView.delegate = self
+                    self.myTableView.dataSource = self
+                    self.myTableView.reloadData()
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                }
+        }
+    }
+    
+    //MARK: - TableView Delegate
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return AppDelegate.shared().noteListObjs.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let data = AppDelegate.shared().noteListObjs[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "noticeCell", for: indexPath) as! NoticeTableViewCell
+        
+        if data.tpyeStr.hasPrefix("點數異動") {
+            cell.titleL.text = NSLocalizedString("Notice Type 0", comment: "")
+        } else if data.tpyeStr.hasPrefix("訂單變更") {
+            cell.titleL.text = NSLocalizedString("Notice Type 1", comment: "")
+        } else if data.tpyeStr.hasPrefix("公告") {
+            //--should-- 只有這裡秀server給的？
+            cell.titleL.text = data.title
+        } else if data.tpyeStr.contains("用戶資料") {
+            cell.titleL.text = NSLocalizedString("Notice Type 3", comment: "")
+        }
+        cell.contentL.text = data.content
+        cell.timeL.text = data.createTime
+        cell.index = indexPath.row
+        cell.parentVC = self
+        cell.selectionStyle = .none
+        return cell
+    }
+    
+    func nextAction(Index index:Int) {
+        let data = AppDelegate.shared().noteListObjs[index]
+        if data.tpyeStr.hasPrefix("點數異動") {
+            
+        } else if data.tpyeStr.hasPrefix("訂單變更") {
+            
+        } else if data.tpyeStr.hasPrefix("公告") {
+            Dlog("公告 = \(data.photo)")
+            if data.photo.count > 5 {
+                Dlog("Next")
+                let imgurl = ServerURL + data.photo
+                let urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
+                let imgV = UIImageView.init(frame: CGRect.init(x: 30, y: 30, width: showPhotoView.frame.size.width-60, height: showPhotoView.frame.size.height-60))
+                imgV.contentMode = .scaleAspectFit
+                showPhotoView.addSubview(imgV)
+                showPhotoView.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.7)
+                imgV.kf.setImage(with: urlhaed)
+                showPhotoView.isHidden = false
+            }
+        } else if data.tpyeStr.contains("用戶資料") {
+            
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    
+    //MARK: - Button-Action
+    
+    //MARK: - View-Life
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+        backL.text = NSLocalizedString("Notice Main Title", comment: "")
+        showPhotoView.isHidden = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        getNotice()
+        
+        if loadOnce {
+            AppDelegate.shared().showTopButton()
+            return
+        }
+        
+        loadOnce = true
+        
+        //頂部兩個按鈕
+        AppDelegate.shared().topMargin = self.view.safeAreaInsets.top
+        AppDelegate.shared().addTopButton()
+        
+    }
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}

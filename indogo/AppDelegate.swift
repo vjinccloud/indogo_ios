@@ -31,6 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var nowPage = 0
     
     var hasLogin = false
+    var floatingBtnBackFrame:CGRect!
+    var hasFloatingBtn = false
     
     public var promoUrlAry:[String] = []
     public var sessionToken:String = ""
@@ -41,15 +43,75 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     public var forgotPassTempSMS:String = ""
     public var forgotPassTempEnterCode:String = ""
     
+    public var tempRegisterObj:RegisterDataObj = RegisterDataObj()
+    
+    var noteListObjs:[NoticeObj] = []
+    var seperatorStr:String = ""
+    var subSeperatorStr:String = ""
+    var bottomMenu:BottomMenuView!
+    var hasBottomMenu = false
+    var bottomPadding:CGFloat!
+    
+    var defautBottomMenuType:BottomMenuType = .profile
+    var nowBottomMenuType:BottomMenuType = .profile
+    
     //MARK: - App Life
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         //addTopButton()
+        
+        //指定分隔字元
+        AppDelegate.shared().seperatorStr = NSLocalizedString("leading space", comment: "")
+        AppDelegate.shared().subSeperatorStr = NSLocalizedString("leading sub space", comment: "")
 
         return true
     }
     
+    //MARK: - Bottom Menu
+    func showBottomMenu() {
+        bottomMenu.isHidden = false
+        bottomMenu.paintMenu()
+    }
+    
+    func hideBottomMenu() {
+        bottomMenu.isHidden = true
+    }
+    
+    func addBttomMenu() {
+        let window = UIApplication.shared.keyWindow
+        
+        bottomPadding = window?.safeAreaInsets.bottom
+        
+        bottomMenu = BottomMenuView()
+        bottomMenu.frame = CGRect.init(x: 0, y: (window?.frame.size.height)!-(bottomPadding+50), width: (window?.frame.size.width)!, height: bottomPadding+50)
+        bottomMenu.initFirst(RealHeight: 50)
+        window?.addSubview(bottomMenu)
+        
+        //把浮動按鈕拉到最上面
+        if hasFloatingBtn {
+            window?.bringSubviewToFront(floatingButton)
+        }
+        
+        //先隱藏
+        bottomMenu.isHidden = true
+        
+        hasBottomMenu = true
+    }
+
+    //MARK: - Floating Button
+    func saveFloatingButtonPosition() {
+        floatingBtnBackFrame = floatingButton.frame
+    }
+    
+    func reStoreFloatingButtonPosition() {
+        floatingButton.frame = floatingBtnBackFrame
+    }
+    
     func addFloatingBtn() {
+        if hasFloatingBtn {
+            saveFloatingButtonPosition()
+        }
+        
         let window = UIApplication.shared.keyWindow
         
         floatingButton = UIButton(type: .custom)
@@ -64,9 +126,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         floatingButton.layer.shadowOffset = CGSize.zero
         
         window?.addSubview(floatingButton)
-
+        
         let panner = UIPanGestureRecognizer(target: self, action: #selector(panDidFire(panner:)))
         floatingButton.addGestureRecognizer(panner)
+        
+        if hasFloatingBtn {
+            reStoreFloatingButtonPosition()
+        }
+        
+        hasFloatingBtn = true
+        
     }
     
     @objc func panDidFire(panner: UIPanGestureRecognizer) {
@@ -127,6 +196,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         userDefaults.removeObject(forKey: "sessionToken")
         userDefaults.removeObject(forKey: "bioState")
         userDefaults.synchronize()
+        
+        if hasBottomMenu {
+            bottomMenu.removeFromSuperview()
+        }
+        hasBottomMenu = false
     }
     
     func setBioState() {
@@ -142,6 +216,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             return true
         }
+    }
+    
+    //MARK: - Change Root
+    public func changeRootOfFunc(Type type:LoginFuncType) {
+        
+        var storyboardId = ""
+        var navigaterId = ""
+        
+        if type == LoginFuncType.main {
+            storyboardId = "Main"
+            navigaterId = "MainNC"
+        } else {
+            
+            if type == LoginFuncType.member {
+                storyboardId = "Member"
+                navigaterId = "MemberMainNC"
+            } else if type == LoginFuncType.notice {
+                storyboardId = "Member"
+                navigaterId = "NoticeMainNC"
+            }
+        }
+        
+        let window = UIApplication.shared.keyWindow
+        // Set initial view controller from Main storyboard as root view controller of UIWindow
+        let nextVC = UIStoryboard(name: storyboardId, bundle: nil).instantiateViewController(withIdentifier: navigaterId)
+        window!.rootViewController = nextVC
+        // Present window to screen
+        self.window?.makeKeyAndVisible()
+        
+        //底層Menu
+        addFloatingBtn()
+        addBttomMenu()
+        
+        if type != LoginFuncType.main {
+            showBottomMenu()
+        }
+        
     }
     
     //MARK: - Utility

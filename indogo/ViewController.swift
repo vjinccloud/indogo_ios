@@ -87,6 +87,10 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
+    func customAlertnextActionSecond(Ref obj: CustomAlertView) {
+        
+    }
+    
     //MARK: - API
     func checkTokenLogin() {
         let parameters:Parameters = ["token":AppDelegate.shared().sessionToken]
@@ -147,7 +151,9 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, VC: self)
                 if result == ResponseState.ok {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: "Hi, \(AppDelegate.shared().memberData["member_name"] ?? "") 登入成功")
+                    AppDelegate.shared().nowBottomMenuType = AppDelegate.shared().defautBottomMenuType
+                    AppDelegate.shared().changeRootOfFunc(Type: .member)
+                    //AppDelegate.shared().showAlertWithWindow(self, Message: "Hi, \(AppDelegate.shared().memberData["member_name"] ?? "") 登入成功")
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
                 }
@@ -289,8 +295,12 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         registerBtn.layer.cornerRadius = registerBtn.frame.height/2
         
         if DevMode {
-            accountTextfield.text = "XX00000078"
+            //accountTextfield.text = "XX00000078"
+            //passTextField.text = "123456"
+            
+            accountTextfield.text = "XX00000026"
             passTextField.text = "123456"
+            
         }
     }
     
@@ -298,6 +308,7 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         super.viewDidAppear(animated)
         
         if loadOnce {
+            AppDelegate.shared().showTopButton()
             return
         }
         
@@ -321,7 +332,5 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
             //checkTokenLogin()
         }
     }
-
-
 }
 

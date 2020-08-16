@@ -67,6 +67,10 @@ class APIHandle {
         case API_SendSMS:
             sendSMS(DataStr: resultStr)
             break
+        case API_NoticeRecordList:
+            checkNoticeList(DataStr: resultStr)
+            break
+        break
         default:
             break
         }
@@ -84,14 +88,34 @@ class APIHandle {
         AppDelegate.shared().forgotPassTempPhone = dataStr
     }
     
+    private func checkNoticeList(DataStr dataStr:String) {
+        //目前直接用zero width空格
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        for i in 0..<ary.count {
+            Dlog("(\(i))=====")
+            let subAry = ary[i].components(separatedBy: AppDelegate.shared().subSeperatorStr)
+            if subAry.count < 7 {
+                continue
+            }
+            let obj:NoticeObj = NoticeObj()
+            for j in 0..<subAry.count {
+                Dlog("---\(subAry[j])")
+                obj.setValueByOrder(Order: j, Value: subAry[j])
+            }
+            AppDelegate.shared().noteListObjs.append(obj)
+        }
+    }
+    
     //let API_Login = ServerURL + "/app/remit/login"    //token(31)member_name(31)kurs_value(31)kurs_lm_time(31)service_charge(31)remit_point(31)free_service_charge(31)share_id(31)app_phone_no(31)app_share_bonus(31)google_map_url(31)app_version(31)app_market(31)line_url(31)games_url
     private func login(DataStr dataStr:String) {
+        /*
         //目前直接用zero width空格
         let startIndex = dataStr.index(dataStr.startIndex, offsetBy: 32)
         let endIndex = dataStr.index(dataStr.startIndex, offsetBy: 33)
         let separateStr = String(dataStr[startIndex..<endIndex])
-       
-        let ary = dataStr.components(separatedBy: separateStr)
+        //AppDelegate.shared().seperatorStr = separateStr
+        */
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
         
         AppDelegate.shared().userLogin(TokenStr: ary[0])
         AppDelegate.shared().memberData = [:]

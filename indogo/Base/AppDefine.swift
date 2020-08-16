@@ -16,6 +16,8 @@ var AppTopBarHeight:CGFloat = 50.0
 var AppEmptyHeight:CGFloat = 800.0
 var FirebaseToken = ""
 
+var ImageLimitInBytes:Int = 80000
+
 //顏色
 public let Color_Main_Bule = UtilityTool().hexStringToUIColor(hex: "#2a65ec")
 public let Color_Main_Red = UtilityTool().hexStringToUIColor(hex: "#b20808")
@@ -31,7 +33,7 @@ let AppId = 1
 //正式
 //let ServerURL = "https://prod.indogo.link"
 //測試機
-let ServerURL = "https://dev.indogo.link"
+let ServerURL = "https://prod.indogo.link"
 
 //訂票時限
 let orderTicketTimeLimitSecs:Double = 300
@@ -42,11 +44,11 @@ let API_Login = ServerURL + "/app/remit/login"
 let API_CheckLogin = ServerURL + "/app/remit/check_token"
 let API_CheckMemExist = ServerURL + "/app/remit/check_mem_exists"
 let API_SendSMS = ServerURL + "/app/remit/password_forget_sms"
+let API_Register = ServerURL + "/app/remit/register"
+let API_ResendRegisterSMS = ServerURL + "/app/remit/request_sms_code"
+let API_VerifyRegisterSMS = ServerURL + "/app/remit/verify_sms_code"
+let API_NoticeRecordList = ServerURL + "/app/remit/notification_record"
 
-let API_Register = ServerURL + "/Account/register"
-
-
-let API_TokenLogin = ServerURL + "/Account/checkToken"
 let API_ForgetPass = ServerURL + "/Account/forgotPassword"
 let API_ConfirmCodePass = ServerURL + "/Account/verifyConfirmCode"
 let API_CoutryCode = ServerURL + "/App/supportPhoneCountry"
@@ -88,42 +90,30 @@ let API_Report = ServerURL + "/ProblemReport/Post"
 let API_TicketEntry = ServerURL + "/TicketEntry/Post"
 let API_OrderCancel = ServerURL + "/OrderCancel/Post"
 
-enum CollectPickerType {
-    case Cash_cash
-    case Cash_coin
-    case Coin_coin
+enum ScanParentType {
+    case forgotPass
+    case register
 }
 
-enum MemberDataType {
-    case Account
-    case FamilyName
-    case Name
-    case Phone
-    case Gender
-    case Birthday
-    case AddressCity
-    case AddressZone
-    case AddressDetail
-    case Code
-    case ConfirmCode
-    case NationalId
+enum PhotoIDType {
+    case normal
+    case front
+    case back
+    case faceAndId
+    case passport
+    case sign
 }
 
-enum SubSearchType {
-    case OrgSearch
-    case NameSearch
-    case NearbySeach
+enum LoginFuncType {
+    case main
+    case member
+    case notice
 }
 
-enum ReportType {
-    case ID
-    case Time
-    case Email
-    case Phone
-    case Content
-}
-
-enum NextMove {
-    case Member
-    case Report
+enum BottomMenuType {
+    case transaction
+    case transState
+    case sharing
+    case notice
+    case profile
 }

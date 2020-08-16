@@ -14,10 +14,12 @@ class ForgotPassIntroVC: UIViewController {
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var topL: UILabel!
     @IBOutlet weak var bottomL: UILabel!
+    public var fromType:ScanParentType = ScanParentType.forgotPass
     
     //MARK: - Button-Action
     @IBAction func nextAction(_ sender: Any) {
         let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassScanVC") as? ForgotPassScanVC
+        nextVC!.fromType = fromType
         self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     

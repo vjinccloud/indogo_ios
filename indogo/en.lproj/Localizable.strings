@@ -5,6 +5,8 @@
   Created by mac on 2020/7/11.
   Copyright © 2020 DIM. All rights reserved.
 */
+"leading space" = ""; //用來分隔的神秘空白字元
+"leading sub space" = ""; //用來分隔的神秘空白字元(次)
 
 "remit" = "REMIT"; //匯款
 "shopping" = "SHOPPING"; //商城
@@ -71,3 +73,47 @@
 "Register Share Input Msg" = "Anda dan teman Anda akan mendapatkan 200 bonus poin setelah selesai mengscan barcode member ID teman Anda";
 "Register Share Input Div" = "ATAU";
 "Register Share Input Below" = "Masukan no. member ID teman Anda";
+
+"Register Share Scan Top" = "Cara mengscan barcode\nmember ID teman Anda";
+"Register Share Scan Bottom" = "Pastikan seluruh barcode\nberada dalam kotak yang ditentukan";
+
+"Register Self Photo Confrim" = "Gunakan";
+"Register Self Photo Retake" = "Ulangi";
+
+"Register ID Photo First" = "Foto ARC Bagian Depan";
+"Register ID Photo Sec" = "Foto ARC Bagian Belakang";
+
+"Register ID Photo Intro" = "MULAI FOTO";
+
+"Register ID Photo Title Front" = "Cara Memfoto ARC Bagian Depan";
+"Register ID Photo Title Back" = "Cara Memfoto ARC Bagian Belakang";
+
+"Register ID Self First" = "Foto Selfie";
+"Register ID Self Sec" = "Foto KTP / Paspor";
+"Register ID Self Sign" = "Tanda Tagan";
+"Register ID Photo Title Passport" = "Cara Memfoto KTP";
+
+"Register ID Face And ID Intro" = "Cara Foto Selfie";
+
+"Register ID Make Signature Top" = "Tulis nama sesuai dengan Nama yang tertera di ARC";
+
+"Register Input Foto Select Title" = "Pilih Foto";
+"Register Input Foto Select Camera" = "Ambil Foto Dari Kamera";
+"Register Input Foto Select Gallery" = "Pilih Dari Galeri";
+
+"Profile Main Title" = "Profil Anda";
+"Profile Main Point" = "Poin Anda";
+"Profile Main Reciter" = "Daftar Nomor Rekening";
+"Profile Main Transaction" = "Riwayat Transaksi";
+"Profile Main Call" = "Layanan Konsumen";
+"Profile Main About" = "Tentang Kami";
+"Profile Main Terms" = "Syarat & Ketentuan";
+"Profile Main Faq" = "FAQ";
+"Profile Main Logout" = "Keluar";
+
+"Notice Main Title" = "NOTIFIKASI";
+
+"Notice Type 0" = "BONUS POIN";
+"Notice Type 1" = "TRANSAKSI GAGAL";
+"Notice Type 2" = "";
+"Notice Type 3" = "UPDATE DATA";

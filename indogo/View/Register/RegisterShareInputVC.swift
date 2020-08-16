@@ -41,7 +41,15 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
     }
     
     //MARK: - Button-Action
+    public func setCodeString(Code code:String) {
+        inputTextField.text = code
+        checkBtnState()
+    }
+    
     @IBAction func sendAction(_ sender: Any) {
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterShareScanQRCodeVC") as? RegisterShareScanQRCodeVC
+        nextVC?.parentVC = self
+        self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
     @IBAction func downAction(_ sender: Any) {

@@ -26,13 +26,38 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
     var stopNow:Bool = false
     var allStop = false
     
+    public var fromType:ScanParentType = ScanParentType.forgotPass
+    
     //MARK: - Utility
     func simulatorNextAction() {
         //試試測試帳號
-        scanNext(Code: "FA20051865")
+        //Delay一下
+        DispatchQueue.main.async {
+            self.scanNext(Code: "FA20051865")
+        }
     }
     
     func scanNext(Code code:String) {
+        scanL.isHidden = true
+        
+        if fromType == .register { //回到註冊畫面
+            guard let viewControllers = self.navigationController?.viewControllers else {
+                return
+            }
+
+            for firstViewController in viewControllers {
+                if firstViewController is RegisterInputVC {
+                    let nextVC = firstViewController as! RegisterInputVC
+                    nextVC.setArcCodeString(Code: code)
+                    self.navigationController?.popToViewController(nextVC, animated: true)
+                    break
+                }
+            }
+            
+            return
+        }
+        
+        
         let parameters:Parameters = ["arc_no":code]
         let headers: HTTPHeaders = [:]
         
@@ -181,6 +206,8 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
                 
                 //start video capture
                 self.captureSession?.startRunning()
+                self.scanL.isHidden = false
+                self.scanL.blink()
             }
             
                    
