@@ -9,11 +9,33 @@
 import UIKit
 import CryptoKit
 import CommonCrypto
+import RSBarcodes_Swift
+import AVFoundation
 
 class UtilityTool {
     static let sharedInstance = UtilityTool()
     
     init() {}
+    
+    //MARK: - Generate BarCode QRCode
+    func generateQRCode(from string: String) -> UIImage? {
+        let data = string.data(using: String.Encoding.ascii)
+
+        if let filter = CIFilter(name: "CIQRCodeGenerator") {
+            filter.setValue(data, forKey: "inputMessage")
+            let transform = CGAffineTransform(scaleX: 3, y: 3)
+
+            if let output = filter.outputImage?.transformed(by: transform) {
+                return UIImage(ciImage: output)
+            }
+        }
+
+        return nil
+    }
+    
+    func generateBarCode39(from string: String) -> UIImage? {
+        return RSUnifiedCodeGenerator.shared.generateCode(string, machineReadableCodeObjectType: AVMetadataObject.ObjectType.code39.rawValue)
+    }
     
     //MARK: - Date
     func dateStringToTime(Str isoDate:String) -> Double {
@@ -27,6 +49,19 @@ class UtilityTool {
         }
         
         return time
+    }
+    
+    func dateStringToDate(Str isoDate:String) -> Date {
+        var ansDate = Date.init(timeIntervalSince1970: 0)
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        if let date = dateFormatter.date(from: isoDate) {
+          // do something with date...
+            ansDate = date
+        }
+        
+        return ansDate
     }
     
     //MARK: - Utility

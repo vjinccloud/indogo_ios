@@ -187,3 +187,8 @@
 "Transfer PayStep Warn" = "Masa berlaku barcode hanya 10 menit\nJika masa berlaku barcode berakhir, Anda dapat meminta\nulang dengan menekan\ntombol di atas";
 "Transfer PayStep Btn Enlarge" = "PERJELAS BARCODE";
 "Transfer PayStep Btn Reload" = "MINTA ULANG BARCODE";
+
+"Transfer Expired Step Warn1" = "Silahkan melakukan\npembayaran dikasir sebesar";
+"Transfer Expired Step Warn2" = "Barcode pembayaran Anda\ntelah habis masa berlaku";
+"Transfer Expired Step Warn Title" = "Mohon Maaf";
+"Transfer Expired Step Btn Title" = "MINTA ULANG BARCODE";

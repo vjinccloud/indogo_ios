@@ -127,6 +127,9 @@ class APIHandle {
         case API_TransactionCreate:
             checkTransactionResult(DataStr: resultStr)
             break
+        case API_BarCode_711, API_BarCode_fami, API_BarCode_ok, API_BarCode_hilife:
+            checkBarCode(DataStr: resultStr)
+            break
         default:
             break
         }
@@ -166,6 +169,24 @@ class APIHandle {
         if obj.payment_info != "" {
             obj.printSelf()
             AppDelegate.shared().tempTransactionResultObj = obj
+        } else {
+            AppDelegate.shared().tempTransactionResultObj = TransactionResultObj()
+        }
+    }
+    
+    private func checkBarCode(DataStr dataStr:String) {
+        let obj:BarCodeInfoObj = BarCodeInfoObj()
+        //目前直接用zero width空格
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        for j in 0..<ary.count {
+            obj.setValueByOrder(Order: j, Value: ary[j])
+        }
+        
+        if obj.lm_time_expire != "" {
+            obj.printSelf()
+            AppDelegate.shared().tempBarCodeInfoObj = obj
+        } else {
+            AppDelegate.shared().tempBarCodeInfoObj = BarCodeInfoObj()
         }
     }
     

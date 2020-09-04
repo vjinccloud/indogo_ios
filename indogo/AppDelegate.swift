@@ -54,6 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var transferOrderCheckListObjs:[TransferOrderCheckObj] = []
     
     var tempTransactionResultObj:TransactionResultObj!
+    var tempBarCodeInfoObj:BarCodeInfoObj!
     
     var seperatorStr:String = ""
     var subSeperatorStr:String = ""

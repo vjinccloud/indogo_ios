@@ -55,6 +55,7 @@ class TransactionResultVC: UIViewController {
     var transferStateObj:TransferStateObj!
     var orderCheckStateObj:TransferOrderCheckObj!
     var payment_info:String = ""
+    var chosedStyle = StoreType.sevenEleven
     
     //MARK: - API
     public func getOrderDetail() {
@@ -168,18 +169,22 @@ class TransactionResultVC: UIViewController {
     }
     
     @IBAction func open711IntroAction(_ sender: Any) {
+        chosedStyle = .sevenEleven
         showBottomBtnAndTeachPic(StoreStyle: .sevenEleven)
     }
     
     @IBAction func openFamilyMartIntroAction(_ sender: Any) {
+        chosedStyle = .familymart
         showBottomBtnAndTeachPic(StoreStyle: .familymart)
     }
     
     @IBAction func openOKIntroAction(_ sender: Any) {
+        chosedStyle = .ok
         showBottomBtnAndTeachPic(StoreStyle: .ok)
     }
     
     @IBAction func openHiLifeIntroAction(_ sender: Any) {
+        chosedStyle = .hiLife
         showBottomBtnAndTeachPic(StoreStyle: .hiLife)
     }
     
@@ -193,6 +198,7 @@ class TransactionResultVC: UIViewController {
         nextVC?.payment_info = transferStateObj.payment_info
         nextVC?.transferStateObj = transferStateObj
         nextVC?.orderCheckStateObj = orderCheckStateObj
+        nextVC?.chosedStyle = chosedStyle
         self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     

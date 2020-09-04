@@ -21,5 +21,6 @@ pod 'iProgressHUD', '~> 1.1.1'
 pod 'PKHUD'
 pod 'QRCodeReader.swift'
 pod 'SwiftSignatureView', '~> 3.0'
+pod 'RSBarcodes_Swift', '~> 5.0.2'
 
 end
