@@ -52,7 +52,23 @@
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z9D-Vl-wY5">
                                         <rect key="frame" x="10" y="55" width="394" height="602"/>
+                                        <subviews>
+                                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Fz-Xa-8Qw">
+                                                <rect key="frame" x="0.0" y="0.0" width="394" height="602"/>
+                                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <wkWebViewConfiguration key="configuration">
+                                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                                    <wkPreferences key="preferences"/>
+                                                </wkWebViewConfiguration>
+                                            </wkWebView>
+                                        </subviews>
                                         <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="2Fz-Xa-8Qw" secondAttribute="bottom" id="6NP-Qz-Hj3"/>
+                                            <constraint firstItem="2Fz-Xa-8Qw" firstAttribute="top" secondItem="Z9D-Vl-wY5" secondAttribute="top" id="MNs-e5-6Ib"/>
+                                            <constraint firstItem="2Fz-Xa-8Qw" firstAttribute="leading" secondItem="Z9D-Vl-wY5" secondAttribute="leading" id="VEM-g4-N86"/>
+                                            <constraint firstAttribute="trailing" secondItem="2Fz-Xa-8Qw" secondAttribute="trailing" id="cCh-95-p85"/>
+                                        </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fjl-Pl-Bsq" userLabel="NextButton">
                                         <rect key="frame" x="83" y="687" width="248" height="45"/>
@@ -115,6 +131,7 @@
                         <outlet property="backL" destination="FJg-mt-bls" id="JZc-Bh-hML"/>
                         <outlet property="cancelBtn" destination="kEH-nj-bvM" id="L24-JM-CfO"/>
                         <outlet property="nextBtn" destination="Fjl-Pl-Bsq" id="1BG-S6-Kbv"/>
+                        <outlet property="webView" destination="2Fz-Xa-8Qw" id="DL4-Hw-Jcs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cam-6M-CwM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -19,21 +19,68 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBOutlet weak var backL: UILabel!
     var loadOnce = false
     var nowPage = 0
+    var stopLoadMore = false
+    var isLoading = false
+    let pageLimit = 10
     
     //MARK: - API
     func getNotice() {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "page":1, "limit":10]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "page":nowPage, "limit":pageLimit]
         let headers: HTTPHeaders = [:]
         
         Dlog("parameters=\(parameters)")
         
-        if nowPage == 0 {
+        if nowPage == 1 {
             AppDelegate.shared().noteListObjs = []
         }
         
+        let oldCount = AppDelegate.shared().noteListObjs.count
+        
         AppDelegate.shared().addLoadingView()
+        isLoading = true
         
         let todoEndpoint: String = API_NoticeRecordList;
+        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                self.isLoading = false
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("todoEndpoint = \(todoEndpoint),responseStr = \(responseStr ?? "")")
+                
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                
+                if result == ResponseState.ok {
+                    self.nowPage += 1
+                    let newCount = AppDelegate.shared().noteListObjs.count
+                    Dlog("allpage = \((newCount - oldCount))")
+                    if (newCount - oldCount) < self.pageLimit {
+                        self.stopLoadMore = true
+                    }
+                    
+                    self.myTableView.delegate = self
+                    self.myTableView.dataSource = self
+                    self.myTableView.reloadData()
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                }
+        }
+    }
+    
+    func getPointHistory() {
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken]
+        let headers: HTTPHeaders = [:]
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_PointHistoryList;
         Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
@@ -48,12 +95,11 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                 Dlog("todoEndpoint = \(todoEndpoint),responseStr = \(responseStr ?? "")")
                 
-                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, VC: self)
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 
                 if result == ResponseState.ok {
-                    self.myTableView.delegate = self
-                    self.myTableView.dataSource = self
-                    self.myTableView.reloadData()
+                    AppDelegate.shared().pointRootShowHistory = true
+                    AppDelegate.shared().changeRootOfFunc(Type: .sharing)
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
                 }
@@ -90,13 +136,11 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     func nextAction(Index index:Int) {
         let data = AppDelegate.shared().noteListObjs[index]
         if data.tpyeStr.hasPrefix("點數異動") {
-            
+            getPointHistory()
         } else if data.tpyeStr.hasPrefix("訂單變更") {
             
         } else if data.tpyeStr.hasPrefix("公告") {
-            Dlog("公告 = \(data.photo)")
             if data.photo.count > 5 {
-                Dlog("Next")
                 let imgurl = ServerURL + data.photo
                 let urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
                 let imgV = UIImageView.init(frame: CGRect.init(x: 30, y: 30, width: showPhotoView.frame.size.width-60, height: showPhotoView.frame.size.height-60))
@@ -107,12 +151,24 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 showPhotoView.isHidden = false
             }
         } else if data.tpyeStr.contains("用戶資料") {
-            
+            let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "MemberEditVC") as? MemberEditVC
+            self.navigationController?.pushViewController(nextVC!, animated: true)
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.section == tableView.numberOfSections - 1 &&
+            indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            // Notify interested parties that end has been reached
+            Dlog("willDisplay, \(stopLoadMore), \(isLoading)")
+            if !stopLoadMore, !isLoading {
+                getNotice()
+            }
+        }
     }
     
     //MARK: - Button-Action
@@ -129,8 +185,6 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        getNotice()
-        
         if loadOnce {
             AppDelegate.shared().showTopButton()
             return
@@ -138,10 +192,15 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         
         loadOnce = true
         
+        nowPage = 1
+        getNotice()
+        
         //頂部兩個按鈕
         AppDelegate.shared().topMargin = self.view.safeAreaInsets.top
         AppDelegate.shared().addTopButton()
         
+        AppDelegate.shared().nowBottomMenuType = .notice
+        AppDelegate.shared().bottomMenu.paintMenu()
     }
 
     /*

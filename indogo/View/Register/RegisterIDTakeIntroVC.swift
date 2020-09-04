@@ -56,13 +56,13 @@ class RegisterIDTakeIntroVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if takePhotoType == PhotoIDType.front {
+        if takePhotoType == PhotoIDType.front || takePhotoType == PhotoIDType.frontFromEdit {
             bottomImgV.image = UIImage.init(named: "id_front.png")
             backL.text = NSLocalizedString("Register ID Photo Title Front", comment: "")
-        } else if takePhotoType == PhotoIDType.back {
+        } else if takePhotoType == PhotoIDType.back || takePhotoType == PhotoIDType.backFromEdit {
             bottomImgV.image = UIImage.init(named: "id_back.png")
             backL.text = NSLocalizedString("Register ID Photo Title Back", comment: "")
-        } else if takePhotoType == PhotoIDType.passport {
+        } else if takePhotoType == PhotoIDType.passport || takePhotoType == PhotoIDType.passportFromEdit {
             bottomImgV.image = UIImage.init(named: "visa.png")
             backL.text = NSLocalizedString("Register ID Photo Title Passport", comment: "")
         }

@@ -58,9 +58,23 @@ class RegisterIDCameraVC: UIViewController, UINavigationControllerDelegate, AVCa
                     self.navigationController?.popToViewController(nextVC, animated: true)
                     break
                 }
+            } else if takePhotoType == .frontFromEdit || takePhotoType == .backFromEdit {
+                if firstViewController is MemberEditVC {
+                    let nextVC = firstViewController as! RegisterIDTakePhotoVC
+                    nextVC.setTakedPic(Type: takePhotoType, Img: tempImg!.fixedOrientationToLandscape()!)
+                    self.navigationController?.popToViewController(nextVC, animated: true)
+                    break
+                }
             } else if takePhotoType == .passport {
                 if firstViewController is RegisterIDSignVC {
                     let nextVC = firstViewController as! RegisterIDSignVC
+                    nextVC.setTakedPic(Type: takePhotoType, Img: tempImg!.fixedOrientationToLandscape()!)
+                    self.navigationController?.popToViewController(nextVC, animated: true)
+                    break
+                }
+            } else if takePhotoType == .passportFromEdit {
+                if firstViewController is MemberEditVC {
+                    let nextVC = firstViewController as! MemberEditVC
                     nextVC.setTakedPic(Type: takePhotoType, Img: tempImg!.fixedOrientationToLandscape()!)
                     self.navigationController?.popToViewController(nextVC, animated: true)
                     break
@@ -231,9 +245,9 @@ class RegisterIDCameraVC: UIViewController, UINavigationControllerDelegate, AVCa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if takePhotoType == PhotoIDType.front {
+        if takePhotoType == PhotoIDType.front || takePhotoType == PhotoIDType.frontFromEdit {
             backL.text = NSLocalizedString("Register ID Photo Title Front", comment: "")
-        } else if takePhotoType == PhotoIDType.back {
+        } else if takePhotoType == PhotoIDType.back || takePhotoType == PhotoIDType.backFromEdit {
             backL.text = NSLocalizedString("Register ID Photo Title Back", comment: "")
         }
     }

@@ -44,9 +44,23 @@ class RegisterSelfPhotoStep2VC: UIViewController {
                     self.navigationController?.popToViewController(nextVC, animated: true)
                     break
                 }
+            } else if takePhotoType == .normalFromEdit {
+                if firstViewController is MemberEditVC {
+                    let nextVC = firstViewController as! MemberEditVC
+                    nextVC.setImage(Image: finalImg)
+                    self.navigationController?.popToViewController(nextVC, animated: true)
+                    break
+                }
             } else if takePhotoType == .faceAndId {
                 if firstViewController is RegisterIDSignVC {
                     let nextVC = firstViewController as! RegisterIDSignVC
+                    nextVC.setTakedPic(Type: takePhotoType, Img: finalImg)
+                    self.navigationController?.popToViewController(nextVC, animated: true)
+                    break
+                }
+            } else if takePhotoType == .faceAndIdFromEdit {
+                if firstViewController is MemberEditVC {
+                    let nextVC = firstViewController as! MemberEditVC
                     nextVC.setTakedPic(Type: takePhotoType, Img: finalImg)
                     self.navigationController?.popToViewController(nextVC, animated: true)
                     break

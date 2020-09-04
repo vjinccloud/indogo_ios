@@ -27,17 +27,57 @@ class MemberMainVC: UIViewController {
     
     var loadOnce = false
     
+    //MARK: - API
+    func getPointHistory() {
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken]
+        let headers: HTTPHeaders = [:]
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_PointHistoryList;
+        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("todoEndpoint = \(todoEndpoint),responseStr = \(responseStr ?? "")")
+                
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                
+                if result == ResponseState.ok {
+                    AppDelegate.shared().pointRootShowHistory = true
+                    AppDelegate.shared().changeRootOfFunc(Type: .sharing)
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                }
+        }
+    }
+    
     //MARK: - Button-Action
     @IBAction func editAction(_ sender: Any) {
-        
+        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "MemberEditVC") as? MemberEditVC
+        self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
     @IBAction func pointAction(_ sender: Any) {
+        getPointHistory()
     }
     
     @IBAction func reciteAction(_ sender: Any) {
+        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "RecipientListVC") as? RecipientListVC
+        nextVC!.canSelectForTransfer = false
+        self.navigationController?.pushViewController(nextVC!, animated: true)
     }
+    
     @IBAction func tansactionAction(_ sender: Any) {
+        AppDelegate.shared().changeRootOfFunc(Type: .transState)
     }
     
     @IBAction func callAction(_ sender: Any) {
@@ -66,7 +106,8 @@ class MemberMainVC: UIViewController {
     }
     
     @IBAction func termsAction(_ sender: Any) {
-        
+        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "MemberUseAgreementVC") as? MemberUseAgreementVC
+        self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
     @IBAction func faqAction(_ sender: Any) {
@@ -97,10 +138,16 @@ class MemberMainVC: UIViewController {
         termsL.text = NSLocalizedString("Profile Main Terms", comment: "")
         faqL.text = NSLocalizedString("Profile Main Faq", comment: "")
         logoutL.text = NSLocalizedString("Profile Main Logout", comment: "")
+        
+        memberImgV.contentMode = .scaleAspectFill
+        memberImgV.layer.cornerRadius = memberImgV.frame.size.height/2
+        memberImgV.clipsToBounds = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        memberImgV.image = AppDelegate.shared().getIconImage()
         
         if loadOnce {
             AppDelegate.shared().showTopButton()
@@ -112,6 +159,9 @@ class MemberMainVC: UIViewController {
         //頂部兩個按鈕
         AppDelegate.shared().topMargin = self.view.safeAreaInsets.top
         AppDelegate.shared().addTopButton()
+        
+        AppDelegate.shared().nowBottomMenuType = .profile
+        AppDelegate.shared().bottomMenu.paintMenu()
         
     }
     /*

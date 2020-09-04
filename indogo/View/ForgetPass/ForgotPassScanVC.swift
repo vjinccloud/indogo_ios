@@ -79,7 +79,7 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
                 
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                 Dlog("responseStr = \(responseStr ?? "")")
-                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, VC: self)
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 AppDelegate.shared().forgotPassTempMemID = code
                 if result == ResponseState.ok {
                     //有電話

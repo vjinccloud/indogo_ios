@@ -66,6 +66,12 @@ class BottomMenuView: UIView {
         
         if type == .notice {
             AppDelegate.shared().changeRootOfFunc(Type: .notice)
+        } else if type == .transState {
+            AppDelegate.shared().changeRootOfFunc(Type: .transState)
+        } else if type == .transaction {
+            AppDelegate.shared().changeRootOfFunc(Type: .transaction)
+        } else if type == .sharing {
+            AppDelegate.shared().changeRootOfFunc(Type: .sharing)
         } else if type == .profile {
             AppDelegate.shared().changeRootOfFunc(Type: .member)
         }

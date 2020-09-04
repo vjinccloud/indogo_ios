@@ -90,7 +90,7 @@ class RegisterIDSignVC: UIViewController {
                     //下一步，簡訊
                     let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                     Dlog("responseStr = \(responseStr ?? "")")
-                    let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, VC: self)
+                    let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                     
                     if result == ResponseState.ok {
                         let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterEnterSMSCodeVC") as? RegisterEnterSMSCodeVC

@@ -44,7 +44,7 @@ class ForgotPassCheckPhoneVC: UIViewController {
                 
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                 Dlog("responseStr = \(responseStr ?? "")")
-                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, VC: self)
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 
                 if result == ResponseState.ok {
                     let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassEnterCodeVC") as? ForgotPassEnterCodeVC

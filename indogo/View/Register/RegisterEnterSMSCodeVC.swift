@@ -46,7 +46,7 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
                 
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                 Dlog("responseStr = \(responseStr ?? "")")
-                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, VC: self)
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 
                 if result == ResponseState.ok {
                 } else if result == ResponseState.failed {
@@ -91,7 +91,7 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
                 
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                 Dlog("responseStr = \(responseStr ?? "")")
-                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, VC: self)
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 
                 if result == ResponseState.ok {
                     //回首頁

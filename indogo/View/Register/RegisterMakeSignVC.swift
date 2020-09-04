@@ -42,6 +42,13 @@ class RegisterMakeSignVC: UIViewController {
                     self.navigationController?.popToViewController(nextVC, animated: true)
                     break
                 }
+            } else if takePhotoType == .signFromEdit {
+                if firstViewController is MemberEditVC {
+                    let nextVC = firstViewController as! MemberEditVC
+                    nextVC.setTakedPic(Type: takePhotoType, Img: signView.signature!)
+                    self.navigationController?.popToViewController(nextVC, animated: true)
+                    break
+                }
             }
             
         }

@@ -15,6 +15,7 @@ public enum ResponseState {
     case ok
     case error
     case member_not_exist
+    case lack_point
 }
 
 class APIHandle {
@@ -25,28 +26,60 @@ class APIHandle {
     
     //MARK: - Basic
     //取得回傳的狀態
-    func getResponseState(ResponseStr resStr:String, APIStr apiStr:String, VC vc:UIViewController) -> ResponseState {
+    func getResponseState(ResponseStr resStr:String, APIStr apiStr:String, SubStr subStr:String) -> ResponseState {
         if !resStr.hasPrefix("remit_reply") || resStr.count < 13 {
             return ResponseState.failed
         }
         
-        var startIndex = resStr.index(resStr.startIndex, offsetBy: 12)
-        var endIndex = resStr.index(resStr.startIndex, offsetBy: 13)
-        let stateStr = String(resStr[startIndex..<endIndex])
+        AppDelegate.shared().apiBackContentStr = ""
         
-        startIndex = resStr.index(resStr.startIndex, offsetBy: 14)
-        endIndex = resStr.endIndex
-        let resultStr = String(resStr[startIndex..<endIndex]).trimmingCharacters(in: .whitespaces)
-        Dlog("resultStr = \(resultStr)")
+        var resultStr = ""
+        var stateStr = ""
+        
+        //改成自動判斷
+        let endIdx = findSecondSpaceIndex(AllStr: resStr)
+        if endIdx != -1 {
+            var startIndex = resStr.index(resStr.startIndex, offsetBy: 12)
+            var endIndex = resStr.index(resStr.startIndex, offsetBy: endIdx-1)
+            stateStr = String(resStr[startIndex..<endIndex])
+            
+            startIndex = resStr.index(resStr.startIndex, offsetBy: endIdx)
+            endIndex = resStr.endIndex
+            resultStr = String(resStr[startIndex..<endIndex]).trimmingCharacters(in: .whitespaces)
+        } else {
+            var startIndex = resStr.index(resStr.startIndex, offsetBy: 12)
+            var endIndex = resStr.index(resStr.startIndex, offsetBy: 13)
+            stateStr = String(resStr[startIndex..<endIndex])
+            
+            startIndex = resStr.index(resStr.startIndex, offsetBy: 14)
+            endIndex = resStr.endIndex
+            resultStr = String(resStr[startIndex..<endIndex]).trimmingCharacters(in: .whitespaces)
+        }
+        
+        Dlog("resultStr = \(resultStr), stateStr = -\(stateStr)-")
         
         if stateStr != "0" {
+            AppDelegate.shared().apiBackContentStr = resultStr
+            
             //特殊狀況
             if apiStr == API_CheckMemExist && stateStr == "3" {
                 return ResponseState.member_not_exist
+            } else if apiStr == API_BankList {
+                return ResponseState.failed
             } else {
                 //取得最後訊息並顯示
-                AppDelegate.shared().showAlertWithWindow(vc, Message: resultStr)
-                return ResponseState.error
+                if apiStr == API_TransferPointFirstStep {
+                    if resultStr.contains("no member") || resultStr.contains("not have this member") {
+                        return ResponseState.ok
+                    } else {
+                        return ResponseState.error
+                    }
+                    
+                } else {
+                    //AppDelegate.shared().showAlertWithWindow(vc, Message: resultStr)
+                    return ResponseState.error
+                }
+                
             }
         }
         
@@ -70,7 +103,30 @@ class APIHandle {
         case API_NoticeRecordList:
             checkNoticeList(DataStr: resultStr)
             break
-        break
+        case API_PointHistoryList:
+            checkPointHistoryList(DataStr: resultStr)
+            break
+        case API_GetDoc:
+            checkDocContent(DataStr: resultStr, SubStr: subStr)
+            break
+        case API_TransferPointFirstStep:
+            checkPointTransferFirstStep(DataStr: resultStr, SubStr: subStr)
+            break
+        case API_MemberRecipents:
+            checkRecipientList(DataStr: resultStr)
+            break
+        case API_BankList:
+            checkBankList(DataStr: resultStr)
+            break
+        case API_TransferHistory:
+            checkTransferStateList(DataStr: resultStr)
+            break
+        case API_OrderCheckMuilti:
+            checkTransferOrderCheckList(DataStr: resultStr)
+            break
+        case API_TransactionCreate:
+            checkTransactionResult(DataStr: resultStr)
+            break
         default:
             break
         }
@@ -78,28 +134,214 @@ class APIHandle {
         return ResponseState.ok
     }
     
-    //remit_reply 0 phone_no
+    //找到第二個空白
+    func findSecondSpaceIndex(AllStr str:String) -> Int {
+        var ans = -1
+        var spaceCount = 0
+        for i in 1..<str.count {
+            let startIndex = str.index(str.startIndex, offsetBy: i-1)
+            let endIndex = str.index(str.startIndex, offsetBy: i)
+            let stateStr = String(str[startIndex..<endIndex])
+            //Dlog("stateStr = \(stateStr)")
+            if stateStr == " " {
+                spaceCount += 1
+                if spaceCount == 2 {
+                    ans = i
+                    break
+                }
+            }
+        }
+        
+        return ans
+    }
+    
+    private func checkTransactionResult(DataStr dataStr:String) {
+        let obj:TransactionResultObj = TransactionResultObj()
+        //目前直接用zero width空格
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        for j in 0..<ary.count {
+            obj.setValueByOrder(Order: j, Value: ary[j])
+        }
+        
+        if obj.payment_info != "" {
+            obj.printSelf()
+            AppDelegate.shared().tempTransactionResultObj = obj
+        }
+    }
+    
+    private func checkDocContent(DataStr dataStr:String, SubStr subStr:String) {
+        if subStr == "會員服務條款" || subStr == "外籍勞工薪資結匯申報委託書" {
+            let content = "<html><header><meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'></header><body>\(dataStr)</body></html>"
+            AppDelegate.shared().tempAgreementHtmlContent = content
+        } else if subStr == "使用者條款" {
+            let content = "<html><header><meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'></header><body>\(dataStr)</body></html>"
+            AppDelegate.shared().tempAgreementHtmlContent = content
+        } else if subStr == "分享文案" {
+            AppDelegate.shared().shareContent = dataStr
+        } else if subStr == "點數轉移規則" {
+            let content = "<html><header><meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'></header><body>\(dataStr)</body></html>"
+            AppDelegate.shared().tempTransferAgreementHtmlContent = content
+        }
+        
+    }
+    
+    private func checkBankList(DataStr dataStr:String) {
+        //目前直接用zero width空格
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        for i in 0..<ary.count {
+            if ary[i].count < 2 { //沒東西
+                continue
+            }
+            
+            let subAry = ary[i].components(separatedBy: AppDelegate.shared().subSeperatorStr)
+            
+            let obj:BankObj = BankObj()
+            for j in 0..<subAry.count {
+                obj.setValueByOrder(Order: j, Value: subAry[j])
+            }
+            obj.printSelf()
+            AppDelegate.shared().bankList.append(obj)
+        }
+    }
+    
+    private func checkTransferStateList(DataStr dataStr:String) {
+        //目前直接用zero width空格
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        for i in 0..<ary.count {
+            
+            let subAry = ary[i].components(separatedBy: AppDelegate.shared().subSeperatorStr)
+            
+            let obj:TransferStateObj = TransferStateObj()
+            for j in 0..<subAry.count {
+                obj.setValueByOrder(Order: j, Value: subAry[j])
+            }
+            
+            if obj.payment_info != "" {
+                Dlog("== \(i) =========")
+                obj.printSelf()
+                AppDelegate.shared().transferStateListObjs.append(obj)
+            }
+        }
+    }
+    
+    private func checkTransferOrderCheckList(DataStr dataStr:String) {
+        //目前直接用zero width空格
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        for i in 0..<ary.count {
+            
+            let subAry = ary[i].components(separatedBy: AppDelegate.shared().subSeperatorStr)
+            
+            let obj:TransferOrderCheckObj = TransferOrderCheckObj()
+            for j in 0..<subAry.count {
+                obj.setValueByOrder(Order: j, Value: subAry[j])
+            }
+            
+            if obj.payment_info != "" {
+                Dlog("== \(i) =========")
+                obj.printSelf()
+                AppDelegate.shared().transferOrderCheckListObjs.append(obj)
+            }
+        }
+    }
+    
+    private func checkRecipientList(DataStr dataStr:String) {
+        //目前直接用zero width空格
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        for i in 0..<ary.count {
+            if ary[i].count < 2 { //沒東西
+                continue
+            }
+            
+            let subAry = ary[i].components(separatedBy: AppDelegate.shared().subSeperatorStr)
+            
+            let obj:RecipientObj = RecipientObj()
+            for j in 0..<subAry.count {
+                obj.setValueByOrder(Order: j, Value: subAry[j])
+            }
+            obj.printSelf()
+            AppDelegate.shared().recipientListObjs.append(obj)
+            
+            if obj.is_hidden != "1" {
+                AppDelegate.shared().recipientShownListObjs.append(obj)
+            }
+        }
+    }
+    
     private func sendSMS(DataStr dataStr:String) {
         AppDelegate.shared().forgotPassTempSMS = dataStr
     }
     
-    //remit_reply 0 phone_no
     private func checkMemExist(DataStr dataStr:String) {
         AppDelegate.shared().forgotPassTempPhone = dataStr
+    }
+    
+    private func checkPointHistoryList(DataStr dataStr:String) {
+        //目前直接用zero width空格
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        for i in 0..<ary.count {
+            if i<2 { //第一個與第二個是其他東西
+                continue
+            }
+            
+            let subAry = ary[i].components(separatedBy: AppDelegate.shared().subSeperatorStr)
+            
+            let obj:PointHistorySingleObj = PointHistorySingleObj()
+            for j in 0..<subAry.count {
+                obj.setValueByOrder(Order: j, Value: subAry[j])
+            }
+            obj.printSelf()
+            AppDelegate.shared().historyListObj.append(obj)
+        }
+    }
+    
+    private func checkPointTransferFirstStep(DataStr dataStr:String, SubStr subStr:String) {
+        //目前直接用zero width空格
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        for i in 0..<ary.count {
+            Dlog("===\(ary[i])")
+            let subAry = ary[i].components(separatedBy: AppDelegate.shared().subSeperatorStr)
+            
+            let obj:TransferMemberObj = TransferMemberObj()
+            for j in 0..<subAry.count {
+                if subStr == "1" { //系統會員
+                    if j==0 {
+                        obj.idStr = subAry[j]
+                    } else if j==1 {
+                        obj.name = subAry[j]
+                    }
+                } else if subStr == "2" { //Sho[會員
+                    if j==0 {
+                        obj.name = subAry[j]
+                    } else if j==1 {
+                        obj.phone = subAry[j]
+                    }
+                }
+                Dlog("---\(subAry[j])")
+            }
+            
+            if subStr == "1" { //系統會員
+                obj.memberStyle = .normal
+            } else if subStr == "2" { //Sho[會員
+                obj.memberStyle = .shop
+            }
+            AppDelegate.shared().transferFriendListObj.append(obj)
+            //obj.printSelf()
+            //AppDelegate.shared().historyListObj.append(obj)
+        }
     }
     
     private func checkNoticeList(DataStr dataStr:String) {
         //目前直接用zero width空格
         let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
         for i in 0..<ary.count {
-            Dlog("(\(i))=====")
+            //Dlog("(\(i))=====")
             let subAry = ary[i].components(separatedBy: AppDelegate.shared().subSeperatorStr)
             if subAry.count < 7 {
                 continue
             }
             let obj:NoticeObj = NoticeObj()
             for j in 0..<subAry.count {
-                Dlog("---\(subAry[j])")
+                //Dlog("---\(subAry[j])")
                 obj.setValueByOrder(Order: j, Value: subAry[j])
             }
             AppDelegate.shared().noteListObjs.append(obj)
@@ -118,17 +360,15 @@ class APIHandle {
         let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
         
         AppDelegate.shared().userLogin(TokenStr: ary[0])
-        AppDelegate.shared().memberData = [:]
-        let keyAry:[String] = ["member_name","kurs_value","kurs_lm_time","service_charge","remit_point","free_service_charge","share_id","app_phone_no","app_share_bonus","google_map_url","app_version","app_market","line_url","games_url"]
+        let keyAry:[String] = ["member_name","kurs_value","kurs_lm_time","service_charge","remit_point","free_service_charge","share_id","app_phone_no","app_share_bonus","google_map_url","app_version","app_market","line_url","games_url","member_id","arc_photo","arc_back_photo","signature_photo","id_card_photo","self_photo"]
         for i in 0..<keyAry.count {
             var value = ""
             if (i+1) < ary.count {
                 value = ary[i+1]
+                AppDelegate.shared().memberData[keyAry[i]] = value
             } else {
                 Dlog("over loop")
             }
-            
-            AppDelegate.shared().memberData[keyAry[i]] = value
             Dlog("key(\(keyAry[i])) = \(value)")
         }
     }

@@ -48,6 +48,22 @@ let API_Register = ServerURL + "/app/remit/register"
 let API_ResendRegisterSMS = ServerURL + "/app/remit/request_sms_code"
 let API_VerifyRegisterSMS = ServerURL + "/app/remit/verify_sms_code"
 let API_NoticeRecordList = ServerURL + "/app/remit/notification_record"
+let API_PointHistoryList = ServerURL + "/app/remit/point_history"
+let API_GetDoc = ServerURL + "/app/remit/doc_get"
+let API_TransferPointFirstStep = ServerURL + "/app/remit/point_transfer_check"
+let API_TransferPointSecondStep = ServerURL + "/zapp/remit/point_transfer"
+let API_MemberRecipents = ServerURL + "/app/remit/member_recipients"
+let API_MemberHideRecipent = ServerURL + "/app/remit/hide_recipient"
+let API_BankList = ServerURL + "/app/remit/bank_list"
+let API_AddRecipient = ServerURL + "/app/remit/add_recipient_v2"
+let API_TransferHistory = ServerURL + "/app/remit/money_transfer_history"
+let API_OrderCheckSingle = ServerURL + "/app/remit/order_check"
+let API_OrderCheckMuilti = ServerURL + "/app/remit/orders_check"
+let API_TransactionCreate = ServerURL + "/app/remit/create"
+let API_BarCode_711 = ServerURL + "/app/remit/create"
+let API_BarCode_fami = ServerURL + "/app/remit/create"
+let API_BarCode_ok = ServerURL + "/app/remit/create"
+let API_BarCode_hilife = ServerURL + "/app/remit/create"
 
 let API_ForgetPass = ServerURL + "/Account/forgotPassword"
 let API_ConfirmCodePass = ServerURL + "/Account/verifyConfirmCode"
@@ -90,6 +106,11 @@ let API_Report = ServerURL + "/ProblemReport/Post"
 let API_TicketEntry = ServerURL + "/TicketEntry/Post"
 let API_OrderCancel = ServerURL + "/OrderCancel/Post"
 
+public enum TransferMemberStyle {
+    case normal
+    case shop
+}
+
 enum ScanParentType {
     case forgotPass
     case register
@@ -102,12 +123,28 @@ enum PhotoIDType {
     case faceAndId
     case passport
     case sign
+    case normalFromEdit
+    case frontFromEdit
+    case backFromEdit
+    case faceAndIdFromEdit
+    case passportFromEdit
+    case signFromEdit
 }
 
 enum LoginFuncType {
     case main
     case member
+    case transState
+    case transaction
+    case sharing
     case notice
+}
+
+enum StoreType {
+    case sevenEleven
+    case familymart
+    case ok
+    case hiLife
 }
 
 enum BottomMenuType {

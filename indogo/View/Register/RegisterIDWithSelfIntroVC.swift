@@ -27,7 +27,7 @@ class RegisterIDWithSelfIntroVC: UIViewController, UIImagePickerControllerDelega
     }
     
     @IBAction func nextAction(_ sender: Any) {
-        if takePhotoType == .faceAndId {
+        if takePhotoType == .faceAndId || takePhotoType == .faceAndIdFromEdit {
             let customAlert = CustomAlertView.init(frame: backView.frame)
             customAlert.initTwoActionAlert(Title: NSLocalizedString("Register Input Foto Select Title" , comment: ""), Content: "", NextBtn1Str: NSLocalizedString("Register Input Foto Select Camera" , comment: ""), NextBtn2Str: NSLocalizedString("Register Input Foto Select Gallery" , comment: ""), CancelBtn1Str: NSLocalizedString("cancel" , comment: ""))
             self.view.addSubview(customAlert)
@@ -121,7 +121,7 @@ class RegisterIDWithSelfIntroVC: UIViewController, UIImagePickerControllerDelega
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if takePhotoType == PhotoIDType.faceAndId {
+        if takePhotoType == PhotoIDType.faceAndId || takePhotoType == PhotoIDType.faceAndIdFromEdit {
             bottomImgV.image = UIImage.init(named: "man_with_id_2.png")
             backL.text = NSLocalizedString("Register ID Face And ID Intro", comment: "")
         }

@@ -46,14 +46,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     public var tempRegisterObj:RegisterDataObj = RegisterDataObj()
     
     var noteListObjs:[NoticeObj] = []
+    var historyListObj:[PointHistorySingleObj] = []
+    var transferFriendListObj:[TransferMemberObj] = []
+    var recipientListObjs:[RecipientObj] = []
+    var recipientShownListObjs:[RecipientObj] = []
+    var transferStateListObjs:[TransferStateObj] = []
+    var transferOrderCheckListObjs:[TransferOrderCheckObj] = []
+    
+    var tempTransactionResultObj:TransactionResultObj!
+    
     var seperatorStr:String = ""
     var subSeperatorStr:String = ""
     var bottomMenu:BottomMenuView!
     var hasBottomMenu = false
     var bottomPadding:CGFloat!
     
-    var defautBottomMenuType:BottomMenuType = .profile
-    var nowBottomMenuType:BottomMenuType = .profile
+    var defautBottomMenuType:BottomMenuType = .transaction
+    var nowBottomMenuType:BottomMenuType = .transaction
+    
+    var hasBankList = false
+    var bankList:[BankObj] = []
+    
+    var pointRootShowHistory = false
+    var tempAgreementHtmlContent:String = ""
+    var tempTransferAgreementHtmlContent:String = ""
+    var shareContent = ""
+    
+    var apiBackContentStr = ""
+    
+    var transactionObj:TransactionObj = TransactionObj()
     
     //MARK: - App Life
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -63,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //指定分隔字元
         AppDelegate.shared().seperatorStr = NSLocalizedString("leading space", comment: "")
         AppDelegate.shared().subSeperatorStr = NSLocalizedString("leading sub space", comment: "")
-
+        self.getBankList()
         return true
     }
     
@@ -179,6 +200,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController?.present(alert, animated: true, completion: nil)
     }
     
+    //MARK: - API
+    func getBankList() {
+        if AppDelegate.shared().hasBankList {
+            return
+        }
+        
+        let parameters:Parameters = [:]
+        let headers: HTTPHeaders = [:]
+        
+        let todoEndpoint: String = API_BankList;
+        
+        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    
+                    //重複呼叫自己
+                    self.getBankList()
+                    
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("responseStr = \(responseStr ?? "")")
+                
+                AppDelegate.shared().bankList = []
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                if result == ResponseState.ok {
+                    self.hasBankList = true
+                } else if result == ResponseState.failed {
+                    //重複呼叫自己
+                    self.getBankList()
+                }
+        }
+    }
+    
     //MARK: - login
     public func userLogin(TokenStr str:String) {
         sessionToken = str
@@ -232,6 +292,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if type == LoginFuncType.member {
                 storyboardId = "Member"
                 navigaterId = "MemberMainNC"
+            } else if type == LoginFuncType.transState {
+                storyboardId = "Member"
+                navigaterId = "TransferListNC"
+            } else if type == LoginFuncType.transaction {
+                storyboardId = "Member"
+                navigaterId = "TransferMainNC"
+            } else if type == LoginFuncType.sharing {
+                storyboardId = "Member"
+                navigaterId = "ShareMainNC"
             } else if type == LoginFuncType.notice {
                 storyboardId = "Member"
                 navigaterId = "NoticeMainNC"
@@ -321,6 +390,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         }))
         onVC.present(vc, animated: true, completion: nil)
+    }
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+    
+    func saveIconImageToFile(Image img:UIImage) {
+        if let data = img.jpegData(compressionQuality: 0.8) {
+            let filename = getDocumentsDirectory().appendingPathComponent("myicon.jpg")
+            try? data.write(to: filename)
+            //FileManager.default.createFile(atPath: filename.absoluteString, contents: data, attributes: nil)
+        }
+    }
+    
+    func getIconImage() -> UIImage {
+        let imagePAth = getDocumentsDirectory().appendingPathComponent("myicon.jpg")
+        
+        if FileManager.default.fileExists(atPath: imagePAth.path) {
+            return UIImage(contentsOfFile: imagePAth.path)!
+        }else{
+            Dlog("not exist (\(imagePAth.absoluteString))")
+            return UIImage.init(named: "profile_picture.png")!
+        }
     }
 }
 

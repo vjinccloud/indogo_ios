@@ -117,3 +117,73 @@
 "Notice Type 1" = "TRANSAKSI GAGAL";
 "Notice Type 2" = "";
 "Notice Type 3" = "UPDATE DATA";
+
+"History Point Cell 1" = "Tgl";
+"History Point Cell 2" = "Jenis";
+"History Point Cell 3" = "Jumlah";
+"History Point Cell 4" = "Sisa";
+
+"Point Transfer Title" = "TRANSFER POIN";
+"Point Transfer Input Title" = "Transfer Kepada";
+"Point Transfer Input Phone Place Holder" = "Masukan No. HP Penerima";
+"Point Transfer Input Point Place Holder" = "Total Poin yang Ditransfer";
+"Point Transfer Alert Title" = "GAGAL";
+
+"Point Transfer Alert No Member Title" = "Mohon Maaf";
+"Point Transfer Alert No Member Content" = "nomor yang Anda masukkan\ntidak terdaftar\n\nSilahkan periksa kembali";
+
+"Point Transfer Alert Point Lack Title" = "Mohon Maaf";
+"Point Transfer Alert Point Lack Content" = "Jumlah poin yang Anda masukkan melebihi jumlah poin saat ini";
+
+"Point Transfer Step2 Title" = "Transfer Kepada";
+"Point Transfer Step2 Successed Title" = "BERHASIL";
+"Point Transfer Step2 Successed SubTitle" = "Terima Kasih";
+"Point Transfer Step2 Successed Content" = "Anda telah berhasil\nmengirimkan 200 Poin";
+"Point Transfer Add Recipient Next" = "TAMBAHKAN";
+"Point Transfer Add Recipient Code PlaceHolder" = "Pilih Nama Bank";
+"Point Transfer Add Recipient Accounnt PlaceHolder" = "Nomor Rekening";
+
+"Member Use Agreement Title" = "Syarat & Ketentuan";
+
+"Transfer State 1" = "BELUM DIBAYARKAN";
+"Transfer State 2" = "SUDAH DIBAYAR";
+"Transfer State 3" = "SEDANG DIPROSES";
+"Transfer State 4" = "BERHASIL";
+"Transfer State 5" = "GAGAL";
+
+"Transfer State Pure Text Title" = "Silahkan melalukan pembayaran";
+"Transfer State Mid Text Title" = "Rekening Tujuan:";
+"Transfer State Plot Text L1" = "Dibuat";
+"Transfer State Plot Text L2" = "Dibayar";
+"Transfer State Plot Text L3" = "Diproses";
+"Transfer State Plot Text L4" = "Berhasil";
+"Transfer State Down Time Title" = "Pukul";
+
+"Transfer Main Box Up Title" = "Jumlah Transfer";
+"Transfer Main Box Down Title" = "Referensi Kurs";
+"Transfer Main Charge Title" = "Ongkos Kirim";
+"Transfer Main Use Point Title" = "Diskon";
+"Transfer Main Total Money" = "Total NTD";
+"Transfer Main Total Point Title" = "Tukar Poin";
+
+"Transfer Confirm Title" = "Periksa Kembali";
+"Transfer Confirm TWD Title" = "Kirim";
+"Transfer Confirm Fee Title" = "Ongkos Kirim";
+"Transfer Confirm UsePoint Title" = "Potong Poin";
+"Transfer Confirm Total Title" = "Total";
+
+"Transfer Agreement Title" = "Pernyataan";
+
+"Transfer Result Title" = "Kode Pin Anda";
+"Transfer Result Bar Title" = "BELUM DIBAYARKAN";
+"Transfer Result Store Title" = "Silahkan pilih mini market";
+"Transfer Result Go Map Title" = "Cari Mini Market Terdekat";
+"Transfer Result Pay Title" = "LANGSUNG KE KASIR";
+
+"Transfer PayStep Title" = "Kode Pin Anda";
+"Transfer PayStep Up Intro" = "Silahkan melakukan\npembayaran dikasir";
+"Transfer PayStep Min Title" = "MENIT";
+"Transfer PayStep Sec Title" = "DETIK";
+"Transfer PayStep Warn" = "Masa berlaku barcode hanya 10 menit\nJika masa berlaku barcode berakhir, Anda dapat meminta\nulang dengan menekan\ntombol di atas";
+"Transfer PayStep Btn Enlarge" = "PERJELAS BARCODE";
+"Transfer PayStep Btn Reload" = "MINTA ULANG BARCODE";

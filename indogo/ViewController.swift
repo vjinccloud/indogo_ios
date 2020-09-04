@@ -116,9 +116,11 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                 Dlog("responseStr = \(responseStr ?? "")")
                 
-                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, VC: self)
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 if result == ResponseState.ok {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: "Hi, \(AppDelegate.shared().memberData["member_name"] ?? "") 自動登入成功")
+                    AppDelegate.shared().nowBottomMenuType = AppDelegate.shared().defautBottomMenuType
+                    AppDelegate.shared().changeRootOfFunc(Type: .transaction)
+                    //AppDelegate.shared().showAlertWithWindow(self, Message: "Hi, \(AppDelegate.shared().memberData["member_name"] ?? "") 自動登入成功")
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
                 }
@@ -149,10 +151,10 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                 Dlog("responseStr = \(responseStr ?? "")")
                 
-                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, VC: self)
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 if result == ResponseState.ok {
                     AppDelegate.shared().nowBottomMenuType = AppDelegate.shared().defautBottomMenuType
-                    AppDelegate.shared().changeRootOfFunc(Type: .member)
+                    AppDelegate.shared().changeRootOfFunc(Type: .transaction)
                     //AppDelegate.shared().showAlertWithWindow(self, Message: "Hi, \(AppDelegate.shared().memberData["member_name"] ?? "") 登入成功")
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
@@ -183,7 +185,7 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                 Dlog("responseStr = \(responseStr ?? "")")
-                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, VC: self)
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 if result == ResponseState.ok {
                     
                     self.promoNum = AppDelegate.shared().promoUrlAry.count
@@ -329,7 +331,7 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         let userDefaults = UserDefaults.standard
         if userDefaults.value(forKey: "sessionToken") != nil {
             AppDelegate.shared().sessionToken = userDefaults.value(forKey: "sessionToken") as! String
-            //checkTokenLogin()
+            checkTokenLogin()
         }
     }
 }

@@ -15,7 +15,45 @@ class UtilityTool {
     
     init() {}
     
+    //MARK: - Date
+    func dateStringToTime(Str isoDate:String) -> Double {
+        var time:Double = -1
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        if let date = dateFormatter.date(from: isoDate) {
+          // do something with date...
+            time = date.timeIntervalSince1970
+        }
+        
+        return time
+    }
+    
     //MARK: - Utility
+    func searchBankObj(BankName name:String) -> BankObj {
+        for i in 0..<AppDelegate.shared().bankList.count {
+            let obj = AppDelegate.shared().bankList[i]
+            
+            if obj.bank_name == name {
+                return obj
+            }
+        }
+        
+        return BankObj()
+    }
+    
+    func searchBankObj(BankCode code:String) -> BankObj {
+        for i in 0..<AppDelegate.shared().bankList.count {
+            let obj = AppDelegate.shared().bankList[i]
+            
+            if obj.bank_code == code {
+                return obj
+            }
+        }
+        
+        return BankObj()
+    }
+    
     func hexStringToUIColor (hex:String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         

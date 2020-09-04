@@ -284,6 +284,7 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
         iconBtn.imageView?.contentMode = .scaleAspectFill
         iconBtn.layer.cornerRadius = iconBtn.frame.size.height/2
         iconBtn.clipsToBounds = true
+        AppDelegate.shared().saveIconImageToFile(Image: img)
         meImg = img
         hasMeCode = true
         checkNextBtnState()
