@@ -55,7 +55,7 @@ class MemberMainVC: UIViewController {
                     AppDelegate.shared().pointRootShowHistory = true
                     AppDelegate.shared().changeRootOfFunc(Type: .sharing)
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }

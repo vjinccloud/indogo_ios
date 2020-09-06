@@ -50,7 +50,7 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
                 
                 if result == ResponseState.ok {
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }

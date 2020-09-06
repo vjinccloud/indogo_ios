@@ -102,7 +102,7 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
                 if result == ResponseState.ok {
                     self.getRecipents()
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }
@@ -141,7 +141,7 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
                         self.goAddRecipient()
                     }
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }

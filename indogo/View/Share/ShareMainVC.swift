@@ -56,7 +56,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 if result == ResponseState.ok {
                     self.shareStep2()
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }
@@ -186,7 +186,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         self.callPointHistory()
                     }
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }

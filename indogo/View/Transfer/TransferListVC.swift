@@ -75,7 +75,7 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
             cell.barTimeL.isHidden = true
             
             cell.pureNameL.text = cellData.recipient_name
-            cell.pureValueL.text = "NTD " + cellData.total
+            cell.pureValueL.text = "NTD " + cellData.total.stringToIntDecimalString()
             cell.pureCodeL.text = cellData.payment_info
             
             let expireTimeStr = cellOrderCheckData.lm_time_expire!
@@ -125,7 +125,7 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
             
             cell.failNameL.text = serchBankobj.bank_name
             cell.failIDL.text = cellData.to_acc
-            cell.failValueL.text = "IDR " + cellData.transfer_amount_idr
+            cell.failValueL.text = "IDR " + cellData.transfer_amount_idr.stringToIntDecimalString()
             cell.failNoteL.text = cellData.recipient_name
             
         } else {
@@ -161,14 +161,14 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
             let urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
             cell.downIconIgV.kf.setImage(with: urlhaed)
             
-            cell.upValueL.text = "NTD " + cellData.total
+            cell.upValueL.text = "NTD " + cellData.total.stringToIntDecimalString()
             cell.upNoteL.text = cellData.payment_info
             
         }
         
         cell.downNameL.text = serchBankobj.bank_name
         cell.downIDL.text = cellData.to_acc
-        cell.downValueL.text = "IDR " + cellData.transfer_amount_idr
+        cell.downValueL.text = "IDR " + cellData.transfer_amount_idr.stringToIntDecimalString()
         cell.downNoteL.text = cellData.recipient_name
         
         cell.backgroundColor = .clear
@@ -182,7 +182,7 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         let cellData = showDataList[realIdx]
         let cellOrderCheckData = showOrderCheckDataList[realIdx]
         
-        if cellOrderCheckData.order_status != "5" {
+        if cellOrderCheckData.order_status == "5" {
             AppDelegate.shared().showFloatingContainer()
             return
         }
@@ -233,7 +233,7 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
                 if result == ResponseState.ok {
                     self.reloadDataAndTable()
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }
@@ -268,7 +268,7 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
                     self.getAllOrdersDetail()
                     //self.reloadDataAndTable()
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }

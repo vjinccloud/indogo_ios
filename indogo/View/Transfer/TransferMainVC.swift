@@ -49,8 +49,8 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         serviceCharge = Int(AppDelegate.shared().memberData["service_charge"]!)!
         var string = newString
         
-        var upValue = Int(upTextField.text!)
-        var downValue = Int(downTextField.text!)
+        var upValue = Int(upTextField.text!.replacingOccurrences(of: ",", with: ""))
+        var downValue = Int(downTextField.text!.replacingOccurrences(of: ",", with: ""))
          
         if style == 0 {
             if upTextField.text == "" {
@@ -78,7 +78,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
             
             upValue = Int(string)
             downValue = Int(Double(upValue!) * kursValue)
-            downTextField.text = "\(downValue ?? 1)"
+            downTextField.text = "\(downValue ?? 1)".stringToIntDecimalString()
         } else if style == 3 {
             if string == "" {
                 string = "1"
@@ -90,12 +90,12 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
             if upValue! < 1 {
                 upValue! = 1
             }
-            upTextField.text = "\(upValue ?? 1)"
+            upTextField.text = "\(upValue ?? 1)".stringToIntDecimalString()
         }
         
         if style < 2 {
-            upTextField.text = "\(upValue ?? 1)"
-            downTextField.text = "\(downValue ?? 1)"
+            upTextField.text = "\(upValue ?? 1)".stringToIntDecimalString()
+            downTextField.text = "\(downValue ?? 1)".stringToIntDecimalString()
         }
         
         valueL.text = "\(serviceCharge)"
@@ -106,7 +106,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         }
         
         totalChage = upValue! + serviceCharge - decresedCharge
-        totalNTDL.text = "\(totalChage)"
+        totalNTDL.text = "\(totalChage)".stringToIntDecimalString()
     }
     
     //MARK: - Button Action

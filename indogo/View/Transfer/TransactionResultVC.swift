@@ -89,7 +89,7 @@ class TransactionResultVC: UIViewController {
                 if result == ResponseState.ok {
                     self.reloadData()
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }
@@ -113,7 +113,8 @@ class TransactionResultVC: UIViewController {
             
             self.downNameL.text = serchBankobj.bank_name
             self.downIDL.text = transferStateObj.to_acc
-            self.downValueL.text = "IDR " + transferStateObj.transfer_amount_idr
+            
+            self.downValueL.text = "IDR " + transferStateObj.transfer_amount_idr.stringToIntDecimalString()
             self.downNoteL.text = transferStateObj.recipient_name
             
             let expireTimeStr = orderCheckStateObj.lm_time_expire!
@@ -195,7 +196,7 @@ class TransactionResultVC: UIViewController {
     
     @IBAction func openPayAction(_ sender: Any) {
         let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransactionPayVC") as? TransactionPayVC
-        nextVC?.payment_info = transferStateObj.payment_info
+        nextVC?.payment_info = payment_info //transferStateObj.payment_info
         nextVC?.transferStateObj = transferStateObj
         nextVC?.orderCheckStateObj = orderCheckStateObj
         nextVC?.chosedStyle = chosedStyle

@@ -22,4 +22,66 @@ extension String {
         let text = String(data: messageData!, encoding: .utf8)!
          return text
     }
+    
+    //將字串轉成千分位含小數兩點的數字再回傳字傳
+    func stringToDecimalString() -> String {
+        let oriStr = self
+        
+        if oriStr == "null" {
+            return ""
+        }
+        //先去掉逗號
+        let str = oriStr.replacingOccurrences(of: ",", with: "")
+        
+        var strB = str
+        if str.count==0 {
+            strB = "0"
+        }
+        
+        return stringToTwoFloatDecimalString(Number: (strB as NSString).doubleValue)
+        
+    }
+    
+    //將數字轉成千分位含小數兩點的數字再回傳字傳
+    func stringToTwoFloatDecimalString(Number num:Double) -> String {
+        
+        let formatter: NumberFormatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.positiveFormat = "#,##0.00"
+        //let formattedStr: String = formatter.string(from: NSNumber(value: Double(num)))!
+        let formattedStr: String = formatter.string(for: num)!
+        
+        return formattedStr
+    }
+    
+    //將字串轉成整數字再回傳字傳
+    func stringToIntDecimalString() -> String {
+        let oriStr = self
+        
+        if oriStr == "null" {
+            return ""
+        }
+        //先去掉逗號
+        let str = oriStr.replacingOccurrences(of: ",", with: "")
+        
+        var strB = str
+        if str.count==0 {
+            strB = "0"
+        }
+        
+        return stringToIntDecimalString(Number: (strB as NSString).doubleValue)
+        
+    }
+    
+    //將數字轉成千分位含小數兩點的數字再回傳字傳 (這個版本是正確的)
+    func stringToIntDecimalString(Number num:Double) -> String {
+        
+        let formatter: NumberFormatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.positiveFormat = "#,##0"
+        //let formattedStr: String = formatter.string(from: NSNumber(value: Double(num)))!
+        let formattedStr: String = formatter.string(for: num)!
+        
+        return formattedStr
+    }
 }

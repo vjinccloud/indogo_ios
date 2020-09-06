@@ -65,6 +65,8 @@ let API_BarCode_fami = ServerURL + "/app/remit/fami_barcode"
 let API_BarCode_ok = ServerURL + "/app/remit/ok_barcode"
 let API_BarCode_hilife = ServerURL + "/app/remit/hilife_barcode"
 let API_NotificationRead = ServerURL + "/app/remit/notification_read"
+let API_UpdateARC = ServerURL + "/app/remit/update_arc"
+let API_UpdateID = ServerURL + "/app/remit/update_id_card"
 
 public enum TransferMemberStyle {
     case normal

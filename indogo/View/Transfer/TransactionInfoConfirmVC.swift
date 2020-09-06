@@ -61,7 +61,8 @@ class TransactionInfoConfirmVC: UIViewController {
         backgV.layer.cornerRadius = 5
         
         let obj = AppDelegate.shared().transactionObj
-        twdVL.text = "NTD \(obj.ntdValue)"
+        var valueStr = "\(obj.ntdValue)".stringToIntDecimalString()
+        twdVL.text = "NTD \(valueStr)"
         feeVL.text = "\(obj.feeValue)"
         if obj.usePoint > 0 {
             usePointVL.text = "-\(obj.usePoint)"
@@ -69,7 +70,8 @@ class TransactionInfoConfirmVC: UIViewController {
             usePointVL.text = "\(obj.usePoint)"
         }
         
-        totalVL.text = "\(obj.totalNtdValue)"
+        valueStr = "\(obj.totalNtdValue)".stringToIntDecimalString()
+        totalVL.text = "\(valueStr)"
         
         accountL.text = obj.recipientObj.bank_acc
         accountNameL.text = obj.recipientObj.recipient_name

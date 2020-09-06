@@ -92,7 +92,7 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
                     nextVC?.checkType = 1
                     self.navigationController?.pushViewController(nextVC!, animated: true)
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }
@@ -203,7 +203,8 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
                 previewLayer.frame = self.scanView.layer.bounds
                 previewLayer.videoGravity = .resizeAspectFill
                 self.scanView.layer.addSublayer(previewLayer)
-                
+                self.scanView.layer.cornerRadius = self.scanView.frame.size.height/2
+                self.scanView.clipsToBounds = true
                 //start video capture
                 self.captureSession?.startRunning()
                 self.scanL.isHidden = false

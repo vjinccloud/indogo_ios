@@ -58,7 +58,149 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
     var passportImg:UIImage!
     var signImage:UIImage!
     
+    var hasUpdateARC = false
+    var hasUpdateID = false
+    
     @IBOutlet weak var nextBtn: UIButton!
+    
+    //MARK: - API
+    func showMustAllChangedAlert(Type type:Int) {
+        if type == 0 { //ARC
+            AppDelegate.shared().showAlertWithWindow(self, Message: "ARC證照前後圖片與簽名須同時變更")
+        } else { //ID
+            AppDelegate.shared().showAlertWithWindow(self, Message: "護照與持照圖片需同時變更")
+        }
+    }
+    
+    func updateARC() {
+        Dlog("updateARC")
+        let headers: HTTPHeaders = [
+            "Content-type": "multipart/form-data"
+        ]
+        
+        if frontImage == nil {
+            //frontImage = firstImgV.image
+            showMustAllChangedAlert(Type: 0)
+            return
+        }
+        
+        if backImage == nil {
+            //backImage = secImgV.image
+            showMustAllChangedAlert(Type: 0)
+            return
+        }
+        
+        if signImage == nil {
+            //signImage = signImgV.image
+            showMustAllChangedAlert(Type: 0)
+            return
+        }
+        
+        AppDelegate.shared().addLoadingView()
+        let todoEndpoint: String = API_UpdateARC;
+        
+        Alamofire.upload(multipartFormData: { (multipartFormData) in
+            
+            multipartFormData.append(AppDelegate.shared().sessionToken.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: "token")
+            
+            multipartFormData.append(self.frontImage.ImgPress(LimitInBytes: ImageLimitInBytes), withName: "arc", fileName: "arc.jpg", mimeType: "image/jpg")
+            multipartFormData.append(self.backImage.ImgPress(LimitInBytes: ImageLimitInBytes), withName: "arc_back", fileName: "arc_back.jpg", mimeType: "image/jpg")
+            multipartFormData.append(self.signImage.ImgPress(LimitInBytes: ImageLimitInBytes), withName: "sign", fileName: "sign.jpg", mimeType: "image/jpg")
+            multipartFormData.append(self.frontImage.ImgPress(LimitInBytes: ImageLimitInBytes), withName: "address", fileName: "address.jpg", mimeType: "image/jpg")
+            
+        }, usingThreshold: UInt64.init(), to: todoEndpoint, method: .post, headers: headers) { (result) in
+            
+            switch result {
+            case .success(let upload, _, _):
+                upload.response { response in
+                    
+                    AppDelegate.shared().removeLoadingView()
+                    
+                    guard response.error == nil else {
+                        // got an error in getting the data, need to handle it
+                        print("error calling on \(todoEndpoint), response = \(response)")
+                        print(response.error!)
+                        return
+                    }
+                    
+                    //下一步，簡訊
+                    let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                    Dlog("responseStr = \(responseStr ?? "")")
+                    let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                    
+                    if result == ResponseState.ok {
+                        self.hasUpdateARC = false
+                        self.callUpdate()
+                    } else if result == ResponseState.failed {
+                        AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                    }
+                }
+            case .failure(let error):
+                print("Error in upload: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func updateID() {
+        Dlog("updateID")
+        let headers: HTTPHeaders = [
+            "Content-type": "multipart/form-data"
+        ]
+        
+        if passportImg == nil {
+            //passportImg = forthImgV.image
+            showMustAllChangedAlert(Type: 1)
+            return
+        }
+        
+        if faceImg == nil {
+            //faceImg = thirdImgV.image
+            showMustAllChangedAlert(Type: 1)
+            return
+        }
+        
+        AppDelegate.shared().addLoadingView()
+        let todoEndpoint: String = API_UpdateID;
+        
+        Alamofire.upload(multipartFormData: { (multipartFormData) in
+            
+            multipartFormData.append(AppDelegate.shared().sessionToken.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: "token")
+            
+            multipartFormData.append(self.passportImg.ImgPress(LimitInBytes: ImageLimitInBytes), withName: "id_card", fileName: "id_card.jpg", mimeType: "image/jpg")
+            multipartFormData.append(self.faceImg.ImgPress(LimitInBytes: ImageLimitInBytes), withName: "self", fileName: "self.jpg", mimeType: "image/jpg")
+            
+        }, usingThreshold: UInt64.init(), to: todoEndpoint, method: .post, headers: headers) { (result) in
+            
+            switch result {
+            case .success(let upload, _, _):
+                upload.response { response in
+                    
+                    AppDelegate.shared().removeLoadingView()
+                    
+                    guard response.error == nil else {
+                        // got an error in getting the data, need to handle it
+                        print("error calling on \(todoEndpoint), response = \(response)")
+                        print(response.error!)
+                        return
+                    }
+                    
+                    //下一步，簡訊
+                    let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                    Dlog("responseStr = \(responseStr ?? "")")
+                    let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                    
+                    if result == ResponseState.ok {
+                        self.hasUpdateID = false
+                        self.callUpdate()
+                    } else if result == ResponseState.failed {
+                        AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                    }
+                }
+            case .failure(let error):
+                print("Error in upload: \(error.localizedDescription)")
+            }
+        }
+    }
     
     //MARK: - Button-Action
     @IBAction func backAction(_ sender: Any) {
@@ -118,6 +260,22 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
         AppDelegate.shared().tempRegisterObj.faceImg = faceImg
         AppDelegate.shared().tempRegisterObj.passportImg = passportImg
         AppDelegate.shared().tempRegisterObj.signImg = signImage
+        
+        callUpdate()
+    }
+    
+    func callUpdate() {
+        if hasUpdateARC {
+            updateARC()
+            return
+        }
+        
+        if hasUpdateID {
+            updateID()
+            return
+        }
+        
+        //都ok就顯示字？
     }
     
     @IBAction func callCamActon(_ sender: Any) {
@@ -229,18 +387,23 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
     //MARK: - Utility
     func setTakedPic(Type type:PhotoIDType, Img img:UIImage) {
         if type == PhotoIDType.frontFromEdit {
+            hasUpdateARC = true
             frontImage = img
             firstImgV.image = img
         } else if type == PhotoIDType.backFromEdit {
+            hasUpdateARC = true
             backImage = img
             secImgV.image = img
         } else if type == PhotoIDType.faceAndIdFromEdit {
+            hasUpdateID = true
             faceImg = img
             thirdImgV.image = img
         } else if type == PhotoIDType.passportFromEdit {
+            hasUpdateID = true
             passportImg = img
             forthImgV.image = img
         } else if type == PhotoIDType.signFromEdit {
+            hasUpdateARC = true
             signImage = img
             signImgV.image = UIImage.init(named: "note.png")
         }
@@ -349,7 +512,9 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
         urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
         forthImgV.kf.setImage(with: urlhaed)
         
-        signImgV.image = UIImage.init(named: "note.png")
+        imgurl = ServerURL + AppDelegate.shared().memberData["signature_photo"]!
+        urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
+        signImgV.kf.setImage(with: urlhaed)
         
         setImage(Image: AppDelegate.shared().getIconImage())
     }

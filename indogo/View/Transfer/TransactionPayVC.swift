@@ -93,7 +93,7 @@ class TransactionPayVC: UIViewController {
                 if result == ResponseState.ok {
                     self.reloadData()
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }
@@ -201,7 +201,7 @@ class TransactionPayVC: UIViewController {
         upIntoL.text = NSLocalizedString("Transfer PayStep Up Intro", comment: "")
         warnL.text = NSLocalizedString("Transfer PayStep Warn", comment: "")
         paymentInfoL.text = payment_info
-        totalTWDL.text = "Total TWD \(transferStateObj.total ?? "0")"
+        totalTWDL.text = "Total TWD \(transferStateObj.total.stringToIntDecimalString())"
         minDownL.text = NSLocalizedString("Transfer PayStep Min Title", comment: "")
         secDownL.text = NSLocalizedString("Transfer PayStep Sec Title", comment: "")
         enlargeBtn.setTitle(NSLocalizedString("Transfer PayStep Btn Enlarge", comment: ""), for: .normal)

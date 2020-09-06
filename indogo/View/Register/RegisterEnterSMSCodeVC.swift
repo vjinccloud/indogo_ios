@@ -50,7 +50,7 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
                 
                 if result == ResponseState.ok {
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }
@@ -97,7 +97,7 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
                     //回首頁
                     self.navigationController?.popToRootViewController(animated: true)
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }

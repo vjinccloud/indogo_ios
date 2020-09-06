@@ -666,9 +666,19 @@ berada dalam kotak yang ditentukan</string>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M6R-Z2-6GF">
                                         <rect key="frame" x="0.0" y="45" width="414" height="483.5"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RUh-C2-kp3">
+                                                <rect key="frame" x="31" y="290" width="352" height="53.5"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </view>
+                                        </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="M6R-Z2-6GF" secondAttribute="height" multiplier="375:438" id="4V1-BQ-bbp"/>
+                                            <constraint firstItem="RUh-C2-kp3" firstAttribute="width" secondItem="M6R-Z2-6GF" secondAttribute="width" multiplier="0.85" id="Fdv-Kk-prS"/>
+                                            <constraint firstItem="RUh-C2-kp3" firstAttribute="centerY" secondItem="M6R-Z2-6GF" secondAttribute="centerY" multiplier="1.31" id="GcJ-b8-HaP"/>
+                                            <constraint firstItem="RUh-C2-kp3" firstAttribute="height" secondItem="M6R-Z2-6GF" secondAttribute="height" multiplier="0.11" id="OKu-Qz-05b"/>
+                                            <constraint firstItem="RUh-C2-kp3" firstAttribute="centerX" secondItem="M6R-Z2-6GF" secondAttribute="centerX" id="UMk-4o-IIN"/>
                                         </constraints>
                                     </view>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cover1.png" translatesAutoresizingMaskIntoConstraints="NO" id="VdX-HN-ly1">
@@ -749,7 +759,7 @@ berada dalam kotak yang ditentukan</string>
                         <outlet property="backL" destination="GGA-E2-8zn" id="Dq9-Z2-tFo"/>
                         <outlet property="bottomL" destination="han-hx-BaF" id="GBu-GL-WzD"/>
                         <outlet property="scanL" destination="ogL-VJ-zlR" id="BuO-0f-W1W"/>
-                        <outlet property="scanView" destination="M6R-Z2-6GF" id="LyR-TS-jhw"/>
+                        <outlet property="scanView" destination="RUh-C2-kp3" id="MlZ-6I-a6i"/>
                         <outlet property="topL" destination="ayW-hE-3xe" id="Afy-3i-ErC"/>
                     </connections>
                 </viewController>

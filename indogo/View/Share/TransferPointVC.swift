@@ -112,7 +112,7 @@ class TransferPointVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
                     self.nextBtn.isEnabled = true
                     self.webView.loadHTMLString(AppDelegate.shared().tempTransferAgreementHtmlContent, baseURL: nil)
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }
@@ -159,7 +159,7 @@ class TransferPointVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
                 } else if result == ResponseState.error {
                     self.showWarningWithText(Content: AppDelegate.shared().apiBackContentStr)
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }
@@ -202,11 +202,11 @@ class TransferPointVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
                 if result == ResponseState.ok {
                     self.transferSucceed = true
                     self.showAlertWithText(Title: NSLocalizedString("Point Transfer Step2 Successed SubTitle", comment: ""), Content: NSLocalizedString("Point Transfer Step2 Successed Content", comment: ""))
-                } else {
+                }/* else {
                     self.showWarningWithText(Content: AppDelegate.shared().apiBackContentStr)
-                } /*else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
-                }*/
+                }*/ else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                }
         }
     }
     

@@ -70,7 +70,7 @@ class RegisterIDSignVC: UIViewController {
             multipartFormData.append(obj.signImg.ImgPress(LimitInBytes: ImageLimitInBytes), withName: "sign", fileName: "sign.jpg", mimeType: "image/jpg")
             multipartFormData.append(obj.faceImg.ImgPress(LimitInBytes: ImageLimitInBytes), withName: "address", fileName: "address.jpg", mimeType: "image/jpg")
             multipartFormData.append(obj.passportImg.ImgPress(LimitInBytes: ImageLimitInBytes), withName: "id_card", fileName: "id_card.jpg", mimeType: "image/jpg")
-            multipartFormData.append(obj.meImg.ImgPress(LimitInBytes: ImageLimitInBytes), withName: "self", fileName: "self.jpg", mimeType: "image/jpg")
+            multipartFormData.append(obj.faceImg.ImgPress(LimitInBytes: ImageLimitInBytes), withName: "self", fileName: "self.jpg", mimeType: "image/jpg")
             
         }, usingThreshold: UInt64.init(), to: todoEndpoint, method: .post, headers: headers) { (result) in
             
@@ -96,7 +96,7 @@ class RegisterIDSignVC: UIViewController {
                         let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterEnterSMSCodeVC") as? RegisterEnterSMSCodeVC
                         self.navigationController?.pushViewController(nextVC!, animated: true)
                     } else if result == ResponseState.failed {
-                        AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                        AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                     }
                 }
             case .failure(let error):

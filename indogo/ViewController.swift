@@ -133,7 +133,8 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                     AppDelegate.shared().changeRootOfFunc(Type: .transaction)
                     //AppDelegate.shared().showAlertWithWindow(self, Message: "Hi, \(AppDelegate.shared().memberData["member_name"] ?? "") 自動登入成功")
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().userLogout()
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }
@@ -209,7 +210,7 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                     self.setController()
                     
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }
@@ -328,7 +329,6 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
             
             accountTextfield.text = "XX00000026"
             passTextField.text = "123456"
-            
         }
     }
     
