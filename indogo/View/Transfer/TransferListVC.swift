@@ -182,6 +182,11 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         let cellData = showDataList[realIdx]
         let cellOrderCheckData = showOrderCheckDataList[realIdx]
         
+        if cellOrderCheckData.order_status != "5" {
+            AppDelegate.shared().showFloatingContainer()
+            return
+        }
+        
         if cellOrderCheckData.order_status != "1" {
             return
         }

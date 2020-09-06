@@ -17,4 +17,15 @@ extension UILabel {
             animations: { [weak self] in self?.alpha = 1.0 },
             completion: { [weak self] _ in self?.alpha = 0.0 })
     }
+    
+    public var requiredHeight: CGFloat {
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: frame.width, height: CGFloat.greatestFiniteMagnitude))
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.font = font
+        label.text = text
+        label.attributedText = attributedText
+        label.sizeToFit()
+        return label.frame.height
+      }
 }

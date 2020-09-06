@@ -19,6 +19,8 @@ class BottomMenuView: UIView {
     var btnImgVAry:[UIImageView] = []
     var realHeightWithoutSafetyBottom:CGFloat = 0
     
+    var topLine:UIView!
+    
     func initFirst(RealHeight height:CGFloat) {
         //扣除底部安全距離的高度
         realHeightWithoutSafetyBottom = height
@@ -44,6 +46,10 @@ class BottomMenuView: UIView {
         btnNormalAry.append("w_mamber")
         btnChosedAry.append("r_mamber")
         btnFuncType.append(.profile)
+        
+        topLine = UIView.init(frame: CGRect.init(x: 0, y: 0, width: buttonWidth, height: 2))
+        topLine.backgroundColor = UIColor.init(red: 26/255, green: 143/255, blue: 246/255, alpha: 1)
+        self.addSubview(topLine)
         
         for i in 0..<totalButtons {
             let img = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 32, height: 32))
@@ -82,6 +88,15 @@ class BottomMenuView: UIView {
             let img = btnImgVAry[i]
             if btnFuncType[i] == AppDelegate.shared().nowBottomMenuType {
                 img.image = UIImage.init(named: btnChosedAry[i])
+                
+                if i==0 {
+                    topLine.frame = CGRect.init(x: 0, y: 0, width: buttonWidth+spaceWidth, height: 2)
+                } else if i==(totalButtons-1) {
+                    topLine.frame = CGRect.init(x: CGFloat(i)*buttonWidth+spaceWidth, y: 0, width: buttonWidth+spaceWidth, height: 2)
+                } else {
+                    topLine.frame = CGRect.init(x: CGFloat(i)*buttonWidth+spaceWidth, y: 0, width: buttonWidth, height: 2)
+                }
+                
             } else {
                 img.image = UIImage.init(named: btnNormalAry[i])
             }

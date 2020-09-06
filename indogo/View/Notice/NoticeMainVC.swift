@@ -74,6 +74,29 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         }
     }
     
+    func readNotice(Idx idx:String) {
+        let ary:[String] = [idx]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "notification_record_id":ary]
+        let headers: HTTPHeaders = [:]
+        
+        Dlog("parameters=\(parameters)")
+        
+        let todoEndpoint: String = API_NotificationRead;
+        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    return
+                }
+        }
+    }
+    
+    func goTransferList() {
+        AppDelegate.shared().changeRootOfFunc(Type: .transState)
+    }
+    
     func getPointHistory() {
         let parameters:Parameters = ["token":AppDelegate.shared().sessionToken]
         let headers: HTTPHeaders = [:]
@@ -115,6 +138,12 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         let data = AppDelegate.shared().noteListObjs[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "noticeCell", for: indexPath) as! NoticeTableViewCell
         
+        if data.readable == "0" {
+            cell.titleL.textColor = Color_Main_Red
+        } else {
+            cell.titleL.textColor = .lightGray
+        }
+        
         if data.tpyeStr.hasPrefix("點數異動") {
             cell.titleL.text = NSLocalizedString("Notice Type 0", comment: "")
         } else if data.tpyeStr.hasPrefix("訂單變更") {
@@ -135,10 +164,15 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     func nextAction(Index index:Int) {
         let data = AppDelegate.shared().noteListObjs[index]
+        //讀取送API
+        if data.readable == "0" {
+            readNotice(Idx: data.idStr)
+        }
+        
         if data.tpyeStr.hasPrefix("點數異動") {
             getPointHistory()
         } else if data.tpyeStr.hasPrefix("訂單變更") {
-            
+            goTransferList()
         } else if data.tpyeStr.hasPrefix("公告") {
             if data.photo.count > 5 {
                 let imgurl = ServerURL + data.photo
@@ -149,11 +183,19 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 showPhotoView.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.7)
                 imgV.kf.setImage(with: urlhaed)
                 showPhotoView.isHidden = false
+                let btn = UIButton.init(frame: CGRect.init(x: imgV.frame.origin.x+imgV.frame.size.width-20, y: imgV.frame.origin.y-20, width: 40, height: 40))
+                btn.setImage(UIImage.init(named: "close.png"), for: .normal)
+                showPhotoView.addSubview(btn)
+                btn.addTarget(self, action: #selector(closePhotoView), for: .touchUpInside)
             }
         } else if data.tpyeStr.contains("用戶資料") {
             let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "MemberEditVC") as? MemberEditVC
             self.navigationController?.pushViewController(nextVC!, animated: true)
         }
+    }
+    
+    @objc func closePhotoView() {
+        showPhotoView.removeFromSuperview()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

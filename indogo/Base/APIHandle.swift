@@ -77,7 +77,7 @@ class APIHandle {
                     
                 } else {
                     //AppDelegate.shared().showAlertWithWindow(vc, Message: resultStr)
-                    return ResponseState.error
+                    return ResponseState.failed
                 }
                 
             }

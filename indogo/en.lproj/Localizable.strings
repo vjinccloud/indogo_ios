@@ -28,7 +28,13 @@
 "passcode" = "Kata Sandi"; //密碼
 "scan again" = "SCAN ULANG"; //再次掃描
 
+"Floating Title" = "Layanan Konsumen";
+"telephone" = "Telepon";
+"line" = "Line";
+"messenger" = "Messenger";
+
 //忘記密碼
+"remmber me" = "Simpan Kata Sandi";
 "top for forgoet main" = "Mohon untuk menyiapkan\nARC Anda";//忘記密碼首頁的說明
 "intro for forgoet main" = "Silahkan scan Barcode ARC\nAnda dibawah ini :";
 "top for forgoet sec" = "Cara Scan\nBarcode ARC";

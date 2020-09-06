@@ -34,6 +34,7 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
     var currentPageIndex = 0
     
     var loadOnce:Bool = false
+    var rememberMeState = true
     
     //MARK: - Button-Action
     @IBAction func showPassAction(_ sender: Any) {
@@ -46,14 +47,24 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         }
     }
     
+    @IBAction func rememberMeAction(_ sender: Any) {
+        if rememberMeState {
+            rememberMeState = false
+            remeberBtn.setImage(UIImage.init(named: "unselect.png"), for: .normal)
+        } else {
+            rememberMeState = true
+            remeberBtn.setImage(UIImage.init(named: "select.png"), for: .normal)
+        }
+    }
+    
     @IBAction func loginAction(_ sender: Any) {
         if accountTextfield.text?.count == 0 {
-            AppDelegate.shared().showAlertWithWindow(self, Message: "請輸入帳號")
+            //AppDelegate.shared().showAlertWithWindow(self, Message: "請輸入帳號\n123")
             return
         }
         
         if passTextField.text?.count == 0 {
-            AppDelegate.shared().showAlertWithWindow(self, Message: "請輸入密碼")
+            //AppDelegate.shared().showAlertWithWindow(self, Message: "請輸入密碼")
             return
         }
         
@@ -153,11 +164,17 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 if result == ResponseState.ok {
+                    if self.rememberMeState {
+                        AppDelegate.shared().rememberAccount(Account: self.accountTextfield.text!, Pass: self.passTextField.text!)
+                    } else {
+                        AppDelegate.shared().removeSavedAccount()
+                    }
+                    
                     AppDelegate.shared().nowBottomMenuType = AppDelegate.shared().defautBottomMenuType
                     AppDelegate.shared().changeRootOfFunc(Type: .transaction)
                     //AppDelegate.shared().showAlertWithWindow(self, Message: "Hi, \(AppDelegate.shared().memberData["member_name"] ?? "") 登入成功")
                 } else if result == ResponseState.failed {
-                    AppDelegate.shared().showAlertWithWindow(self, Message: Lang_APIDecodeFail)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
     }
@@ -287,14 +304,23 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         lupaBtn.layer.borderColor = UIColor.white.cgColor
         lupaBtn.layer.borderWidth = 0.5
         
-        accountTextfield.placeholder = NSLocalizedString("account", comment: "")
-        passTextField.placeholder = NSLocalizedString("passcode", comment: "")
+        accountTextfield.keyboardType = .asciiCapable
+        passTextField.keyboardType = .asciiCapable
+        
+        accountTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("account", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        
+        passTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("passcode", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        
         loginBtn.setTitle(NSLocalizedString("login", comment: ""), for: .normal)
         lupaBtn.setTitle(NSLocalizedString("recover passcode", comment: ""), for: .normal)
         registerBtn.setTitle(NSLocalizedString("register", comment: ""), for: .normal)
+        remeberBtn.setTitle(" " + NSLocalizedString("remmber me", comment: ""), for: .normal)
         
         passTextField.isSecureTextEntry = true
         registerBtn.layer.cornerRadius = registerBtn.frame.height/2
+        
+        accountTextfield.text = AppDelegate.shared().getRemeberedAccount()
+        passTextField.text = AppDelegate.shared().getRemeberedPassword()
         
         if DevMode {
             //accountTextfield.text = "XX00000078"

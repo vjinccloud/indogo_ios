@@ -16,19 +16,25 @@ import CryptoKit
 import CommonCrypto
 import Firebase
 import FirebaseMessaging
+import WebKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var floatingButton: UIButton!
+    var floatingContainer: UIView!
     var window: UIWindow?
     var topMargin: CGFloat!
+    var shopWebView:WKWebView!
+    var shopWebBgV:UIView!
     
     var topContainer:UIView!
     var normalPageBtn:UIButton!
     var shopPageBtn:UIButton!
     var topLine:UIView!
     var nowPage = 0
+    
+    var alertViewContainer:UIView!
     
     var hasLogin = false
     var floatingBtnBackFrame:CGRect!
@@ -71,6 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var pointRootShowHistory = false
     var tempAgreementHtmlContent:String = ""
     var tempTransferAgreementHtmlContent:String = ""
+    var tempErrorStr:String = ""
     var shareContent = ""
     
     var apiBackContentStr = ""
@@ -151,6 +158,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let panner = UIPanGestureRecognizer(target: self, action: #selector(panDidFire(panner:)))
         floatingButton.addGestureRecognizer(panner)
+        floatingButton.addTarget(self, action: #selector(floatingButtonWasTapped), for: .touchUpInside)
         
         if hasFloatingBtn {
             reStoreFloatingButtonPosition()
@@ -195,10 +203,117 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     @objc func floatingButtonWasTapped() {
-        let alert = UIAlertController(title: "Warning", message: "Don't do that!", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Sorry…", style: .default, handler: nil)
-        alert.addAction(action)
-        window?.rootViewController?.present(alert, animated: true, completion: nil)
+        showFloatingContainer()
+    }
+    
+    func showFloatingContainer() {
+        
+        if floatingContainer != nil {
+            removeFloatingContainer()
+            return
+        }
+        
+        let window = UIApplication.shared.keyWindow
+
+        let boxHeight:CGFloat = 200
+        
+        floatingContainer = UIView(frame: CGRect.init(x: 0, y: 0, width: window!.bounds.width, height: window!.bounds.height))
+        window!.addSubview(floatingContainer);
+        floatingContainer.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.7)
+        let btn = UIButton.init(frame: floatingContainer.frame)
+        floatingContainer.addSubview(btn)
+        btn.addTarget(self, action: #selector(removeFloatingContainer), for: .touchUpInside)
+        
+        let alertViewBg = UIView.init(frame: CGRect.init(x: 25, y: window!.bounds.height/2 - 20 - boxHeight/2, width: window!.bounds.width - 50, height: boxHeight))
+        floatingContainer.addSubview(alertViewBg)
+        
+        alertViewBg.backgroundColor = .white
+        alertViewBg.layer.cornerRadius = 10
+        alertViewBg.clipsToBounds = true
+        
+        //頂部紅色條
+        let topView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: alertViewBg.frame.size.width, height: 50))
+        topView.backgroundColor = Color_Main_Red
+        alertViewBg.addSubview(topView)
+        
+        //字
+        let titelL = UILabel.init(frame: CGRect.init(x: 0, y: 0, width: topView.frame.size.width, height: topView.frame.size.height))
+        titelL.font = UIFont.systemFont(ofSize: 20)
+        titelL.textAlignment = .center
+        topView.addSubview(titelL)
+        titelL.text = NSLocalizedString("Floating Title", comment: "")
+        titelL.textColor = .white
+        
+        let divs:CGFloat = (alertViewBg.frame.size.width - 3*85)/4
+        let ary:[String] = ["phone-1.png","line.png","messenger.png"]
+        let strAry:[String] = [NSLocalizedString("telephone", comment: ""),NSLocalizedString("line", comment: ""),NSLocalizedString("messenger", comment: "")]
+        for i in 0..<3 {
+            let x = divs + (divs + 85) * CGFloat(i)
+            let btn = UIButton.init(frame: CGRect.init(x: x, y: 65, width: 85, height: 85))
+            btn.setImage(UIImage.init(named: ary[i]), for: .normal)
+            alertViewBg.addSubview(btn)
+            
+            if i==0 {
+                btn.addTarget(self, action: #selector(callPhone), for: .touchUpInside)
+            } else if i==1 {
+                btn.addTarget(self, action: #selector(callLine), for: .touchUpInside)
+            } else if i==2 {
+                btn.addTarget(self, action: #selector(callMessenger), for: .touchUpInside)
+            }
+            
+            let label = UILabel.init(frame: CGRect.init(x: x, y: btn.frame.origin.y + btn.frame.size.height + 10, width: btn.frame.size.width, height: 20))
+            label.text = strAry[i]
+            label.textAlignment = .center
+            alertViewBg.addSubview(label)
+        }
+        
+        
+        //把浮動按鈕拉到最上面
+        window?.bringSubviewToFront(floatingButton)
+        
+    }
+    
+    @objc func callPhone() {
+        removeFloatingContainer()
+        
+        let phone = "0287928773"
+        let cleanPhoneNumber = phone.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "")
+        let urlString:String = "tel://\(cleanPhoneNumber)"
+
+        if let phoneCallURL = URL(string: urlString) {
+            if (UIApplication.shared.canOpenURL(phoneCallURL)) {
+                UIApplication.shared.open(phoneCallURL, options: [:], completionHandler: nil)
+            }
+        }
+    }
+    
+    @objc func callLine() {
+        removeFloatingContainer()
+        
+        let urlString:String = "https://line.me/ti/p/%40indogo"
+
+        if let openURL = URL(string: urlString) {
+            if (UIApplication.shared.canOpenURL(openURL)) {
+                UIApplication.shared.open(openURL, options: [:], completionHandler: nil)
+            }
+        }
+    }
+    
+    @objc func callMessenger() {
+        removeFloatingContainer()
+        
+        let urlString:String = "https://www.messenger.com/t/IndoGO.twn"
+
+        if let openURL = URL(string: urlString) {
+            if (UIApplication.shared.canOpenURL(openURL)) {
+                UIApplication.shared.open(openURL, options: [:], completionHandler: nil)
+            }
+        }
+    }
+    
+    @objc func removeFloatingContainer() {
+        floatingContainer.removeFromSuperview()
+        floatingContainer = nil
     }
     
     //MARK: - API
@@ -247,6 +362,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //存起來
         let userDefaults = UserDefaults.standard
         userDefaults.setValue(str, forKey: "sessionToken")
+        userDefaults.synchronize()
+    }
+    
+    public func rememberAccount(Account account:String, Pass pass:String) {
+        let userDefaults = UserDefaults.standard
+        userDefaults.setValue(account, forKey: "remeberAccount")
+        userDefaults.setValue(pass, forKey: "remeberPass")
+        userDefaults.synchronize()
+    }
+    
+    public func getRemeberedAccount() -> String {
+        let userDefaults = UserDefaults.standard
+        if userDefaults.string(forKey: "remeberAccount") != nil {
+            return userDefaults.string(forKey: "remeberAccount")!
+        } else {
+            return ""
+        }
+    }
+    
+    public func getRemeberedPassword() -> String {
+        let userDefaults = UserDefaults.standard
+        if userDefaults.string(forKey: "remeberPass") != nil {
+            return userDefaults.string(forKey: "remeberPass")!
+        } else {
+            return ""
+        }
+    }
+    
+    public func removeSavedAccount() {
+        let userDefaults = UserDefaults.standard
+        userDefaults.removeObject(forKey: "remeberAccount")
+        userDefaults.removeObject(forKey: "remeberPass")
         userDefaults.synchronize()
     }
     
@@ -335,25 +482,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func addTopButton() {
         
         let window = UIApplication.shared.keyWindow
+        bottomPadding = window?.safeAreaInsets.bottom
         
         topContainer = UIView(frame: CGRect.init(x: 0, y: topMargin, width: window!.bounds.width, height: 40))
-        window!.addSubview(topContainer);
+        window!.addSubview(topContainer)
         topContainer.backgroundColor = UIColor.black
         normalPageBtn = UIButton.init(frame: CGRect(x: 0, y: 0, width: topContainer.frame.size.width/2, height: topContainer.frame.size.height))
         normalPageBtn.backgroundColor = UIColor.black
         normalPageBtn.setTitle(NSLocalizedString("remit", comment: ""), for: .normal)
         topContainer.addSubview(normalPageBtn)
+        normalPageBtn.addTarget(self, action: #selector(callFloatingNormalV), for: .touchUpInside)
         
         shopPageBtn = UIButton.init(frame: CGRect(x: topContainer.frame.size.width/2, y: 0, width: topContainer.frame.size.width/2, height: topContainer.frame.size.height))
         shopPageBtn.backgroundColor = UIColor.black
         shopPageBtn.setTitle(NSLocalizedString("shopping", comment: ""), for: .normal)
         topContainer.addSubview(shopPageBtn)
+        shopPageBtn.addTarget(self, action: #selector(callFloatingShopWeb), for: .touchUpInside)
         
         topLine = UIView.init(frame: CGRect.init(x: 0, y: topContainer.frame.size.height-2, width: topContainer.frame.size.width/2, height: 2))
         topLine.backgroundColor = UIColor.init(red: 26/255, green: 143/255, blue: 246/255, alpha: 1)
         topContainer.addSubview(topLine)
         
+        let y = topContainer.frame.origin.y+topContainer.frame.size.height
+        shopWebBgV = UIView.init(frame: CGRect.init(x: 0, y: y, width: topContainer.frame.size.width, height: window!.bounds.height-y))
+        shopWebBgV.backgroundColor = .white
+        window!.addSubview(shopWebBgV)
+        shopWebBgV.isHidden = true
+        
+        shopWebView = WKWebView.init(frame: CGRect.init(x: 0, y: 0, width: shopWebBgV.frame.size.width, height: shopWebBgV.frame.size.height-bottomPadding))
+        shopWebBgV.addSubview(shopWebView)
+        
         initLinePosX()
+    }
+    
+    @objc func callFloatingShopWeb() {
+        topLine.frame = CGRect.init(x: topContainer.frame.size.width/2, y: topContainer.frame.size.height-2, width: topContainer.frame.size.width/2, height: 2)
+        shopWebBgV.isHidden = false
+        let url = URL(string: "https://ec.indogo.tw/")
+        let request = URLRequest(url: url!)
+        shopWebView.load(request)
+    }
+    
+    @objc func callFloatingNormalV() {topLine.frame = CGRect.init(x: 0, y: topContainer.frame.size.height-2, width: topContainer.frame.size.width/2, height: 2)
+        shopWebBgV.isHidden = true
     }
     
     func showTopButton() {
@@ -386,11 +557,62 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //跳出alert
     func showAlertWithWindow (_ onVC:UIViewController, Message msg:String) {
+        /*
         let vc = UIAlertController(title: "", message: msg, preferredStyle: .alert)
         vc.addAction(UIAlertAction(title: "確定", style: .default, handler: { action in
             
         }))
         onVC.present(vc, animated: true, completion: nil)
+        */
+        showAlertView(Message: msg)
+    }
+    
+    //自定義 alert
+    func showAlertView (Message msg:String) {
+        let window = UIApplication.shared.keyWindow
+        
+        alertViewContainer = UIView(frame: CGRect.init(x: 0, y: 0, width: window!.bounds.width, height: window!.bounds.height))
+        window!.addSubview(alertViewContainer);
+        alertViewContainer.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.7)
+        
+        //決定字串高度
+        let strL = UILabel.init(frame: CGRect.init(x: 0, y: 0, width: window!.bounds.width - 100, height: 10))
+        strL.text = msg
+        strL.font = UIFont.systemFont(ofSize: 14)
+        let height = strL.requiredHeight
+        let boxHeight = 110 + height
+        
+        let alertViewBg = UIView.init(frame: CGRect.init(x: 25, y: window!.bounds.height/2 - 20 - boxHeight/2, width: window!.bounds.width - 50, height: boxHeight))
+        alertViewContainer.addSubview(alertViewBg)
+        
+        alertViewBg.backgroundColor = .white
+        alertViewBg.layer.cornerRadius = 10
+        alertViewBg.clipsToBounds = true
+        
+        //頂部紅色條
+        let topView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: alertViewBg.frame.size.width, height: 30))
+        topView.backgroundColor = Color_Main_Red
+        alertViewBg.addSubview(topView)
+        
+        //字
+        strL.frame = CGRect.init(x: 25, y: 45, width: alertViewBg.frame.size.width - 50, height: height)
+        strL.textAlignment = .center
+        strL.numberOfLines = 0
+        alertViewBg.addSubview(strL)
+        
+        //按鈕
+        let btn = UIButton.init(frame: CGRect.init(x: alertViewBg.frame.size.width * 0.2, y: boxHeight - 50, width: alertViewBg.frame.size.width * 0.6, height: 35))
+        btn.layer.cornerRadius = btn.frame.size.height/2
+        btn.layer.borderColor = Color_Main_Red.cgColor
+        btn.layer.borderWidth = 0.5
+        btn.addTarget(self, action: #selector(removeAlert), for: .touchUpInside)
+        btn.setTitle(NSLocalizedString("cancel", comment: ""), for: .normal)
+        btn.setTitleColor(Color_Main_Red, for: .normal)
+        alertViewBg.addSubview(btn)
+    }
+    
+    @objc func removeAlert () {
+        alertViewContainer.removeFromSuperview()
     }
     
     func getDocumentsDirectory() -> URL {
