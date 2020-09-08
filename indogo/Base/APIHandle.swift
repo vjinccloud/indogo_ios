@@ -61,6 +61,13 @@ class APIHandle {
         if stateStr != "0" {
             AppDelegate.shared().apiBackContentStr = resultStr
             
+            if stateStr == "15" || stateStr == "9001" || stateStr == "503" || stateStr == "702" || stateStr == "15001" || stateStr == "16001" {
+                if AppDelegate.shared().hasLogin {
+                    AppDelegate.shared().userLogout()
+                    AppDelegate.shared().changeRootOfFunc(Type: .main)
+                }
+            }
+            
             //特殊狀況
             if apiStr == API_CheckMemExist && stateStr == "3" {
                 return ResponseState.member_not_exist

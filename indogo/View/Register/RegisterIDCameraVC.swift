@@ -23,6 +23,10 @@ class RegisterIDCameraVC: UIViewController, UINavigationControllerDelegate, AVCa
     @IBOutlet weak var confirmBtn: UIButton!
     
     @IBOutlet weak var resultImgV: UIImageView!
+    @IBOutlet weak var coverImgV: UIImageView!
+    @IBOutlet weak var coverImgWidthConstrain: NSLayoutConstraint!
+    @IBOutlet weak var nextBtnWidthConstrain: NSLayoutConstraint!
+    @IBOutlet weak var nextBtnUpDistanceConstrain: NSLayoutConstraint!
     var captureSession: AVCaptureSession!
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     private  var photoOutPut: AVCapturePhotoOutput!
@@ -41,11 +45,17 @@ class RegisterIDCameraVC: UIViewController, UINavigationControllerDelegate, AVCa
     }
     
     @IBAction func nextAction(_ sender: Any) {
+        #if targetEnvironment(simulator)
+        //模擬器直接秀下一步
+        self.tempImg = UIImage.init(named: "close.png")
+        self.nextStep()
+        #else
         let settings = AVCapturePhotoSettings()
         photoOutPut.capturePhoto(with: settings, delegate: self)
+        #endif
     }
     
-    @IBAction func confirmAction(_ sender: Any) {
+    func nextStep() {
         guard let viewControllers = self.navigationController?.viewControllers else {
             return
         }
@@ -82,6 +92,10 @@ class RegisterIDCameraVC: UIViewController, UINavigationControllerDelegate, AVCa
             }
             
         }
+    }
+    
+    @IBAction func confirmAction(_ sender: Any) {
+        nextStep()
     }
     
     @IBAction func cancelAction(_ sender: Any) {
@@ -193,6 +207,7 @@ class RegisterIDCameraVC: UIViewController, UINavigationControllerDelegate, AVCa
 
         // Do any additional setup after loading the view.
         backL.text = NSLocalizedString("back", comment: "")
+        backL.adjustsFontSizeToFitWidth = true
         bottomL.text = NSLocalizedString("bottom for forgoet sec", comment: "")
         
         scanView.layer.cornerRadius = 25
@@ -249,6 +264,14 @@ class RegisterIDCameraVC: UIViewController, UINavigationControllerDelegate, AVCa
             backL.text = NSLocalizedString("Register ID Photo Title Front", comment: "")
         } else if takePhotoType == PhotoIDType.back || takePhotoType == PhotoIDType.backFromEdit {
             backL.text = NSLocalizedString("Register ID Photo Title Back", comment: "")
+        }
+        
+        if self.view.frame.size.width<321 {
+            /*
+            Dlog("special handling")
+            coverImgWidthConstrain.constant = -40
+            nextBtnWidthConstrain.constant = 80
+            nextBtnUpDistanceConstrain.constant = 10*/
         }
     }
     

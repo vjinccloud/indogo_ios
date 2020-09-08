@@ -33,8 +33,21 @@ class RegisterSelfPhotoVC: UIViewController, UINavigationControllerDelegate, AVC
     }
     
     @IBAction func captureAction(_ sender: Any) {
+        #if targetEnvironment(simulator)
+        //模擬器直接秀下一步
+        self.nextStepForSimulator()
+        #else
         let settings = AVCapturePhotoSettings()
         photoOutPut.capturePhoto(with: settings, delegate: self)
+        #endif
+    }
+    
+    func nextStepForSimulator() {
+        let image = UIImage.init(named: "close.png")
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterSelfPhotoStep2VC") as? RegisterSelfPhotoStep2VC
+        nextVC?.tempImg = image
+        nextVC?.takePhotoType = takePhotoType
+        self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
     //MARK: - Camera

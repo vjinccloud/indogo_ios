@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CryptoKit
 import CommonCrypto
 import RSBarcodes_Swift
 import AVFoundation

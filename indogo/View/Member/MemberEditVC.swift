@@ -208,7 +208,11 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
     }
     
     @IBAction func takeFirstPhoto(_ sender: Any) {
-        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterIDTakeIntroVC") as? RegisterIDTakeIntroVC
+        var storyboardId = "RegisterIDTakeIntroVC"
+        if AppDelegate.shared().deviceSmall {
+            storyboardId = "RegisterIDTakeIntroVCSmall"
+        }
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: storyboardId) as? RegisterIDTakeIntroVC
         nextVC?.takePhotoType = PhotoIDType.frontFromEdit
         self.navigationController?.pushViewController(nextVC!, animated: true)
         
@@ -216,7 +220,11 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
     }
     
     @IBAction func takeSecPhoto(_ sender: Any) {
-        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterIDTakeIntroVC") as? RegisterIDTakeIntroVC
+        var storyboardId = "RegisterIDTakeIntroVC"
+        if AppDelegate.shared().deviceSmall {
+            storyboardId = "RegisterIDTakeIntroVCSmall"
+        }
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: storyboardId) as? RegisterIDTakeIntroVC
         nextVC?.takePhotoType = PhotoIDType.backFromEdit
         self.navigationController?.pushViewController(nextVC!, animated: true)
         
@@ -232,7 +240,11 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
     }
     
     @IBAction func takeForthPhoto(_ sender: Any) {
-        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterIDTakeIntroVC") as? RegisterIDTakeIntroVC
+        var storyboardId = "RegisterIDTakeIntroVC"
+        if AppDelegate.shared().deviceSmall {
+            storyboardId = "RegisterIDTakeIntroVCSmall"
+        }
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: storyboardId) as? RegisterIDTakeIntroVC
         nextVC?.takePhotoType = PhotoIDType.passportFromEdit
         self.navigationController?.pushViewController(nextVC!, animated: true)
         
@@ -290,9 +302,11 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
         ImagePicker.GetCameraStatus(view: self,completion: { (scuess)->Void in
             if(scuess){
                 //拍照
-                let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterSelfPhotoVC") as? RegisterSelfPhotoVC
-                nextVC?.takePhotoType = .normalFromEdit
-                self.navigationController?.pushViewController(nextVC!, animated: true)
+                DispatchQueue.main.async{
+                    let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterSelfPhotoVC") as? RegisterSelfPhotoVC
+                    nextVC?.takePhotoType = .normalFromEdit
+                    self.navigationController?.pushViewController(nextVC!, animated: true)
+                }
             }
             else{
                 print("無法使用相機")

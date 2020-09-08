@@ -426,6 +426,7 @@
 		04C8CBF224D844E900AE90F6 /* RegisterDataObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C8CBF124D844E900AE90F6 /* RegisterDataObj.swift */; };
 		04C8CBF424D952D200AE90F6 /* RegisterIDTakeIntroVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C8CBF324D952D200AE90F6 /* RegisterIDTakeIntroVC.swift */; };
 		04C8CBF624D9759400AE90F6 /* RegisterIDCameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C8CBF524D9759400AE90F6 /* RegisterIDCameraVC.swift */; };
+		04CF602B250621EA00282486 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04CF602A250621E900282486 /* GoogleService-Info.plist */; };
 		04D8562A24C22088007BD825 /* ForgotPassChangeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D8562924C22088007BD825 /* ForgotPassChangeVC.swift */; };
 		04D8562C24C2D14C007BD825 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D8562B24C2D14C007BD825 /* CustomAlertView.swift */; };
 		04D8562E24C2DB5C007BD825 /* Register.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04D8562D24C2DB5C007BD825 /* Register.storyboard */; };
@@ -440,6 +441,7 @@
 		04E82A7024DAC39000E25DCD /* RegisterMakeSignVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E82A6F24DAC39000E25DCD /* RegisterMakeSignVC.swift */; };
 		04E82A7224DCFF9C00E25DCD /* RegisterEnterSMSCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E82A7124DCFF9C00E25DCD /* RegisterEnterSMSCodeVC.swift */; };
 		04E82A7424DD3A0F00E25DCD /* ImagePickerStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E82A7324DD3A0F00E25DCD /* ImagePickerStatus.swift */; };
+		04EC6A1325069556004D7343 /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EC6A1225069556004D7343 /* Bundle+Extension.swift */; };
 		04EC9A3024E13ACE007D32B6 /* Member.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04EC9A2F24E13ACE007D32B6 /* Member.storyboard */; };
 		04F6FF1324CF1ADA00887E80 /* RegisterShareInputVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F6FF1224CF1ADA00887E80 /* RegisterShareInputVC.swift */; };
 		04F6FF1524D1B9C800887E80 /* RegisterShareScanQRCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F6FF1424D1B9C800887E80 /* RegisterShareScanQRCodeVC.swift */; };
@@ -870,6 +872,8 @@
 		04C8CBF124D844E900AE90F6 /* RegisterDataObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterDataObj.swift; sourceTree = "<group>"; };
 		04C8CBF324D952D200AE90F6 /* RegisterIDTakeIntroVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterIDTakeIntroVC.swift; sourceTree = "<group>"; };
 		04C8CBF524D9759400AE90F6 /* RegisterIDCameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterIDCameraVC.swift; sourceTree = "<group>"; };
+		04CF602A250621E900282486 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		04CF602C250629EA00282486 /* indogo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = indogo.entitlements; sourceTree = "<group>"; };
 		04D8562924C22088007BD825 /* ForgotPassChangeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassChangeVC.swift; sourceTree = "<group>"; };
 		04D8562B24C2D14C007BD825 /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		04D8562D24C2DB5C007BD825 /* Register.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Register.storyboard; sourceTree = "<group>"; };
@@ -884,6 +888,7 @@
 		04E82A6F24DAC39000E25DCD /* RegisterMakeSignVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterMakeSignVC.swift; sourceTree = "<group>"; };
 		04E82A7124DCFF9C00E25DCD /* RegisterEnterSMSCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterEnterSMSCodeVC.swift; sourceTree = "<group>"; };
 		04E82A7324DD3A0F00E25DCD /* ImagePickerStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerStatus.swift; sourceTree = "<group>"; };
+		04EC6A1225069556004D7343 /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 		04EC9A2F24E13ACE007D32B6 /* Member.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Member.storyboard; sourceTree = "<group>"; };
 		04F6FF1224CF1ADA00887E80 /* RegisterShareInputVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterShareInputVC.swift; sourceTree = "<group>"; };
 		04F6FF1424D1B9C800887E80 /* RegisterShareScanQRCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterShareScanQRCodeVC.swift; sourceTree = "<group>"; };
@@ -1337,6 +1342,7 @@
 		049686DB24B6EFB0005EF74A /* indogo */ = {
 			isa = PBXGroup;
 			children = (
+				04CF602C250629EA00282486 /* indogo.entitlements */,
 				0496881724B99212005EF74A /* View */,
 				049687FC24B79B3C005EF74A /* SceneDelegate.swift */,
 				0496880624B8D61E005EF74A /* Base */,
@@ -1349,6 +1355,7 @@
 				049686E524B6EFB2005EF74A /* Assets.xcassets */,
 				049686E724B6EFB2005EF74A /* LaunchScreen.storyboard */,
 				049686EA24B6EFB2005EF74A /* Info.plist */,
+				04CF602A250621E900282486 /* GoogleService-Info.plist */,
 				0496880224B8D03C005EF74A /* Localizable.strings */,
 			);
 			path = indogo;
@@ -1385,6 +1392,7 @@
 				0429A61D24E9A42200716696 /* String+Extention.swift */,
 				0420CE9924FA39FD000CCC08 /* BankObj.swift */,
 				04AC3EF725029C0500E48622 /* UIView+Extension.swift */,
+				04EC6A1225069556004D7343 /* Bundle+Extension.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1843,6 +1851,7 @@
 				04B0278024E150C400C59670 /* barcode@2x.png in Resources */,
 				043AE0A724E1468B00E0892E /* scan@3x.png in Resources */,
 				043AE00624E1468A00E0892E /* Status Point Reached@3x.png in Resources */,
+				04CF602B250621EA00282486 /* GoogleService-Info.plist in Resources */,
 				043AE06324E1468A00E0892E /* point_bg@2x.png in Resources */,
 				043AE0D024E1468B00E0892E /* select@3x.png in Resources */,
 				0420CEAB24FD0B11000CCC08 /* TransferStateType1TableViewCell.xib in Resources */,
@@ -2006,6 +2015,7 @@
 				04D9834D24F95D44007D1269 /* RecipientListVC.swift in Sources */,
 				04AC3EF62502923300E48622 /* BarCodeInfoObj.swift in Sources */,
 				04E82A7224DCFF9C00E25DCD /* RegisterEnterSMSCodeVC.swift in Sources */,
+				04EC6A1325069556004D7343 /* Bundle+Extension.swift in Sources */,
 				0420CEA024FC088E000CCC08 /* MemberUseAgreementVC.swift in Sources */,
 				0466A82224C15BA7008F6D38 /* ForgotPassEnterCodeVC.swift in Sources */,
 				0429A62024E9AAA900716696 /* NoticeObj.swift in Sources */,
@@ -2188,9 +2198,10 @@
 			baseConfigurationReference = F747AC83F0BA5460AAA2A63B /* Pods-indogo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = indogo/indogo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = 8P43SK2KHA;
 				INFOPLIST_FILE = indogo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -2211,9 +2222,10 @@
 			baseConfigurationReference = 7CA1F9F82732C7F1B5DBE582 /* Pods-indogo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = indogo/indogo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = 8P43SK2KHA;
 				INFOPLIST_FILE = indogo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

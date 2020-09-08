@@ -40,9 +40,11 @@ class RegisterIDWithSelfIntroVC: UIViewController, UIImagePickerControllerDelega
         ImagePicker.GetCameraStatus(view: self,completion: { (scuess)->Void in
             if(scuess){
                 //拍照
-                let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterSelfPhotoVC") as? RegisterSelfPhotoVC
-                nextVC?.takePhotoType = self.takePhotoType
-                self.navigationController?.pushViewController(nextVC!, animated: true)
+                DispatchQueue.main.async{
+                    let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterSelfPhotoVC") as? RegisterSelfPhotoVC
+                    nextVC?.takePhotoType = self.takePhotoType
+                    self.navigationController?.pushViewController(nextVC!, animated: true)
+                }
             }
             else{
                 print("無法使用相機")

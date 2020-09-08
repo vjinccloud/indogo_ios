@@ -24,6 +24,10 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var inputTextField: UITextField!
     @IBOutlet weak var scanBgV: UIView!
     @IBOutlet weak var inputMoreSpaceView: UIView!
+    @IBOutlet weak var textBackV: UIView!
+    @IBOutlet weak var topScrollView: UIScrollView!
+    
+    var parentVC:RegisterInputVC!
     
     //MARK: - API
     func checkBtnState() {
@@ -53,6 +57,11 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func downAction(_ sender: Any) {
+        if inputTextField.text == "" {
+            return
+        }
+        parentVC.setArcText(Text:inputTextField.text!)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func backAction(_ sender: Any) {
@@ -61,6 +70,7 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
     
     //MARK: - Text Delegate
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        topScrollView.contentOffset = CGPoint.init(x: 0, y: textBackV.frame.origin.y)
         inputMoreSpaceView.isHidden = false
     }
     
@@ -78,7 +88,7 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
         
         backL.text = NSLocalizedString("Register Share Input Title", comment: "")
         introL.text = NSLocalizedString("Register Share Input Top", comment: "")
-        
+        belowL.adjustsFontSizeToFitWidth = true
         downBtn.layer.cornerRadius = downBtn.frame.size.height/2
         
         scanL.text = NSLocalizedString("Register Share Input Scan", comment: "")
@@ -103,9 +113,8 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
         inputMoreSpaceView.isHidden = true
         
         inputTextField.delegate = self
-        
+        inputTextField.keyboardType = .numberPad
     }
-    
 
     /*
     // MARK: - Navigation

@@ -19,6 +19,8 @@ class RegisterIDTakeIntroVC: UIViewController {
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var bottomImgV: UIImageView!
     
+    @IBOutlet weak var coverImgWidthConstrain: NSLayoutConstraint!
+    @IBOutlet weak var coverImgV: UIImageView!
     var takePhotoType:PhotoIDType = PhotoIDType.front
     
     //MARK: - Button-Action
@@ -30,9 +32,16 @@ class RegisterIDTakeIntroVC: UIViewController {
         ImagePicker.GetCameraStatus(view: self,completion: { (scuess)->Void in
             if(scuess){
                 //拍照
-                let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterIDCameraVC") as? RegisterIDCameraVC
-                nextVC?.takePhotoType = self.takePhotoType
-                self.navigationController?.pushViewController(nextVC!, animated: true)
+                DispatchQueue.main.async{
+                    var storyboardId = "RegisterIDCameraVC"
+                    if AppDelegate.shared().deviceSmall {
+                        storyboardId = "RegisterIDCameraVCSmall"
+                    }
+                    
+                    let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: storyboardId) as? RegisterIDCameraVC
+                    nextVC?.takePhotoType = self.takePhotoType
+                    self.navigationController?.pushViewController(nextVC!, animated: true)
+                }
             }
             else{
                 print("無法使用相機")
@@ -47,6 +56,7 @@ class RegisterIDTakeIntroVC: UIViewController {
 
         // Do any additional setup after loading the view.
         backL.text = NSLocalizedString("back", comment: "")
+        backL.adjustsFontSizeToFitWidth = true
         bottomL.text = NSLocalizedString("bottom for forgoet sec", comment: "")
         
         nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2
@@ -55,7 +65,6 @@ class RegisterIDTakeIntroVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         if takePhotoType == PhotoIDType.front || takePhotoType == PhotoIDType.frontFromEdit {
             bottomImgV.image = UIImage.init(named: "id_front.png")
             backL.text = NSLocalizedString("Register ID Photo Title Front", comment: "")
@@ -66,6 +75,13 @@ class RegisterIDTakeIntroVC: UIViewController {
             bottomImgV.image = UIImage.init(named: "visa.png")
             backL.text = NSLocalizedString("Register ID Photo Title Passport", comment: "")
         }
+        
+        /*
+        if self.view.frame.size.width<321 {
+            Dlog("special handling")
+            coverImgWidthConstrain.constant = -40
+        }*/
+        
     }
     
 

@@ -12,7 +12,6 @@ import SwiftyJSON
 import UserNotifications
 import iProgressHUD
 import PKHUD
-import CryptoKit
 import CommonCrypto
 import Firebase
 import FirebaseMessaging
@@ -39,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var hasLogin = false
     var floatingBtnBackFrame:CGRect!
     var hasFloatingBtn = false
+    var deviceSmall = false
     
     public var promoUrlAry:[String] = []
     public var sessionToken:String = ""
@@ -89,11 +89,82 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         //addTopButton()
         
+        FirebaseApp.configure()
+        Messaging.messaging().delegate = self
+
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+            
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+        
+        application.registerForRemoteNotifications()
+        
         //指定分隔字元
         AppDelegate.shared().seperatorStr = NSLocalizedString("leading space", comment: "")
         AppDelegate.shared().subSeperatorStr = NSLocalizedString("leading sub space", comment: "")
         self.getBankList()
         return true
+    }
+    
+    //MARK: - Notification
+    func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+    }
+    
+    func application(_ application: UIApplication,
+        didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+        fetchCompletionHandler completionHandler:
+        @escaping (UIBackgroundFetchResult) -> Void
+        ) {
+        
+        Dlog("userInfo=\(userInfo)")
+        
+        let dic1 = (userInfo["aps"] as! NSDictionary)
+        let strTitle = (dic1["alert"] as! NSDictionary)
+        let title = strTitle.value(forKey: "title")
+        let body = strTitle.value(forKey: "body")
+        
+        if application.applicationState == .active{
+            let alert = UIAlertController(title: "\(title!)", message: "\(body!)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "確定", style: .default) { action in
+            })
+            self.window?.rootViewController?.present(alert, animated: true)
+        }else if application.applicationState == .background{
+            let alert = UIAlertController(title: "\(title!)", message: "\(body!)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "確定", style: .default) { action in
+            })
+            self.window?.rootViewController?.present(alert, animated: true)
+        }else{
+            // AppUtils.showAlertWithTitle(title: "Hello", message: "Hello")
+            let alert = UIAlertController(title: "\(title!)", message: "\(body!)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "確定", style: .default) { action in
+            })
+            self.window?.rootViewController?.present(alert, animated: true)
+        }
+        /*
+        guard let aps = userInfo["aps"] as? [String: AnyObject] else {
+            completionHandler(.failed)
+            return
+        }
+        
+        let apsdic = userInfo["aps"] as? Dictionary
+        let vc = UIAlertController(title:"", message:"\(apsdic["alert"] as String)", preferredStyle: .alert)
+        vc.addAction(UIAlertAction(title: "確定", style: .default, handler: { action in
+            
+        }))
+        self.window?.rootViewController?.present(vc, animated: true, completion: nil)
+        */
+        
     }
     
     //MARK: - Bottom Menu
@@ -640,3 +711,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
+extension AppDelegate : MessagingDelegate {
+    
+    func application(application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        Messaging.messaging().apnsToken = deviceToken as Data
+    }
+    
+    // [START refresh_token]
+    
+    internal func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        print("Firebase registration token: \(fcmToken)")
+        FirebaseToken = fcmToken
+        /*
+        pushToken = fcmToken
+        Messaging.messaging().subscribe(toTopic: "TOPIC_iOS") { error in
+            print("Subscribed to weather topic")
+        }*/
+        
+        //let dataDict:[String: String] = ["token": fcmToken]
+        //NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+    }
+    
+}

@@ -134,6 +134,7 @@ class CustomAlertView: UIView {
         startY += labelContentL.frame.size.height + 35
         let nextBtn = UIButton.init(frame: CGRect.init(x: divX2, y: startY, width: width-2*divX2, height: 35))
         nextBtn.setTitle(btnStr1, for: .normal)
+        nextBtn.titleLabel?.adjustsFontSizeToFitWidth = true
         nextBtn.backgroundColor = .clear
         nextBtn.layer.borderColor = Color_Main_Red.cgColor
         nextBtn.layer.borderWidth = 1

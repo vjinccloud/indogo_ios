@@ -55,6 +55,7 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
     //MARK: - Button-Action
     @IBAction func shareCodeInputAction(_ sender: Any) {
         let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterShareInputVC") as? RegisterShareInputVC
+        nextVC?.parentVC = self
         self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
@@ -97,9 +98,12 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
         ImagePicker.GetCameraStatus(view: self,completion: { (scuess)->Void in
             if(scuess){
                 //拍照
-                let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterSelfPhotoVC") as? RegisterSelfPhotoVC
-                nextVC?.takePhotoType = .normal
-                self.navigationController?.pushViewController(nextVC!, animated: true)
+                DispatchQueue.main.async{
+                    let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterSelfPhotoVC") as? RegisterSelfPhotoVC
+                    nextVC?.takePhotoType = .normal
+                    self.navigationController?.pushViewController(nextVC!, animated: true)
+                }
+                
             }
             else{
                 print("無法使用相機")
@@ -189,15 +193,19 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
     func textFieldDidBeginEditing(_ textField: UITextField) {
         inputMoreSpaceView.isHidden = false
         if textField == accountTextfield {
+            topScrollView.contentOffset = CGPoint.init(x: 0, y: accountView.frame.origin.y)
             accountBtn.backgroundColor = Color_Main_LightGray
             accountTextfield.textColor = .black
         } else if textField == phoneTextfield {
+            topScrollView.contentOffset = CGPoint.init(x: 0, y: phoneView.frame.origin.y)
             phoneBtn.backgroundColor = Color_Main_LightGray
             phoneTextfield.textColor = .black
         } else if textField == passTextField {
+            topScrollView.contentOffset = CGPoint.init(x: 0, y: passView.frame.origin.y)
             passBtn.backgroundColor = Color_Main_LightGray
             passTextField.textColor = .black
         } else if textField == rePassTextField {
+            topScrollView.contentOffset = CGPoint.init(x: 0, y: rePassView.frame.origin.y)
             rePassBtn.backgroundColor = Color_Main_LightGray
             rePassTextField.textColor = .black
         }
@@ -327,6 +335,10 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
         //setShareCode(Code: "FD30471099")
         showShareCodeInputview()
         
+        accountTextfield.keyboardType = .asciiCapable
+        passTextField.keyboardType = .asciiCapable
+        rePassTextField.keyboardType = .asciiCapable
+        
         accountTextfield.delegate = self
         phoneTextfield.delegate = self
         passTextField.delegate = self
@@ -341,6 +353,7 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
         
         registerBtn.layer.borderColor = Color_Main_Red.cgColor
         registerBtn.layer.borderWidth = 0.5
+        arcTextfield.adjustsFontSizeToFitWidth = true
         
         //inputArcView.isHidden = true
         inputMoreSpaceView.isHidden = true
@@ -355,6 +368,20 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
             self.simulatorNextAction()
         }
         #endif
+        if self.view.frame.size.width<321 {
+            Dlog("special handling")
+            arcTextfield.font = UIFont.systemFont(ofSize: 12)
+        }
+    }
+    
+    func setArcText(Text text:String) {
+        arcTextfield.text = text
+        arcTextfield.font = UIFont.systemFont(ofSize: 20)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
     }
     
     //測試用(僅在模擬器發生)

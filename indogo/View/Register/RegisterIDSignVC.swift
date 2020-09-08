@@ -119,7 +119,11 @@ class RegisterIDSignVC: UIViewController {
     }
     
     @IBAction func takeSecPhoto(_ sender: Any) {
-        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterIDTakeIntroVC") as? RegisterIDTakeIntroVC
+        var storyboardId = "RegisterIDTakeIntroVC"
+        if AppDelegate.shared().deviceSmall {
+            storyboardId = "RegisterIDTakeIntroVCSmall"
+        }
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: storyboardId) as? RegisterIDTakeIntroVC
         nextVC?.takePhotoType = PhotoIDType.passport
         self.navigationController?.pushViewController(nextVC!, animated: true)
     }

@@ -315,7 +315,10 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         loginBtn.setTitle(NSLocalizedString("login", comment: ""), for: .normal)
         lupaBtn.setTitle(NSLocalizedString("recover passcode", comment: ""), for: .normal)
         registerBtn.setTitle(NSLocalizedString("register", comment: ""), for: .normal)
-        remeberBtn.setTitle(" " + NSLocalizedString("remmber me", comment: ""), for: .normal)
+        
+        let bnumber = Bundle.main.buildNumber
+        
+        remeberBtn.setTitle(" " + NSLocalizedString("remmber me", comment: "") + " " + bnumber, for: .normal)
         
         passTextField.isSecureTextEntry = true
         registerBtn.layer.cornerRadius = registerBtn.frame.height/2
@@ -338,6 +341,12 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         if loadOnce {
             AppDelegate.shared().showTopButton()
             return
+        }
+        
+        if self.view.frame.size.width < 321 {
+            AppDelegate.shared().deviceSmall = true
+            let bnumber = Bundle.main.buildNumber
+            remeberBtn.setTitle(" " + NSLocalizedString("remmber me", comment: "") + " " + bnumber + "(small)", for: .normal)
         }
         
         loadOnce = true

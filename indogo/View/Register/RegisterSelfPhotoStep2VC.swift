@@ -18,6 +18,7 @@ class RegisterSelfPhotoStep2VC: UIViewController {
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
     @IBOutlet weak var processImgV: UIImageView!
+    @IBOutlet weak var scanViewWidthConstrain: NSLayoutConstraint!
     
     var tempImg:UIImage!
     var finalImg:UIImage!
@@ -107,6 +108,11 @@ class RegisterSelfPhotoStep2VC: UIViewController {
         finalImg = tempImg
         processImgV.image = finalImg
         processImgV.contentMode = .scaleAspectFit
+        
+        if self.view.frame.size.width<321 {
+            Dlog("special handling")
+            //scanViewWidthConstrain.constant = -40
+        }
     }
 
     /*

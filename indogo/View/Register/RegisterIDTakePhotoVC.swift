@@ -44,13 +44,21 @@ class RegisterIDTakePhotoVC: UIViewController {
     }
     
     @IBAction func takeFirstPhoto(_ sender: Any) {
-        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterIDTakeIntroVC") as? RegisterIDTakeIntroVC
+        var storyboardId = "RegisterIDTakeIntroVC"
+        if AppDelegate.shared().deviceSmall {
+            storyboardId = "RegisterIDTakeIntroVCSmall"
+        }
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: storyboardId) as? RegisterIDTakeIntroVC
         nextVC?.takePhotoType = PhotoIDType.front
         self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
     @IBAction func takeSecPhoto(_ sender: Any) {
-        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterIDTakeIntroVC") as? RegisterIDTakeIntroVC
+        var storyboardId = "RegisterIDTakeIntroVC"
+        if AppDelegate.shared().deviceSmall {
+            storyboardId = "RegisterIDTakeIntroVCSmall"
+        }
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: storyboardId) as? RegisterIDTakeIntroVC
         nextVC?.takePhotoType = PhotoIDType.back
         self.navigationController?.pushViewController(nextVC!, animated: true)
     }
@@ -93,6 +101,7 @@ class RegisterIDTakePhotoVC: UIViewController {
 
         // Do any additional setup after loading the view.
         backL.text = NSLocalizedString("back", comment: "")
+        backL.adjustsFontSizeToFitWidth = true
         
         nextBtn.setTitle(NSLocalizedString("ok", comment: ""), for: .normal)
         nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2
