@@ -30,7 +30,6 @@ class TransactionExipredVC: UIViewController {
     //MARK: - Button-Action
     @IBAction func backAction(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
-        AppDelegate.shared().showTopButton()
     }
     
     @IBAction func reloadTimer(_ sender: Any) {

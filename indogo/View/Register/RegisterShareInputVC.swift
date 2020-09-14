@@ -92,7 +92,9 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
         downBtn.layer.cornerRadius = downBtn.frame.size.height/2
         
         scanL.text = NSLocalizedString("Register Share Input Scan", comment: "")
+        scanL.adjustsFontSizeToFitWidth = true
         msgL.text = NSLocalizedString("Register Share Input Msg", comment: "")
+        msgL.adjustsFontSizeToFitWidth = true
         divL.text = NSLocalizedString("Register Share Input Div", comment: "")
         belowL.text = NSLocalizedString("Register Share Input Below", comment: "")
         
@@ -114,6 +116,7 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
         
         inputTextField.delegate = self
         inputTextField.keyboardType = .numberPad
+        inputTextField.attributedPlaceholder = NSAttributedString(string: "MID", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
     }
 
     /*

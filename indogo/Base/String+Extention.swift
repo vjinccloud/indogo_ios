@@ -10,17 +10,29 @@ import UIKit
 
 extension String {
     func utf8DecodedString()-> String {
-         let data = self.data(using: .utf8)
-         if let message = String(data: data!, encoding: .nonLossyASCII){
-                return message
-          }
-          return ""
+        let data = self.data(using: .utf8)
+        if let message = String(data: data!, encoding: .nonLossyASCII){
+            return message
+        }
+        return ""
     }
-
+    
+    //取得限定範圍的字串
+    func getSubString(Start startIndex:Int, End endIndex:Int)-> String {
+        if startIndex >= self.count || endIndex >= self.count {
+            return ""
+        }
+        let start = self.index(self.startIndex, offsetBy: startIndex)
+        let end = self.index(self.startIndex, offsetBy: endIndex)
+        let sub_ans = String(self[start..<end])
+        
+        return sub_ans
+    }
+    
     func utf8EncodedString()-> String {
-         let messageData = self.data(using: .nonLossyASCII)
+        let messageData = self.data(using: .nonLossyASCII)
         let text = String(data: messageData!, encoding: .utf8)!
-         return text
+        return text
     }
     
     //將字串轉成千分位含小數兩點的數字再回傳字傳

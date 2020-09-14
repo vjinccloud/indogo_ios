@@ -51,7 +51,7 @@ let API_NoticeRecordList = ServerURL + "/app/remit/notification_record"
 let API_PointHistoryList = ServerURL + "/app/remit/point_history"
 let API_GetDoc = ServerURL + "/app/remit/doc_get"
 let API_TransferPointFirstStep = ServerURL + "/app/remit/point_transfer_check"
-let API_TransferPointSecondStep = ServerURL + "/zapp/remit/point_transfer"
+let API_TransferPointSecondStep = ServerURL + "/app/remit/point_transfer"
 let API_MemberRecipents = ServerURL + "/app/remit/member_recipients"
 let API_MemberHideRecipent = ServerURL + "/app/remit/hide_recipient"
 let API_BankList = ServerURL + "/app/remit/bank_list"
@@ -67,6 +67,7 @@ let API_BarCode_hilife = ServerURL + "/app/remit/hilife_barcode"
 let API_NotificationRead = ServerURL + "/app/remit/notification_read"
 let API_UpdateARC = ServerURL + "/app/remit/update_arc"
 let API_UpdateID = ServerURL + "/app/remit/update_id_card"
+let API_PassUpdate = ServerURL + "/app/remit/password_update"
 
 public enum TransferMemberStyle {
     case normal

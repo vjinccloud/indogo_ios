@@ -261,7 +261,7 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
     
     @IBAction func nextAction(_ sender: Any) {
         AppDelegate.shared().tempRegisterObj = RegisterDataObj()
-        AppDelegate.shared().tempRegisterObj.meImg = meImg
+        //AppDelegate.shared().tempRegisterObj.meImg = meImg
         AppDelegate.shared().tempRegisterObj.account = accountTextfield.text
         AppDelegate.shared().tempRegisterObj.phoneNum = phoneTextfield.text
         AppDelegate.shared().tempRegisterObj.arcNum = arcCodeL.text
@@ -494,6 +494,8 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
         
         accountTextfield.isEnabled = false
         phoneTextfield.isEnabled = false
+        
+        accountTextfield.autocapitalizationType = .allCharacters
         
         accountBtn.backgroundColor = Color_Main_LightGray
         accountTextfield.textColor = .black

@@ -13,6 +13,12 @@ import UIKit
 extension UIViewController {
     /// Call this once to dismiss open keyboards by tapping anywhere in the view controller
     func setupHideKeyboardOnTap() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.closeKeyboardNow),
+            name: Notification.Name("closeKeyboard"),
+            object: nil)
+        
         self.view.addGestureRecognizer(self.endEditingRecognizer())
         self.navigationController?.navigationBar.addGestureRecognizer(self.endEditingRecognizer())
     }
@@ -22,5 +28,10 @@ extension UIViewController {
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(self.view.endEditing(_:)))
         tap.cancelsTouchesInView = false
         return tap
+    }
+    
+    @objc private func closeKeyboardNow(notification: NSNotification){
+        //do stuff using the userInfo property of the notification object
+        view.endEditing(true)
     }
 }

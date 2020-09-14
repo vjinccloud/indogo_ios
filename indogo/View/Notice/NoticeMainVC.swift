@@ -60,6 +60,16 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 if result == ResponseState.ok {
                     self.nowPage += 1
                     let newCount = AppDelegate.shared().noteListObjs.count
+                    var count = 0
+                    for i in 0..<AppDelegate.shared().noteListObjs.count {
+                        let data = AppDelegate.shared().noteListObjs[i]
+                        if data.readable == "0" {
+                            count += 1
+                        }
+                    }
+                    AppDelegate.shared().noticeNotReadNum = count
+                    AppDelegate.shared().setBottomNotReadNum()
+                    
                     Dlog("allpage = \((newCount - oldCount))")
                     if (newCount - oldCount) < self.pageLimit {
                         self.stopLoadMore = true
@@ -144,6 +154,8 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             cell.titleL.textColor = .lightGray
         }
         
+        cell.titleL.text = data.title
+        /*
         if data.tpyeStr.hasPrefix("點數異動") {
             cell.titleL.text = NSLocalizedString("Notice Type 0", comment: "")
         } else if data.tpyeStr.hasPrefix("訂單變更") {
@@ -153,13 +165,27 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             cell.titleL.text = data.title
         } else if data.tpyeStr.contains("用戶資料") {
             cell.titleL.text = NSLocalizedString("Notice Type 3", comment: "")
-        }
+        }*/
         cell.contentL.text = data.content
-        cell.timeL.text = data.createTime
+        cell.timeL.text = getFormatTime(DateStr: data.createTime)
         cell.index = indexPath.row
         cell.parentVC = self
         cell.selectionStyle = .none
         return cell
+    }
+    
+    func getFormatTime(DateStr str:String) -> String {
+        var ansStr = ""
+        let ary = str.components(separatedBy: " ")
+        if ary.count != 2 {
+            return ""
+        }
+        
+        //1.時間倒過來顯示
+        let date = UtilityTool().transferIndogoDate(Date: ary[0])
+        ansStr = date + " | " + ary[1]
+        
+        return ansStr
     }
     
     func nextAction(Index index:Int) {
@@ -187,6 +213,7 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 btn.setImage(UIImage.init(named: "close.png"), for: .normal)
                 showPhotoView.addSubview(btn)
                 btn.addTarget(self, action: #selector(closePhotoView), for: .touchUpInside)
+                showPhotoView.isHidden = false
             }
         } else if data.tpyeStr.contains("用戶資料") {
             let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "MemberEditVC") as? MemberEditVC
@@ -195,7 +222,7 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     @objc func closePhotoView() {
-        showPhotoView.removeFromSuperview()
+        showPhotoView.isHidden = true
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

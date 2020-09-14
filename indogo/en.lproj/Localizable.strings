@@ -27,6 +27,7 @@
 "account" = "Nomor ARC"; //帳號
 "passcode" = "Kata Sandi"; //密碼
 "scan again" = "SCAN ULANG"; //再次掃描
+"scan format wrong" = "Wrong"; //掃描格式錯誤
 
 "Floating Title" = "Layanan Konsumen";
 "telephone" = "Telepon";
@@ -52,6 +53,7 @@
 "TFFRHP Enter Top" = "Kami telah mengirimkan\nkode SMS ke nomor\n";
 "TFFRHP Enter Send Again" = "Minta Ulang Kode SMS";
 
+"TFFRHP Change Title" = "Masukkan kata sandi yang baru";
 "TFFRHP Change placehold2" = "Ketik Ulang Kata Sandi";
 "TFFRHP Change warn" = "*Masukan kata sandi minimal 4 angka";
 "TFFRHP Change warn2" = "*Ulangi kata sandi";
@@ -164,6 +166,7 @@
 "Transfer State Plot Text L3" = "Diproses";
 "Transfer State Plot Text L4" = "Berhasil";
 "Transfer State Down Time Title" = "Pukul";
+"Transfer State Down Kurs Value Title" = "Referensi Kurs";
 
 "Transfer Main Box Up Title" = "Jumlah Transfer";
 "Transfer Main Box Down Title" = "Referensi Kurs";

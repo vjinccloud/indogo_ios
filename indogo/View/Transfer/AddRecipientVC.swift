@@ -12,7 +12,7 @@ import SwiftyJSON
 import Kingfisher
 import KingfisherWebP
 
-class AddRecipientVC: UIViewController, UITextFieldDelegate {
+class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var backL: UILabel!
     
@@ -22,6 +22,35 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var bankCodeTextfield: UITextField!
     
     @IBOutlet weak var nextBtn: UIButton!
+    
+    @IBOutlet weak var bankListTableView: UITableView!
+    var showBankList:[BankObj] = []
+    
+    //MARK: - Tableview Delegate
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return showBankList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BankListTableViewCell", for: indexPath) as! BankListTableViewCell
+        let cellData = showBankList[indexPath.row]
+        let serchBankobj = UtilityTool().searchBankObj(BankName: cellData.bank_name!)
+        
+        let imgurl = serchBankobj.bank_photo!
+        let urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
+        cell.bankIconImgV.kf.setImage(with: urlhaed)
+        cell.bankL.text = cellData.bank_name
+        
+        cell.backgroundColor = .white
+        cell.selectionStyle = .none
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cellData = showBankList[indexPath.row]
+        bankCodeTextfield.text = cellData.bank_name
+        bankCodeTextfield.resignFirstResponder()
+    }
     
     //MARK: - Utility
     func checkBtnState() {
@@ -43,13 +72,42 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate {
         accountTextfield.resignFirstResponder()
     }
     
+    func reloadDataAndTable(Str str:String) {
+        if str == "" {
+            showBankList = AppDelegate.shared().bankList
+        } else {
+            showBankList = []
+            
+            for i in 0..<AppDelegate.shared().bankList.count {
+                let obj = AppDelegate.shared().bankList[i]
+                
+                if obj.bank_name.lowercased().contains(str.lowercased()) {
+                    showBankList.append(obj)
+                }
+            }
+        }
+        
+        bankListTableView.reloadData()
+    }
+    
     //MARK: - Text Delegate
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        
+        if textField == bankCodeTextfield {
+            bankListTableView.isHidden = false
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        bankListTableView.isHidden = true
         checkBtnState()
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        reloadDataAndTable(Str: newString)
+        return true
+
     }
     
     //MARK: - API
@@ -97,19 +155,49 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate {
         self.navigationController?.popViewController(animated: true)
     }
     
+    func generateToolBar() ->UIToolbar {
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let done = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneAction))
+        
+        let toolBar:UIToolbar = UIToolbar()
+        toolBar.items = [flexibleSpace,done]
+        toolBar.sizeToFit()
+        
+        return toolBar
+    }
+    
+    @objc func doneAction() {
+        closeText()
+    }
+    
     //MARK: - View-Life
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.setupHideKeyboardOnTap()
+        //self.setupHideKeyboardOnTap()
+        bankCodeTextfield.inputAccessoryView = generateToolBar()
+        accountTextfield.inputAccessoryView = generateToolBar()
         
+        showBankList = AppDelegate.shared().bankList
+        bankListTableView.separatorStyle = .none
+        bankListTableView.delegate = self
+        bankListTableView.dataSource = self
+        bankListTableView.isHidden = true
+        bankListTableView.backgroundColor = .white
+        
+        bankCodeTextfield.keyboardType = .default
+        bankCodeTextfield.autocorrectionType = .no
         accountTextfield.keyboardType = .numberPad
-        bankCodeTextfield.keyboardType = .numberPad
         accountTextfield.delegate = self
         bankCodeTextfield.delegate = self
+        
+        accountTextfield.autocapitalizationType = .allCharacters
+        bankCodeTextfield.autocapitalizationType = .allCharacters
+        
         backL.text = ""
         
+        bankCodeTextfield.becomeFirstResponder()
         bankCodeTextfield.placeholder = NSLocalizedString("Point Transfer Add Recipient Code PlaceHolder", comment: "")
         accountTextfield.placeholder = NSLocalizedString("Point Transfer Add Recipient Accounnt PlaceHolder", comment: "")
         

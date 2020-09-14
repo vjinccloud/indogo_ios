@@ -55,7 +55,7 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
+            hideRecipient(Recipient: showDataList[indexPath.row])
         }
     }
     
@@ -66,7 +66,11 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
         
         AppDelegate.shared().transactionObj.recipientObj = showDataList[indexPath.row]
         
-        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransactionInfoConfirmVC") as? TransactionInfoConfirmVC
+        var storyboardId = "TransactionInfoConfirmVC"
+        if AppDelegate.shared().deviceSmall {
+            storyboardId = "TransactionInfoConfirmVCSmall"
+        }
+        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: storyboardId) as? TransactionInfoConfirmVC
         self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
@@ -96,8 +100,6 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                 Dlog("responseStr = \(responseStr ?? "")")
                 
-                AppDelegate.shared().recipientListObjs = []
-                AppDelegate.shared().recipientShownListObjs = []
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 if result == ResponseState.ok {
                     self.getRecipents()
@@ -135,7 +137,7 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
                 AppDelegate.shared().recipientShownListObjs = []
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 if result == ResponseState.ok {
-                    self.reloadDataAndTable()
+                    self.reloadDataAndTable(Str: self.searchTextfield.text!)
                     if AppDelegate.shared().recipientShownListObjs.count == 0, self.hasGotoAddRecipient == false {
                         self.hasGotoAddRecipient = true
                         self.goAddRecipient()
@@ -158,7 +160,7 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
     
     @IBAction func searchAction(_ sender: Any) {
         closeAll()
-        reloadDataAndTable()
+        reloadDataAndTable(Str: searchTextfield.text!)
     }
     
     @IBAction func backAction(_ sender: Any) {
@@ -184,21 +186,29 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         closeAll()
-        reloadDataAndTable()
+        reloadDataAndTable(Str: textField.text!)
         return true
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        reloadDataAndTable(Str: newString)
+        return true
+
+    }
+    
     //MARK: - Utility
-    func reloadDataAndTable() {
+    func reloadDataAndTable(Str str:String) {
         //根據search字串過濾
         showDataList = []
-        if searchTextfield.text == "" {
+        if str == "" {
             showDataList = AppDelegate.shared().recipientShownListObjs
         } else {
-            let searchStr = searchTextfield.text
+            let searchStr = str.lowercased()
             for i in 0..<AppDelegate.shared().recipientShownListObjs.count {
                 let obj = AppDelegate.shared().recipientShownListObjs[i]
-                if obj.recipient_name.contains(searchStr!) || obj.bank_acc.contains(searchStr!) || obj.bank_name.contains(searchStr!) {
+                if obj.recipient_name.lowercased().contains(searchStr) || obj.bank_acc.lowercased().contains(searchStr) || obj.bank_name.lowercased().contains(searchStr) {
                     showDataList.append(obj)
                 }
             }
@@ -221,8 +231,11 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
         myTable.register(nib, forCellReuseIdentifier: "RecipientTableViewCell")
         myTable.bounces = false
         myTable.backgroundColor = .clear
+        myTable.separatorStyle = .none
+        
         searchTextfield.keyboardType = .default
         searchTextfield.returnKeyType = .search
+        searchTextfield.autocapitalizationType = .allCharacters
         searchTextfield.delegate = self
         
         searchBgV.layer.cornerRadius = searchBgV.frame.size.height/2

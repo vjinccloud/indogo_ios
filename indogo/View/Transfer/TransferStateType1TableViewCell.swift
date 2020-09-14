@@ -71,7 +71,12 @@ class TransferStateType1TableViewCell: UITableViewCell {
     @IBOutlet weak var plotC4V: UIView!
     @IBOutlet weak var plotC4SubV: UIView!
     
+    var countDownTimer:Timer!
+    var startCountDown = false
+    var expireTime:Date!
+    
     func setTransferState(Stae stateStr:String) {
+        startCountDown = false
         plotBar1V.isHidden = true
         plotBar2V.isHidden = true
         plotBar3V.isHidden = true
@@ -143,6 +148,45 @@ class TransferStateType1TableViewCell: UITableViewCell {
         
     }
     
+    func startCountDown(Time str:String) {
+        expireTime = UtilityTool().dateStringToDate(Str: str)
+        
+        startCountDown = true
+        if countDownTimer == nil {
+            countDownTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(countDown), userInfo: nil, repeats: true)
+            startCountDown = true
+        }
+    }
+    
+    @objc func countDown() {
+        if startCountDown {
+            let diffTime = expireTime.timeIntervalSince(Date())
+            if diffTime <= 0 {
+                startCountDown = false
+                countDownTimer.invalidate()
+                countDownTimer = nil
+                showTimeL(0)
+            } else {
+                let timeIntDiff = Int(diffTime)
+                showTimeL(timeIntDiff)
+            }
+        }
+    }
+    
+    func showTimeL(_ diffTime:Int) {
+        let leftSecs = diffTime%60
+        self.n5L.text = "\(leftSecs%10)"
+        self.n4L.text = "\(Int(leftSecs/10))"
+        
+        let leftMins = Int(diffTime/60)%60
+        self.n3L.text = "\(leftMins%10)"
+        self.n2L.text = "\(Int(leftMins/10))"
+        
+        let leftHours = Int(diffTime/3600)
+        self.n1L.text = "\(leftHours%10)"
+        self.n0L.text = "\(Int(leftHours/10))"
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -151,9 +195,11 @@ class TransferStateType1TableViewCell: UITableViewCell {
         plotL3.text = NSLocalizedString("Transfer State Plot Text L3", comment: "")
         plotL4.text = NSLocalizedString("Transfer State Plot Text L4", comment: "")
         
+        /*
         plotWholeLineV.layer.cornerRadius = plotWholeLineV.frame.size.height/2
         plotWholeLineV.layer.borderColor = Color_Main_LightGray.cgColor
         plotWholeLineV.layer.borderWidth = 0.5
+        */
         
         plotBar1V.layer.cornerRadius = plotBar1V.frame.size.height/2
         plotBar2V.layer.cornerRadius = plotBar2V.frame.size.height/2

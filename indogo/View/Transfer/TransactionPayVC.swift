@@ -49,6 +49,7 @@ class TransactionPayVC: UIViewController {
     var chosedStyle:StoreType!
     var nowBarCodeObj:BarCodeInfoObj!
     var barcodeImg:UIImage!
+    var oriScreenBightness:CGFloat = 0
     
     var countDownTimer:Timer!
     var startCountDown = false
@@ -125,7 +126,7 @@ class TransactionPayVC: UIViewController {
         
         getScreenShotOfBarCodeView()
         
-        expireTime = UtilityTool().dateStringToDate(Str: nowBarCodeObj.lm_time_expire)
+        expireTime = UtilityTool().dateStringToDate(Str: nowBarCodeObj.lm_time_expire.trimmingCharacters(in: .whitespacesAndNewlines))
         //Dlog("expireTime = \(expireTime), now = \(Date())")
         
         if countDownTimer == nil {
@@ -146,6 +147,7 @@ class TransactionPayVC: UIViewController {
     @objc func countDown() {
         if startCountDown {
             let timeDiff = expireTime.timeIntervalSince(Date())
+            
             if timeDiff <= 0 {
                 startCountDown = false
                 countDownTimer.invalidate()
@@ -173,7 +175,6 @@ class TransactionPayVC: UIViewController {
     //MARK: - Button-Action
     @IBAction func backAction(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
-        AppDelegate.shared().showTopButton()
     }
     
     @IBAction func closeBigBarCodeView(_ sender: Any) {
@@ -197,6 +198,7 @@ class TransactionPayVC: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        AppDelegate.shared().hideTopButton()
         backL.text = NSLocalizedString("Transfer PayStep Title", comment: "")
         upIntoL.text = NSLocalizedString("Transfer PayStep Up Intro", comment: "")
         warnL.text = NSLocalizedString("Transfer PayStep Warn", comment: "")
@@ -215,11 +217,13 @@ class TransactionPayVC: UIViewController {
         
         bigBarCodeV.isHidden = true
         
+        /*
         let serchBankobj = UtilityTool().searchBankObj(BankCode: transferStateObj.bank_code!)
-        
         let imgurl = serchBankobj.bank_photo!
         let urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
         iconImgV.kf.setImage(with: urlhaed)
+        */
+        iconImgV.image = nil
         
         barCodeBgV.layer.borderColor = UIColor.black.cgColor
         barCodeBgV.layer.borderWidth = 0.5
@@ -229,8 +233,17 @@ class TransactionPayVC: UIViewController {
         enlargeBtn.layer.borderWidth = 0.5
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        
+        UIScreen.main.brightness = oriScreenBightness
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        oriScreenBightness = UIScreen.main.brightness
+        UIScreen.main.brightness = CGFloat(1)
         
         if loadOnce {
             return
@@ -238,6 +251,16 @@ class TransactionPayVC: UIViewController {
         
         loadOnce = true
         getOrderDetail()
+        
+        if chosedStyle == StoreType.sevenEleven {
+            iconImgV.image = UIImage.init(named: "711.png")
+        } else if chosedStyle == StoreType.familymart {
+            iconImgV.image = UIImage.init(named: "fanilymart.png")
+        } else if chosedStyle == StoreType.ok {
+            iconImgV.image = UIImage.init(named: "okmart.png")
+        } else if chosedStyle == StoreType.hiLife {
+            iconImgV.image = UIImage.init(named: "hilife.png")
+        }
     }
     /*
     // MARK: - Navigation

@@ -28,6 +28,38 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var loadMemberOnce = false
     
     //MARK: - API
+    func getPointHistory() {
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken]
+        let headers: HTTPHeaders = [:]
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_PointHistoryList;
+        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("todoEndpoint = \(todoEndpoint),responseStr = \(responseStr ?? "")")
+                
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                
+                if result == ResponseState.ok {
+                    AppDelegate.shared().pointRootShowHistory = true
+                    self.callPointHistory()
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                }
+        }
+    }
+    
     public func getShareContent() {
         let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "doc_name":"分享文案"]
         let headers: HTTPHeaders = [:]
@@ -109,11 +141,11 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         cell.cell2L.text = obj.reason_show
         let pointValue = Int(obj.remit_point)!
         if pointValue >= 0 {
-            cell.cell3L.text = "+ \(pointValue)"
+            cell.cell3L.text = "+\(pointValue)"
             cell.contentView.backgroundColor = .clear
             cell.backgroundColor = .clear
         } else {
-            cell.cell3L.text = "- \(abs(pointValue))"
+            cell.cell3L.text = "-\(abs(pointValue))"
             cell.contentView.backgroundColor = Color_Main_LightGray
             cell.backgroundColor = Color_Main_LightGray
         }
@@ -212,6 +244,10 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         historyView.alpha = 0
     }
     
+    @IBAction func callHistoryAction(_ sender: Any) {
+        self.getPointHistory()
+    }
+    
     @IBAction func addPointAction(_ sender: Any) {
         getShareContent()
     }
@@ -228,7 +264,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         // Do any additional setup after loading the view.
         historyView.isHidden = true
         historyView.alpha = 0
-        
+        nameL.adjustsFontSizeToFitWidth = true
         iconView.layer.cornerRadius = iconView.frame.size.height/2
         
         addPointL.layer.cornerRadius = 5

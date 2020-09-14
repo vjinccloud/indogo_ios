@@ -304,6 +304,7 @@ class APIHandle {
     }
     
     private func checkPointHistoryList(DataStr dataStr:String) {
+        AppDelegate.shared().historyListObj = []
         //目前直接用zero width空格
         let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
         for i in 0..<ary.count {

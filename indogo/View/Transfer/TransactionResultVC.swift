@@ -111,12 +111,13 @@ class TransactionResultVC: UIViewController {
             let urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
             self.downIconIgV.kf.setImage(with: urlhaed)
             
-            self.downNameL.text = serchBankobj.bank_name
+            self.downNameL.text = transferStateObj.recipient_name
             self.downIDL.text = transferStateObj.to_acc
             
             self.downValueL.text = "IDR " + transferStateObj.transfer_amount_idr.stringToIntDecimalString()
-            self.downNoteL.text = transferStateObj.recipient_name
+            self.downNoteL.text = NSLocalizedString("Transfer State Down Kurs Value Title", comment: "") + " " + transferStateObj.kurs_value
             
+            /*
             let expireTimeStr = orderCheckStateObj.lm_time_expire!
             let serverTimeStr = orderCheckStateObj.server_time!
             
@@ -140,17 +141,18 @@ class TransactionResultVC: UIViewController {
                     self.n1L.text = "\(leftHours%10)"
                     self.n0L.text = "\(Int(leftHours/10))"
                 }
-            }
+            }*/
         }
     }
     
     //MARK: - Button-Action
     @IBAction func backAction(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
-        AppDelegate.shared().showTopButton()
+        self.navigationController?.popToRootViewController(animated: true)
+        //AppDelegate.shared().showTopButton()
     }
     
     func showBottomBtnAndTeachPic(StoreStyle style:StoreType) {
+        topScrollView.setContentOffset(CGPoint.init(x: 0, y: teachView.frame.origin.y), animated: true)
         teachView.isHidden = false
         payV.isHidden = false
         teach1ImgV.isHidden = true
@@ -228,6 +230,8 @@ class TransactionResultVC: UIViewController {
         self.downIDL.text = ""
         self.downValueL.text = ""
         self.downNoteL.text = ""
+        
+        self.barNumberV.isHidden = true
         
     }
     

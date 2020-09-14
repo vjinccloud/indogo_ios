@@ -54,7 +54,8 @@ class TransactionInfoConfirmVC: UIViewController {
         feeL.text = NSLocalizedString("Transfer Confirm Fee Title", comment: "")
         usePointL.text = NSLocalizedString("Transfer Confirm UsePoint Title", comment: "")
         totalL.text = NSLocalizedString("Transfer Confirm Total Title", comment: "")
-        
+        nameL.adjustsFontSizeToFitWidth = true
+        nameL.textAlignment = .center
         nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2
         nextBtn.setTitle(NSLocalizedString("send", comment: ""), for: .normal)
         

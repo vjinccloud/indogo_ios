@@ -101,7 +101,7 @@ class MemberMainVC: UIViewController {
     
     @IBAction func aboutAction(_ sender: Any) {
         let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "PureWebVC") as? PureWebVC
-        nextVC?.setTitleAndCallURL(URL: "https://prod.indogo.link/tomcat_images/REMIT_INFO.html", Title: NSLocalizedString("Profile Main About", comment: ""))
+        nextVC?.setTitleAndCallURL(URL: "https://prod.indogo.link/tomcat_images/ABOUT_US-01.html", Title: NSLocalizedString("Profile Main About", comment: ""))
         self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     

@@ -83,6 +83,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var apiBackContentStr = ""
     
     var transactionObj:TransactionObj = TransactionObj()
+    var noticeNotReadNum = 0
+    
+    //此項作為若掃描ARC有結果，導去註冊的頁面
+    var hasArcResultAndGotoRegister = false
+    var arcScanReulstForRegister = ""
     
     //MARK: - App Life
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -113,6 +118,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppDelegate.shared().subSeperatorStr = NSLocalizedString("leading sub space", comment: "")
         self.getBankList()
         return true
+    }
+    
+    //回首頁時清除所有設定
+    func clearAllSetup() {
+        AppDelegate.shared().hasArcResultAndGotoRegister = false
+        AppDelegate.shared().arcScanReulstForRegister = ""
     }
     
     //MARK: - Notification
@@ -175,6 +186,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func hideBottomMenu() {
         bottomMenu.isHidden = true
+    }
+    
+    func setBottomNotReadNum() {
+        if bottomMenu == nil {
+            return
+        }
+        
+        bottomMenu.setReadNum()
     }
     
     func addBttomMenu() {
@@ -340,8 +359,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         //把浮動按鈕拉到最上面
+        window?.bringSubviewToFront(floatingContainer)
         window?.bringSubviewToFront(floatingButton)
-        
     }
     
     @objc func callPhone() {
@@ -388,6 +407,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     //MARK: - API
+    func getNotice() {
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "page":1, "limit":9]
+        let headers: HTTPHeaders = [:]
+        
+        AppDelegate.shared().noteListObjs = []
+        
+        let todoEndpoint: String = API_NoticeRecordList;
+        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("todoEndpoint = \(todoEndpoint),responseStr = \(responseStr ?? "")")
+                
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                
+                if result == ResponseState.ok {
+                    let newCount = AppDelegate.shared().noteListObjs.count
+                    var count = 0
+                    for i in 0..<AppDelegate.shared().noteListObjs.count {
+                        let data = AppDelegate.shared().noteListObjs[i]
+                        if data.readable == "0" {
+                            count += 1
+                        }
+                    }
+                    AppDelegate.shared().noticeNotReadNum = count
+                    AppDelegate.shared().setBottomNotReadNum()
+                    
+                } else if result == ResponseState.failed {
+                }
+        }
+    }
+    
     func getBankList() {
         if AppDelegate.shared().hasBankList {
             return
@@ -519,7 +577,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 navigaterId = "TransferMainNC"
             } else if type == LoginFuncType.sharing {
                 storyboardId = "Member"
-                navigaterId = "ShareMainNC"
+                var storyboardId = "ShareMainNC"
+                if AppDelegate.shared().deviceSmall {
+                    storyboardId = "ShareMainNCSmall"
+                }
+                navigaterId = storyboardId
             } else if type == LoginFuncType.notice {
                 storyboardId = "Member"
                 navigaterId = "NoticeMainNC"
@@ -562,12 +624,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         normalPageBtn.backgroundColor = UIColor.black
         normalPageBtn.setTitle(NSLocalizedString("remit", comment: ""), for: .normal)
         topContainer.addSubview(normalPageBtn)
+        normalPageBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         normalPageBtn.addTarget(self, action: #selector(callFloatingNormalV), for: .touchUpInside)
         
         shopPageBtn = UIButton.init(frame: CGRect(x: topContainer.frame.size.width/2, y: 0, width: topContainer.frame.size.width/2, height: topContainer.frame.size.height))
         shopPageBtn.backgroundColor = UIColor.black
         shopPageBtn.setTitle(NSLocalizedString("shopping", comment: ""), for: .normal)
         topContainer.addSubview(shopPageBtn)
+        shopPageBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         shopPageBtn.addTarget(self, action: #selector(callFloatingShopWeb), for: .touchUpInside)
         
         topLine = UIView.init(frame: CGRect.init(x: 0, y: topContainer.frame.size.height-2, width: topContainer.frame.size.width/2, height: 2))
@@ -583,10 +647,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         shopWebView = WKWebView.init(frame: CGRect.init(x: 0, y: 0, width: shopWebBgV.frame.size.width, height: shopWebBgV.frame.size.height-bottomPadding))
         shopWebBgV.addSubview(shopWebView)
         
+        normalPageBtn.setTitleColor(.white, for: .normal)
+        shopPageBtn.setTitleColor(.darkGray, for: .normal)
+        
         initLinePosX()
     }
     
     @objc func callFloatingShopWeb() {
+        NotificationCenter.default.post(name: Notification.Name("closeKeyboard"), object: nil)
+        
+        normalPageBtn.setTitleColor(.darkGray, for: .normal)
+        shopPageBtn.setTitleColor(.white, for: .normal)
         topLine.frame = CGRect.init(x: topContainer.frame.size.width/2, y: topContainer.frame.size.height-2, width: topContainer.frame.size.width/2, height: 2)
         shopWebBgV.isHidden = false
         let url = URL(string: "https://ec.indogo.tw/")
@@ -594,7 +665,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         shopWebView.load(request)
     }
     
-    @objc func callFloatingNormalV() {topLine.frame = CGRect.init(x: 0, y: topContainer.frame.size.height-2, width: topContainer.frame.size.width/2, height: 2)
+    @objc func callFloatingNormalV() {
+        normalPageBtn.setTitleColor(.white, for: .normal)
+        shopPageBtn.setTitleColor(.darkGray, for: .normal)
+        topLine.frame = CGRect.init(x: 0, y: topContainer.frame.size.height-2, width: topContainer.frame.size.width/2, height: 2)
         shopWebBgV.isHidden = true
     }
     
@@ -640,6 +714,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //自定義 alert
     func showAlertView (Message msg:String) {
+        if msg == "" {
+            return
+        }
+        
         let window = UIApplication.shared.keyWindow
         
         alertViewContainer = UIView(frame: CGRect.init(x: 0, y: 0, width: window!.bounds.width, height: window!.bounds.height))

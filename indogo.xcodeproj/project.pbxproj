@@ -319,6 +319,8 @@
 		043AE11924E14BC600E0892E /* MemberMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043AE11824E14BC600E0892E /* MemberMainVC.swift */; };
 		0466A81A24C04AB9008F6D38 /* ForgotPassCheckPhoneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0466A81924C04AB9008F6D38 /* ForgotPassCheckPhoneVC.swift */; };
 		0466A82224C15BA7008F6D38 /* ForgotPassEnterCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0466A82124C15BA7008F6D38 /* ForgotPassEnterCodeVC.swift */; };
+		0466BFA3250E1E8F009EDEFF /* BankListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0466BFA2250E1E8F009EDEFF /* BankListTableViewCell.swift */; };
+		0466BFA6250FE283009EDEFF /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0466BFA5250FE283009EDEFF /* BaseViewController.swift */; };
 		0467180B24E436A5008A75B1 /* NoticeMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0467180A24E436A5008A75B1 /* NoticeMainVC.swift */; };
 		0472E23D24C2DC8600CC48A0 /* RegisterAgreementVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472E23C24C2DC8600CC48A0 /* RegisterAgreementVC.swift */; };
 		049686DD24B6EFB0005EF74A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049686DC24B6EFB0005EF74A /* AppDelegate.swift */; };
@@ -351,6 +353,9 @@
 		0496884424BCDDF2005EF74A /* UIViewController+TapToDissmiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496884324BCDDF2005EF74A /* UIViewController+TapToDissmiss.swift */; };
 		0496884724BE2942005EF74A /* ForgotPassMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496884624BE2942005EF74A /* ForgotPassMainVC.swift */; };
 		049A184C2502A7BF00DD5749 /* TransactionExipredVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049A184B2502A7BF00DD5749 /* TransactionExipredVC.swift */; };
+		049B14762508F27A009E31DB /* fami_help.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 049B14752508F27A009E31DB /* fami_help.jpg */; };
+		049B14792508F424009E31DB /* fami_help@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 049B14772508F422009E31DB /* fami_help@3x.jpg */; };
+		049B147A2508F424009E31DB /* fami_help@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 049B14782508F422009E31DB /* fami_help@2x.jpg */; };
 		049DB77D24BED018006CB436 /* ForgotPassScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049DB77C24BED018006CB436 /* ForgotPassScanVC.swift */; };
 		04AC3EE524FEB5E200E48622 /* TransferMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC3EE424FEB5E200E48622 /* TransferMainVC.swift */; };
 		04AC3EE7250020B800E48622 /* TransactionObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC3EE6250020B800E48622 /* TransactionObj.swift */; };
@@ -763,6 +768,8 @@
 		043AE11824E14BC600E0892E /* MemberMainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberMainVC.swift; sourceTree = "<group>"; };
 		0466A81924C04AB9008F6D38 /* ForgotPassCheckPhoneVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassCheckPhoneVC.swift; sourceTree = "<group>"; };
 		0466A82124C15BA7008F6D38 /* ForgotPassEnterCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassEnterCodeVC.swift; sourceTree = "<group>"; };
+		0466BFA2250E1E8F009EDEFF /* BankListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankListTableViewCell.swift; sourceTree = "<group>"; };
+		0466BFA5250FE283009EDEFF /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		0467180A24E436A5008A75B1 /* NoticeMainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeMainVC.swift; sourceTree = "<group>"; };
 		0472E23C24C2DC8600CC48A0 /* RegisterAgreementVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAgreementVC.swift; sourceTree = "<group>"; };
 		049686D924B6EFB0005EF74A /* indogo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = indogo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -797,6 +804,9 @@
 		0496884324BCDDF2005EF74A /* UIViewController+TapToDissmiss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+TapToDissmiss.swift"; sourceTree = "<group>"; };
 		0496884624BE2942005EF74A /* ForgotPassMainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassMainVC.swift; sourceTree = "<group>"; };
 		049A184B2502A7BF00DD5749 /* TransactionExipredVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionExipredVC.swift; sourceTree = "<group>"; };
+		049B14752508F27A009E31DB /* fami_help.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fami_help.jpg; sourceTree = "<group>"; };
+		049B14772508F422009E31DB /* fami_help@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "fami_help@3x.jpg"; sourceTree = "<group>"; };
+		049B14782508F422009E31DB /* fami_help@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "fami_help@2x.jpg"; sourceTree = "<group>"; };
 		049DB77C24BED018006CB436 /* ForgotPassScanVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassScanVC.swift; sourceTree = "<group>"; };
 		04AC3EE424FEB5E200E48622 /* TransferMainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferMainVC.swift; sourceTree = "<group>"; };
 		04AC3EE6250020B800E48622 /* TransactionObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionObj.swift; sourceTree = "<group>"; };
@@ -927,6 +937,9 @@
 		043ADED624E1468900E0892E /* second */ = {
 			isa = PBXGroup;
 			children = (
+				049B14782508F422009E31DB /* fami_help@2x.jpg */,
+				049B14772508F422009E31DB /* fami_help@3x.jpg */,
+				049B14752508F27A009E31DB /* fami_help.jpg */,
 				04AC3EEF2502170E00E48622 /* teach4.png */,
 				04B0272B24E150B900C59670 /* barcode.png */,
 				04B0274724E150C000C59670 /* barcode@2x.png */,
@@ -1393,6 +1406,7 @@
 				0420CE9924FA39FD000CCC08 /* BankObj.swift */,
 				04AC3EF725029C0500E48622 /* UIView+Extension.swift */,
 				04EC6A1225069556004D7343 /* Bundle+Extension.swift */,
+				0466BFA5250FE283009EDEFF /* BaseViewController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1470,6 +1484,7 @@
 				04AC3EF3250262DE00E48622 /* TransactionPayVC.swift */,
 				04AC3EF52502923300E48622 /* BarCodeInfoObj.swift */,
 				049A184B2502A7BF00DD5749 /* TransactionExipredVC.swift */,
+				0466BFA2250E1E8F009EDEFF /* BankListTableViewCell.swift */,
 			);
 			path = Transfer;
 			sourceTree = "<group>";
@@ -1727,10 +1742,12 @@
 				043AE00E24E1468A00E0892E /* icon_ign_out@3x.png in Resources */,
 				043AE0AB24E1468B00E0892E /* r_record@2x.png in Resources */,
 				043AE10224E1468B00E0892E /* instagram@3x.png in Resources */,
+				049B14792508F424009E31DB /* fami_help@3x.jpg in Resources */,
 				04B0276D24E150C400C59670 /* barEmpty.png in Resources */,
 				043AE0A024E1468B00E0892E /* messenger.png in Resources */,
 				043AE0FC24E1468B00E0892E /* icon_transaction@3x.png in Resources */,
 				049686E924B6EFB2005EF74A /* LaunchScreen.storyboard in Resources */,
+				049B147A2508F424009E31DB /* fami_help@2x.jpg in Resources */,
 				043AE08724E1468A00E0892E /* indogo_logo@2x.png in Resources */,
 				043AE06024E1468A00E0892E /* question@3x.png in Resources */,
 				043AE0ED24E1468B00E0892E /* line.png in Resources */,
@@ -1773,6 +1790,7 @@
 				043AE04C24E1468A00E0892E /* fanilymart.png in Resources */,
 				04AC3EF02502170F00E48622 /* teach4.png in Resources */,
 				043AE00824E1468A00E0892E /* fanilymart@3x.png in Resources */,
+				049B14762508F27A009E31DB /* fami_help.jpg in Resources */,
 				049686F124B6FC32005EF74A /* Podfile in Resources */,
 				0496883D24BCD3F0005EF74A /* cover3@3x.png in Resources */,
 				043AE01C24E1468A00E0892E /* success2.png in Resources */,
@@ -1971,6 +1989,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04C8CBF024D83BD500AE90F6 /* RegisterIDTakePhotoVC.swift in Sources */,
+				0466BFA3250E1E8F009EDEFF /* BankListTableViewCell.swift in Sources */,
 				0429A61E24E9A42200716696 /* String+Extention.swift in Sources */,
 				04C8CBF424D952D200AE90F6 /* RegisterIDTakeIntroVC.swift in Sources */,
 				04AC3EF225021AB000E48622 /* TransactionResultObj.swift in Sources */,
@@ -2030,6 +2049,7 @@
 				04D9D78924E28AFF0036DC5C /* PureWebVC.swift in Sources */,
 				0496881A24B99235005EF74A /* PromoPageVC.swift in Sources */,
 				04D9D78B24E3C7A30036DC5C /* BottomMenuView.swift in Sources */,
+				0466BFA6250FE283009EDEFF /* BaseViewController.swift in Sources */,
 				049687FD24B79B3C005EF74A /* SceneDelegate.swift in Sources */,
 				0429A62224E9B01F00716696 /* NoticeTableViewCell.swift in Sources */,
 				04D8562C24C2D14C007BD825 /* CustomAlertView.swift in Sources */,
@@ -2201,7 +2221,7 @@
 				CODE_SIGN_ENTITLEMENTS = indogo/indogo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 8P43SK2KHA;
 				INFOPLIST_FILE = indogo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -2225,7 +2245,7 @@
 				CODE_SIGN_ENTITLEMENTS = indogo/indogo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 8P43SK2KHA;
 				INFOPLIST_FILE = indogo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

@@ -61,7 +61,7 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
     
     @IBAction func nextAction(_ sender: Any) {
         AppDelegate.shared().tempRegisterObj = RegisterDataObj()
-        AppDelegate.shared().tempRegisterObj.meImg = meImg
+        //AppDelegate.shared().tempRegisterObj.meImg = meImg
         AppDelegate.shared().tempRegisterObj.account = accountTextfield.text
         AppDelegate.shared().tempRegisterObj.phoneNum = phoneTextfield.text
         AppDelegate.shared().tempRegisterObj.passwaord = passTextField.text
@@ -266,9 +266,9 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
             pass = false
         } else if passTextField.text != rePassTextField.text {
             pass = false
-        } else if !hasMeCode {
+        } /*else if !hasMeCode {
             pass = false
-        }
+        }*/
         
         
         if pass {
@@ -332,6 +332,8 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
         passTextField.isSecureTextEntry = true
         rePassTextField.isSecureTextEntry = true
         
+        accountTextfield.autocapitalizationType = .allCharacters
+        
         //setShareCode(Code: "FD30471099")
         showShareCodeInputview()
         
@@ -368,9 +370,14 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
             self.simulatorNextAction()
         }
         #endif
-        if self.view.frame.size.width<321 {
+        
+        if self.view.frame.size.width<380 {
             Dlog("special handling")
             arcTextfield.font = UIFont.systemFont(ofSize: 12)
+        }
+        
+        if AppDelegate.shared().hasArcResultAndGotoRegister {
+            setArcText(Text: AppDelegate.shared().arcScanReulstForRegister)
         }
     }
     

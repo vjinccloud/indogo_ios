@@ -23,10 +23,10 @@ class TransactionAgreeMentVC: UIViewController {
     
     //MARK: - API
     public func getAgreement() {
-        
+        let obj = AppDelegate.shared().transactionObj
         let recipient_id = AppDelegate.shared().transactionObj.recipientObj.recipient_id!
         
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "doc_name":"外籍勞工薪資結匯申報委託書", "recipient_id":recipient_id]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "doc_name":"外籍勞工薪資結匯申報委託書", "recipient_id":recipient_id, "transfer_amount_ntd":obj.totalNtdValue]
         let headers: HTTPHeaders = [:]
         
         AppDelegate.shared().addLoadingView()
@@ -133,6 +133,7 @@ class TransactionAgreeMentVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        backL.text = ""
         nameL.text = NSLocalizedString("Transfer Agreement Title", comment: "")
         nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2
         nextBtn.setTitle(NSLocalizedString("agree", comment: ""), for: .normal)

@@ -94,7 +94,20 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 
                 if result == ResponseState.ok {
-                    //回首頁
+                    //回首頁，並帶入帳密
+                    guard let viewControllers = self.navigationController?.viewControllers else {
+                        return
+                    }
+                    
+                    for firstViewController in viewControllers {
+                        if firstViewController is ViewController {
+                            let obj = AppDelegate.shared().tempRegisterObj
+                            let vc = firstViewController as! ViewController
+                            vc.accountTextfield.text = obj.account
+                            vc.passTextField.text = obj.passwaord
+                            break
+                        }
+                    }
                     self.navigationController?.popToRootViewController(animated: true)
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)

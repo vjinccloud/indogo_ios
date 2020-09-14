@@ -672,7 +672,7 @@ berada dalam kotak yang ditentukan</string>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="M6R-Z2-6GF" secondAttribute="height" multiplier="375:438" id="4V1-BQ-bbp"/>
                                             <constraint firstItem="RUh-C2-kp3" firstAttribute="width" secondItem="M6R-Z2-6GF" secondAttribute="width" multiplier="0.85" id="Fdv-Kk-prS"/>
@@ -717,7 +717,7 @@ berada dalam kotak yang ditentukan</string>
                                         <rect key="frame" x="20" y="558.5" width="374" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
+                                        <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

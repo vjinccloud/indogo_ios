@@ -77,7 +77,7 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
     }
     
     @IBAction func registAction(_ sender: Any) {
-        
+        //RegisterAgreementVC
         //進入註冊
         let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterAgreementVC") as? RegisterAgreementVC
         self.navigationController?.pushViewController(nextVC!, animated: true)
@@ -132,6 +132,9 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                     AppDelegate.shared().nowBottomMenuType = AppDelegate.shared().defautBottomMenuType
                     AppDelegate.shared().changeRootOfFunc(Type: .transaction)
                     //AppDelegate.shared().showAlertWithWindow(self, Message: "Hi, \(AppDelegate.shared().memberData["member_name"] ?? "") 自動登入成功")
+                    //讀取未讀通知數量
+                    AppDelegate.shared().getNotice()
+                    
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().userLogout()
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
@@ -165,6 +168,8 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 if result == ResponseState.ok {
+                    //讀取未讀通知數量
+                    AppDelegate.shared().getNotice()
                     if self.rememberMeState {
                         AppDelegate.shared().rememberAccount(Account: self.accountTextfield.text!, Pass: self.passTextField.text!)
                     } else {
@@ -338,12 +343,14 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        AppDelegate.shared().clearAllSetup()
+        
         if loadOnce {
             AppDelegate.shared().showTopButton()
             return
         }
         
-        if self.view.frame.size.width < 321 {
+        if self.view.frame.size.width < 380 {
             AppDelegate.shared().deviceSmall = true
             let bnumber = Bundle.main.buildNumber
             remeberBtn.setTitle(" " + NSLocalizedString("remmber me", comment: "") + " " + bnumber + "(small)", for: .normal)

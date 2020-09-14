@@ -31,6 +31,7 @@ class RegisterIntroVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        AppDelegate.shared().hideTopButton()
         backL.text = NSLocalizedString("back", comment: "")
         nextBtn.setTitle(NSLocalizedString("pic take", comment: ""), for: .normal)
         nextBtn.layer.cornerRadius = nextBtn.frame.height/2

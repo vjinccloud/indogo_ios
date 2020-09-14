@@ -18,7 +18,7 @@ class BottomMenuView: UIView {
     var btnFuncType:[BottomMenuType] = []
     var btnImgVAry:[UIImageView] = []
     var realHeightWithoutSafetyBottom:CGFloat = 0
-    
+    var numL:UILabel!
     var topLine:UIView!
     
     func initFirst(RealHeight height:CGFloat) {
@@ -63,6 +63,37 @@ class BottomMenuView: UIView {
             btn.addTarget(self, action: #selector(changeMenuAction(_:)), for: .touchUpInside)
             self.addSubview(btn)
             btnImgVAry.append(img)
+            
+            //通知另外加數字
+            if i == 3 {
+                numL = UILabel.init(frame: CGRect.init(x: btn.frame.origin.x + btn.frame.size.width/2 + 10, y: 2, width: 20, height: 20))
+                self.addSubview(numL)
+                numL.textColor = .black
+                numL.layer.backgroundColor = UIColor.lightGray.cgColor
+                numL.layer.cornerRadius = numL.frame.size.height/2
+                numL.font = UIFont.boldSystemFont(ofSize: 15)
+                numL.textAlignment = .center
+                numL.adjustsFontSizeToFitWidth = true
+                numL.isHidden = true
+            }
+        }
+        
+        setReadNum()
+    }
+    
+    func setReadNum() {
+        if AppDelegate.shared().noticeNotReadNum == 0 {
+            numL.isHidden = true
+        } else {
+            var str = ""
+            if AppDelegate.shared().noticeNotReadNum > 10 {
+                str = "+9"
+            } else {
+                str = "\(AppDelegate.shared().noticeNotReadNum)"
+            }
+            
+            numL.text = str
+            numL.isHidden = false
         }
     }
     
@@ -108,12 +139,13 @@ class BottomMenuView: UIView {
         let tag = (sender as AnyObject).tag
         
         let tempFunc = btnFuncType[tag!]
-        
+        setFuncNow(MenuType:tempFunc)
+        /*
         if tempFunc == AppDelegate.shared().nowBottomMenuType {
             //不做事情
         } else {
             setFuncNow(MenuType:tempFunc)
-        }
+        }*/
     }
 
     /*

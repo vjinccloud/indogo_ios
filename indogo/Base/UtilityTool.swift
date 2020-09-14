@@ -37,6 +37,19 @@ class UtilityTool {
     }
     
     //MARK: - Date
+    func transferIndogoDate(Date lm_time:String) -> String {
+        var show_time = ""
+        let ary = lm_time.components(separatedBy:" ")
+        let arySub = ary[0].components(separatedBy:"-")
+        if arySub.count >= 2 {
+            show_time = arySub[2] + "/" + arySub[1] + "/" + arySub[0]
+        } else {
+            show_time = lm_time
+        }
+        
+        return show_time
+    }
+    
     func dateStringToTime(Str isoDate:String) -> Double {
         var time:Double = -1
         let dateFormatter = DateFormatter()

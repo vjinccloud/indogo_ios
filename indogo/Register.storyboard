@@ -335,12 +335,12 @@ berada dalam kotak yang ditentukan</string>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d1p-Sd-Byv">
-                                                        <rect key="frame" x="237" y="105" width="25" height="30"/>
+                                                        <rect key="frame" x="232" y="105" width="30" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="30" id="A5b-gs-UKq"/>
-                                                            <constraint firstAttribute="width" constant="25" id="Omh-2O-9yN"/>
+                                                            <constraint firstAttribute="width" constant="30" id="Omh-2O-9yN"/>
                                                         </constraints>
-                                                        <state key="normal" title="Button" backgroundImage="profile_pic_change_button.png"/>
+                                                        <state key="normal" backgroundImage="profile_pic_change_button.png"/>
                                                         <connections>
                                                             <action selector="callCamActon:" destination="WK1-X2-jt9" eventType="touchUpInside" id="GYe-1X-gJ9"/>
                                                         </connections>
@@ -910,7 +910,7 @@ SEKARANG</string>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xnR-e1-Fvu">
                                                                 <rect key="frame" x="167" y="0.5" width="80" height="40"/>
-                                                                <color key="backgroundColor" red="0.1179737225" green="0.125236243" blue="0.14117893579999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                <color key="backgroundColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="40" id="UQa-Ex-Lvb"/>
                                                                     <constraint firstAttribute="width" constant="80" id="u8q-fY-qYw"/>
@@ -918,6 +918,7 @@ SEKARANG</string>
                                                             </view>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ATAU" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N9V-CQ-gZT">
                                                                 <rect key="frame" x="171" y="0.5" width="72" height="40"/>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
@@ -1003,8 +1004,10 @@ SEKARANG</string>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </view>
                                                 </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </stackView>
                                         </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="j5Z-yU-lFL" firstAttribute="height" secondItem="xJL-PB-uNS" secondAttribute="height" multiplier="0.6" id="F8W-gI-rgJ"/>
                                             <constraint firstItem="qbX-pp-VFk" firstAttribute="top" secondItem="xJL-PB-uNS" secondAttribute="top" id="cE0-lP-qMG"/>

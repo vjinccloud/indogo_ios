@@ -170,7 +170,7 @@ class TransferPointVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
         let data = AppDelegate.shared().transferFriendListObj[chosedIndx]
         if data.memberStyle == .normal {
             parameters["mode"] = 1
-            parameters["friend_id"] = data.idStr
+            parameters["friend_id"] = Int(data.idStr)
         } else if data.memberStyle == .shop {
             parameters["mode"] = 2
             parameters["phone"] = data.phone

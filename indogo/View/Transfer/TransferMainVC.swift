@@ -47,6 +47,12 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
     func checkAndCalculateValue(UseStyle style:Int, NweString newString:String) {
         kursValue = Double(AppDelegate.shared().memberData["kurs_value"]!)!
         serviceCharge = Int(AppDelegate.shared().memberData["service_charge"]!)!
+
+        let value = Double(AppDelegate.shared().memberData["remit_point"]!)!
+        if value < 200 {
+            serviceCharge = Int(value)
+        }
+        
         var string = newString
         
         var upValue = Int(upTextField.text!.replacingOccurrences(of: ",", with: ""))
@@ -148,9 +154,11 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == upTextField {
-            upTextField.text = upTextField.text!.replacingOccurrences(of: ",", with: "")
+            //upTextField.text = upTextField.text!.replacingOccurrences(of: ",", with: "")
+            upTextField.selectAll(nil)
         } else if textField == downTextField {
-            downTextField.text = downTextField.text!.replacingOccurrences(of: ",", with: "")
+            //downTextField.text = downTextField.text!.replacingOccurrences(of: ",", with: "")
+            downTextField.selectAll(nil)
         }
     }
     
@@ -164,6 +172,48 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         checkAndCalculateValue(UseStyle: mode, NweString: "")
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if ((string == "0" || string == "") && (textField.text! as NSString).range(of: ".").location < range.location) {
+            return true
+        }
+
+        // First check whether the replacement string's numeric...
+        let cs = NSCharacterSet(charactersIn: "0123456789.").inverted
+        let filtered = string.components(separatedBy: cs)
+        let component = filtered.joined(separator: "")
+        let isNumeric = string == component
+
+        // Then if the replacement string's numeric, or if it's
+        // a backspace, or if it's a decimal point and the text
+        // field doesn't already contain a decimal point,
+        // reformat the new complete number using
+        if isNumeric {
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .decimal
+            formatter.maximumFractionDigits = 10
+            // Combine the new text with the old; then remove any
+            // commas from the textField before formatting
+            let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            let numberWithOutCommas = newString.replacingOccurrences(of: ",", with: "")
+            let number = formatter.number(from: numberWithOutCommas)
+            if number != nil {
+                var formattedString = formatter.string(from: number!)
+                // If the last entry was a decimal or a zero after a decimal,
+                // re-add it here because the formatter will naturally remove
+                // it.
+                if string == "." && range.location == textField.text?.count {
+                    formattedString = formattedString?.appending(".")
+                }
+                textField.text = formattedString
+            } else {
+                textField.text = nil
+            }
+        }
+        return false
+
+    }
+    
+    /*
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         if newString.contains(".") || newString.contains("-") {
@@ -185,7 +235,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         }
         
         return true
-    }
+    }*/
     
     //MARK: - View-Life
     override func viewDidLoad() {

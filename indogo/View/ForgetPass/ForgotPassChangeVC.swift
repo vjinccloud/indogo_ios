@@ -36,6 +36,35 @@ class ForgotPassChangeVC: UIViewController, UITextFieldDelegate {
     
     //MARK: - Button-Action
     @IBAction func nextAction(_ sender: Any) {
+        let parameters:Parameters = ["arc_no":AppDelegate.shared().forgotPassTempMemID, "password":UtilityTool().sha256(Code: passTextField.text!), "sms_code":AppDelegate.shared().forgotPassTempEnterCode]
+        let headers: HTTPHeaders = [:]
+        
+        Dlog("parameters=\(parameters)")
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_PassUpdate;
+        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("responseStr = \(responseStr ?? "")")
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                
+                if result == ResponseState.ok {
+                    self.navigationController?.popToRootViewController(animated: true)
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                }
+        }
     }
     
     @IBAction func cancelAction(_ sender: Any) {
@@ -96,7 +125,7 @@ class ForgotPassChangeVC: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
         self.setupHideKeyboardOnTap()
         
-        backL.text = NSLocalizedString("back", comment: "")
+        backL.text = NSLocalizedString("TFFRHP Change Title", comment: "")
         passBtn.layer.cornerRadius = passBtn.frame.size.height/2
         repassBtn.layer.cornerRadius = repassBtn.frame.size.height/2
         nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2

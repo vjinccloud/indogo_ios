@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 import AVFoundation
 
-class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCaptureMetadataOutputObjectsDelegate {
+class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCaptureMetadataOutputObjectsDelegate, CustomAlertDelegate {
 
     @IBOutlet weak var backL: UILabel!
     @IBOutlet weak var topL: UILabel!
@@ -29,6 +29,15 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
     public var fromType:ScanParentType = ScanParentType.forgotPass
     
     //MARK: - Utility
+    func customAlertnextAction(Ref obj: CustomAlertView) {
+        obj.removeFromSuperview()
+        self.stopNow = false
+    }
+    
+    func customAlertnextActionSecond(Ref obj: CustomAlertView) {
+        
+    }
+    
     func simulatorNextAction() {
         //試試測試帳號
         //Delay一下
@@ -38,6 +47,29 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
     }
     
     func scanNext(Code code:String) {
+        
+        //檢查限制為 C,D,8,9 其餘跳出格式錯誤
+        //"scan format wrong"
+        var checkedWrong = false
+        if code.count < 2 {
+            checkedWrong = true
+        } else {
+            let singleWord = code.getSubString(Start: 1, End: 2).lowercased()
+            Dlog("singleWord = \(singleWord)")
+            if singleWord != "c" || singleWord != "d" || singleWord != "8" || singleWord != "9" {
+                checkedWrong = true
+            }
+        }
+        
+        if checkedWrong {
+            let window = UIApplication.shared.keyWindow
+            let customAlert = CustomAlertView.init(frame: self.view.frame)
+            customAlert.initSimpleAlert(Title: "", Content: NSLocalizedString("scan format wrong" , comment: ""), NextBtn1Str: NSLocalizedString("ok" , comment: ""))
+            window!.addSubview(customAlert)
+            customAlert.customDelegate = self
+            return
+        }
+        
         scanL.isHidden = true
         
         if fromType == .register { //回到註冊畫面

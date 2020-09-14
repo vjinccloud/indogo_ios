@@ -109,7 +109,7 @@ class RegisterSelfPhotoStep2VC: UIViewController {
         processImgV.image = finalImg
         processImgV.contentMode = .scaleAspectFit
         
-        if self.view.frame.size.width<321 {
+        if self.view.frame.size.width<380 {
             Dlog("special handling")
             //scanViewWidthConstrain.constant = -40
         }

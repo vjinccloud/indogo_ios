@@ -68,7 +68,10 @@ class ForgotPassCheckPhoneVC: UIViewController {
         if checkType == 0 { //取消回上一頁
             self.navigationController?.popViewController(animated: true)
         } else if checkType == 1 { //註冊
-            
+            AppDelegate.shared().hasArcResultAndGotoRegister = true
+            AppDelegate.shared().arcScanReulstForRegister = AppDelegate.shared().forgotPassTempMemID
+            let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterAgreementVC") as? RegisterAgreementVC
+            self.navigationController?.pushViewController(nextVC!, animated: true)
         }
     }
     

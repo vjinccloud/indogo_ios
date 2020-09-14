@@ -36,7 +36,7 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         if cellOrderCheckData.order_status == "5" {
             return 215
         } else {
-            return 310
+            return 320
         }
         
     }
@@ -87,6 +87,8 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
             if time1 < 0 || time2 < 0 {
                 cell.barNumberV.isHidden = true
             } else {
+                cell.startCountDown(Time: expireTimeStr)
+                /*
                 let diffTime = Int(time1 - time2)
                 if diffTime < 0 {
                     cell.barNumberV.isHidden = true
@@ -102,7 +104,7 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
                     let leftHours = Int(diffTime/3600)
                     cell.n1L.text = "\(leftHours%10)"
                     cell.n0L.text = "\(Int(leftHours/10))"
-                }
+                }*/
             }
             
         } else if cellOrderCheckData.order_status == "5" {
@@ -115,18 +117,17 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
             cell.pureTextV.isHidden = true
             cell.midL.isHidden = true
             
-            let timeStr = cellOrderCheckData.lm_time_failed!
-            let ary = timeStr.components(separatedBy: " ")
-            if ary.count > 0 {
-                cell.barTimeL.text = ary[0].replacingOccurrences(of: "-", with: ".")
-            } else {
-                cell.barTimeL.text = ""
-            }
+            let timeStr = UtilityTool().transferIndogoDate(Date:cellOrderCheckData.lm_time_failed!)
+            cell.barTimeL.text = timeStr
             
-            cell.failNameL.text = serchBankobj.bank_name
+            let imgurl = serchBankobj.bank_photo!
+            let urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
+            cell.failIconIgV.kf.setImage(with: urlhaed)
+            
+            cell.failNameL.text = cellData.recipient_name
             cell.failIDL.text = cellData.to_acc
             cell.failValueL.text = "IDR " + cellData.transfer_amount_idr.stringToIntDecimalString()
-            cell.failNoteL.text = cellData.recipient_name
+            cell.failNoteL.text = NSLocalizedString("Transfer State Down Kurs Value Title", comment: "") + " " + cellData.kurs_value
             
         } else {
             cell.barNumberV.isHidden = true
@@ -143,13 +144,9 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
                 timeStr = cellOrderCheckData.lm_time_transfer!
             }
             
-            let ary = timeStr.components(separatedBy: " ")
+            cell.barTimeL.text = UtilityTool().transferIndogoDate(Date:timeStr)
             
-            if ary.count > 0 {
-                cell.barTimeL.text = ary[0].replacingOccurrences(of: "-", with: ".")
-            } else {
-                cell.barTimeL.text = ""
-            }
+            let ary = timeStr.components(separatedBy: " ")
             
             if ary.count > 1 {
                 cell.upIDL.text = NSLocalizedString("Transfer State Down Time Title", comment: "") + " " + ary[1]
@@ -166,10 +163,10 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
             
         }
         
-        cell.downNameL.text = serchBankobj.bank_name
+        cell.downNameL.text = cellData.recipient_name
         cell.downIDL.text = cellData.to_acc
         cell.downValueL.text = "IDR " + cellData.transfer_amount_idr.stringToIntDecimalString()
-        cell.downNoteL.text = cellData.recipient_name
+        cell.downNoteL.text = NSLocalizedString("Transfer State Down Kurs Value Title", comment: "") + " " + cellData.kurs_value
         
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
@@ -231,7 +228,7 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
                 AppDelegate.shared().transferOrderCheckListObjs = []
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 if result == ResponseState.ok {
-                    self.reloadDataAndTable()
+                    self.reloadDataAndTable(Str: self.searchTextfield.text!)
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
@@ -276,7 +273,7 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     //MARK: - Button-Action
     @IBAction func searchAction(_ sender: Any) {
         closeAll()
-        reloadDataAndTable()
+        reloadDataAndTable(Str: searchTextfield.text!)
     }
     
     @IBAction func backAction(_ sender: Any) {
@@ -302,26 +299,34 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         closeAll()
-        reloadDataAndTable()
+        reloadDataAndTable(Str: textField.text!)
         return true
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        reloadDataAndTable(Str: newString)
+        return true
+
+    }
+    
     //MARK: - Utility
-    func reloadDataAndTable() {
+    func reloadDataAndTable(Str str:String) {
         //根據search字串過濾
         searchShowIndex = []
         showDataList = AppDelegate.shared().transferStateListObjs
         showOrderCheckDataList = AppDelegate.shared().transferOrderCheckListObjs
         
-        if searchTextfield.text == "" {
+        if str == "" {
             for i in 0..<showDataList.count {
                 searchShowIndex.append(i)
             }
         } else {
-            let searchStr = searchTextfield.text
+            let searchStr = str.lowercased()
             for i in 0..<showDataList.count {
                 let obj = showDataList[i]
-                if obj.payment_info.contains(searchStr!) || obj.to_acc.contains(searchStr!) || obj.recipient_name.contains(searchStr!) {
+                if obj.payment_info.lowercased().contains(searchStr) || obj.to_acc.lowercased().contains(searchStr) || obj.recipient_name.lowercased().contains(searchStr) {
                     searchShowIndex.append(i)
                 }
             }
@@ -343,6 +348,8 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         myTable.register(nib, forCellReuseIdentifier: "TransferStateType1TableViewCell")
         myTable.bounces = false
         myTable.backgroundColor = .clear
+        myTable.separatorStyle = .none
+        
         searchTextfield.keyboardType = .default
         searchTextfield.returnKeyType = .search
         searchTextfield.delegate = self
