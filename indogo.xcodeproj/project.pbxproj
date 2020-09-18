@@ -320,7 +320,6 @@
 		0466A81A24C04AB9008F6D38 /* ForgotPassCheckPhoneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0466A81924C04AB9008F6D38 /* ForgotPassCheckPhoneVC.swift */; };
 		0466A82224C15BA7008F6D38 /* ForgotPassEnterCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0466A82124C15BA7008F6D38 /* ForgotPassEnterCodeVC.swift */; };
 		0466BFA3250E1E8F009EDEFF /* BankListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0466BFA2250E1E8F009EDEFF /* BankListTableViewCell.swift */; };
-		0466BFA6250FE283009EDEFF /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0466BFA5250FE283009EDEFF /* BaseViewController.swift */; };
 		0467180B24E436A5008A75B1 /* NoticeMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0467180A24E436A5008A75B1 /* NoticeMainVC.swift */; };
 		0472E23D24C2DC8600CC48A0 /* RegisterAgreementVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472E23C24C2DC8600CC48A0 /* RegisterAgreementVC.swift */; };
 		049686DD24B6EFB0005EF74A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049686DC24B6EFB0005EF74A /* AppDelegate.swift */; };
@@ -362,7 +361,6 @@
 		04AC3EE92500251000E48622 /* TransactionInfoConfirmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC3EE82500251000E48622 /* TransactionInfoConfirmVC.swift */; };
 		04AC3EEB2500A38B00E48622 /* TransactionAgreeMentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC3EEA2500A38B00E48622 /* TransactionAgreeMentVC.swift */; };
 		04AC3EEE25013D7900E48622 /* TransactionResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC3EED25013D7900E48622 /* TransactionResultVC.swift */; };
-		04AC3EF02502170F00E48622 /* teach4.png in Resources */ = {isa = PBXBuildFile; fileRef = 04AC3EEF2502170E00E48622 /* teach4.png */; };
 		04AC3EF225021AB000E48622 /* TransactionResultObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC3EF125021AB000E48622 /* TransactionResultObj.swift */; };
 		04AC3EF4250262DE00E48622 /* TransactionPayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC3EF3250262DE00E48622 /* TransactionPayVC.swift */; };
 		04AC3EF62502923300E48622 /* BarCodeInfoObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC3EF52502923300E48622 /* BarCodeInfoObj.swift */; };
@@ -769,7 +767,6 @@
 		0466A81924C04AB9008F6D38 /* ForgotPassCheckPhoneVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassCheckPhoneVC.swift; sourceTree = "<group>"; };
 		0466A82124C15BA7008F6D38 /* ForgotPassEnterCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassEnterCodeVC.swift; sourceTree = "<group>"; };
 		0466BFA2250E1E8F009EDEFF /* BankListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankListTableViewCell.swift; sourceTree = "<group>"; };
-		0466BFA5250FE283009EDEFF /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		0467180A24E436A5008A75B1 /* NoticeMainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeMainVC.swift; sourceTree = "<group>"; };
 		0472E23C24C2DC8600CC48A0 /* RegisterAgreementVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAgreementVC.swift; sourceTree = "<group>"; };
 		049686D924B6EFB0005EF74A /* indogo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = indogo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -813,7 +810,6 @@
 		04AC3EE82500251000E48622 /* TransactionInfoConfirmVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionInfoConfirmVC.swift; sourceTree = "<group>"; };
 		04AC3EEA2500A38B00E48622 /* TransactionAgreeMentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionAgreeMentVC.swift; sourceTree = "<group>"; };
 		04AC3EED25013D7900E48622 /* TransactionResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionResultVC.swift; sourceTree = "<group>"; };
-		04AC3EEF2502170E00E48622 /* teach4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = teach4.png; sourceTree = "<group>"; };
 		04AC3EF125021AB000E48622 /* TransactionResultObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionResultObj.swift; sourceTree = "<group>"; };
 		04AC3EF3250262DE00E48622 /* TransactionPayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionPayVC.swift; sourceTree = "<group>"; };
 		04AC3EF52502923300E48622 /* BarCodeInfoObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarCodeInfoObj.swift; sourceTree = "<group>"; };
@@ -940,7 +936,6 @@
 				049B14782508F422009E31DB /* fami_help@2x.jpg */,
 				049B14772508F422009E31DB /* fami_help@3x.jpg */,
 				049B14752508F27A009E31DB /* fami_help.jpg */,
-				04AC3EEF2502170E00E48622 /* teach4.png */,
 				04B0272B24E150B900C59670 /* barcode.png */,
 				04B0274724E150C000C59670 /* barcode@2x.png */,
 				04B0274124E150BE00C59670 /* barcode@3x.png */,
@@ -1406,7 +1401,6 @@
 				0420CE9924FA39FD000CCC08 /* BankObj.swift */,
 				04AC3EF725029C0500E48622 /* UIView+Extension.swift */,
 				04EC6A1225069556004D7343 /* Bundle+Extension.swift */,
-				0466BFA5250FE283009EDEFF /* BaseViewController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1788,7 +1782,6 @@
 				04B0278D24E150C400C59670 /* man_with_id_1@2x.png in Resources */,
 				043AE0A924E1468B00E0892E /* icon_point@3x.png in Resources */,
 				043AE04C24E1468A00E0892E /* fanilymart.png in Resources */,
-				04AC3EF02502170F00E48622 /* teach4.png in Resources */,
 				043AE00824E1468A00E0892E /* fanilymart@3x.png in Resources */,
 				049B14762508F27A009E31DB /* fami_help.jpg in Resources */,
 				049686F124B6FC32005EF74A /* Podfile in Resources */,
@@ -2049,7 +2042,6 @@
 				04D9D78924E28AFF0036DC5C /* PureWebVC.swift in Sources */,
 				0496881A24B99235005EF74A /* PromoPageVC.swift in Sources */,
 				04D9D78B24E3C7A30036DC5C /* BottomMenuView.swift in Sources */,
-				0466BFA6250FE283009EDEFF /* BaseViewController.swift in Sources */,
 				049687FD24B79B3C005EF74A /* SceneDelegate.swift in Sources */,
 				0429A62224E9B01F00716696 /* NoticeTableViewCell.swift in Sources */,
 				04D8562C24C2D14C007BD825 /* CustomAlertView.swift in Sources */,
@@ -2221,7 +2213,7 @@
 				CODE_SIGN_ENTITLEMENTS = indogo/indogo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 8P43SK2KHA;
 				INFOPLIST_FILE = indogo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -2245,7 +2237,7 @@
 				CODE_SIGN_ENTITLEMENTS = indogo/indogo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 8P43SK2KHA;
 				INFOPLIST_FILE = indogo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

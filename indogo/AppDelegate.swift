@@ -113,11 +113,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         application.registerForRemoteNotifications()
         
+        loadCookie()
+        
         //指定分隔字元
         AppDelegate.shared().seperatorStr = NSLocalizedString("leading space", comment: "")
         AppDelegate.shared().subSeperatorStr = NSLocalizedString("leading sub space", comment: "")
         self.getBankList()
         return true
+    }
+    
+    func applicationWillResignActive(_ application: UIApplication) {
+        saveCookie()
     }
     
     //回首頁時清除所有設定
@@ -224,6 +230,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func reStoreFloatingButtonPosition() {
         floatingButton.frame = floatingBtnBackFrame
+    }
+    
+    func showFloatingBtn() {
+        if hasFloatingBtn {
+            let window = UIApplication.shared.keyWindow
+            window?.bringSubviewToFront(floatingButton)
+        }
     }
     
     func addFloatingBtn() {
@@ -540,6 +553,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         hasBottomMenu = false
     }
     
+    public func rememberAarcNo(Account account:String) {
+        let userDefaults = UserDefaults.standard
+        userDefaults.setValue(account, forKey: "remeberArcNo")
+        userDefaults.synchronize()
+    }
+    
+    public func getRemeberedAarcNo() -> String {
+        let userDefaults = UserDefaults.standard
+        if userDefaults.string(forKey: "remeberArcNo") != nil {
+            return userDefaults.string(forKey: "remeberArcNo")!
+        } else {
+            return ""
+        }
+    }
+    
+    public func setHasReadPromo () {
+        let userDefaults = UserDefaults.standard
+        userDefaults.setValue("1", forKey: "hasReadPromo")
+        userDefaults.synchronize()
+    }
+    
+    public func getHasReadPromo() -> String {
+        let userDefaults = UserDefaults.standard
+        if userDefaults.string(forKey: "hasReadPromo") != nil {
+            return userDefaults.string(forKey: "hasReadPromo")!
+        } else {
+            return ""
+        }
+    }
+    
     func setBioState() {
         let userDefaults = UserDefaults.standard
         userDefaults.setValue("1", forKey: "bioState")
@@ -605,6 +648,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
+    //MARK: - Cookie
+    func saveCookie() {
+        let cookieJar: HTTPCookieStorage = HTTPCookieStorage.shared
+        if let cookies = cookieJar.cookies {
+            let data: Data = NSKeyedArchiver.archivedData(withRootObject: cookies)
+            let ud: UserDefaults = UserDefaults.standard
+            ud.set(data, forKey: "cookie")
+        }
+        
+        Dlog("saveCookie")
+    }
+
+    func loadCookie() {
+        Dlog("loadCookie")
+        let ud: UserDefaults = UserDefaults.standard
+        let data: Data? = ud.object(forKey: "cookie") as? Data
+        if let cookie = data {
+            let datas: NSArray? = NSKeyedUnarchiver.unarchiveObject(with: cookie) as? NSArray
+            if let cookies = datas {
+                for c in cookies {
+                    if let cookieObject = c as? HTTPCookie {
+                        HTTPCookieStorage.shared.setCookie(cookieObject)
+                    }
+                }
+            }
+        }
+    }
+    
     //MARK: - Utility
     class func shared() -> AppDelegate
     {
@@ -663,6 +734,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let url = URL(string: "https://ec.indogo.tw/")
         let request = URLRequest(url: url!)
         shopWebView.load(request)
+        showFloatingBtn()
     }
     
     @objc func callFloatingNormalV() {
@@ -670,6 +742,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         shopPageBtn.setTitleColor(.darkGray, for: .normal)
         topLine.frame = CGRect.init(x: 0, y: topContainer.frame.size.height-2, width: topContainer.frame.size.width/2, height: 2)
         shopWebBgV.isHidden = true
+        showFloatingBtn()
     }
     
     func showTopButton() {

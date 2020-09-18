@@ -103,7 +103,7 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
                         if firstViewController is ViewController {
                             let obj = AppDelegate.shared().tempRegisterObj
                             let vc = firstViewController as! ViewController
-                            vc.accountTextfield.text = obj.account
+                            vc.accountTextfield.text = obj.arcNum
                             vc.passTextField.text = obj.passwaord
                             break
                         }

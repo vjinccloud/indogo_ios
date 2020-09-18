@@ -17,8 +17,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ts7-C5-SHO">
-                                <rect key="frame" x="0.0" y="84" width="414" height="812"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <color key="backgroundColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="nQ6-1U-0pb">
                                 <rect key="frame" x="187.5" y="809" width="39" height="37"/>
@@ -272,8 +272,8 @@
                             <constraint firstItem="nQ6-1U-0pb" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="LlY-9K-G49"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="RWq-pe-bgr" secondAttribute="trailing" id="Vcd-Xd-ccS"/>
                             <constraint firstItem="RWq-pe-bgr" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="YLj-LR-1ho"/>
+                            <constraint firstItem="ts7-C5-SHO" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="auE-U8-Grd"/>
                             <constraint firstItem="RWq-pe-bgr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="keW-vi-lTf"/>
-                            <constraint firstItem="ts7-C5-SHO" firstAttribute="top" secondItem="RWq-pe-bgr" secondAttribute="top" id="m7C-oc-ITK"/>
                             <constraint firstItem="ts7-C5-SHO" firstAttribute="trailing" secondItem="RWq-pe-bgr" secondAttribute="trailing" id="vZt-bG-EUT"/>
                             <constraint firstItem="nQ6-1U-0pb" firstAttribute="bottom" secondItem="ts7-C5-SHO" secondAttribute="bottom" constant="-50" id="wKx-WK-wCm"/>
                             <constraint firstAttribute="bottom" secondItem="RWq-pe-bgr" secondAttribute="bottom" id="yem-rk-6Fd"/>
@@ -667,7 +667,7 @@ berada dalam kotak yang ditentukan</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M6R-Z2-6GF">
                                         <rect key="frame" x="0.0" y="45" width="414" height="483.5"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RUh-C2-kp3">
+                                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RUh-C2-kp3">
                                                 <rect key="frame" x="31" y="290" width="352" height="53.5"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
@@ -759,7 +759,8 @@ berada dalam kotak yang ditentukan</string>
                         <outlet property="backL" destination="GGA-E2-8zn" id="Dq9-Z2-tFo"/>
                         <outlet property="bottomL" destination="han-hx-BaF" id="GBu-GL-WzD"/>
                         <outlet property="scanL" destination="ogL-VJ-zlR" id="BuO-0f-W1W"/>
-                        <outlet property="scanView" destination="RUh-C2-kp3" id="MlZ-6I-a6i"/>
+                        <outlet property="scanMaskView" destination="RUh-C2-kp3" id="UZi-vF-rmK"/>
+                        <outlet property="scanView" destination="M6R-Z2-6GF" id="pEK-hw-nTf"/>
                         <outlet property="topL" destination="ayW-hE-3xe" id="Afy-3i-ErC"/>
                     </connections>
                 </viewController>

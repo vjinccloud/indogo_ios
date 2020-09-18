@@ -28,11 +28,17 @@ class RegisterIDWithSelfIntroVC: UIViewController, UIImagePickerControllerDelega
     
     @IBAction func nextAction(_ sender: Any) {
         if takePhotoType == .faceAndId || takePhotoType == .faceAndIdFromEdit {
+            
+            let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterSelfPhotoVC") as? RegisterSelfPhotoVC
+            nextVC?.takePhotoType = self.takePhotoType
+            self.navigationController?.pushViewController(nextVC!, animated: true)
+            
+            /*
             let customAlert = CustomAlertView.init(frame: backView.frame)
             //customAlert.initTwoActionAlert(Title: NSLocalizedString("Register Input Foto Select Title" , comment: ""), Content: "", NextBtn1Str: NSLocalizedString("Register Input Foto Select Camera" , comment: ""), NextBtn2Str: NSLocalizedString("Register Input Foto Select Gallery" , comment: ""), CancelBtn1Str: NSLocalizedString("cancel" , comment: ""))
             customAlert.initAlert(Title: NSLocalizedString("Register Input Foto Select Title" , comment: ""), Content: "", NextBtn1Str: NSLocalizedString("Register Input Foto Select Camera" , comment: ""), CancelBtn1Str: NSLocalizedString("cancel" , comment: ""))
             self.view.addSubview(customAlert)
-            customAlert.customDelegate = self
+            customAlert.customDelegate = self*/
         }
     }
     

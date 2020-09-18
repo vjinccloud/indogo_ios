@@ -56,7 +56,7 @@ class TransactionPayVC: UIViewController {
     var expireTime:Date!
     
     //MARK: - API
-    public func getOrderDetail() {
+    public func getBarCode() {
         
         let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "payment_info":payment_info, "mode":2]
         let headers: HTTPHeaders = [:]
@@ -189,7 +189,7 @@ class TransactionPayVC: UIViewController {
         if startCountDown {
             return
         } else {
-            getOrderDetail()
+            getBarCode()
         }
     }
     
@@ -250,7 +250,7 @@ class TransactionPayVC: UIViewController {
         }
         
         loadOnce = true
-        getOrderDetail()
+        reloadData()
         
         if chosedStyle == StoreType.sevenEleven {
             iconImgV.image = UIImage.init(named: "711.png")

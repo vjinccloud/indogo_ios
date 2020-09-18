@@ -608,15 +608,25 @@ berada dalam kotak yang ditentukan</string>
                                                             <constraint firstAttribute="width" constant="282" id="gOJ-h5-Rcn"/>
                                                         </constraints>
                                                     </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KKF-1g-2g9">
+                                                        <rect key="frame" x="73" y="31.5" width="268" height="22"/>
+                                                        <connections>
+                                                            <action selector="callScanArcActon:" destination="WK1-X2-jt9" eventType="touchUpInside" id="jqS-sc-XGr"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="85" id="KNJ-3X-OEW"/>
+                                                    <constraint firstItem="KKF-1g-2g9" firstAttribute="centerY" secondItem="7fh-af-9zf" secondAttribute="centerY" id="Trf-pZ-AKl"/>
                                                     <constraint firstItem="7fh-af-9zf" firstAttribute="height" secondItem="eJU-Th-6yg" secondAttribute="height" multiplier="0.308824" constant="0.94999999999999996" id="W2Q-mE-N2e"/>
                                                     <constraint firstItem="eJU-Th-6yg" firstAttribute="centerY" secondItem="Bm5-gp-Tx0" secondAttribute="centerY" id="WBn-dQ-K5h"/>
                                                     <constraint firstItem="7fh-af-9zf" firstAttribute="centerX" secondItem="eJU-Th-6yg" secondAttribute="centerX" id="Zgo-Zp-d9o"/>
+                                                    <constraint firstItem="KKF-1g-2g9" firstAttribute="width" secondItem="7fh-af-9zf" secondAttribute="width" id="ZwQ-Yj-TOX"/>
+                                                    <constraint firstItem="KKF-1g-2g9" firstAttribute="centerX" secondItem="7fh-af-9zf" secondAttribute="centerX" id="jVg-zD-Fb8"/>
                                                     <constraint firstItem="eJU-Th-6yg" firstAttribute="centerX" secondItem="Bm5-gp-Tx0" secondAttribute="centerX" id="lXi-IT-6n0"/>
                                                     <constraint firstItem="7fh-af-9zf" firstAttribute="centerY" secondItem="eJU-Th-6yg" secondAttribute="centerY" id="m8t-4X-9AQ"/>
+                                                    <constraint firstItem="KKF-1g-2g9" firstAttribute="height" secondItem="7fh-af-9zf" secondAttribute="height" id="pt2-uW-qOG"/>
                                                     <constraint firstItem="7fh-af-9zf" firstAttribute="width" secondItem="eJU-Th-6yg" secondAttribute="width" multiplier="0.95" id="zbw-tx-aSt"/>
                                                 </constraints>
                                             </view>
@@ -1071,24 +1081,36 @@ SEKARANG</string>
                                 <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MLn-Oh-tXd">
-                                        <rect key="frame" x="0.0" y="6" width="414" height="740"/>
+                                        <rect key="frame" x="0.0" y="11" width="414" height="730"/>
+                                        <subviews>
+                                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HDW-fF-mfI">
+                                                <rect key="frame" x="120" y="182.5" width="174" height="365"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            </view>
+                                        </subviews>
                                         <color key="backgroundColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="HDW-fF-mfI" firstAttribute="centerX" secondItem="MLn-Oh-tXd" secondAttribute="centerX" id="Ipr-a9-dmX"/>
+                                            <constraint firstItem="HDW-fF-mfI" firstAttribute="centerY" secondItem="MLn-Oh-tXd" secondAttribute="centerY" id="QpX-8b-Zyx"/>
+                                            <constraint firstItem="HDW-fF-mfI" firstAttribute="width" secondItem="MLn-Oh-tXd" secondAttribute="width" multiplier="0.42" id="bPb-r9-fKh"/>
+                                            <constraint firstItem="HDW-fF-mfI" firstAttribute="height" secondItem="MLn-Oh-tXd" secondAttribute="height" multiplier="0.5" id="ndr-wN-DGF"/>
+                                        </constraints>
                                     </view>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cover2.png" translatesAutoresizingMaskIntoConstraints="NO" id="iXo-ij-0tC">
-                                        <rect key="frame" x="0.0" y="6" width="414" height="736"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cover2.png" translatesAutoresizingMaskIntoConstraints="NO" id="iXo-ij-0tC">
+                                        <rect key="frame" x="0.0" y="8" width="414" height="736"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="iXo-ij-0tC" secondAttribute="height" multiplier="375:667" id="2wI-0R-y3a"/>
                                         </constraints>
                                     </imageView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="next-1.png" translatesAutoresizingMaskIntoConstraints="NO" id="LL5-4q-1Zx">
-                                        <rect key="frame" x="193" y="520" width="28" height="28"/>
+                                        <rect key="frame" x="193" y="522" width="28" height="28"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="28" id="Dqh-6w-n2o"/>
                                             <constraint firstAttribute="width" constant="28" id="kpA-Af-dhH"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RGT-L6-g3Z">
-                                        <rect key="frame" x="20" y="169" width="374" height="70"/>
+                                        <rect key="frame" x="20" y="171" width="374" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="zUe-PP-dzh"/>
                                         </constraints>
@@ -1099,7 +1121,7 @@ Barcode ARC</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ENj-Jp-GVN">
-                                        <rect key="frame" x="20" y="558" width="374" height="50"/>
+                                        <rect key="frame" x="20" y="560" width="374" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="miJ-Z9-I7P"/>
                                         </constraints>
@@ -1110,13 +1132,13 @@ berada dalam kotak yang ditentukan</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scanning...." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W4M-zc-fjp">
-                                        <rect key="frame" x="20" y="249" width="374" height="24"/>
+                                        <rect key="frame" x="20" y="251" width="374" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="92x-Ra-Koh">
-                                        <rect key="frame" x="83" y="638" width="248" height="45"/>
+                                        <rect key="frame" x="83" y="640" width="248" height="45"/>
                                         <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="45" id="ItT-Vd-Va3"/>
@@ -1139,13 +1161,13 @@ berada dalam kotak yang ditentukan</string>
                                     <constraint firstItem="92x-Ra-Koh" firstAttribute="top" secondItem="ENj-Jp-GVN" secondAttribute="bottom" constant="30" id="9jZ-wf-f04"/>
                                     <constraint firstItem="iXo-ij-0tC" firstAttribute="width" secondItem="MLn-Oh-tXd" secondAttribute="width" id="AGQ-6q-r43"/>
                                     <constraint firstAttribute="trailing" secondItem="RGT-L6-g3Z" secondAttribute="trailing" constant="20" id="GBN-nM-8S5"/>
-                                    <constraint firstItem="iXo-ij-0tC" firstAttribute="height" secondItem="MLn-Oh-tXd" secondAttribute="height" constant="-4" id="Hjo-fo-tfk"/>
+                                    <constraint firstItem="iXo-ij-0tC" firstAttribute="height" secondItem="MLn-Oh-tXd" secondAttribute="height" constant="6" id="Hjo-fo-tfk"/>
                                     <constraint firstAttribute="trailing" secondItem="W4M-zc-fjp" secondAttribute="trailing" constant="20" id="Vl7-2k-A0u"/>
                                     <constraint firstItem="MLn-Oh-tXd" firstAttribute="leading" secondItem="hP2-7F-TaY" secondAttribute="leading" id="X0U-E5-3Jk"/>
                                     <constraint firstItem="92x-Ra-Koh" firstAttribute="width" secondItem="hP2-7F-TaY" secondAttribute="width" multiplier="0.6" id="aEO-Ng-UvO"/>
                                     <constraint firstItem="92x-Ra-Koh" firstAttribute="centerX" secondItem="hP2-7F-TaY" secondAttribute="centerX" id="cpf-AF-fRS"/>
                                     <constraint firstItem="MLn-Oh-tXd" firstAttribute="centerY" secondItem="hP2-7F-TaY" secondAttribute="centerY" constant="-50" id="jLp-jJ-Lpd"/>
-                                    <constraint firstItem="iXo-ij-0tC" firstAttribute="centerY" secondItem="MLn-Oh-tXd" secondAttribute="centerY" constant="-2" id="oDQ-j5-MXP"/>
+                                    <constraint firstItem="iXo-ij-0tC" firstAttribute="centerY" secondItem="MLn-Oh-tXd" secondAttribute="centerY" id="oDQ-j5-MXP"/>
                                     <constraint firstItem="ENj-Jp-GVN" firstAttribute="top" secondItem="LL5-4q-1Zx" secondAttribute="bottom" constant="10" id="oVa-Cq-ysl"/>
                                     <constraint firstItem="LL5-4q-1Zx" firstAttribute="centerX" secondItem="MLn-Oh-tXd" secondAttribute="centerX" id="pUZ-AL-7l7"/>
                                     <constraint firstItem="RGT-L6-g3Z" firstAttribute="centerY" secondItem="iXo-ij-0tC" secondAttribute="centerY" constant="-170" id="sJk-lc-tkq"/>
@@ -1168,6 +1190,7 @@ berada dalam kotak yang ditentukan</string>
                     <connections>
                         <outlet property="backBtn" destination="92x-Ra-Koh" id="WS1-YP-C0v"/>
                         <outlet property="bottomL" destination="ENj-Jp-GVN" id="dSg-Ld-PyT"/>
+                        <outlet property="realScanRectView" destination="HDW-fF-mfI" id="byq-n5-E9m"/>
                         <outlet property="scanL" destination="W4M-zc-fjp" id="lLb-q7-ls0"/>
                         <outlet property="scanView" destination="MLn-Oh-tXd" id="2tD-dJ-4oI"/>
                         <outlet property="topL" destination="RGT-L6-g3Z" id="rec-mZ-Mcq"/>

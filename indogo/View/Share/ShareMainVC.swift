@@ -110,9 +110,11 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.size.width, height: 40))
         view.backgroundColor = .black
         
+        var startX:CGFloat = 0
+        let portionList:[CGFloat] = [0.25, 0.31, 0.22, 0.22]
         for i in 0..<4 {
-            let startX:CGFloat = CGFloat(i) * 0.25 * view.frame.size.width
-            let label = UILabel.init(frame: CGRect.init(x: startX, y: 0, width: 0.25 * view.frame.size.width, height: view.frame.size.height))
+            
+            let label = UILabel.init(frame: CGRect.init(x: startX, y: 0, width: portionList[i] * view.frame.size.width, height: view.frame.size.height))
             label.textColor = .white
             label.font = UIFont.boldSystemFont(ofSize: 14)
             label.text = NSLocalizedString("History Point Cell \(i+1)", comment: "")
@@ -124,6 +126,8 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 line.backgroundColor = .white
                 view.addSubview(line)
             }
+            
+            startX += portionList[i] * view.frame.size.width
         }
         
         return view

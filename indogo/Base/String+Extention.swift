@@ -17,9 +17,9 @@ extension String {
         return ""
     }
     
-    //取得限定範圍的字串
-    func getSubString(Start startIndex:Int, End endIndex:Int)-> String {
-        if startIndex >= self.count || endIndex >= self.count {
+    //取得限定範圍的字串(endIdex不含)
+    func getSubString(Start startIndex:Int, EndNotInclude endIndex:Int)-> String {
+        if startIndex >= self.count || endIndex > self.count {
             return ""
         }
         let start = self.index(self.startIndex, offsetBy: startIndex)

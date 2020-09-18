@@ -377,7 +377,7 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
         }
         
         if AppDelegate.shared().hasArcResultAndGotoRegister {
-            setArcText(Text: AppDelegate.shared().arcScanReulstForRegister)
+            setArcCodeString(Code: AppDelegate.shared().arcScanReulstForRegister)
         }
     }
     

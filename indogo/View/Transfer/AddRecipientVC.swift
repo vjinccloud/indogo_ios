@@ -49,7 +49,8 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cellData = showBankList[indexPath.row]
         bankCodeTextfield.text = cellData.bank_name
-        bankCodeTextfield.resignFirstResponder()
+        //bankCodeTextfield.resignFirstResponder()
+        accountTextfield.becomeFirstResponder()
     }
     
     //MARK: - Utility

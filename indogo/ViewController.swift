@@ -168,6 +168,8 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 if result == ResponseState.ok {
+                    //會員資料編輯要顯示的
+                    AppDelegate.shared().rememberAarcNo(Account: self.accountTextfield.text!)
                     //讀取未讀通知數量
                     AppDelegate.shared().getNotice()
                     if self.rememberMeState {
@@ -243,9 +245,23 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         return nextIndex > self.promoPageVC.count - 1 ? nil : self.promoPageVC![nextIndex] as? PromoPageVC
     }
     
-    @objc func endPromo() {
+    @objc func nextPromo(_ sender: Any) {
+        let tag = (sender as! UIButton).tag
+        if tag == (AppDelegate.shared().promoUrlAry.count-1) {
+            endPromo()
+        } else {
+            self.promoPageCtrl.currentPage = tag+1
+            self.pageController.setViewControllers([(self.promoPageVC![tag+1] as? PromoPageVC)!], direction: .forward, animated: true, completion: nil)
+        }
+    }
+    
+    
+    func endPromo() {
         self.promoView.removeFromSuperview()
         self.topScrollView.isHidden = false
+        self.promoPageCtrl.removeFromSuperview()
+        AppDelegate.shared().setHasReadPromo()
+        AppDelegate.shared().showTopButton()
     }
     
     func setController() {
@@ -260,10 +276,17 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 page.promoUrl = str
                 promoPageVC.add(page)
                 page.setImage()
+                
+                page.endBtn.isHidden = false
+                page.endBtn.tag = promoNum
+                page.endBtn.addTarget(self, action: #selector(nextPromo(_:)), for: .touchUpInside)
+                
+                /*
                 if promoNum == (AppDelegate.shared().promoUrlAry.count-1) { //最後一頁
                     page.endBtn.isHidden = false
-                    page.endBtn.addTarget(self, action: #selector(endPromo), for: .touchUpInside)
-                }
+                    page.endBtn.tag = promoNum
+                    page.endBtn.addTarget(self, action: #selector(nextPromo(_:)), for: .touchUpInside)
+                }*/
             }
             promoNum += 1
         }
@@ -290,6 +313,8 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         
         self.promoPageCtrl.numberOfPages = promoNum
         self.promoPageCtrl.currentPage = currentPageIndex
+        
+        AppDelegate.shared().hideTopButton()
     }
     
     //MARK: - View-Life
@@ -313,6 +338,8 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         accountTextfield.keyboardType = .asciiCapable
         passTextField.keyboardType = .asciiCapable
         
+        accountTextfield.autocapitalizationType = .allCharacters
+        
         accountTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("account", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         passTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("passcode", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
@@ -332,10 +359,7 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         passTextField.text = AppDelegate.shared().getRemeberedPassword()
         
         if DevMode {
-            //accountTextfield.text = "XX00000078"
-            //passTextField.text = "123456"
-            
-            accountTextfield.text = "XX00000026"
+            accountTextfield.text = "XC00000092" //XX00000026
             passTextField.text = "123456"
         }
     }
@@ -367,7 +391,9 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         AppDelegate.shared().addFloatingBtn()
         
         //取得Promo
-        //getPromo()
+        if AppDelegate.shared().getHasReadPromo() == "" {
+           getPromo()
+        }
         
         //自動登入
         let userDefaults = UserDefaults.standard

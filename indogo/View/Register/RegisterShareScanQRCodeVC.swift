@@ -18,6 +18,7 @@ class RegisterShareScanQRCodeVC: UIViewController, UINavigationControllerDelegat
     @IBOutlet weak var scanL: UILabel!
     @IBOutlet weak var scanView: UIView!
     @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var realScanRectView: UIView!
     
     var captureSession:AVCaptureSession!
     var capturePhotoOutput:AVCapturePhotoOutput!
@@ -142,6 +143,8 @@ class RegisterShareScanQRCodeVC: UIViewController, UINavigationControllerDelegat
                 previewLayer.frame = self.scanView.layer.bounds
                 previewLayer.videoGravity = .resizeAspectFill
                 self.scanView.layer.addSublayer(previewLayer)
+                
+                captureMetadataOutput.rectOfInterest = previewLayer.metadataOutputRectConverted(fromLayerRect: self.realScanRectView.frame)
                 
                 //start video capture
                 self.captureSession?.startRunning()

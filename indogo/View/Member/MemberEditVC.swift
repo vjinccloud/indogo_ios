@@ -506,7 +506,7 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
         nameL.text = AppDelegate.shared().memberData["member_name"]!
         accountTextfield.text = AppDelegate.shared().memberData["member_name"]!
         phoneTextfield.text = AppDelegate.shared().memberData["app_phone_no"]!
-        arcCodeL.text = AppDelegate.shared().memberData["member_id"]!
+        arcCodeL.text = AppDelegate.shared().getRemeberedAarcNo()
         
         accountTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register Input Name", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         phoneTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register Input Phone", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])

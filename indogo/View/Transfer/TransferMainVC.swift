@@ -48,10 +48,11 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         kursValue = Double(AppDelegate.shared().memberData["kurs_value"]!)!
         serviceCharge = Int(AppDelegate.shared().memberData["service_charge"]!)!
 
+        /*
         let value = Double(AppDelegate.shared().memberData["remit_point"]!)!
         if value < 200 {
             serviceCharge = Int(value)
-        }
+        }*/
         
         var string = newString
         
@@ -100,8 +101,13 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         }
         
         if style < 2 {
-            upTextField.text = "\(upValue ?? 1)".stringToIntDecimalString()
-            downTextField.text = "\(downValue ?? 1)".stringToIntDecimalString()
+            if upTextField.isFirstResponder == false {
+                upTextField.text = "\(upValue ?? 1)".stringToIntDecimalString()
+            }
+            
+            if downTextField.isFirstResponder == false {
+                downTextField.text = "\(downValue ?? 1)".stringToIntDecimalString()
+            }
         }
         
         valueL.text = "\(serviceCharge)"
@@ -117,13 +123,21 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
     
     //MARK: - Button Action
     @IBAction func leftBtnAction(_ sender: Any) {
-        if decresedCharge == serviceCharge {
+        let value = Int(AppDelegate.shared().memberData["remit_point"]!)!
+        
+        if decresedCharge == serviceCharge || decresedCharge == value {
             decresedCharge = 0
         } else {
+            
             decresedCharge += decresedChargeUnit
+            if decresedCharge > value {
+                decresedCharge = 0
+            }
+            
             if decresedCharge > serviceCharge {
                 decresedCharge = serviceCharge
             }
+            
         }
         
         checkAndCalculateValue(UseStyle: 0, NweString: "")
@@ -154,10 +168,10 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == upTextField {
-            //upTextField.text = upTextField.text!.replacingOccurrences(of: ",", with: "")
+            upTextField.text = upTextField.text!.replacingOccurrences(of: ",", with: "")
             upTextField.selectAll(nil)
         } else if textField == downTextField {
-            //downTextField.text = downTextField.text!.replacingOccurrences(of: ",", with: "")
+            downTextField.text = downTextField.text!.replacingOccurrences(of: ",", with: "")
             downTextField.selectAll(nil)
         }
     }
@@ -177,6 +191,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
             return true
         }
 
+        /*
         // First check whether the replacement string's numeric...
         let cs = NSCharacterSet(charactersIn: "0123456789.").inverted
         let filtered = string.components(separatedBy: cs)
@@ -210,6 +225,9 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
             }
         }
         return false
+        */
+        
+        return true
 
     }
     
@@ -271,6 +289,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         leftDownL.text = NSLocalizedString("Transfer Main Total Point Title", comment: "")
         rightTitleL.text = NSLocalizedString("send", comment: "")
         
+        leftTotalPL.text = AppDelegate.shared().memberData["remit_point"]!
         checkAndCalculateValue(UseStyle:0, NweString: "")
     }
     

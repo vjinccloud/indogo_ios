@@ -33,7 +33,7 @@ class TransactionExipredVC: UIViewController {
     }
     
     @IBAction func reloadTimer(_ sender: Any) {
-        parentVC.getOrderDetail()
+        parentVC.getBarCode()
         self.navigationController?.popViewController(animated: true)
     }
     

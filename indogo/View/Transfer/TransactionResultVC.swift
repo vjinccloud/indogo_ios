@@ -56,6 +56,7 @@ class TransactionResultVC: UIViewController {
     var orderCheckStateObj:TransferOrderCheckObj!
     var payment_info:String = ""
     var chosedStyle = StoreType.sevenEleven
+    var hasScanCodeFig = false
     
     //MARK: - API
     public func getOrderDetail() {
@@ -102,7 +103,12 @@ class TransactionResultVC: UIViewController {
             transferStateObj.printSelf()
             orderCheckStateObj.printSelf()
             
-            paymentInfoL.text = payment_info
+            if payment_info.count<14 {
+                paymentInfoL.text = payment_info
+            } else {
+                paymentInfoL.text = payment_info.getSubString(Start: 0, EndNotInclude: 3) + " " + payment_info.getSubString(Start: 3, EndNotInclude: 9) + " " + payment_info.getSubString(Start: 9, EndNotInclude: 14)
+            }
+            
             totalTWDL.text = "Total TWD \(transferStateObj.total ?? "0")"
             barTitleL.text = NSLocalizedString("Transfer State " + orderCheckStateObj.order_status, comment: "")
             let serchBankobj = UtilityTool().searchBankObj(BankCode: transferStateObj.bank_code!)
@@ -142,6 +148,54 @@ class TransactionResultVC: UIViewController {
                     self.n0L.text = "\(Int(leftHours/10))"
                 }
             }*/
+        }
+    }
+    
+    public func getBarCode() {
+        
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "payment_info":payment_info, "mode":2]
+        let headers: HTTPHeaders = [:]
+        AppDelegate.shared().addLoadingView()
+        
+        var todoEndpoint: String = API_BarCode_711;
+        
+        if chosedStyle == StoreType.sevenEleven {
+            todoEndpoint = API_BarCode_711
+        } else if chosedStyle == StoreType.familymart {
+            todoEndpoint = API_BarCode_fami
+        } else if chosedStyle == StoreType.ok {
+            todoEndpoint = API_BarCode_ok
+        } else if chosedStyle == StoreType.hiLife {
+            todoEndpoint = API_BarCode_hilife
+        }
+        
+        Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
+        
+        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("responseStr = \(responseStr ?? "")")
+                
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                if result == ResponseState.ok {
+                    let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransactionPayVC") as? TransactionPayVC
+                    nextVC?.payment_info = self.payment_info
+                    nextVC?.transferStateObj = self.transferStateObj
+                    nextVC?.orderCheckStateObj = self.orderCheckStateObj
+                    nextVC?.chosedStyle = self.chosedStyle
+                    self.navigationController?.pushViewController(nextVC!, animated: true)
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                }
         }
     }
     
@@ -197,12 +251,7 @@ class TransactionResultVC: UIViewController {
     }
     
     @IBAction func openPayAction(_ sender: Any) {
-        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransactionPayVC") as? TransactionPayVC
-        nextVC?.payment_info = payment_info //transferStateObj.payment_info
-        nextVC?.transferStateObj = transferStateObj
-        nextVC?.orderCheckStateObj = orderCheckStateObj
-        nextVC?.chosedStyle = chosedStyle
-        self.navigationController?.pushViewController(nextVC!, animated: true)
+        getBarCode()
     }
     
     //MARK: - View-Life

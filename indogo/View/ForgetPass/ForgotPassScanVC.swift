@@ -18,6 +18,7 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
     @IBOutlet weak var bottomL: UILabel!
     @IBOutlet weak var scanL: UILabel!
     @IBOutlet weak var scanView: UIView!
+    @IBOutlet weak var scanMaskView: UIView!
     
     var captureSession:AVCaptureSession!
     var capturePhotoOutput:AVCapturePhotoOutput!
@@ -50,14 +51,14 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
         
         //檢查限制為 C,D,8,9 其餘跳出格式錯誤
         //"scan format wrong"
-        var checkedWrong = false
+        var checkedWrong = true
         if code.count < 2 {
             checkedWrong = true
         } else {
-            let singleWord = code.getSubString(Start: 1, End: 2).lowercased()
+            let singleWord = code.getSubString(Start: 1, EndNotInclude: 2).lowercased()
             Dlog("singleWord = \(singleWord)")
-            if singleWord != "c" || singleWord != "d" || singleWord != "8" || singleWord != "9" {
-                checkedWrong = true
+            if singleWord == "c" || singleWord == "d" || singleWord == "8" || singleWord == "9" {
+                checkedWrong = false
             }
         }
         
@@ -224,19 +225,18 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
             // Set delegate and use the default dispatch queue to execute the call back
             captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
             captureMetadataOutput.metadataObjectTypes = [ AVMetadataObject.ObjectType.code39]
-                   
+            
             //Initialise the video preview layer and add it as a sublayer to the viewPreview view's layer
-            //let videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
-            //videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-            //videoPreviewLayer.frame = scanView.layer.bounds
-
+            
             DispatchQueue.main.async {
+                
                 let previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
                 previewLayer.frame = self.scanView.layer.bounds
                 previewLayer.videoGravity = .resizeAspectFill
                 self.scanView.layer.addSublayer(previewLayer)
-                self.scanView.layer.cornerRadius = self.scanView.frame.size.height/2
-                self.scanView.clipsToBounds = true
+                
+                captureMetadataOutput.rectOfInterest = previewLayer.metadataOutputRectConverted(fromLayerRect: self.scanMaskView.frame)
+                
                 //start video capture
                 self.captureSession?.startRunning()
                 self.scanL.isHidden = false
