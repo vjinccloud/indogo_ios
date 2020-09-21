@@ -144,16 +144,62 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func rightBtnAction(_ sender: Any) {
+        
+        if upTextField.text!.replacingOccurrences(of: ",", with: "") == "" || downTextField.text!.replacingOccurrences(of: ",", with: "") == "" || Int(upTextField.text!.replacingOccurrences(of: ",", with: ""))! == 0 || Int(downTextField.text!.replacingOccurrences(of: ",", with: ""))! == 0 {
+            return
+        }
+        
         AppDelegate.shared().transactionObj = TransactionObj()
         AppDelegate.shared().transactionObj.ntdValue = Int(upTextField.text!.replacingOccurrences(of: ",", with: ""))!
-        AppDelegate.shared().transactionObj.targetValue = Int(downTextField.text!.replacingOccurrences(of: ",", with: ""))!
+        //印尼盾必須再用台幣換算印尼盾(要對齊)
+        let downValue = Int(Double(AppDelegate.shared().transactionObj.ntdValue) * kursValue)
+        AppDelegate.shared().transactionObj.targetValue = downValue
         AppDelegate.shared().transactionObj.feeValue = serviceCharge
         AppDelegate.shared().transactionObj.usePoint = decresedCharge
         AppDelegate.shared().transactionObj.totalNtdValue = totalChage
         
-        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "RecipientListVC") as? RecipientListVC
-        nextVC!.canSelectForTransfer = true
-        self.navigationController?.pushViewController(nextVC!, animated: true)
+        //送出前要查詢是否超過金額
+        checkAmount()
+    }
+    
+    //MARK: - API
+    public func checkAmount() {
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":AppDelegate.shared().transactionObj.totalNtdValue, "use_remit_point":1]
+        
+        let headers: HTTPHeaders = [:]
+        closeAll()
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_MemberRecipents;
+        
+        Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
+        
+        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("responseStr = \(responseStr ?? "")")
+                
+                AppDelegate.shared().recipientListObjs = []
+                AppDelegate.shared().recipientShownListObjs = []
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                if result == ResponseState.ok {
+                    let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "RecipientListVC") as? RecipientListVC
+                    nextVC!.canSelectForTransfer = true
+                    self.navigationController?.pushViewController(nextVC!, animated: true)
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                }
+        }
     }
     
     //MARK: - Text Delegate

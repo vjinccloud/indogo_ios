@@ -48,6 +48,9 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
     @IBOutlet weak var registerBtn: UIButton!
     @IBOutlet weak var arcCodeL: UILabel!
     
+    @IBOutlet weak var errorView: UIView!
+    @IBOutlet weak var errorL: UILabel!
+    
     var hasSharedCode = false
     var hasMeCode = false
     var meImg:UIImage!
@@ -248,7 +251,7 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
             }
         }
         
-        checkNextBtnState()
+        checkNextBtnState(CheckText: true)
     }
     
     /*
@@ -259,7 +262,94 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
         return true
     }*/
     //MARK: - Utility
-    func checkNextBtnState() {
+    func checkTextFormat() -> Bool {
+        if accountTextfield.text?.count == 0 || phoneTextfield.text?.count == 0 || passTextField.text?.count == 0 || rePassTextField.text?.count == 0 || arcCodeL.text?.count == 0 {
+            errorL.text = NSLocalizedString("Register Error Empty", comment: "")
+            errorView.isHidden = false
+            return false
+        }
+        
+        //Tel
+        var pass = true
+        if !(phoneTextfield.text?.hasPrefix("09"))! {
+            pass = false
+        }
+        
+        if phoneTextfield.text?.count != 10 {
+            pass = false
+        }
+        
+        if !pass {
+            errorL.text = NSLocalizedString("Register Error Tel", comment: "")
+            errorView.isHidden = false
+            return false
+        }
+        
+        //ARC
+        pass = true
+        let text = arcCodeL.text!
+        
+        if text.count != 10 {
+            pass = false
+        }
+        
+        let singleWord = text.getSubString(Start: 1, EndNotInclude: 2).lowercased()
+        Dlog("singleWord = \(singleWord)")
+        if singleWord == "c" || singleWord == "d" || singleWord == "8" || singleWord == "9" {
+            pass = true
+        } else {
+            pass = false
+        }
+        
+        if pass {
+            let range = NSRange(location: 0, length: 1)
+            let regex = try! NSRegularExpression(pattern: "[A-Z]")
+            pass = regex.firstMatch(in: text, options: [], range: range) != nil
+        }
+        
+        if pass {
+            let words = text.getSubString(Start: 2, EndNotInclude: 10)
+            Dlog("words = \(words)")
+            let pred = NSPredicate(format:"SELF MATCHES %@", "^[0-9]\\d*$")
+            pass = pred.evaluate(with: words)
+        }
+        
+        if !pass {
+            errorL.text = NSLocalizedString("Register Error ARC", comment: "")
+            errorView.isHidden = false
+            
+            return false
+        }
+        
+        //密碼
+        pass = true
+        if passTextField.text!.count < 4 {
+            pass = false
+        }
+        
+        if !pass {
+            errorL.text = NSLocalizedString("Register Error Pass", comment: "")
+            errorView.isHidden = false
+            return false
+        }
+        
+        pass = true
+        
+        if passTextField.text != rePassTextField.text {
+            pass = false
+        }
+        
+        if !pass {
+            errorL.text = NSLocalizedString("Register Error Pass Not match", comment: "")
+            errorView.isHidden = false
+            return false
+        }
+        
+        errorView.isHidden = true
+        return true
+    }
+    
+    func checkNextBtnState(CheckText checkNow:Bool) {
         var pass = true
         
         if accountTextfield.text?.count == 0 || phoneTextfield.text?.count == 0 || passTextField.text?.count == 0 || rePassTextField.text?.count == 0 || arcCodeL.text?.count == 0 {
@@ -270,6 +360,12 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
             pass = false
         }*/
         
+        if checkNow {
+            let passText = checkTextFormat()
+            if !passText {
+                pass = false
+            }
+        }
         
         if pass {
             registerBtn.backgroundColor = Color_Main_Red
@@ -284,7 +380,7 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
         noArcView.isHidden = true
         hasArcView.isHidden = false
         arcCodeL.text = code
-        checkNextBtnState()
+        checkNextBtnState(CheckText: true)
     }
     
     public func setImage(Image img:UIImage) {
@@ -295,7 +391,7 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
         AppDelegate.shared().saveIconImageToFile(Image: img)
         meImg = img
         hasMeCode = true
-        checkNextBtnState()
+        checkNextBtnState(CheckText: true)
     }
     
     public func setShareCode(Code code:String) {
@@ -303,7 +399,7 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
         hasArcView.isHidden = false
         arcTextfield.text = code
         hasSharedCode = true
-        checkNextBtnState()
+        checkNextBtnState(CheckText: true)
     }
     
     public func showShareCodeInputview() {
@@ -347,6 +443,8 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
         rePassTextField.delegate = self
         arcTextfield.isEnabled = false
         
+        errorView.isHidden = true
+        
         accountTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register Input Name", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         phoneTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register Input Phone", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         passTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register Input Pass", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
@@ -360,7 +458,7 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
         //inputArcView.isHidden = true
         inputMoreSpaceView.isHidden = true
         nameL.text = NSLocalizedString("Register Input Foto", comment: "")
-        checkNextBtnState()
+        checkNextBtnState(CheckText: false)
         #if targetEnvironment(simulator)
         //模擬器直接秀下一步
         self.simulatorNextAction()
@@ -397,9 +495,9 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
         phoneTextfield.text = "0935499332"
         passTextField.text = "a12345"
         rePassTextField.text = "a12345"
-        setArcCodeString(Code: "XX00000037")
+        setArcCodeString(Code: "XC00000092") //XX00000037
         
-        checkNextBtnState()
+        checkNextBtnState(CheckText: true)
     }
 
     /*

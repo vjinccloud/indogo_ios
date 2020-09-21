@@ -81,7 +81,7 @@ class UtilityTool {
         for i in 0..<AppDelegate.shared().bankList.count {
             let obj = AppDelegate.shared().bankList[i]
             
-            if obj.bank_name == name {
+            if obj.bank_name.lowercased() == name.lowercased() {
                 return obj
             }
         }

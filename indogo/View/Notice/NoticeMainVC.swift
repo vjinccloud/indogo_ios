@@ -40,7 +40,7 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         isLoading = true
         
         let todoEndpoint: String = API_NoticeRecordList;
-        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 self.isLoading = false
@@ -49,6 +49,7 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                     // got an error in getting the data, need to handle it
                     print("error calling on \(todoEndpoint)")
                     print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
                     return
                 }
                 
@@ -92,12 +93,13 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         Dlog("parameters=\(parameters)")
         
         let todoEndpoint: String = API_NotificationRead;
-        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 guard response.result.error == nil else {
                     // got an error in getting the data, need to handle it
                     print("error calling on \(todoEndpoint)")
                     print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
                     return
                 }
         }
@@ -114,7 +116,7 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         AppDelegate.shared().addLoadingView()
         
         let todoEndpoint: String = API_PointHistoryList;
-        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -122,6 +124,7 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                     // got an error in getting the data, need to handle it
                     print("error calling on \(todoEndpoint)")
                     print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
                     return
                 }
                 

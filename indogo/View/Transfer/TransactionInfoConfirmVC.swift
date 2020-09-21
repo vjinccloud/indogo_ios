@@ -33,18 +33,72 @@ class TransactionInfoConfirmVC: UIViewController {
     @IBOutlet weak var nextBtn: UIButton!
     
     //MARK: - API
+    public func callMemberData() {
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken]
+        let headers: HTTPHeaders = [:]
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_CheckLogin;
+        
+        Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
+        
+        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("responseStr = \(responseStr ?? "")")
+                
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                if result == ResponseState.ok {
+                    self.recalculateTargetMoneyAndGoNext()
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                }
+        }
+    }
     
     //MARK: - Button-Action
     @IBAction func nextAction(_ sender: Any) {
+        //再計算一次匯率
+        callMemberData()
+    }
+    
+    @IBAction func backAction(_ sender: Any) {
+        //一律回想選擇畫面
+        guard let viewControllers = self.navigationController?.viewControllers else {
+            return
+        }
+        
+        for firstViewController in viewControllers {
+            if firstViewController is RecipientListVC {
+                self.navigationController?.popToViewController(firstViewController, animated: true)
+                break
+            }
+        }
+        
+        //self.navigationController?.popViewController(animated: true)
+    }
+    
+    //MARK: - View-Life
+    func recalculateTargetMoneyAndGoNext() {
+        let obj = AppDelegate.shared().transactionObj
+        let kursValue = Double(AppDelegate.shared().memberData["kurs_value"]!)!
+        AppDelegate.shared().transactionObj.targetValue = Int(Double(obj.ntdValue) * kursValue)
+        
         let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransactionAgreeMentVC") as? TransactionAgreeMentVC
         self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
-    @IBAction func backAction(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    //MARK: - View-Life
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -78,10 +132,19 @@ class TransactionInfoConfirmVC: UIViewController {
         accountNameL.text = obj.recipientObj.recipient_name
         accountNameL.adjustsFontSizeToFitWidth = true
         
-        let serchBankobj = UtilityTool().searchBankObj(BankName: obj.recipientObj.bank_name!)
+        var serchBankobj = UtilityTool().searchBankObj(BankName: obj.recipientObj.bank_name!)
+        if obj.recipientObj.bank_name == "" {
+            serchBankobj = UtilityTool().searchBankObj(BankCode: obj.recipientObj.bank_code!)
+        } else {
+            serchBankobj = UtilityTool().searchBankObj(BankName: obj.recipientObj.bank_name!)
+        }
+        
         let imgurl = serchBankobj.bank_photo!
         let urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
         iconImgV.kf.setImage(with: urlhaed)
+        
+        //重抓一次匯率，再計算一次
+        //callMemberData(Continue: false)
     }
     
 

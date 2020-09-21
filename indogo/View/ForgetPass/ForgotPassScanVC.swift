@@ -33,6 +33,7 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
     func customAlertnextAction(Ref obj: CustomAlertView) {
         obj.removeFromSuperview()
         self.stopNow = false
+        self.captureSession.startRunning()
     }
     
     func customAlertnextActionSecond(Ref obj: CustomAlertView) {
@@ -99,7 +100,7 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
         AppDelegate.shared().addLoadingView()
         
         let todoEndpoint: String = API_CheckMemExist;
-        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -107,6 +108,7 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
                     // got an error in getting the data, need to handle it
                     print("error calling on \(todoEndpoint)")
                     print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
                     return
                 }
                 

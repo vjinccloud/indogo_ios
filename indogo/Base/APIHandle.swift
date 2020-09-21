@@ -134,6 +134,9 @@ class APIHandle {
         case API_TransactionCreate:
             checkTransactionResult(DataStr: resultStr)
             break
+        case API_AddRecipient:
+            checkAddRecipientResult(DataStr: resultStr)
+            break
         case API_BarCode_711, API_BarCode_fami, API_BarCode_ok, API_BarCode_hilife:
             checkBarCode(DataStr: resultStr)
             break
@@ -163,6 +166,21 @@ class APIHandle {
         }
         
         return ans
+    }
+    
+    private func checkAddRecipientResult(DataStr dataStr:String) {
+        AppDelegate.shared().tempRecipientObj = RecipientObj()
+        
+        //目前直接用zero width空格
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        for j in 0..<ary.count {
+            if j==0 {
+                AppDelegate.shared().tempRecipientObj.recipient_id = ary[0]
+            } else if j==1 {
+                AppDelegate.shared().tempRecipientObj.recipient_name = ary[1]
+            }
+        }
+        
     }
     
     private func checkTransactionResult(DataStr dataStr:String) {

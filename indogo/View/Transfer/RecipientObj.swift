@@ -13,6 +13,7 @@ class RecipientObj: NSObject {
     var recipient_id:String! = ""
     var recipient_name:String! = ""
     var bank_acc:String! = ""
+    var bank_code:String! = ""
     var bank_name:String! = ""
     var is_hidden:String! = ""
     

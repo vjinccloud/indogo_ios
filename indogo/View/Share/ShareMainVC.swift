@@ -35,7 +35,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         AppDelegate.shared().addLoadingView()
         
         let todoEndpoint: String = API_PointHistoryList;
-        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -43,6 +43,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     // got an error in getting the data, need to handle it
                     print("error calling on \(todoEndpoint)")
                     print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
                     return
                 }
                 
@@ -70,7 +71,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -78,6 +79,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     // got an error in getting the data, need to handle it
                     print("error calling on \(todoEndpoint)")
                     print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
                     return
                 }
                 
@@ -184,7 +186,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     func initData() {
         nameL.text = AppDelegate.shared().memberData["member_name"]
-        pointBtn.setTitle(" " + AppDelegate.shared().memberData["remit_point"]!, for: .normal)
+        pointBtn.setTitle("  " + AppDelegate.shared().memberData["remit_point"]!, for: .normal)
         midL.text = "MID : " + AppDelegate.shared().memberData["member_id"]!
         
         let image = generateQRCode(from: AppDelegate.shared().memberData["member_id"]!)
@@ -201,7 +203,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -209,6 +211,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     // got an error in getting the data, need to handle it
                     print("error calling on \(todoEndpoint)")
                     print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
                     return
                 }
                 
@@ -249,6 +252,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     @IBAction func callHistoryAction(_ sender: Any) {
+        Dlog("callHistoryAction")
         self.getPointHistory()
     }
     

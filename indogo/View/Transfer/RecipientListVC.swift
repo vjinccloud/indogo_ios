@@ -86,7 +86,7 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -94,6 +94,7 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
                     // got an error in getting the data, need to handle it
                     print("error calling on \(todoEndpoint)")
                     print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
                     return
                 }
                 
@@ -110,7 +111,13 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
     }
     
     public func getRecipents() {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":10, "use_remit_point":0]
+        var parameters:Parameters = [:]
+        if canSelectForTransfer {
+            parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":AppDelegate.shared().transactionObj.totalNtdValue, "use_remit_point":1]
+        } else {
+            parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":0, "use_remit_point":0]
+        }
+        
         let headers: HTTPHeaders = [:]
         closeAll()
         AppDelegate.shared().addLoadingView()
@@ -119,7 +126,7 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -127,6 +134,7 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
                     // got an error in getting the data, need to handle it
                     print("error calling on \(todoEndpoint)")
                     print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
                     return
                 }
                 
@@ -150,6 +158,7 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
     
     func goAddRecipient() {
         let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "AddRecipientVC") as? AddRecipientVC
+        nextVC!.canSelectForTransfer = canSelectForTransfer
         self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     

@@ -16,15 +16,20 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
 
     @IBOutlet weak var backL: UILabel!
     
+    @IBOutlet weak var hideTextBtn: UIButton!
     @IBOutlet weak var codeBgV: UIView!
     @IBOutlet weak var accountBgV: UIView!
     @IBOutlet weak var accountTextfield: UITextField!
     @IBOutlet weak var bankCodeTextfield: UITextField!
-    
+    var canSelectForTransfer = false
     @IBOutlet weak var nextBtn: UIButton!
+    var tempBankCode = ""
     
     @IBOutlet weak var bankListTableView: UITableView!
     var showBankList:[BankObj] = []
+    var tempRecipientObj:RecipientObj =  RecipientObj()
+    
+    @IBOutlet weak var bankImg: UIImageView!
     
     //MARK: - Tableview Delegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -49,11 +54,21 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cellData = showBankList[indexPath.row]
         bankCodeTextfield.text = cellData.bank_name
+        //bankImg
+        tempBankCode = cellData.bank_code
         //bankCodeTextfield.resignFirstResponder()
         accountTextfield.becomeFirstResponder()
+        changeBankImg(BankName: cellData.bank_name!)
     }
     
     //MARK: - Utility
+    func changeBankImg(BankName name:String) {
+        let serchBankobj = UtilityTool().searchBankObj(BankName: name)
+        let imgurl = serchBankobj.bank_photo!
+        let urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
+        bankImg.kf.setImage(with: urlhaed)
+    }
+    
     func checkBtnState() {
         if bankCodeTextfield.text! != "", accountTextfield.text! != "" {
             nextBtn.isEnabled = true
@@ -92,28 +107,42 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     }
     
     //MARK: - Text Delegate
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        closeAll()
+        return false
+    }
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        hideTextBtn.isHidden = false
         if textField == bankCodeTextfield {
             bankListTableView.isHidden = false
         }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        hideTextBtn.isHidden = true
         bankListTableView.isHidden = true
         checkBtnState()
+        changeBankImg(BankName: bankCodeTextfield.text!)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         reloadDataAndTable(Str: newString)
+        checkBtnState()
         return true
 
     }
     
     //MARK: - API
     func addRecipient() {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "bank_code":bankCodeTextfield.text!, "bank_acc":accountTextfield.text!]
+        //找出 bank code
+        let serchBankobj = UtilityTool().searchBankObj(BankName: bankCodeTextfield.text!)
+        if serchBankobj.bank_code == "" {
+            return
+        }
+        
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "bank_code":serchBankobj.bank_code!, "bank_acc":accountTextfield.text!]
         let headers: HTTPHeaders = [:]
         closeAll()
         AppDelegate.shared().addLoadingView()
@@ -122,7 +151,7 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -130,17 +159,33 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
                     // got an error in getting the data, need to handle it
                     print("error calling on \(todoEndpoint)")
                     print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
                     return
                 }
                 
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                 Dlog("responseStr = \(responseStr ?? "")")
                 
-                AppDelegate.shared().recipientListObjs = []
-                AppDelegate.shared().recipientShownListObjs = []
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 if result == ResponseState.ok {
-                    self.navigationController?.popViewController(animated: true)
+                    self.tempRecipientObj.bank_acc = self.accountTextfield.text!
+                    self.tempRecipientObj.bank_code = serchBankobj.bank_code!
+                    self.tempRecipientObj.recipient_id = AppDelegate.shared().tempRecipientObj.recipient_id
+                    self.tempRecipientObj.recipient_name = AppDelegate.shared().tempRecipientObj.recipient_name
+                    
+                    if self.canSelectForTransfer {
+                        AppDelegate.shared().transactionObj.recipientObj = self.tempRecipientObj
+                        
+                        var storyboardId = "TransactionInfoConfirmVC"
+                        if AppDelegate.shared().deviceSmall {
+                            storyboardId = "TransactionInfoConfirmVCSmall"
+                        }
+                        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: storyboardId) as? TransactionInfoConfirmVC
+                        self.navigationController?.pushViewController(nextVC!, animated: true)
+                    } else {
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                    
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
@@ -150,6 +195,10 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     //MARK: - Button-Action
     @IBAction func nextAction(_ sender: Any) {
         addRecipient()
+    }
+    
+    @IBAction func hideTextAction(_ sender: Any) {
+        closeAll()
     }
     
     @IBAction func backAction(_ sender: Any) {
@@ -177,8 +226,10 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
 
         // Do any additional setup after loading the view.
         //self.setupHideKeyboardOnTap()
-        bankCodeTextfield.inputAccessoryView = generateToolBar()
-        accountTextfield.inputAccessoryView = generateToolBar()
+        //bankCodeTextfield.inputAccessoryView = generateToolBar()
+        //accountTextfield.inputAccessoryView = generateToolBar()
+        bankCodeTextfield.returnKeyType = .done
+        accountTextfield.returnKeyType = .done
         
         showBankList = AppDelegate.shared().bankList
         bankListTableView.separatorStyle = .none
@@ -210,6 +261,8 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         nextBtn.layer.borderWidth = 0.5
         nextBtn.layer.borderColor = Color_Main_Red.cgColor
         nextBtn.isEnabled = false
+        
+        hideTextBtn.isHidden = true
     }
     
     /*

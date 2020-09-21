@@ -70,7 +70,7 @@ class RegisterIDCameraVC: UIViewController, UINavigationControllerDelegate, AVCa
                 }
             } else if takePhotoType == .frontFromEdit || takePhotoType == .backFromEdit {
                 if firstViewController is MemberEditVC {
-                    let nextVC = firstViewController as! RegisterIDTakePhotoVC
+                    let nextVC = firstViewController as! MemberEditVC
                     nextVC.setTakedPic(Type: takePhotoType, Img: tempImg!.fixedOrientationToLandscape()!)
                     self.navigationController?.popToViewController(nextVC, animated: true)
                     break

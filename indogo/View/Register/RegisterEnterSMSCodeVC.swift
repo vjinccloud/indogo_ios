@@ -33,7 +33,7 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
         AppDelegate.shared().addLoadingView()
         
         let todoEndpoint: String = API_ResendRegisterSMS;
-        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -41,6 +41,7 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
                     // got an error in getting the data, need to handle it
                     print("error calling on \(todoEndpoint)")
                     print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
                     return
                 }
                 
@@ -78,7 +79,7 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
         AppDelegate.shared().addLoadingView()
         
         let todoEndpoint: String = API_VerifyRegisterSMS;
-        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -86,6 +87,7 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
                     // got an error in getting the data, need to handle it
                     print("error calling on \(todoEndpoint)")
                     print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
                     return
                 }
                 

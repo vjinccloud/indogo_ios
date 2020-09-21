@@ -26,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var topMargin: CGFloat!
     var shopWebView:WKWebView!
     var shopWebBgV:UIView!
+    var callUrlOnce = false
     
     var topContainer:UIView!
     var normalPageBtn:UIButton!
@@ -88,6 +89,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //此項作為若掃描ARC有結果，導去註冊的頁面
     var hasArcResultAndGotoRegister = false
     var arcScanReulstForRegister = ""
+    
+    var tempRecipientObj:RecipientObj = RecipientObj()
     
     //MARK: - App Life
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -242,6 +245,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func addFloatingBtn() {
         if hasFloatingBtn {
             saveFloatingButtonPosition()
+            if floatingButton != nil {
+                floatingButton.removeFromSuperview()
+            }
         }
         
         let window = UIApplication.shared.keyWindow
@@ -419,6 +425,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         floatingContainer = nil
     }
     
+    //MARK: -  Alamofire 設置為全局變量
+    var alamofireManagerWithTimeout:Alamofire.SessionManager = {
+    let configuration = URLSessionConfiguration.default
+         //請求超時時間15秒
+         configuration.timeoutIntervalForRequest = 5
+         return Alamofire.SessionManager(configuration: configuration)
+     }()
+    
     //MARK: - API
     func getNotice() {
         let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "page":1, "limit":9]
@@ -427,13 +441,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppDelegate.shared().noteListObjs = []
         
         let todoEndpoint: String = API_NoticeRecordList;
-        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 
                 guard response.result.error == nil else {
                     // got an error in getting the data, need to handle it
                     print("error calling on \(todoEndpoint)")
                     print(response.result.error!)
+                    AppDelegate.shared().showAlertView(Message: NSLocalizedString("API Timeout", comment: ""))
                     return
                 }
                 
@@ -469,7 +484,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let todoEndpoint: String = API_BankList;
         
-        Alamofire.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 
                 guard response.result.error == nil else {
@@ -731,9 +746,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         shopPageBtn.setTitleColor(.white, for: .normal)
         topLine.frame = CGRect.init(x: topContainer.frame.size.width/2, y: topContainer.frame.size.height-2, width: topContainer.frame.size.width/2, height: 2)
         shopWebBgV.isHidden = false
-        let url = URL(string: "https://ec.indogo.tw/")
-        let request = URLRequest(url: url!)
-        shopWebView.load(request)
+        if !callUrlOnce {
+            let url = URL(string: "https://ec.indogo.tw/")
+            let request = URLRequest(url: url!)
+            shopWebView.load(request)
+        }
+        
+        callUrlOnce = true
         showFloatingBtn()
     }
     

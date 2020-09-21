@@ -28,6 +28,13 @@
 "passcode" = "Kata Sandi"; //密碼
 "scan again" = "SCAN ULANG"; //再次掃描
 "scan format wrong" = "Wrong"; //掃描格式錯誤
+"API Timeout" = "網路不穩或伺服器忙線中";
+
+"Register Error Empty" = "請輸入欄位文字";
+"Register Error Tel" = "手機格式錯誤";
+"Register Error ARC" = "ARC格式錯誤";
+"Register Error Pass" = "密碼需超過四位數";
+"Register Error Pass Not match" = "密碼不相符";
 
 "Floating Title" = "Layanan Konsumen";
 "telephone" = "Telepon";
