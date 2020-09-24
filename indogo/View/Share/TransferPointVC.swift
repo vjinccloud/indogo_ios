@@ -204,7 +204,7 @@ class TransferPointVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 if result == ResponseState.ok {
                     self.transferSucceed = true
-                    self.showAlertWithText(Title: NSLocalizedString("Point Transfer Step2 Successed SubTitle", comment: ""), Content: NSLocalizedString("Point Transfer Step2 Successed Content", comment: ""))
+                    self.showAlertWithText(Title: NSLocalizedString("Point Transfer Step2 Successed SubTitle", comment: ""), Content: NSLocalizedString("Point Transfer Step2 Successed Content A", comment: "") + self.pointTextfield.text! + NSLocalizedString("Point Transfer Step2 Successed Content B", comment: ""))
                 }/* else {
                     self.showWarningWithText(Content: AppDelegate.shared().apiBackContentStr)
                 }*/ else if result == ResponseState.failed {

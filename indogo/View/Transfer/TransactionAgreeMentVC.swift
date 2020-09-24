@@ -26,7 +26,7 @@ class TransactionAgreeMentVC: UIViewController {
         let obj = AppDelegate.shared().transactionObj
         let recipient_id = AppDelegate.shared().transactionObj.recipientObj.recipient_id!
         
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "doc_name":"外籍勞工薪資結匯申報委託書", "recipient_id":recipient_id, "transfer_amount_ntd":obj.ntdValue]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "doc_name":"外籍勞工薪資結匯申報委託書", "recipient_id":recipient_id, "transfer_amount_ntd":obj.ntdValue+obj.feeValue]
         let headers: HTTPHeaders = [:]
         
         AppDelegate.shared().addLoadingView()

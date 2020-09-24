@@ -153,7 +153,8 @@
 "Point Transfer Step2 Title" = "Transfer Kepada";
 "Point Transfer Step2 Successed Title" = "BERHASIL";
 "Point Transfer Step2 Successed SubTitle" = "Terima Kasih";
-"Point Transfer Step2 Successed Content" = "Anda telah berhasil\nmengirimkan 200 Poin";
+"Point Transfer Step2 Successed Content A" = "Anda telah berhasil\nmengirimkan ";
+"Point Transfer Step2 Successed Content B" = " Poin";
 "Point Transfer Add Recipient Next" = "TAMBAHKAN";
 "Point Transfer Add Recipient Code PlaceHolder" = "Pilih Nama Bank";
 "Point Transfer Add Recipient Accounnt PlaceHolder" = "Nomor Rekening";
@@ -189,6 +190,8 @@
 "Transfer Confirm Total Title" = "Total";
 
 "Transfer Agreement Title" = "Pernyataan";
+
+"Transfer Result Exceed" = "Total payment can not ecxeed NTD";
 
 "Transfer Result Title" = "Kode Pin Anda";
 "Transfer Result Bar Title" = "BELUM DIBAYARKAN";

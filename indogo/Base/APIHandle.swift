@@ -71,6 +71,8 @@ class APIHandle {
             //特殊狀況
             if apiStr == API_CheckMemExist && stateStr == "3" {
                 return ResponseState.member_not_exist
+            } else if apiStr == API_MemberRecipents && stateStr == "509" {
+                return ResponseState.error
             } else if apiStr == API_BankList {
                 return ResponseState.failed
             } else {

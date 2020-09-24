@@ -44,7 +44,7 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
         //試試測試帳號
         //Delay一下
         DispatchQueue.main.async {
-            self.scanNext(Code: "FA20051865")
+            self.scanNext(Code: "FC20051865")
         }
     }
     

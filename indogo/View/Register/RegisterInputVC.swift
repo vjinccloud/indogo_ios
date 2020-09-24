@@ -63,6 +63,7 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
     }
     
     @IBAction func nextAction(_ sender: Any) {
+        
         AppDelegate.shared().tempRegisterObj = RegisterDataObj()
         //AppDelegate.shared().tempRegisterObj.meImg = meImg
         AppDelegate.shared().tempRegisterObj.account = accountTextfield.text

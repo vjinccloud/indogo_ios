@@ -18,7 +18,7 @@ import FirebaseMessaging
 import WebKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
     
     var floatingButton: UIButton!
     var floatingContainer: UIView!
@@ -91,6 +91,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var arcScanReulstForRegister = ""
     
     var tempRecipientObj:RecipientObj = RecipientObj()
+    var lastUrl = URL.init(string: "")
+    var tempType:LoginFuncType!
+    var rootController:ViewController!
+    
+    //MARK: - Web Delegate
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        Dlog("Start loading")
+        lastUrl = webView.url
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        Dlog("End loading")
+        lastUrl = webView.url
+    }
     
     //MARK: - App Life
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -663,6 +677,67 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
+    /* //原本測試不換 rootViewController，但還是會引發 webview 登出空白化，應該是蘋果系統自動觸發
+    public func changeRootOfFunc(Type type:LoginFuncType) {
+        tempType = type
+        
+        AppDelegate.shared().rootController.navigationController?.popToRootViewController(animated: false)
+        
+        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(step2), userInfo: nil, repeats: false)
+    }
+    
+    @objc func step2() {
+        Dlog("step2")
+        let type = tempType
+        var storyboardId = ""
+        var navigaterId = ""
+        
+        let window = UIApplication.shared.keyWindow
+        
+        if type == LoginFuncType.main {
+            storyboardId = "Main"
+            navigaterId = "MainVC"
+            
+        } else {
+            
+            if type == LoginFuncType.member {
+                storyboardId = "Member"
+                navigaterId = "MemberMainVC"
+            } else if type == LoginFuncType.transState {
+                storyboardId = "Member"
+                navigaterId = "TransferListVC"
+            } else if type == LoginFuncType.transaction {
+                storyboardId = "Member"
+                navigaterId = "TransferMainVC"
+            } else if type == LoginFuncType.sharing {
+                storyboardId = "Member"
+                var storyboardId = "ShareMainVC"
+                if AppDelegate.shared().deviceSmall {
+                    storyboardId = "ShareMainVCSmall"
+                }
+                navigaterId = storyboardId
+            } else if type == LoginFuncType.notice {
+                storyboardId = "Member"
+                navigaterId = "NoticeMainVC"
+            }
+            
+            Dlog("navigaterId = \(navigaterId)")
+            let nextVC = UIStoryboard(name: storyboardId, bundle: nil).instantiateViewController(withIdentifier: navigaterId)
+            AppDelegate.shared().rootController.navigationController?.pushViewController(nextVC, animated: false)
+            
+        }
+        
+        //底層Menu
+        addFloatingBtn()
+        addBttomMenu()
+        
+        if type != LoginFuncType.main {
+            showBottomMenu()
+        } else {
+            hideBottomMenu()
+        }
+    }*/
+    
     //MARK: - Cookie
     func saveCookie() {
         let cookieJar: HTTPCookieStorage = HTTPCookieStorage.shared
@@ -732,6 +807,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         shopWebView = WKWebView.init(frame: CGRect.init(x: 0, y: 0, width: shopWebBgV.frame.size.width, height: shopWebBgV.frame.size.height-bottomPadding))
         shopWebBgV.addSubview(shopWebView)
+        shopWebView.navigationDelegate = self
         
         normalPageBtn.setTitleColor(.white, for: .normal)
         shopPageBtn.setTitleColor(.darkGray, for: .normal)
@@ -747,8 +823,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         topLine.frame = CGRect.init(x: topContainer.frame.size.width/2, y: topContainer.frame.size.height-2, width: topContainer.frame.size.width/2, height: 2)
         shopWebBgV.isHidden = false
         if !callUrlOnce {
-            let url = URL(string: "https://ec.indogo.tw/")
-            let request = URLRequest(url: url!)
+            lastUrl = URL(string: "https://ec.indogo.tw/")
+            let request = URLRequest(url: lastUrl!)
+            shopWebView.load(request)
+        } else {
+            Dlog("callFloatingShopWeb")
+            let request = URLRequest(url: lastUrl!)
             shopWebView.load(request)
         }
         

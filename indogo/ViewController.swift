@@ -365,6 +365,8 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
             accountTextfield.text = "XC00000092" //XX00000026
             passTextField.text = "123456"
         }
+        
+        AppDelegate.shared().rootController = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
