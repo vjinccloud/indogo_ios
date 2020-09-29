@@ -49,6 +49,40 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         serviceCharge = Int(AppDelegate.shared().memberData["service_charge"]!)!
     }
     
+    func justCalculateValue(UseStyle style:Int, NweString newString:String) {
+        
+        var upValue = Int(newString.replacingOccurrences(of: ",", with: ""))
+        var downValue = Int(newString.replacingOccurrences(of: ",", with: ""))
+         
+        if style == 0 {
+            if upTextField.text == "" {
+                upTextField.text = "1"
+                upValue = 1
+            }
+            downValue = Int(ceil(Double(upValue!) * kursValue))
+            if downValue! < 1 {
+                downValue! = 1
+            }
+        } else if style == 1 {
+            if downTextField.text == "" {
+                downTextField.text = "1"
+                downValue = 1
+            }
+            upValue = Int(ceil(Double(downValue!) / kursValue))
+            if upValue! < 1 {
+                upValue! = 1
+            }
+        }
+        
+        if upTextField.isFirstResponder == false {
+            upTextField.text = "\(upValue ?? 1)".stringToIntDecimalString()
+        }
+        
+        if downTextField.isFirstResponder == false {
+            downTextField.text = "\(downValue ?? 1)".stringToIntDecimalString()
+        }
+    }
+    
     func checkAndCalculateValue(UseStyle style:Int, NweString newString:String) {
         setUpKursValue()
 
@@ -68,7 +102,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
                 upTextField.text = "1"
                 upValue = 1
             }
-            downValue = Int(Double(upValue!) * kursValue)
+            downValue = Int(ceil(Double(upValue!) * kursValue))
             if downValue! < 1 {
                 downValue! = 1
             }
@@ -77,7 +111,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
                 downTextField.text = "1"
                 downValue = 1
             }
-            upValue = Int(Double(downValue!) / kursValue)
+            upValue = Int(ceil(Double(downValue!) / kursValue))
             if upValue! < 1 {
                 upValue! = 1
             }
@@ -88,7 +122,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
             }
             
             upValue = Int(string)
-            downValue = Int(Double(upValue!) * kursValue)
+            downValue = Int(ceil(Double(upValue!) * kursValue))
             downTextField.text = "\(downValue ?? 1)".stringToIntDecimalString()
         } else if style == 3 {
             if string == "" {
@@ -97,7 +131,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
             }
             
             downValue = Int(string)
-            upValue = Int(Double(downValue!) / kursValue)
+            upValue = Int(ceil(Double(downValue!) / kursValue))
             if upValue! < 1 {
                 upValue! = 1
             }
@@ -156,7 +190,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         AppDelegate.shared().transactionObj = TransactionObj()
         AppDelegate.shared().transactionObj.ntdValue = Int(upTextField.text!.replacingOccurrences(of: ",", with: ""))!
         //印尼盾必須再用台幣換算印尼盾(要對齊)
-        let downValue = Int(Double(AppDelegate.shared().transactionObj.ntdValue) * kursValue)
+        let downValue = Int(ceil(Double(AppDelegate.shared().transactionObj.ntdValue) * kursValue))
         AppDelegate.shared().transactionObj.targetValue = downValue
         AppDelegate.shared().transactionObj.feeValue = serviceCharge
         AppDelegate.shared().transactionObj.usePoint = decresedCharge
@@ -277,6 +311,13 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         if ((string == "0" || string == "") && (textField.text! as NSString).range(of: ".").location < range.location) {
             return true
         }
+        
+        let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        if textField == upTextField {
+            justCalculateValue(UseStyle: 0, NweString: newString)
+        } else if textField == downTextField {
+            justCalculateValue(UseStyle: 1, NweString: newString)
+        }
 
         /*
         // First check whether the replacement string's numeric...
@@ -392,7 +433,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         }
         
         loadOnce = true
-        
+        callMemberData()
         //頂部兩個按鈕
         AppDelegate.shared().topMargin = self.view.safeAreaInsets.top
         AppDelegate.shared().addTopButton()

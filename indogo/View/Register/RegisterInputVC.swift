@@ -193,7 +193,44 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
         picker.dismiss(animated: true, completion: nil) // 退出相機介面
     }
     
+    //MARK: - Text Bar
+    func generateToolBar() ->UIToolbar {
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let done = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(nextBarAction))
+        
+        let toolBar:UIToolbar = UIToolbar()
+        toolBar.items = [flexibleSpace,done]
+        toolBar.sizeToFit()
+        
+        return toolBar
+    }
+    
+    @objc func nextBarAction() {
+        if accountTextfield.isFirstResponder {
+            phoneTextfield.becomeFirstResponder()
+        } else if phoneTextfield.isFirstResponder {
+            passTextField.becomeFirstResponder()
+        } else if passTextField.isFirstResponder {
+            rePassTextField.becomeFirstResponder()
+        } else if rePassTextField.isFirstResponder {
+            rePassTextField.resignFirstResponder()
+        }
+    }
+    
     //MARK: - Text Delegate
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == accountTextfield {
+            phoneTextfield.becomeFirstResponder()
+        } else if textField == phoneTextfield {
+            passTextField.becomeFirstResponder()
+        } else if textField == passTextField {
+            rePassTextField.becomeFirstResponder()
+        } else if textField == rePassTextField {
+            textField.resignFirstResponder()
+        }
+        return true
+    }
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         inputMoreSpaceView.isHidden = false
         if textField == accountTextfield {
@@ -443,6 +480,11 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
         passTextField.delegate = self
         rePassTextField.delegate = self
         arcTextfield.isEnabled = false
+        
+        accountTextfield.inputAccessoryView = generateToolBar()
+        phoneTextfield.inputAccessoryView = generateToolBar()
+        passTextField.inputAccessoryView = generateToolBar()
+        rePassTextField.inputAccessoryView = generateToolBar()
         
         errorView.isHidden = true
         

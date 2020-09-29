@@ -74,7 +74,7 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
             cell.barNumberV.isHidden = false
             cell.barTimeL.isHidden = true
             
-            cell.pureNameL.text = cellData.recipient_name
+            cell.pureNameL.text = NSLocalizedString("Transfer State Pure Text Title", comment: "") //cellData.recipient_name
             cell.pureValueL.text = "NTD " + cellData.total.stringToIntDecimalString()
             cell.pureCodeL.text = cellData.payment_info
             
@@ -106,6 +106,10 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
                     cell.n0L.text = "\(Int(leftHours/10))"
                 }*/
             }
+            
+            let imgurl = serchBankobj.bank_photo!
+            let urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
+            cell.downIconIgV.kf.setImage(with: urlhaed)
             
         } else if cellOrderCheckData.order_status == "5" {
             cell.barNumberV.isHidden = true

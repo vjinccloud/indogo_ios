@@ -36,6 +36,17 @@ class ForgotPassChangeVC: UIViewController, UITextFieldDelegate {
     
     //MARK: - Button-Action
     @IBAction func nextAction(_ sender: Any) {
+        
+        if passTextField.text != repassTextField.text {
+            AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("Register Error Pass Not match", comment: ""))
+            return
+        }
+        
+        if passTextField.text!.count < 4 {
+            AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("Register Error Pass", comment: ""))
+            return
+        }
+        
         let parameters:Parameters = ["arc_no":AppDelegate.shared().forgotPassTempMemID, "password":UtilityTool().sha256(Code: passTextField.text!), "sms_code":AppDelegate.shared().forgotPassTempEnterCode]
         let headers: HTTPHeaders = [:]
         

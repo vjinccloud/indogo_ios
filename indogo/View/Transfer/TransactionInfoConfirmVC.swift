@@ -93,7 +93,7 @@ class TransactionInfoConfirmVC: UIViewController {
     func recalculateTargetMoneyAndGoNext() {
         let obj = AppDelegate.shared().transactionObj
         let kursValue = Double(AppDelegate.shared().memberData["kurs_value"]!)!
-        AppDelegate.shared().transactionObj.targetValue = Int(Double(obj.ntdValue) * kursValue)
+        AppDelegate.shared().transactionObj.targetValue = Int(ceil(Double(obj.ntdValue) * kursValue))
         
         let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransactionAgreeMentVC") as? TransactionAgreeMentVC
         self.navigationController?.pushViewController(nextVC!, animated: true)

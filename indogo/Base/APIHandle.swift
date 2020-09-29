@@ -109,6 +109,9 @@ class APIHandle {
         case API_SendSMS:
             sendSMS(DataStr: resultStr)
             break
+        case API_Register:
+            sendRegisterSMS(DataStr: resultStr)
+            break
         case API_NoticeRecordList:
             checkNoticeList(DataStr: resultStr)
             break
@@ -319,6 +322,10 @@ class APIHandle {
         AppDelegate.shared().forgotPassTempSMS = dataStr
     }
     
+    private func sendRegisterSMS(DataStr dataStr:String) {
+        AppDelegate.shared().forgotPassTempSMS = dataStr
+    }
+    
     private func checkMemExist(DataStr dataStr:String) {
         AppDelegate.shared().forgotPassTempPhone = dataStr
     }
@@ -368,12 +375,23 @@ class APIHandle {
                 Dlog("---\(subAry[j])")
             }
             
+            var canAdd = true
             if subStr == "1" { //系統會員
+                if obj.idStr == "" || obj.name == "" {
+                    canAdd = false
+                }
                 obj.memberStyle = .normal
             } else if subStr == "2" { //Sho[會員
+                if obj.name == "" || obj.phone == "" {
+                    canAdd = false
+                }
                 obj.memberStyle = .shop
             }
-            AppDelegate.shared().transferFriendListObj.append(obj)
+            
+            if canAdd {
+                AppDelegate.shared().transferFriendListObj.append(obj)
+            }
+            
             //obj.printSelf()
             //AppDelegate.shared().historyListObj.append(obj)
         }

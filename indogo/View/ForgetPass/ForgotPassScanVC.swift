@@ -44,7 +44,7 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
         //試試測試帳號
         //Delay一下
         DispatchQueue.main.async {
-            self.scanNext(Code: "FC20051865")
+            self.scanNext(Code: "XC00000092")
         }
     }
     
@@ -74,24 +74,6 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
         
         scanL.isHidden = true
         
-        if fromType == .register { //回到註冊畫面
-            guard let viewControllers = self.navigationController?.viewControllers else {
-                return
-            }
-
-            for firstViewController in viewControllers {
-                if firstViewController is RegisterInputVC {
-                    let nextVC = firstViewController as! RegisterInputVC
-                    nextVC.setArcCodeString(Code: code)
-                    self.navigationController?.popToViewController(nextVC, animated: true)
-                    break
-                }
-            }
-            
-            return
-        }
-        
-        
         let parameters:Parameters = ["arc_no":code]
         let headers: HTTPHeaders = [:]
         
@@ -117,15 +99,43 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 AppDelegate.shared().forgotPassTempMemID = code
                 if result == ResponseState.ok {
-                    //有電話
-                    let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassCheckPhoneVC") as? ForgotPassCheckPhoneVC
-                    nextVC?.checkType = 0
-                    self.navigationController?.pushViewController(nextVC!, animated: true)
+                    if self.fromType == .register { //回登入畫面帶入帳密？
+                        AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("Register Member Exist" , comment: ""))
+                        self.navigationController?.popToRootViewController(animated: true)
+                    } else if self.fromType == .forgotPass {
+                        //有電話
+                        let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassCheckPhoneVC") as? ForgotPassCheckPhoneVC
+                        nextVC?.checkType = 0
+                        self.navigationController?.pushViewController(nextVC!, animated: true)
+                    }
+                    
                 } else if result == ResponseState.member_not_exist {
                     //會員不存在，註冊
+                    if self.fromType == .register { //回到註冊畫面
+                        guard let viewControllers = self.navigationController?.viewControllers else {
+                            return
+                        }
+
+                        for firstViewController in viewControllers {
+                            if firstViewController is RegisterInputVC {
+                                let nextVC = firstViewController as! RegisterInputVC
+                                nextVC.setArcCodeString(Code: code)
+                                self.navigationController?.popToViewController(nextVC, animated: true)
+                                break
+                            }
+                        }
+                        
+                        return
+                    } else if self.fromType == .forgotPass {
+                        let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassCheckPhoneVC") as? ForgotPassCheckPhoneVC
+                        nextVC?.checkType = 1
+                        self.navigationController?.pushViewController(nextVC!, animated: true)
+                    }
+                    
+                    /*
                     let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassCheckPhoneVC") as? ForgotPassCheckPhoneVC
                     nextVC?.checkType = 1
-                    self.navigationController?.pushViewController(nextVC!, animated: true)
+                    self.navigationController?.pushViewController(nextVC!, animated: true)*/
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }

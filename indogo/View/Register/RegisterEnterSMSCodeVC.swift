@@ -18,6 +18,7 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var titleL: UILabel!
     @IBOutlet weak var topL: UILabel!
     @IBOutlet weak var sendAgainBtn: UIButton!
+    @IBOutlet weak var allCodeTextField: UITextField!
     @IBOutlet weak var codeT1: UITextField!
     @IBOutlet weak var codeT2: UITextField!
     @IBOutlet weak var codeT3: UITextField!
@@ -63,13 +64,27 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
     
     @IBAction func nextAction(_ sender: Any) {
         
-        if codeT1.text == "" || codeT2.text == "" || codeT3.text == "" || codeT4.text == "" {
+        if allCodeTextField.text == "" || allCodeTextField.text?.count != 4 {
             AppDelegate.shared().showAlertWithWindow(self, Message: "Please Enter Number")
             return
         }
         
+        AppDelegate.shared().forgotPassTempEnterCode = allCodeTextField.text!
+        
+        if AppDelegate.shared().forgotPassTempSMS != allCodeTextField.text! {
+            AppDelegate.shared().showAlertWithWindow(self, Message: "SMS Code Wrong")
+            return
+        }
+        
+        /*
+        if codeT1.text == "" || codeT2.text == "" || codeT3.text == "" || codeT4.text == "" {
+            AppDelegate.shared().showAlertWithWindow(self, Message: "Please Enter Number")
+            return
+        }*/
+        
         //組合code
-        let code = codeT1.text! + codeT2.text! + codeT3.text! + codeT4.text!
+        let code =  allCodeTextField.text!
+        //codeT1.text! + codeT2.text! + codeT3.text! + codeT4.text!
         
         let parameters:Parameters = ["arc_no":AppDelegate.shared().tempRegisterObj.arcNum!, "sms_code":code]
         let headers: HTTPHeaders = [:]
@@ -176,6 +191,10 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
         titleL.text = NSLocalizedString("TFFRHP Enter Title", comment: "")
         topL.text = NSLocalizedString("TFFRHP Enter Top", comment: "") + AppDelegate.shared().forgotPassTempPhone
         
+        allCodeTextField.backgroundColor = Color_Main_DarkGray
+        allCodeTextField.keyboardType = .numberPad
+        
+        /*
         codeT1.backgroundColor = Color_Main_DarkGray
         codeT1.keyboardType = .numberPad
         codeT1.textColor = .white
@@ -189,6 +208,7 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
         codeT4.backgroundColor = Color_Main_DarkGray
         codeT4.keyboardType = .numberPad
         codeT4.delegate = self
+        */
     }
     
 

@@ -443,7 +443,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
     var alamofireManagerWithTimeout:Alamofire.SessionManager = {
     let configuration = URLSessionConfiguration.default
          //請求超時時間15秒
-         configuration.timeoutIntervalForRequest = 5
+         configuration.timeoutIntervalForRequest = 15
          return Alamofire.SessionManager(configuration: configuration)
      }()
     

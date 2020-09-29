@@ -18,6 +18,7 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var titleL: UILabel!
     @IBOutlet weak var topL: UILabel!
     @IBOutlet weak var sendAgainBtn: UIButton!
+    @IBOutlet weak var allCodeTextField: UITextField!
     @IBOutlet weak var codeT1: UITextField!
     @IBOutlet weak var codeT2: UITextField!
     @IBOutlet weak var codeT3: UITextField!
@@ -62,6 +63,19 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func nextAction(_ sender: Any) {
+        if allCodeTextField.text == "" || allCodeTextField.text?.count != 4 {
+            AppDelegate.shared().showAlertWithWindow(self, Message: "Please Enter Number")
+            return
+        }
+        
+        AppDelegate.shared().forgotPassTempEnterCode = allCodeTextField.text!
+        
+        if AppDelegate.shared().forgotPassTempSMS != allCodeTextField.text! {
+            AppDelegate.shared().showAlertWithWindow(self, Message: "SMS Code Wrong")
+            return
+        }
+        
+        /*
         if codeT1.text == "" || codeT2.text == "" || codeT3.text == "" || codeT4.text == "" {
             AppDelegate.shared().showAlertWithWindow(self, Message: "Please Enter Number")
             return
@@ -69,6 +83,7 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
         
         //組合
         AppDelegate.shared().forgotPassTempEnterCode = codeT1.text! + codeT2.text! + codeT3.text! + codeT4.text!
+        */
         
         let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassChangeVC") as? ForgotPassChangeVC
         self.navigationController?.pushViewController(nextVC!, animated: true)
@@ -87,6 +102,7 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
         textField.backgroundColor = Color_Main_DarkGray
     }
     
+    /*
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else{
             return true
@@ -112,9 +128,10 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
             return false
         } else {
         }
-        
+    
         return textLength <= 1
     }
+    */
     
     //MARK: - View-Life
     override func viewDidLoad() {
@@ -133,6 +150,10 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
         titleL.text = NSLocalizedString("TFFRHP Enter Title", comment: "")
         topL.text = NSLocalizedString("TFFRHP Enter Top", comment: "") + AppDelegate.shared().forgotPassTempPhone
         
+        allCodeTextField.backgroundColor = Color_Main_DarkGray
+        allCodeTextField.keyboardType = .numberPad
+        
+        /*
         codeT1.backgroundColor = Color_Main_DarkGray
         codeT1.keyboardType = .numberPad
         codeT1.textColor = .white
@@ -146,6 +167,7 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
         codeT4.backgroundColor = Color_Main_DarkGray
         codeT4.keyboardType = .numberPad
         codeT4.delegate = self
+        */
     }
     
 

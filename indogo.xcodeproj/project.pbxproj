@@ -2153,7 +2153,7 @@
 				CODE_SIGN_ENTITLEMENTS = indogo/indogo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = 8P43SK2KHA;
 				INFOPLIST_FILE = indogo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -2177,7 +2177,7 @@
 				CODE_SIGN_ENTITLEMENTS = indogo/indogo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = 8P43SK2KHA;
 				INFOPLIST_FILE = indogo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
