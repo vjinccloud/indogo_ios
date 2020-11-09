@@ -2670,12 +2670,14 @@ Anda dibawah ini :</string>
                                             <action selector="sendAgain:" destination="4b1-9H-VrG" eventType="touchUpInside" id="oDv-OV-FWE"/>
                                         </connections>
                                     </button>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zvb-g5-4d4">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zvb-g5-4d4">
                                         <rect key="frame" x="83" y="201" width="248" height="60"/>
+                                        <color key="backgroundColor" red="0.30754500629999998" green="0.32042944429999998" blue="0.35411232710000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="2eP-1E-4jy"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                 </subviews>
@@ -3050,6 +3052,155 @@ berada dalam kotak yang ditentukan</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ryv-Sg-KXt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="6364" y="-552"/>
+        </scene>
+        <!--註冊(拍持證照Step2)-->
+        <scene sceneID="kTd-Up-g4M">
+            <objects>
+                <viewController storyboardIdentifier="RegisterIDAndSelfPhotoStep2VC" id="rw4-ZH-eCl" userLabel="註冊(拍持證照Step2)" customClass="RegisterIDAndSelfPhotoStep2VC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Zqb-Er-ymH">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mwc-Qk-LVG">
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fJM-xK-nhq" userLabel="BarView">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I3n-bp-lg6">
+                                                <rect key="frame" x="15" y="8.5" width="28" height="28"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="28" id="4CK-DN-ZNJ"/>
+                                                    <constraint firstAttribute="width" constant="28" id="hdj-uI-ats"/>
+                                                </constraints>
+                                                <state key="normal" backgroundImage="previous.png"/>
+                                                <connections>
+                                                    <action selector="backAction:" destination="rw4-ZH-eCl" eventType="touchUpInside" id="oFc-jg-uMi"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="KEMBALI" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U9D-zL-kdv">
+                                                <rect key="frame" x="63" y="13.5" width="63" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="I3n-bp-lg6" firstAttribute="leading" secondItem="fJM-xK-nhq" secondAttribute="leading" constant="15" id="2Rt-zZ-tfp"/>
+                                            <constraint firstItem="I3n-bp-lg6" firstAttribute="centerY" secondItem="fJM-xK-nhq" secondAttribute="centerY" id="4ne-H3-Hoa"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="U9D-zL-kdv" secondAttribute="trailing" constant="20" symbolic="YES" id="6qs-qh-kmH"/>
+                                            <constraint firstAttribute="height" constant="45" id="GhA-3u-CPp"/>
+                                            <constraint firstItem="U9D-zL-kdv" firstAttribute="centerY" secondItem="fJM-xK-nhq" secondAttribute="centerY" id="Opq-3m-5cY"/>
+                                            <constraint firstItem="U9D-zL-kdv" firstAttribute="leading" secondItem="I3n-bp-lg6" secondAttribute="trailing" constant="20" id="r95-DB-9YS"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GUB-in-EkM">
+                                        <rect key="frame" x="0.0" y="45" width="414" height="582"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nt9-jv-JE8">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="582"/>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="Nt9-jv-JE8" firstAttribute="leading" secondItem="GUB-in-EkM" secondAttribute="leading" id="BaH-VF-uZ5"/>
+                                            <constraint firstAttribute="bottom" secondItem="Nt9-jv-JE8" secondAttribute="bottom" id="Qsa-vz-7ht"/>
+                                            <constraint firstAttribute="trailing" secondItem="Nt9-jv-JE8" secondAttribute="trailing" id="cwv-Pq-GC5"/>
+                                            <constraint firstItem="Nt9-jv-JE8" firstAttribute="top" secondItem="GUB-in-EkM" secondAttribute="top" id="yR9-Ry-qKO"/>
+                                        </constraints>
+                                    </view>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="next-1.png" translatesAutoresizingMaskIntoConstraints="NO" id="Bi7-LL-7qP">
+                                        <rect key="frame" x="193" y="632" width="28" height="28"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="28" id="XXA-cq-fRL"/>
+                                            <constraint firstAttribute="height" constant="28" id="YgY-9c-QB4"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KMW-IN-Uul">
+                                        <rect key="frame" x="83" y="660" width="248.5" height="45"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="Z8O-KA-55q"/>
+                                        </constraints>
+                                        <string key="text">Pastikan seluruh barcode 
+berada dalam kotak yang ditentukan</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LBa-gw-pPK">
+                                        <rect key="frame" x="217" y="737" width="147" height="45"/>
+                                        <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="N9k-MY-T53"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <state key="normal" title="KEMBALI">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="nextAction:" destination="rw4-ZH-eCl" eventType="touchUpInside" id="fir-xe-VtG"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FxY-cB-2NR" userLabel="CancelBtn">
+                                        <rect key="frame" x="50" y="737" width="147" height="45"/>
+                                        <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="hlO-PD-2Rq"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <state key="normal" title="KEMBALI">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="backAction:" destination="rw4-ZH-eCl" eventType="touchUpInside" id="loy-Du-2wg"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="FxY-cB-2NR" firstAttribute="centerY" secondItem="LBa-gw-pPK" secondAttribute="centerY" id="3uI-MI-lcc"/>
+                                    <constraint firstItem="LBa-gw-pPK" firstAttribute="leading" secondItem="FxY-cB-2NR" secondAttribute="trailing" constant="20" id="4il-sf-ADJ"/>
+                                    <constraint firstItem="GUB-in-EkM" firstAttribute="centerX" secondItem="mwc-Qk-LVG" secondAttribute="centerX" id="65F-F1-mmH"/>
+                                    <constraint firstItem="FxY-cB-2NR" firstAttribute="leading" secondItem="mwc-Qk-LVG" secondAttribute="leading" constant="50" id="Aqm-wN-vXm"/>
+                                    <constraint firstItem="KMW-IN-Uul" firstAttribute="top" secondItem="Bi7-LL-7qP" secondAttribute="bottom" id="DF9-SF-MHK"/>
+                                    <constraint firstItem="Bi7-LL-7qP" firstAttribute="centerX" secondItem="mwc-Qk-LVG" secondAttribute="centerX" id="JVP-2b-qgq"/>
+                                    <constraint firstItem="GUB-in-EkM" firstAttribute="top" secondItem="fJM-xK-nhq" secondAttribute="bottom" id="KG3-Va-QSb"/>
+                                    <constraint firstAttribute="trailing" secondItem="fJM-xK-nhq" secondAttribute="trailing" id="Kpd-Ue-gJe"/>
+                                    <constraint firstItem="GUB-in-EkM" firstAttribute="width" secondItem="mwc-Qk-LVG" secondAttribute="width" id="MS6-fm-bTe"/>
+                                    <constraint firstItem="Bi7-LL-7qP" firstAttribute="top" secondItem="GUB-in-EkM" secondAttribute="bottom" constant="5" id="NCg-Nb-Vjy"/>
+                                    <constraint firstItem="LBa-gw-pPK" firstAttribute="width" secondItem="mwc-Qk-LVG" secondAttribute="width" multiplier="0.5" constant="-60" id="R5h-fj-g1A"/>
+                                    <constraint firstItem="KMW-IN-Uul" firstAttribute="centerX" secondItem="mwc-Qk-LVG" secondAttribute="centerX" id="RkM-3O-oD5"/>
+                                    <constraint firstItem="FxY-cB-2NR" firstAttribute="width" secondItem="LBa-gw-pPK" secondAttribute="width" id="Sgh-1Y-vdi"/>
+                                    <constraint firstItem="fJM-xK-nhq" firstAttribute="top" secondItem="mwc-Qk-LVG" secondAttribute="top" id="UKn-A3-pcA"/>
+                                    <constraint firstItem="GUB-in-EkM" firstAttribute="height" secondItem="mwc-Qk-LVG" secondAttribute="height" constant="-270" id="Xe8-FT-uGY"/>
+                                    <constraint firstAttribute="bottom" secondItem="LBa-gw-pPK" secondAttribute="bottom" constant="70" id="vhL-Pm-8tt"/>
+                                    <constraint firstItem="fJM-xK-nhq" firstAttribute="leading" secondItem="mwc-Qk-LVG" secondAttribute="leading" id="vkA-Yz-tmf"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="RuA-VC-6cI" firstAttribute="trailing" secondItem="mwc-Qk-LVG" secondAttribute="trailing" id="gpi-rO-njk"/>
+                            <constraint firstItem="mwc-Qk-LVG" firstAttribute="top" secondItem="RuA-VC-6cI" secondAttribute="top" id="hm1-8q-vwh"/>
+                            <constraint firstItem="mwc-Qk-LVG" firstAttribute="leading" secondItem="RuA-VC-6cI" secondAttribute="leading" id="tCd-SU-FDY"/>
+                            <constraint firstItem="mwc-Qk-LVG" firstAttribute="bottom" secondItem="Zqb-Er-ymH" secondAttribute="bottom" id="vQG-lj-rBu"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="RuA-VC-6cI"/>
+                    </view>
+                    <connections>
+                        <outlet property="backL" destination="U9D-zL-kdv" id="imJ-rm-aGx"/>
+                        <outlet property="bottomL" destination="KMW-IN-Uul" id="LUc-dX-WXD"/>
+                        <outlet property="cancelBtn" destination="FxY-cB-2NR" id="jtY-UC-XGp"/>
+                        <outlet property="nextBtn" destination="LBa-gw-pPK" id="wlL-W0-g4G"/>
+                        <outlet property="processImgV" destination="Nt9-jv-JE8" id="3Sx-6a-wpl"/>
+                        <outlet property="scanView" destination="GUB-in-EkM" id="uMa-G0-Q0K"/>
+                        <outlet property="scanViewWidthConstrain" destination="MS6-fm-bTe" id="ewc-1o-f6g"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="laF-jb-0Td" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1867" y="783"/>
         </scene>
     </scenes>
     <resources>

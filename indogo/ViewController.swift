@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import Firebase
 
 class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewControllerDataSource, CustomAlertDelegate {
     
@@ -72,11 +73,13 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
     }
     
     @IBAction func forgotPassAction(_ sender: Any) {
+        Analytics.logEvent("iOS_ForgotPass", parameters: nil)
         let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassMainVC") as? ForgotPassMainVC
         self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
     @IBAction func registAction(_ sender: Any) {
+        Analytics.logEvent("iOS_Regist", parameters: nil)
         //RegisterAgreementVC
         //進入註冊
         let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterAgreementVC") as? RegisterAgreementVC
@@ -132,7 +135,8 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 if result == ResponseState.ok {
                     AppDelegate.shared().nowBottomMenuType = AppDelegate.shared().defautBottomMenuType
                     AppDelegate.shared().changeRootOfFunc(Type: .transaction)
-                    //AppDelegate.shared().showAlertWithWindow(self, Message: "Hi, \(AppDelegate.shared().memberData["member_name"] ?? "") 自動登入成功")
+                    //傳輸token
+                    self.sendToken()
                     //讀取未讀通知數量
                     AppDelegate.shared().getNotice()
                     
@@ -170,6 +174,8 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 if result == ResponseState.ok {
+                    //傳輸token
+                    self.sendToken()
                     //會員資料編輯要顯示的
                     AppDelegate.shared().rememberAarcNo(Account: self.accountTextfield.text!)
                     //讀取未讀通知數量
@@ -186,6 +192,33 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
+        }
+    }
+    
+    func sendToken() {
+        if FirebaseToken == "" {
+            return
+        }
+        
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken,"device_token":FirebaseToken]
+        let headers: HTTPHeaders = [:]
+        
+        let todoEndpoint: String = API_PhoneTokenSet;
+        
+        Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
+        
+        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
+                    return
+                }
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("responseStr = \(responseStr ?? "")")
         }
     }
     
@@ -326,6 +359,7 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         
         // Do any additional setup after loading the view.
         self.setupHideKeyboardOnTap()
+        Analytics.logEvent("iOS_Login", parameters: nil)
         
         promoView.isHidden = true
         promoPageCtrl.isHidden = true
@@ -351,9 +385,11 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         lupaBtn.setTitle(NSLocalizedString("recover passcode", comment: ""), for: .normal)
         registerBtn.setTitle(NSLocalizedString("register", comment: ""), for: .normal)
         
-        let bnumber = Bundle.main.buildNumber
+        //let bnumber = Bundle.main.buildNumber
         
-        remeberBtn.setTitle(" " + NSLocalizedString("remmber me", comment: "") + " " + bnumber, for: .normal)
+        //秀出版本
+        //remeberBtn.setTitle(" " + NSLocalizedString("remmber me", comment: "") + " " + bnumber, for: .normal)
+        remeberBtn.setTitle(" " + NSLocalizedString("remmber me", comment: ""), for: .normal)
         
         passTextField.isSecureTextEntry = true
         registerBtn.layer.cornerRadius = registerBtn.frame.height/2
@@ -361,10 +397,11 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         accountTextfield.text = AppDelegate.shared().getRemeberedAccount()
         passTextField.text = AppDelegate.shared().getRemeberedPassword()
         
+        /*
         if DevMode {
             accountTextfield.text = "XC00000092" //XX00000026
             passTextField.text = "123456"
-        }
+        }*/
         
         AppDelegate.shared().rootController = self
     }

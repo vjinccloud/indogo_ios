@@ -298,6 +298,7 @@
 		0466BFA3250E1E8F009EDEFF /* BankListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0466BFA2250E1E8F009EDEFF /* BankListTableViewCell.swift */; };
 		0467180B24E436A5008A75B1 /* NoticeMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0467180A24E436A5008A75B1 /* NoticeMainVC.swift */; };
 		0472E23D24C2DC8600CC48A0 /* RegisterAgreementVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472E23C24C2DC8600CC48A0 /* RegisterAgreementVC.swift */; };
+		047B89312522F00500CC0809 /* RegisterIDAndSelfPhotoStep2VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047B89302522F00500CC0809 /* RegisterIDAndSelfPhotoStep2VC.swift */; };
 		049686DD24B6EFB0005EF74A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049686DC24B6EFB0005EF74A /* AppDelegate.swift */; };
 		049686E124B6EFB0005EF74A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049686E024B6EFB0005EF74A /* ViewController.swift */; };
 		049686E424B6EFB0005EF74A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 049686E224B6EFB0005EF74A /* Main.storyboard */; };
@@ -730,7 +731,8 @@
 		0466BFA2250E1E8F009EDEFF /* BankListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankListTableViewCell.swift; sourceTree = "<group>"; };
 		0467180A24E436A5008A75B1 /* NoticeMainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeMainVC.swift; sourceTree = "<group>"; };
 		0472E23C24C2DC8600CC48A0 /* RegisterAgreementVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAgreementVC.swift; sourceTree = "<group>"; };
-		049686D924B6EFB0005EF74A /* indogo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = indogo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		047B89302522F00500CC0809 /* RegisterIDAndSelfPhotoStep2VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterIDAndSelfPhotoStep2VC.swift; sourceTree = "<group>"; };
+		049686D924B6EFB0005EF74A /* IndoGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IndoGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		049686DC24B6EFB0005EF74A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		049686E024B6EFB0005EF74A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		049686E324B6EFB0005EF74A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -1279,6 +1281,7 @@
 				04E82A6D24DAB70700E25DCD /* RegisterIDWithSelfIntroVC.swift */,
 				04E82A6F24DAC39000E25DCD /* RegisterMakeSignVC.swift */,
 				04E82A7124DCFF9C00E25DCD /* RegisterEnterSMSCodeVC.swift */,
+				047B89302522F00500CC0809 /* RegisterIDAndSelfPhotoStep2VC.swift */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -1297,7 +1300,7 @@
 		049686DA24B6EFB0005EF74A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				049686D924B6EFB0005EF74A /* indogo.app */,
+				049686D924B6EFB0005EF74A /* IndoGo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1474,7 +1477,7 @@
 			);
 			name = indogo;
 			productName = indogo;
-			productReference = 049686D924B6EFB0005EF74A /* indogo.app */;
+			productReference = 049686D924B6EFB0005EF74A /* IndoGo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1979,6 +1982,7 @@
 				04AC3EE7250020B800E48622 /* TransactionObj.swift in Sources */,
 				04AC3EEB2500A38B00E48622 /* TransactionAgreeMentVC.swift in Sources */,
 				0436E73124F6D84D008A38E9 /* TransferMemberChoseTableViewCell.swift in Sources */,
+				047B89312522F00500CC0809 /* RegisterIDAndSelfPhotoStep2VC.swift in Sources */,
 				04D9D78924E28AFF0036DC5C /* PureWebVC.swift in Sources */,
 				0496881A24B99235005EF74A /* PromoPageVC.swift in Sources */,
 				04D9D78B24E3C7A30036DC5C /* BottomMenuView.swift in Sources */,
@@ -2153,7 +2157,7 @@
 				CODE_SIGN_ENTITLEMENTS = indogo/indogo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8P43SK2KHA;
 				INFOPLIST_FILE = indogo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -2161,8 +2165,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.indogo.dim.indogo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = IndoGo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2177,7 +2182,7 @@
 				CODE_SIGN_ENTITLEMENTS = indogo/indogo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8P43SK2KHA;
 				INFOPLIST_FILE = indogo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -2185,8 +2190,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.indogo.dim.indogo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = IndoGo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

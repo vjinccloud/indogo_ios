@@ -96,26 +96,27 @@ extension UIImage {
     //壓縮圖檔
     func ImgPress(LimitInBytes dataLimit:Int) -> Data{
         let img = self
-        let limit = 800
+        let limit = 1200
+        let newWidth:CGFloat = 1000
         let width = img.size.width
         let height = img.size.height
         let scale = width/height
         var sizeChange = CGSize()
         
-        var pressData = img.jpegData(compressionQuality: 0.2)
+        var pressData = img.jpegData(compressionQuality: 0.5)
         var pressImg = UIImage(data: pressData!)
         
         if width <= CGFloat(limit),height<=CGFloat(limit) { //圖片寬度小於時圖片尺寸保持不變,不改變圖片大小
             
         }else{
             if(scale >= 1){
-                let changedWidth:CGFloat = 500
-                let changedheight:CGFloat = height / width * 500
+                let changedWidth:CGFloat = newWidth
+                let changedheight:CGFloat = height / width * newWidth
                 sizeChange = CGSize(width: changedWidth, height: changedheight)
             }
             else{
-                let changedWidth:CGFloat = width / height * 500
-                let changedheight:CGFloat = 500
+                let changedWidth:CGFloat = width / height * newWidth
+                let changedheight:CGFloat = newWidth
                 sizeChange = CGSize(width: changedWidth, height: changedheight)
             }
             
@@ -134,7 +135,7 @@ extension UIImage {
         var count=0
         while count<3, pressData!.count > dataLimit {
             count+=1
-            pressData = pressImg!.jpegData(compressionQuality: 0.2)
+            pressData = pressImg!.jpegData(compressionQuality: 0.5)
             pressImg = UIImage(data: pressData!)!
         }
         

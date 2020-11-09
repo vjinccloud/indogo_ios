@@ -5589,7 +5589,7 @@
         <image name="teach1.jpg" width="326" height="2286"/>
         <image name="teach2.jpg" width="326" height="1956"/>
         <image name="teach3.jpg" width="326" height="2281"/>
-        <image name="transfur_coint.png" width="64" height="64"/>
+        <image name="transfur_coint.png" width="30.719999313354492" height="30.719999313354492"/>
         <image name="warning.png" width="86" height="78"/>
     </resources>
 </document>

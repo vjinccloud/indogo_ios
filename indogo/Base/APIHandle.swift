@@ -445,6 +445,17 @@ class APIHandle {
     private func promo(DataStr dataStr:String) {
         AppDelegate.shared().promoUrlAry = []
         
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        for i in 0..<ary.count {
+            var str = ary[i]
+            str = str.trimmingCharacters(in: .whitespaces)
+            if str.count>10 {
+               AppDelegate.shared().promoUrlAry.append(str)
+            }
+            
+        }
+        
+        /*
         var idx = 0
         let spaceCount = 62
         while (idx+spaceCount) <= dataStr.count {
@@ -455,7 +466,7 @@ class APIHandle {
             str = str.trimmingCharacters(in: .whitespaces)
             AppDelegate.shared().promoUrlAry.append(str)
             idx += spaceCount
-        }
+        }*/
         Dlog("promoUrlAry = \(AppDelegate.shared().promoUrlAry.count)")
     }
     

@@ -43,8 +43,9 @@ class RegisterSelfPhotoVC: UIViewController, UINavigationControllerDelegate, AVC
     }
     
     func nextStepForSimulator() {
+        //RegisterSelfPhotoStep2VC
         let image = UIImage.init(named: "close.png")
-        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterSelfPhotoStep2VC") as? RegisterSelfPhotoStep2VC
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterIDAndSelfPhotoStep2VC") as? RegisterIDAndSelfPhotoStep2VC
         nextVC?.tempImg = image
         nextVC?.takePhotoType = takePhotoType
         self.navigationController?.pushViewController(nextVC!, animated: true)
@@ -55,10 +56,10 @@ class RegisterSelfPhotoVC: UIViewController, UINavigationControllerDelegate, AVC
         
         guard let imageData = photo.fileDataRepresentation()
             else { return }
-        
+        //RegisterSelfPhotoStep2VC
         let image = UIImage(data: imageData)
         
-        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterSelfPhotoStep2VC") as? RegisterSelfPhotoStep2VC
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterIDAndSelfPhotoStep2VC") as? RegisterIDAndSelfPhotoStep2VC
         nextVC?.tempImg = image
         nextVC?.takePhotoType = takePhotoType
         self.navigationController?.pushViewController(nextVC!, animated: true)

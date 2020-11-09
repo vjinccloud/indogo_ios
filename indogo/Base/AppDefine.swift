@@ -16,7 +16,7 @@ var AppTopBarHeight:CGFloat = 50.0
 var AppEmptyHeight:CGFloat = 800.0
 var FirebaseToken = ""
 
-var ImageLimitInBytes:Int = 80000
+var ImageLimitInBytes:Int = 300000
 
 //顏色
 public let Color_Main_Bule = UtilityTool().hexStringToUIColor(hex: "#2a65ec")
@@ -68,6 +68,7 @@ let API_NotificationRead = ServerURL + "/app/remit/notification_read"
 let API_UpdateARC = ServerURL + "/app/remit/update_arc"
 let API_UpdateID = ServerURL + "/app/remit/update_id_card"
 let API_PassUpdate = ServerURL + "/app/remit/password_update"
+let API_PhoneTokenSet = ServerURL + "/app/remit/phone_token_set"
 
 public enum TransferMemberStyle {
     case normal

@@ -41,9 +41,9 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_remit.png" translatesAutoresizingMaskIntoConstraints="NO" id="wwk-9E-t8m">
-                        <rect key="frame" x="373" y="36" width="30" height="30"/>
+                        <rect key="frame" x="368" y="33.5" width="35" height="35"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="30" id="sgr-Ux-wFC"/>
+                            <constraint firstAttribute="width" constant="35" id="sgr-Ux-wFC"/>
                             <constraint firstAttribute="width" secondItem="wwk-9E-t8m" secondAttribute="height" multiplier="1:1" id="yEd-8w-aGb"/>
                         </constraints>
                     </imageView>
@@ -74,6 +74,6 @@
     </objects>
     <resources>
         <image name="big_unselect.png" width="32" height="32"/>
-        <image name="icon_remit.png" width="26" height="26"/>
+        <image name="icon_remit.png" width="12.479999542236328" height="12.479999542236328"/>
     </resources>
 </document>

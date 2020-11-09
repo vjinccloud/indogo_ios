@@ -69,9 +69,11 @@ class TransferPointVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
         if cellData.memberStyle == .normal {
             cell.nameL.text = cellData.name
             cell.phoneL.text = phoneTextfield.text
+            cell.styleImgV.image = UIImage.init(named: "icon_remit.png")
         } else {
             cell.nameL.text = cellData.name
             cell.phoneL.text = cellData.phone
+            cell.styleImgV.image = UIImage.init(named: "icon_shopping.png")
         }
         cell.chosed = chosedAry[indexPath.row]
         cell.setUpImgIcon()

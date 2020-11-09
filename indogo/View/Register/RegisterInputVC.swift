@@ -534,13 +534,14 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
     
     //測試用(僅在模擬器發生)
     func simulatorNextAction() {
+        /*
         accountTextfield.text = "ask"
         phoneTextfield.text = "0935499332"
         passTextField.text = "a12345"
         rePassTextField.text = "a12345"
         setArcCodeString(Code: "XC00000092") //XX00000037
         
-        checkNextBtnState(CheckText: true)
+        checkNextBtnState(CheckText: true)*/
     }
 
     /*

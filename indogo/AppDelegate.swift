@@ -168,22 +168,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
         let title = strTitle.value(forKey: "title")
         let body = strTitle.value(forKey: "body")
         
+        let window = UIApplication.shared.keyWindow
+        
         if application.applicationState == .active{
+            
+            
             let alert = UIAlertController(title: "\(title!)", message: "\(body!)", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "確定", style: .default) { action in
             })
-            self.window?.rootViewController?.present(alert, animated: true)
+            window?.rootViewController?.present(alert, animated: true)
         }else if application.applicationState == .background{
+            /*
             let alert = UIAlertController(title: "\(title!)", message: "\(body!)", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "確定", style: .default) { action in
             })
-            self.window?.rootViewController?.present(alert, animated: true)
+            window?.rootViewController?.present(alert, animated: true)
+            */
         }else{
-            // AppUtils.showAlertWithTitle(title: "Hello", message: "Hello")
+            /*
             let alert = UIAlertController(title: "\(title!)", message: "\(body!)", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "確定", style: .default) { action in
             })
-            self.window?.rootViewController?.present(alert, animated: true)
+            window?.rootViewController?.present(alert, animated: true)
+            */
         }
         /*
         guard let aps = userInfo["aps"] as? [String: AnyObject] else {
@@ -962,7 +969,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
 }
 
 extension AppDelegate : MessagingDelegate {
-    
     func application(application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         Messaging.messaging().apnsToken = deviceToken as Data
@@ -973,9 +979,9 @@ extension AppDelegate : MessagingDelegate {
     internal func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
         print("Firebase registration token: \(fcmToken)")
         FirebaseToken = fcmToken
+        
         /*
-        pushToken = fcmToken
-        Messaging.messaging().subscribe(toTopic: "TOPIC_iOS") { error in
+        Messaging.messaging().subscribe(toTopic: "Test_iOS") { error in
             print("Subscribed to weather topic")
         }*/
         

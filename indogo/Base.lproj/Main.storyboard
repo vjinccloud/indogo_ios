@@ -1120,7 +1120,7 @@ Anda dibawah ini :</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mod-TM-F3j" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4212" y="-552"/>
+            <point key="canvasLocation" x="4229" y="-552"/>
         </scene>
         <!--忘記密碼(更換密碼)-->
         <scene sceneID="YJM-Wi-Ale">

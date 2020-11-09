@@ -28,7 +28,7 @@ class PromoPageVC: UIViewController {
         unitImv.contentMode = .scaleAspectFit
         unitImv.clipsToBounds = true
         let imgurl = ServerURL + promoUrl
-        Dlog("imgurl = --\(unitImv.frame)--")
+        Dlog("imgurl = --\(imgurl)--")
         let urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
         unitImv.kf.indicatorType = .activity
         //unitImv.kf.setImage(with: urlhaed)

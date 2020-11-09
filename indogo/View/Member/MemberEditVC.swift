@@ -287,7 +287,8 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
             return
         }
         
-        //都ok就顯示字？
+        //回會員頁
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func callCamActon(_ sender: Any) {
