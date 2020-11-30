@@ -63,7 +63,7 @@ class RegisterMakeSignVC: UIViewController {
 
         // Do any additional setup after loading the view.
         backL.text = NSLocalizedString("back", comment: "")
-        bottomL.text = NSLocalizedString("bottom for forgoet sec", comment: "")
+        bottomL.text = NSLocalizedString("bottom for forgoet sec Sign", comment: "")
         signView.layer.cornerRadius = 10
         signView.clipsToBounds = true
         

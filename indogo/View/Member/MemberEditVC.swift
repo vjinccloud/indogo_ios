@@ -65,10 +65,12 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
     
     //MARK: - API
     func showMustAllChangedAlert(Type type:Int) {
-        if type == 0 { //ARC
-            AppDelegate.shared().showAlertWithWindow(self, Message: "ARC證照前後圖片與簽名須同時變更")
-        } else { //ID
-            AppDelegate.shared().showAlertWithWindow(self, Message: "護照與持照圖片需同時變更")
+        if type == 0 { //ARC ARC證照前後圖片與簽名須同時變更
+            let msg = NSLocalizedString("Arc Change Same Time" , comment: "")
+            AppDelegate.shared().showAlertWithWindow(self, Message: msg)
+        } else { //ID 護照與持照圖片需同時變更
+            let msg = NSLocalizedString("Self Photo Change Same Time" , comment: "")
+            AppDelegate.shared().showAlertWithWindow(self, Message: msg)
         }
     }
     
@@ -354,7 +356,7 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
             print("allcount = \(data.count)")
             //img!.jpegData(compressionQuality: 0.2)
             if(data.count>512000){
-                AppDelegate.shared().showAlertWithWindow(self, Message: "圖片過大，請重新選擇")
+                AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("Photo Exceed Limit" , comment: ""))
                 return
             }
             

@@ -28,15 +28,23 @@
 "passcode" = "Kata Sandi"; //密碼
 "scan again" = "SCAN ULANG"; //再次掃描
 "scan format wrong" = "Wrong"; //掃描格式錯誤
-"API Timeout" = "網路不穩或伺服器忙線中";
-"SMS Code Wrong" = "驗證碼錯誤";
+"API Timeout" = "Jaringan Internet Anda Tidak Stabil, Silahkan Dicoba Kembali";
+"SMS Code Wrong" = "Kode SMS Salah, Silahkan Diulangi";
 
-"Register Error Empty" = "請輸入欄位文字";
-"Register Error Tel" = "手機格式錯誤";
-"Register Error ARC" = "ARC格式錯誤";
-"Register Error Pass" = "密碼需超過四位數";
-"Register Error Pass Not match" = "密碼不相符";
-"Register Member Exist" = "會員已存在";
+"Arc Change Same Time" = "Silahkan Perbaharui Semua Photo ARC dan Tanda Tangan";
+"Self Photo Change Same Time" = "Silahkan Perbaharui Semua Data Photo Paspor dan Tanda Tangan";
+"Photo Exceed Limit" = "Photo Anda Terlalu Besar, Silahkan Diulangi";
+
+"Agreement to Scan" = "Anda Harus Membuka Izin Akses Kamera Melalui Aplikasi Ini";
+"Agreement to Photo" = "Anda Harus Membuka Izin Akses Kamera Melalui Aplikasi Ini";
+
+"Register Error Empty" = "Silahkan masukkan data Anda";
+"Register Error Tel" = "Silahkan Masukkan Nomor HP Anda Yang Benar";
+"Register Error ARC" = "Nomor ARC Salah, Silahkan Diulangi";
+"Register Error Pass" = "Kata Sandi Minimal Harus 4 Angka";
+"Register Error Pass Not match" = "Kata Sandi Tidak Sesuai";
+"Register Member Exist" = "ARC Anda Telah Diverifikasi, Silahkan Login";
+"Please Enter Number" = "Silahkan Isi Kode SMS";
 
 "Floating Title" = "Layanan Konsumen";
 "telephone" = "Telepon";
@@ -49,6 +57,10 @@
 "intro for forgoet main" = "Silahkan scan Barcode ARC\nAnda dibawah ini :";
 "top for forgoet sec" = "Cara Scan\nBarcode ARC";
 "bottom for forgoet sec" = "Pastikan seluruh barcode\nberada dalam kotak yang ditentukan";
+"bottom for forgoet sec ARC" = "Pastikan seluruh ARC Anda berada\ndalam kotak yang ditentukan";
+"bottom for forgoet sec Back" = "Pastikan seluruh KTP Anda berada\ndalam kotak yang ditentukan";
+"bottom for forgoet sec Selfie" = "Pastikan wajah Anda terlihat\ndengan jelas saat foto";
+"bottom for forgoet sec Sign" = "Tulis nama sesuai dengan\nNama yang tertera di ARC";
 "top for forget arc scan" = "Silahkan scan barcode ARC\nyang tertera di bawah ARC Anda";
 "top for forget result has phone" = "Nomor ARC yang Anda masukan :";
 "TFFRHP Msg Title" = "Mohon Perhatian";

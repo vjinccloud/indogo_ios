@@ -11,7 +11,7 @@
         <!--會員(首頁)-->
         <scene sceneID="dCz-uu-pWE">
             <objects>
-                <viewController storyboardIdentifier="MemberMainVC" id="nl9-uM-CTz" userLabel="會員(首頁)" customClass="MemberMainVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MemberMainVC" id="nl9-uM-CTz" userLabel="會員(首頁)" customClass="MemberMainVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Epp-OI-3KD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -535,7 +535,7 @@
         <!--Webview(通用)-->
         <scene sceneID="7UA-ZA-HVF">
             <objects>
-                <viewController storyboardIdentifier="PureWebVC" id="FMz-a7-XFQ" userLabel="Webview(通用)" customClass="PureWebVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PureWebVC" id="FMz-a7-XFQ" userLabel="Webview(通用)" customClass="PureWebVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ll3-1F-6VB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -617,7 +617,7 @@
         <!--通知(首頁)-->
         <scene sceneID="CGU-On-ts4">
             <objects>
-                <viewController storyboardIdentifier="NoticeMainVC" id="mzL-Ad-RRb" userLabel="通知(首頁)" customClass="NoticeMainVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NoticeMainVC" id="mzL-Ad-RRb" userLabel="通知(首頁)" customClass="NoticeMainVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CUq-5u-Bu2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -647,7 +647,7 @@
                                         <rect key="frame" x="0.0" y="45" width="320" height="433"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="noticeCell" id="x3q-wG-HYy" customClass="NoticeTableViewCell" customModule="indogo" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="noticeCell" id="x3q-wG-HYy" customClass="NoticeTableViewCell" customModule="IndoGo" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="320" height="120.5"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="x3q-wG-HYy" id="ZgE-Co-cGE">
@@ -797,7 +797,7 @@
         <!--編輯會員-->
         <scene sceneID="cbe-nU-KXC">
             <objects>
-                <viewController storyboardIdentifier="MemberEditVC" id="4MI-Ym-Wf4" userLabel="編輯會員" customClass="MemberEditVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MemberEditVC" id="4MI-Ym-Wf4" userLabel="編輯會員" customClass="MemberEditVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eOP-Br-bFK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1412,7 +1412,7 @@
         <!--分享與點數(首頁)-->
         <scene sceneID="T2I-CV-fyb">
             <objects>
-                <viewController storyboardIdentifier="ShareMainVC" id="XxK-Ga-5UP" userLabel="分享與點數(首頁)" customClass="ShareMainVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ShareMainVC" id="XxK-Ga-5UP" userLabel="分享與點數(首頁)" customClass="ShareMainVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TL0-Sk-1AD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1612,7 +1612,7 @@
                                                             <rect key="frame" x="12" y="67" width="246" height="351"/>
                                                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                             <prototypes>
-                                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="pointhistorycell" id="uWM-pg-XVz" customClass="PointHistoryTableViewCell" customModule="indogo" customModuleProvider="target">
+                                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="pointhistorycell" id="uWM-pg-XVz" customClass="PointHistoryTableViewCell" customModule="IndoGo" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="28" width="246" height="61"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uWM-pg-XVz" id="NLB-jt-eC9">
@@ -1889,7 +1889,7 @@
         <!--轉移點數-->
         <scene sceneID="h9x-NC-bDx">
             <objects>
-                <viewController storyboardIdentifier="TransferPointVC" id="e4N-4X-tDL" userLabel="轉移點數" customClass="TransferPointVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TransferPointVC" id="e4N-4X-tDL" userLabel="轉移點數" customClass="TransferPointVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9PU-92-wXp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2415,7 +2415,7 @@
         <!--受款人列表-->
         <scene sceneID="AwP-HT-4VN">
             <objects>
-                <viewController storyboardIdentifier="RecipientListVC" id="t1k-QH-cWO" userLabel="受款人列表" customClass="RecipientListVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RecipientListVC" id="t1k-QH-cWO" userLabel="受款人列表" customClass="RecipientListVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UfZ-oL-Msb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2543,7 +2543,7 @@
         <!--新增銀行受款人-->
         <scene sceneID="Ag0-iP-agr">
             <objects>
-                <viewController storyboardIdentifier="AddRecipientVC" id="fW6-2t-Ao8" userLabel="新增銀行受款人" customClass="AddRecipientVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddRecipientVC" id="fW6-2t-Ao8" userLabel="新增銀行受款人" customClass="AddRecipientVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QIm-en-dFv">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2655,7 +2655,7 @@
                                         <rect key="frame" x="30" y="155" width="260" height="113"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="BankListTableViewCell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BankListTableViewCell" id="rka-Ya-4Cv" customClass="BankListTableViewCell" customModule="indogo" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="BankListTableViewCell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BankListTableViewCell" id="rka-Ya-4Cv" customClass="BankListTableViewCell" customModule="IndoGo" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="260" height="70"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rka-Ya-4Cv" id="bMb-dB-K1L">
@@ -2745,7 +2745,7 @@
         <!--匯款狀態列表-->
         <scene sceneID="hy0-fF-4mC">
             <objects>
-                <viewController storyboardIdentifier="TransferListVC" id="TT5-pi-qQ2" userLabel="匯款狀態列表" customClass="TransferListVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TransferListVC" id="TT5-pi-qQ2" userLabel="匯款狀態列表" customClass="TransferListVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1vf-2a-ijT">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2826,7 +2826,7 @@
         <!--使用者條款-->
         <scene sceneID="PKM-2j-kWg">
             <objects>
-                <viewController storyboardIdentifier="MemberUseAgreementVC" id="Btc-Yz-Gmj" userLabel="使用者條款" customClass="MemberUseAgreementVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MemberUseAgreementVC" id="Btc-Yz-Gmj" userLabel="使用者條款" customClass="MemberUseAgreementVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7Om-sv-4Vw">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2937,7 +2937,7 @@
         <!--匯款(首頁)-->
         <scene sceneID="uSk-Bf-lp2">
             <objects>
-                <viewController storyboardIdentifier="TransferMainVC" id="mGZ-ER-T49" userLabel="匯款(首頁)" customClass="TransferMainVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TransferMainVC" id="mGZ-ER-T49" userLabel="匯款(首頁)" customClass="TransferMainVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lca-xc-EqS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3252,7 +3252,7 @@
         <!--匯款資訊確認-->
         <scene sceneID="ml8-nx-tvu">
             <objects>
-                <viewController storyboardIdentifier="TransactionInfoConfirmVC" id="Q3T-SM-QSP" userLabel="匯款資訊確認" customClass="TransactionInfoConfirmVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TransactionInfoConfirmVC" id="Q3T-SM-QSP" userLabel="匯款資訊確認" customClass="TransactionInfoConfirmVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7Nf-mP-4l9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3482,7 +3482,7 @@
         <!--匯款協議書-->
         <scene sceneID="IEu-ow-Qdh">
             <objects>
-                <viewController storyboardIdentifier="TransactionAgreeMentVC" id="Wsb-vM-p4W" userLabel="匯款協議書" customClass="TransactionAgreeMentVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TransactionAgreeMentVC" id="Wsb-vM-p4W" userLabel="匯款協議書" customClass="TransactionAgreeMentVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5W1-GS-KxN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3617,7 +3617,7 @@
         <!--匯款結果-->
         <scene sceneID="V9n-5B-FDa">
             <objects>
-                <viewController storyboardIdentifier="TransactionResultVC" id="1Df-R4-AAt" userLabel="匯款結果" customClass="TransactionResultVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TransactionResultVC" id="1Df-R4-AAt" userLabel="匯款結果" customClass="TransactionResultVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RY0-OT-Ijo">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -4222,7 +4222,7 @@
         <!--匯款付款-->
         <scene sceneID="a1u-Wx-fzD">
             <objects>
-                <viewController storyboardIdentifier="TransactionPayVC" id="3UC-Yl-Jcu" userLabel="匯款付款" customClass="TransactionPayVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TransactionPayVC" id="3UC-Yl-Jcu" userLabel="匯款付款" customClass="TransactionPayVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VnV-EV-LXM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -4682,7 +4682,7 @@
         <!--時間超過-->
         <scene sceneID="xO0-6U-XaC">
             <objects>
-                <viewController storyboardIdentifier="TransactionExipredVC" id="gtB-8P-yrX" userLabel="時間超過" customClass="TransactionExipredVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TransactionExipredVC" id="gtB-8P-yrX" userLabel="時間超過" customClass="TransactionExipredVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dxR-gy-xoW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -4844,7 +4844,7 @@
         <!--匯款資訊確認(小)-->
         <scene sceneID="D3K-tQ-0CU">
             <objects>
-                <viewController storyboardIdentifier="TransactionInfoConfirmVCSmall" id="RpZ-fO-UPD" userLabel="匯款資訊確認(小)" customClass="TransactionInfoConfirmVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TransactionInfoConfirmVCSmall" id="RpZ-fO-UPD" userLabel="匯款資訊確認(小)" customClass="TransactionInfoConfirmVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MNL-VU-6Qe">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -5074,7 +5074,7 @@
         <!--分享與點數(首頁)(小)-->
         <scene sceneID="9O9-yS-H13">
             <objects>
-                <viewController storyboardIdentifier="ShareMainVCSmall" id="Vqk-4k-VBd" userLabel="分享與點數(首頁)(小)" customClass="ShareMainVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ShareMainVCSmall" id="Vqk-4k-VBd" userLabel="分享與點數(首頁)(小)" customClass="ShareMainVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Tc8-pj-ooZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -5273,7 +5273,7 @@
                                                             <rect key="frame" x="12" y="67" width="246" height="351"/>
                                                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                             <prototypes>
-                                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="pointhistorycell" id="Mzo-ZU-IQp" customClass="PointHistoryTableViewCell" customModule="indogo" customModuleProvider="target">
+                                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="pointhistorycell" id="Mzo-ZU-IQp" customClass="PointHistoryTableViewCell" customModule="IndoGo" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="28" width="246" height="39.5"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Mzo-ZU-IQp" id="gWs-Mu-hl4">

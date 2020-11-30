@@ -194,7 +194,7 @@ class RegisterIDCameraVC: UIViewController, UINavigationControllerDelegate, AVCa
                 self.initCamera()
                 break
             case .denied, .restricted, .notDetermined:
-                AppDelegate.shared().showAlertWithWindow(self, Message: "需要同意相機權限才能進行拍照功能")
+                AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("Agreement to Photo", comment: ""))
                 break
             default:
                 break
@@ -208,7 +208,15 @@ class RegisterIDCameraVC: UIViewController, UINavigationControllerDelegate, AVCa
         // Do any additional setup after loading the view.
         backL.text = NSLocalizedString("back", comment: "")
         backL.adjustsFontSizeToFitWidth = true
-        bottomL.text = NSLocalizedString("bottom for forgoet sec", comment: "")
+        //bottomL.text = NSLocalizedString("bottom for forgoet sec ARC", comment: "")
+        
+        if takePhotoType == PhotoIDType.front || takePhotoType == PhotoIDType.frontFromEdit {
+            bottomL.text = NSLocalizedString("bottom for forgoet sec ARC", comment: "")
+        } else if takePhotoType == PhotoIDType.back || takePhotoType == PhotoIDType.backFromEdit {
+            bottomL.text = NSLocalizedString("bottom for forgoet sec ARC", comment: "")
+        } else if takePhotoType == PhotoIDType.passport || takePhotoType == PhotoIDType.passportFromEdit {
+            bottomL.text = NSLocalizedString("bottom for forgoet sec Back", comment: "")
+        }
         
         scanView.layer.cornerRadius = 25
         resultImgV.layer.cornerRadius = 25

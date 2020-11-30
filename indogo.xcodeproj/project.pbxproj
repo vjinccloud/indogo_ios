@@ -416,6 +416,8 @@
 		04C8CBF424D952D200AE90F6 /* RegisterIDTakeIntroVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C8CBF324D952D200AE90F6 /* RegisterIDTakeIntroVC.swift */; };
 		04C8CBF624D9759400AE90F6 /* RegisterIDCameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C8CBF524D9759400AE90F6 /* RegisterIDCameraVC.swift */; };
 		04CF602B250621EA00282486 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04CF602A250621E900282486 /* GoogleService-Info.plist */; };
+		04D73A262574CA56005E6D5D /* ArcScanWrong.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D73A242574CA56005E6D5D /* ArcScanWrong.swift */; };
+		04D73A272574CA56005E6D5D /* ARCInputVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D73A252574CA56005E6D5D /* ARCInputVC.swift */; };
 		04D8562A24C22088007BD825 /* ForgotPassChangeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D8562924C22088007BD825 /* ForgotPassChangeVC.swift */; };
 		04D8562C24C2D14C007BD825 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D8562B24C2D14C007BD825 /* CustomAlertView.swift */; };
 		04D8562E24C2DB5C007BD825 /* Register.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04D8562D24C2DB5C007BD825 /* Register.storyboard */; };
@@ -852,6 +854,8 @@
 		04C8CBF524D9759400AE90F6 /* RegisterIDCameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterIDCameraVC.swift; sourceTree = "<group>"; };
 		04CF602A250621E900282486 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04CF602C250629EA00282486 /* indogo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = indogo.entitlements; sourceTree = "<group>"; };
+		04D73A242574CA56005E6D5D /* ArcScanWrong.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArcScanWrong.swift; sourceTree = "<group>"; };
+		04D73A252574CA56005E6D5D /* ARCInputVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARCInputVC.swift; sourceTree = "<group>"; };
 		04D8562924C22088007BD825 /* ForgotPassChangeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassChangeVC.swift; sourceTree = "<group>"; };
 		04D8562B24C2D14C007BD825 /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		04D8562D24C2DB5C007BD825 /* Register.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Register.storyboard; sourceTree = "<group>"; };
@@ -1404,6 +1408,8 @@
 		0496884524BE2923005EF74A /* ForgetPass */ = {
 			isa = PBXGroup;
 			children = (
+				04D73A252574CA56005E6D5D /* ARCInputVC.swift */,
+				04D73A242574CA56005E6D5D /* ArcScanWrong.swift */,
 				0496884624BE2942005EF74A /* ForgotPassMainVC.swift */,
 				04B480CE24BE2BA2004EF723 /* ForgotPassIntroVC.swift */,
 				049DB77C24BED018006CB436 /* ForgotPassScanVC.swift */,
@@ -1956,6 +1962,7 @@
 				04F6FF1724D1BFDB00887E80 /* UILabel+Extention.swift in Sources */,
 				0420CE9A24FA39FD000CCC08 /* BankObj.swift in Sources */,
 				0496884424BCDDF2005EF74A /* UIViewController+TapToDissmiss.swift in Sources */,
+				04D73A272574CA56005E6D5D /* ARCInputVC.swift in Sources */,
 				04F6FF1924D1C82000887E80 /* RegisterSelfPhotoVC.swift in Sources */,
 				0496884724BE2942005EF74A /* ForgotPassMainVC.swift in Sources */,
 				0496880E24B8D61E005EF74A /* Log.swift in Sources */,
@@ -1986,6 +1993,7 @@
 				04D9D78924E28AFF0036DC5C /* PureWebVC.swift in Sources */,
 				0496881A24B99235005EF74A /* PromoPageVC.swift in Sources */,
 				04D9D78B24E3C7A30036DC5C /* BottomMenuView.swift in Sources */,
+				04D73A262574CA56005E6D5D /* ArcScanWrong.swift in Sources */,
 				049687FD24B79B3C005EF74A /* SceneDelegate.swift in Sources */,
 				0429A62224E9B01F00716696 /* NoticeTableViewCell.swift in Sources */,
 				04D8562C24C2D14C007BD825 /* CustomAlertView.swift in Sources */,
@@ -2157,7 +2165,7 @@
 				CODE_SIGN_ENTITLEMENTS = indogo/indogo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 8P43SK2KHA;
 				INFOPLIST_FILE = indogo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -2182,7 +2190,7 @@
 				CODE_SIGN_ENTITLEMENTS = indogo/indogo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 8P43SK2KHA;
 				INFOPLIST_FILE = indogo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

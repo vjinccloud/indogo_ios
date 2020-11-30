@@ -211,6 +211,7 @@ class TransactionResultVC: UIViewController {
         topScrollView.setContentOffset(CGPoint.init(x: 0, y: teachView.frame.origin.y), animated: true)
         teachView.isHidden = false
         payV.isHidden = false
+        
         teach1ImgV.isHidden = true
         teach2ImgV.isHidden = true
         teach3ImgV.isHidden = true
@@ -222,6 +223,8 @@ class TransactionResultVC: UIViewController {
             teach4ImgV.isHidden = false
         } else if style == .ok {
             teach3ImgV.isHidden = false
+            //暫時把 OK 超商部分隱藏
+            payV.isHidden = true
         } else if style == .hiLife {
             teach2ImgV.isHidden = false
         }

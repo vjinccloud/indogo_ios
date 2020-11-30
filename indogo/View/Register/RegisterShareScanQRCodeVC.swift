@@ -85,7 +85,7 @@ class RegisterShareScanQRCodeVC: UIViewController, UINavigationControllerDelegat
                 self.initCamera()
                 break
             case .denied, .restricted, .notDetermined:
-                AppDelegate.shared().showAlertWithWindow(self, Message: "需要同意相機權限才能進行掃描功能")
+                AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("Agreement to Scan", comment: ""))
                 break
             default:
                 break

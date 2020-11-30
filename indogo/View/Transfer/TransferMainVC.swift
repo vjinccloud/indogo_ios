@@ -167,7 +167,8 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
             decresedCharge = 0
         } else {
             
-            decresedCharge += decresedChargeUnit
+            //暫時改成 0 或 全部
+            decresedCharge = serviceCharge
             if decresedCharge > value {
                 decresedCharge = 0
             }
@@ -176,6 +177,17 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
                 decresedCharge = serviceCharge
             }
             
+            //之後恢復
+            /*
+            decresedCharge += decresedChargeUnit
+            if decresedCharge > value {
+                decresedCharge = 0
+            }
+            
+            if decresedCharge > serviceCharge {
+                decresedCharge = serviceCharge
+            }
+            */
         }
         
         checkAndCalculateValue(UseStyle: 0, NweString: "")
@@ -312,7 +324,10 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
             return true
         }
         
-        let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        var newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        if newString == "" {
+            newString = "1"
+        }
         if textField == upTextField {
             justCalculateValue(UseStyle: 0, NweString: newString)
         } else if textField == downTextField {

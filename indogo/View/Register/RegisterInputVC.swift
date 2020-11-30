@@ -180,7 +180,7 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
             print("allcount = \(data.count)")
             //img!.jpegData(compressionQuality: 0.2)
             if(data.count>512000){
-                AppDelegate.shared().showAlertWithWindow(self, Message: "圖片過大，請重新選擇")
+                AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("Photo Exceed Limit" , comment: ""))
                 return
             }
             

@@ -261,6 +261,10 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     @IBAction func transferPointAction(_ sender: Any) {
+        //暫時隱藏功能
+        AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("Coming Soon", comment: "") + " ...")
+        
+        return
         let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransferPointVC") as? TransferPointVC
         self.navigationController?.pushViewController(nextVC!, animated: true)
     }
