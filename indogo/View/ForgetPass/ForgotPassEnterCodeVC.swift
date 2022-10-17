@@ -23,10 +23,11 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var codeT2: UITextField!
     @IBOutlet weak var codeT3: UITextField!
     @IBOutlet weak var codeT4: UITextField!
+    var nextIndex = 0
     
     //MARK: - API
     func sendSMS() {
-        let parameters:Parameters = ["arc_no":AppDelegate.shared().forgotPassTempMemID, "phone_no":AppDelegate.shared().forgotPassTempPhone]
+        let parameters:Parameters = ["arc_no":AppDelegate.shared().forgotPassTempMemID, "phone_no":AppDelegate.shared().forgotPassTempPhone, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         Dlog("parameters=\(parameters)")
@@ -34,7 +35,7 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
         AppDelegate.shared().addLoadingView()
         
         let todoEndpoint: String = API_SendSMS;
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -57,14 +58,97 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
         }
     }
     
+    func sendUpdatePhoneSMS() {
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "phone_no":AppDelegate.shared().forgotPassTempPhone, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
+        let headers: HTTPHeaders = [:]
+        
+        Dlog("parameters=\(parameters)")
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_SendUpdatePhoneSMS;
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("responseStr = \(responseStr ?? "")")
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                
+                if result == ResponseState.ok {
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                }
+        }
+    }
+    
+    func checkUpdatePhoneSMS() {
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "sms_code":allCodeTextField.text!, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
+        let headers: HTTPHeaders = [:]
+        
+        Dlog("parameters=\(parameters)")
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_VerifyUpdatePhoneSMS;
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("responseStr = \(responseStr ?? "")")
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                
+                if result == ResponseState.ok {
+                    guard let viewControllers = self.navigationController?.viewControllers else {
+                        return
+                    }
+                    
+                    for firstViewController in viewControllers {
+                        if firstViewController is MemberMainVC {
+                            self.navigationController?.popToViewController(firstViewController, animated: true)
+                            break
+                        }
+                    }
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                }
+        }
+    }
+    
     //MARK: - Button-Action
     @IBAction func sendAgain(_ sender: Any) {
-        sendSMS()
+        if nextIndex == 2 {
+            sendUpdatePhoneSMS()
+        } else {
+            sendSMS()
+        }
     }
     
     @IBAction func nextAction(_ sender: Any) {
         if allCodeTextField.text == "" || allCodeTextField.text?.count != 4 {
             AppDelegate.shared().showAlertWithWindow(self, Message: "Please Enter Number")
+            return
+        }
+        
+        if nextIndex == 2 {
+            checkUpdatePhoneSMS()
             return
         }
         
@@ -85,8 +169,15 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
         AppDelegate.shared().forgotPassTempEnterCode = codeT1.text! + codeT2.text! + codeT3.text! + codeT4.text!
         */
         
-        let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassChangeVC") as? ForgotPassChangeVC
-        self.navigationController?.pushViewController(nextVC!, animated: true)
+        if nextIndex == 0 {
+            let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassChangeVC") as? ForgotPassChangeVC
+            self.navigationController?.pushViewController(nextVC!, animated: true)
+        } else if nextIndex == 1 {
+            let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "MemberEditVC") as? MemberEditVC
+            self.navigationController?.pushViewController(nextVC!, animated: true)
+        } else if nextIndex == 2 {
+            self.navigationController?.popToRootViewController(animated: true)
+        }
     }
     
     @IBAction func backAction(_ sender: Any) {

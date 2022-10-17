@@ -23,6 +23,25 @@ class ForgotPassChangeVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var nextBtn: UIButton!
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        guard let text = textField.text else{
+            return true
+        }
+        
+        if !string.checkAlphabetDigit() {
+            return false
+        }
+        
+        let textLength = text.count + string.count - range.length
+        if textLength>20 {
+            return false
+        }
+        
+        return true
+
+    }
+    
     //MARK: - Utility
     func checkState() {
         if passTextField.text!.count>0, repassTextField.text!.count>0 {
@@ -47,7 +66,7 @@ class ForgotPassChangeVC: UIViewController, UITextFieldDelegate {
             return
         }
         
-        let parameters:Parameters = ["arc_no":AppDelegate.shared().forgotPassTempMemID, "password":UtilityTool().sha256(Code: passTextField.text!), "sms_code":AppDelegate.shared().forgotPassTempEnterCode]
+        let parameters:Parameters = ["arc_no":AppDelegate.shared().forgotPassTempMemID, "password":UtilityTool().sha256(Code: passTextField.text!), "sms_code":AppDelegate.shared().forgotPassTempEnterCode, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         Dlog("parameters=\(parameters)")
@@ -55,7 +74,7 @@ class ForgotPassChangeVC: UIViewController, UITextFieldDelegate {
         AppDelegate.shared().addLoadingView()
         
         let todoEndpoint: String = API_PassUpdate;
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 

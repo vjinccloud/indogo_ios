@@ -18,7 +18,7 @@ import FirebaseMessaging
 import WebKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKUIDelegate {
     
     var floatingButton: UIButton!
     var floatingContainer: UIView!
@@ -28,11 +28,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
     var shopWebBgV:UIView!
     var callUrlOnce = false
     
+    var blackWindow:UIView!
+    
     var topContainer:UIView!
     var normalPageBtn:UIButton!
     var shopPageBtn:UIButton!
     var topLine:UIView!
     var nowPage = 0
+    
+    var gpsCode = "0.0"
+    var ipAddr = "0.0.0.0"
     
     var alertViewContainer:UIView!
     
@@ -95,6 +100,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
     var tempType:LoginFuncType!
     var rootController:ViewController!
     
+    var hasPurpose = false
+    var purposeObj:[TransferPurposeObj] = []
+    var hasRelation = false
+    var relationObj:[TransferPurposeObj] = []
+    
     //MARK: - Web Delegate
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         Dlog("Start loading")
@@ -111,9 +121,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
         // Override point for customization after application launch.
         //addTopButton()
         
+        //升級安全設定
+        upgrateSecure()
+        
+        //檢查版本
+        checkAppStoreVersion()
+        
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
-
+        
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
@@ -140,7 +156,75 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
+        //showBlackWindow()
         saveCookie()
+    }
+    
+    //將安全性設定升級至符合檢驗
+    func upgrateSecure() {
+        /*
+        let str = aesWord(OriStr: "AES256", IsEncode: true)
+        Dlog("Encrypted str = \(str)")
+        
+        let ans = aesWord(OriStr: str, IsEncode: false)
+        Dlog("Decrypted str = \(ans)")
+         */
+        /*
+        do {
+            let sourceData = "AES256".data(using: .utf8)!
+            
+            let password = SecurePSStr
+            let salt = SecureSaltStr.data(using: .utf8)! //AES256Crypter.randomSalt()
+            let iv = SecureIvStr.data(using: .utf8)!
+            //AES256Crypter.randomIv()
+            
+            let key = try AES256Crypter.createKey(password: password.data(using: .utf8)!, salt: salt)
+            let aes = try AES256Crypter(key: key, iv: iv)
+            let encryptedData = try aes.encrypt(sourceData)
+            let decryptedData = try aes.decrypt(encryptedData)
+            let answerStr = String.init(data: decryptedData, encoding: .utf8)
+            print("Encrypted hex string: \(encryptedData.hexString)")
+            print("Decrypted hex string: \(answerStr)")
+        } catch {
+            print("Failed")
+            print(error)
+        }
+        */
+        let userDefaults = UserDefaults.standard
+        if userDefaults.string(forKey: "upgrateSecure2022081") == nil {
+            
+            if userDefaults.string(forKey: "remeberAccount") != nil {
+                let str = userDefaults.string(forKey: "remeberAccount")!
+                let convertStr = aesWord(OriStr: str, IsEncode: true)
+                userDefaults.setValue(convertStr, forKey: "remeberAccount")
+                userDefaults.synchronize()
+            }
+            Dlog("upgrateSecure 1")
+            if userDefaults.string(forKey: "remeberPass") != nil {
+                let str = userDefaults.string(forKey: "remeberPass")!
+                let convertStr = aesWord(OriStr: str, IsEncode: true)
+                userDefaults.setValue(convertStr, forKey: "remeberPass")
+                userDefaults.synchronize()
+            }
+            Dlog("upgrateSecure 2")
+            userDefaults.setValue("1", forKey: "upgrateSecure2022081")
+            userDefaults.synchronize()
+        }
+        
+        if userDefaults.string(forKey: "upgrateSecure20220823") == nil {
+            
+            if userDefaults.string(forKey: "remeberArcNo") != nil {
+                let str = userDefaults.string(forKey: "remeberArcNo")!
+                let convertStr = aesWord(OriStr: str, IsEncode: true)
+                userDefaults.setValue(convertStr, forKey: "remeberArcNo")
+                userDefaults.synchronize()
+            }
+            Dlog("upgrateSecure 2")
+            userDefaults.setValue("1", forKey: "upgrateSecure20220823")
+            userDefaults.synchronize()
+        }
+     
+        //UtilityTool().sha256(Code: obj.passwaord!).data(using: String.Encoding.utf8, allowLossyConversion: false)!
     }
     
     //回首頁時清除所有設定
@@ -156,10 +240,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
     }
     
     func application(_ application: UIApplication,
-        didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-        fetchCompletionHandler completionHandler:
-        @escaping (UIBackgroundFetchResult) -> Void
-        ) {
+                     didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler:
+                        @escaping (UIBackgroundFetchResult) -> Void
+    ) {
         
         Dlog("userInfo=\(userInfo)")
         
@@ -179,33 +263,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
             window?.rootViewController?.present(alert, animated: true)
         }else if application.applicationState == .background{
             /*
-            let alert = UIAlertController(title: "\(title!)", message: "\(body!)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "確定", style: .default) { action in
-            })
-            window?.rootViewController?.present(alert, animated: true)
-            */
+             let alert = UIAlertController(title: "\(title!)", message: "\(body!)", preferredStyle: .alert)
+             alert.addAction(UIAlertAction(title: "確定", style: .default) { action in
+             })
+             window?.rootViewController?.present(alert, animated: true)
+             */
         }else{
             /*
-            let alert = UIAlertController(title: "\(title!)", message: "\(body!)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "確定", style: .default) { action in
-            })
-            window?.rootViewController?.present(alert, animated: true)
-            */
+             let alert = UIAlertController(title: "\(title!)", message: "\(body!)", preferredStyle: .alert)
+             alert.addAction(UIAlertAction(title: "確定", style: .default) { action in
+             })
+             window?.rootViewController?.present(alert, animated: true)
+             */
         }
         /*
-        guard let aps = userInfo["aps"] as? [String: AnyObject] else {
-            completionHandler(.failed)
-            return
-        }
+         guard let aps = userInfo["aps"] as? [String: AnyObject] else {
+         completionHandler(.failed)
+         return
+         }
+         
+         let apsdic = userInfo["aps"] as? Dictionary
+         let vc = UIAlertController(title:"", message:"\(apsdic["alert"] as String)", preferredStyle: .alert)
+         vc.addAction(UIAlertAction(title: "確定", style: .default, handler: { action in
+         
+         }))
+         self.window?.rootViewController?.present(vc, animated: true, completion: nil)
+         */
         
-        let apsdic = userInfo["aps"] as? Dictionary
-        let vc = UIAlertController(title:"", message:"\(apsdic["alert"] as String)", preferredStyle: .alert)
-        vc.addAction(UIAlertAction(title: "確定", style: .default, handler: { action in
-            
+    }
+    
+    //MARK: - Webview
+    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo,
+                 completionHandler: @escaping () -> Void) {
+        Dlog("runJavaScriptAlertPanelWithMessage")
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            completionHandler()
         }))
-        self.window?.rootViewController?.present(vc, animated: true, completion: nil)
-        */
         
+        let window = UIApplication.shared.keyWindow
+        window?.rootViewController!.present(alertController, animated: true, completion: nil)
     }
     
     //MARK: - Bottom Menu
@@ -246,7 +343,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
         
         hasBottomMenu = true
     }
-
+    
+    //MARK: - BlackWindow
+    func showBlackWindow() {
+        Dlog("BlackWindow Show")
+        if blackWindow != nil {
+            blackWindow.removeFromSuperview()
+        }
+        
+        let window = UIApplication.shared.keyWindow
+        blackWindow = UIView.init(frame: window!.bounds)
+        blackWindow.backgroundColor = .black
+        window?.addSubview(blackWindow)
+    }
+    
+    func hideBlackWindow() {
+        Dlog("BlackWindow Hide")
+        if blackWindow != nil {
+            blackWindow.removeFromSuperview()
+        }
+    }
+    
     //MARK: - Floating Button
     func saveFloatingButtonPosition() {
         floatingBtnBackFrame = floatingButton.frame
@@ -307,14 +424,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
         center.x += offset.x
         center.y += offset.y
         floatingButton.center = center
-
+        
         if panner.state == .ended || panner.state == .cancelled {
             UIView.animate(withDuration: 0.3) {
                 self.snapButtonToSocket()
             }
         }
     }
-
+    
     private func snapButtonToSocket() {
         let center = floatingButton.center
         let window = UIApplication.shared.keyWindow
@@ -344,7 +461,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
         }
         
         let window = UIApplication.shared.keyWindow
-
+        
         let boxHeight:CGFloat = 200
         
         floatingContainer = UIView(frame: CGRect.init(x: 0, y: 0, width: window!.bounds.width, height: window!.bounds.height))
@@ -409,7 +526,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
         let phone = "0287928773"
         let cleanPhoneNumber = phone.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "")
         let urlString:String = "tel://\(cleanPhoneNumber)"
-
+        
         if let phoneCallURL = URL(string: urlString) {
             if (UIApplication.shared.canOpenURL(phoneCallURL)) {
                 UIApplication.shared.open(phoneCallURL, options: [:], completionHandler: nil)
@@ -421,7 +538,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
         removeFloatingContainer()
         
         let urlString:String = "https://line.me/ti/p/%40indogo"
-
+        
         if let openURL = URL(string: urlString) {
             if (UIApplication.shared.canOpenURL(openURL)) {
                 UIApplication.shared.open(openURL, options: [:], completionHandler: nil)
@@ -433,7 +550,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
         removeFloatingContainer()
         
         let urlString:String = "https://www.messenger.com/t/IndoGO.twn"
-
+        
         if let openURL = URL(string: urlString) {
             if (UIApplication.shared.canOpenURL(openURL)) {
                 UIApplication.shared.open(openURL, options: [:], completionHandler: nil)
@@ -448,28 +565,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
     
     //MARK: -  Alamofire 設置為全局變量
     var alamofireManagerWithTimeout:Alamofire.SessionManager = {
-    let configuration = URLSessionConfiguration.default
-         //請求超時時間15秒
-         configuration.timeoutIntervalForRequest = 15
-         return Alamofire.SessionManager(configuration: configuration)
-     }()
+        let configuration = URLSessionConfiguration.default
+        //請求超時時間15秒
+        configuration.timeoutIntervalForRequest = 15
+        configuration.urlCache = nil
+        configuration.requestCachePolicy = .reloadIgnoringCacheData
+        
+        let serverTrustPolicies: [String: ServerTrustPolicy] = ["prod.indogo.com.tw": .disableEvaluation]
+        let servertrustManager = ServerTrustPolicyManager(policies: serverTrustPolicies)
+        
+        return Alamofire.SessionManager(configuration: configuration, serverTrustPolicyManager: servertrustManager)
+    }()
     
     //MARK: - API
     func getNotice() {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "page":1, "limit":9]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "page":1, "limit":9, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         AppDelegate.shared().noteListObjs = []
         
         let todoEndpoint: String = API_NoticeRecordList;
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 
                 guard response.result.error == nil else {
                     // got an error in getting the data, need to handle it
                     print("error calling on \(todoEndpoint)")
                     print(response.result.error!)
-                    AppDelegate.shared().showAlertView(Message: NSLocalizedString("API Timeout", comment: ""))
+                    AppDelegate.shared().showAlertView(Message: NSLocalizedString("API Timeout", comment: ""), ConfrimStr: NSLocalizedString("cancelForError", comment: ""))
                     return
                 }
                 
@@ -492,7 +615,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
                     
                 } else if result == ResponseState.failed {
                 }
-        }
+            }
     }
     
     func getBankList() {
@@ -505,7 +628,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
         
         let todoEndpoint: String = API_BankList;
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 
                 guard response.result.error == nil else {
@@ -530,7 +653,146 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
                     //重複呼叫自己
                     self.getBankList()
                 }
+            }
+    }
+    
+    func getPurposeList() {
+        if AppDelegate.shared().hasPurpose {
+            return
         }
+        
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
+        let headers: HTTPHeaders = [:]
+        
+        let todoEndpoint: String = API_GetPurpose;
+        
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    
+                    //重複呼叫自己
+                    self.getPurposeList()
+                    
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("(\(todoEndpoint), responseStr = \(responseStr ?? "")")
+                
+                AppDelegate.shared().purposeObj = []
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                if result == ResponseState.ok {
+                    self.hasPurpose = true
+                } else if result == ResponseState.failed {
+                    //重複呼叫自己
+                    self.getPurposeList()
+                }
+            }
+    }
+    
+    func getRelationList() {
+        if AppDelegate.shared().hasRelation {
+            return
+        }
+        
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
+        let headers: HTTPHeaders = [:]
+        
+        let todoEndpoint: String = API_GetRelation;
+        
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    
+                    //重複呼叫自己
+                    self.getRelationList()
+                    
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("(\(todoEndpoint), responseStr = \(responseStr ?? "")")
+                
+                AppDelegate.shared().relationObj = []
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                if result == ResponseState.ok {
+                    self.hasRelation = true
+                } else if result == ResponseState.failed {
+                    //重複呼叫自己
+                    self.getRelationList()
+                }
+            }
+    }
+    
+    func checkAppStoreVersion() {
+        let bundleId = Bundle.main.infoDictionary!["CFBundleIdentifier"] as! String
+        Alamofire.request("https://itunes.apple.com/lookup?bundleId=\(bundleId)").responseJSON { response in
+          if let json = response.result.value as? NSDictionary, let results = json["results"] as? NSArray, let entry = results.firstObject as? NSDictionary, let appStoreVersion = entry["version"] as? String{
+            Dlog("appStoreVersion = \(appStoreVersion)")
+            let appVersionInApp = (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String)!
+            
+            if appStoreVersion != appVersionInApp {
+                let alert = UIAlertController(title: "", message: NSLocalizedString("Please Update App", comment: ""), preferredStyle: .alert)
+                let action1 = UIAlertAction(title: NSLocalizedString("ok", comment: ""), style: .default, handler:{(_)-> Void in
+                    self.getToAppStore()
+                    exit(0)
+                })
+                alert.addAction(action1)
+                let window = UIApplication.shared.keyWindow
+                window?.rootViewController!.present(alert ,animated: true,completion: nil)
+            }
+          }
+        }
+    }
+    
+    func aesWord(OriStr str:String, IsEncode encode:Bool) -> String {
+        var answerStr = ""
+        do {
+            
+            let password = SecurePSStr
+            let salt = SecureSaltStr.data(using: .utf8)! //AES256Crypter.randomSalt()
+            let iv = SecureIvStr.data(using: .utf8)!
+            //AES256Crypter.randomIv()
+            
+            let key = try AES256Crypter.createKey(password: password.data(using: .utf8)!, salt: salt)
+            let aes = try AES256Crypter(key: key, iv: iv)
+            
+            if encode {
+                let sourceData = str.data(using: .utf8)!
+                let encryptedData = try aes.encrypt(sourceData)
+                answerStr = encryptedData.base64EncodedString()
+                //String.init(data: encryptedData, encoding: .utf8)!
+            } else {
+                //let nowData = str.data(using: .utf8)!
+                let nowData = Data(base64Encoded: str, options: .ignoreUnknownCharacters)!
+                let decryptedData = try aes.decrypt(nowData)
+                answerStr = String.init(data: decryptedData, encoding: .utf8)!
+            }
+            
+            Dlog("Decrypted hex string: \(answerStr)")
+        } catch {
+            Dlog("Failed")
+            return ""
+        }
+        
+        return answerStr
+    }
+    
+    func getToAppStore() {
+        let appId = "1528460525" // Replace with your appId
+        let appURL = URL.init(string: "itms-apps://itunes.apple.com/app/id" + appId + "?mt=8") //Replace cn for your current country
+        UIApplication.shared.open(appURL!, options:[.universalLinksOnly : false]) { (success) in
+
+        }
+        
     }
     
     //MARK: - login
@@ -545,15 +807,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
     
     public func rememberAccount(Account account:String, Pass pass:String) {
         let userDefaults = UserDefaults.standard
-        userDefaults.setValue(account, forKey: "remeberAccount")
-        userDefaults.setValue(pass, forKey: "remeberPass")
+        
+        let convertStr = aesWord(OriStr: account, IsEncode: true)
+        let convertPassStr = aesWord(OriStr: pass, IsEncode: true)
+        
+        userDefaults.setValue(convertStr, forKey: "remeberAccount")
+        userDefaults.setValue(convertPassStr, forKey: "remeberPass")
         userDefaults.synchronize()
     }
     
     public func getRemeberedAccount() -> String {
         let userDefaults = UserDefaults.standard
         if userDefaults.string(forKey: "remeberAccount") != nil {
-            return userDefaults.string(forKey: "remeberAccount")!
+            let str = userDefaults.string(forKey: "remeberAccount")!
+            let ansStr = aesWord(OriStr: str, IsEncode: false)
+            return ansStr
         } else {
             return ""
         }
@@ -562,7 +830,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
     public func getRemeberedPassword() -> String {
         let userDefaults = UserDefaults.standard
         if userDefaults.string(forKey: "remeberPass") != nil {
-            return userDefaults.string(forKey: "remeberPass")!
+            let str = userDefaults.string(forKey: "remeberPass")!
+            let ansStr = aesWord(OriStr: str, IsEncode: false)
+            return ansStr
         } else {
             return ""
         }
@@ -591,14 +861,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
     
     public func rememberAarcNo(Account account:String) {
         let userDefaults = UserDefaults.standard
-        userDefaults.setValue(account, forKey: "remeberArcNo")
+        let convertStr = aesWord(OriStr: account, IsEncode: true)
+        userDefaults.setValue(convertStr, forKey: "remeberArcNo")
         userDefaults.synchronize()
     }
     
     public func getRemeberedAarcNo() -> String {
         let userDefaults = UserDefaults.standard
         if userDefaults.string(forKey: "remeberArcNo") != nil {
-            return userDefaults.string(forKey: "remeberArcNo")!
+            let str = userDefaults.string(forKey: "remeberArcNo")!
+            let ansStr = aesWord(OriStr: str, IsEncode: false)
+            return ansStr
         } else {
             return ""
         }
@@ -685,65 +958,65 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
     }
     
     /* //原本測試不換 rootViewController，但還是會引發 webview 登出空白化，應該是蘋果系統自動觸發
-    public func changeRootOfFunc(Type type:LoginFuncType) {
-        tempType = type
-        
-        AppDelegate.shared().rootController.navigationController?.popToRootViewController(animated: false)
-        
-        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(step2), userInfo: nil, repeats: false)
-    }
-    
-    @objc func step2() {
-        Dlog("step2")
-        let type = tempType
-        var storyboardId = ""
-        var navigaterId = ""
-        
-        let window = UIApplication.shared.keyWindow
-        
-        if type == LoginFuncType.main {
-            storyboardId = "Main"
-            navigaterId = "MainVC"
-            
-        } else {
-            
-            if type == LoginFuncType.member {
-                storyboardId = "Member"
-                navigaterId = "MemberMainVC"
-            } else if type == LoginFuncType.transState {
-                storyboardId = "Member"
-                navigaterId = "TransferListVC"
-            } else if type == LoginFuncType.transaction {
-                storyboardId = "Member"
-                navigaterId = "TransferMainVC"
-            } else if type == LoginFuncType.sharing {
-                storyboardId = "Member"
-                var storyboardId = "ShareMainVC"
-                if AppDelegate.shared().deviceSmall {
-                    storyboardId = "ShareMainVCSmall"
-                }
-                navigaterId = storyboardId
-            } else if type == LoginFuncType.notice {
-                storyboardId = "Member"
-                navigaterId = "NoticeMainVC"
-            }
-            
-            Dlog("navigaterId = \(navigaterId)")
-            let nextVC = UIStoryboard(name: storyboardId, bundle: nil).instantiateViewController(withIdentifier: navigaterId)
-            AppDelegate.shared().rootController.navigationController?.pushViewController(nextVC, animated: false)
-            
-        }
-        
-        //底層Menu
-        addFloatingBtn()
-        addBttomMenu()
-        
-        if type != LoginFuncType.main {
-            showBottomMenu()
-        } else {
-            hideBottomMenu()
-        }
-    }*/
+     public func changeRootOfFunc(Type type:LoginFuncType) {
+     tempType = type
+     
+     AppDelegate.shared().rootController.navigationController?.popToRootViewController(animated: false)
+     
+     Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(step2), userInfo: nil, repeats: false)
+     }
+     
+     @objc func step2() {
+     Dlog("step2")
+     let type = tempType
+     var storyboardId = ""
+     var navigaterId = ""
+     
+     let window = UIApplication.shared.keyWindow
+     
+     if type == LoginFuncType.main {
+     storyboardId = "Main"
+     navigaterId = "MainVC"
+     
+     } else {
+     
+     if type == LoginFuncType.member {
+     storyboardId = "Member"
+     navigaterId = "MemberMainVC"
+     } else if type == LoginFuncType.transState {
+     storyboardId = "Member"
+     navigaterId = "TransferListVC"
+     } else if type == LoginFuncType.transaction {
+     storyboardId = "Member"
+     navigaterId = "TransferMainVC"
+     } else if type == LoginFuncType.sharing {
+     storyboardId = "Member"
+     var storyboardId = "ShareMainVC"
+     if AppDelegate.shared().deviceSmall {
+     storyboardId = "ShareMainVCSmall"
+     }
+     navigaterId = storyboardId
+     } else if type == LoginFuncType.notice {
+     storyboardId = "Member"
+     navigaterId = "NoticeMainVC"
+     }
+     
+     Dlog("navigaterId = \(navigaterId)")
+     let nextVC = UIStoryboard(name: storyboardId, bundle: nil).instantiateViewController(withIdentifier: navigaterId)
+     AppDelegate.shared().rootController.navigationController?.pushViewController(nextVC, animated: false)
+     
+     }
+     
+     //底層Menu
+     addFloatingBtn()
+     addBttomMenu()
+     
+     if type != LoginFuncType.main {
+     showBottomMenu()
+     } else {
+     hideBottomMenu()
+     }
+     }*/
     
     //MARK: - Cookie
     func saveCookie() {
@@ -756,7 +1029,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
         
         Dlog("saveCookie")
     }
-
+    
     func loadCookie() {
         Dlog("loadCookie")
         let ud: UserDefaults = UserDefaults.standard
@@ -815,6 +1088,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
         shopWebView = WKWebView.init(frame: CGRect.init(x: 0, y: 0, width: shopWebBgV.frame.size.width, height: shopWebBgV.frame.size.height-bottomPadding))
         shopWebBgV.addSubview(shopWebView)
         shopWebView.navigationDelegate = self
+        shopWebView.uiDelegate = self
         
         normalPageBtn.setTitleColor(.white, for: .normal)
         shopPageBtn.setTitleColor(.darkGray, for: .normal)
@@ -879,20 +1153,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
         PKHUD.sharedHUD.hide()
     }
     
-    //跳出alert
+    //跳出alert(錯誤訊息專用)
     func showAlertWithWindow (_ onVC:UIViewController, Message msg:String) {
-        /*
-        let vc = UIAlertController(title: "", message: msg, preferredStyle: .alert)
-        vc.addAction(UIAlertAction(title: "確定", style: .default, handler: { action in
-            
-        }))
-        onVC.present(vc, animated: true, completion: nil)
-        */
-        showAlertView(Message: msg)
+        showAlertView(Message: msg, ConfrimStr: NSLocalizedString("cancelForError", comment: ""))
+    }
+    
+    //跳出alert
+    func showNormalAlertWithWindow (_ onVC:UIViewController, Message msg:String) {
+        showAlertView(Message: msg, ConfrimStr: NSLocalizedString("cancel", comment: ""))
     }
     
     //自定義 alert
-    func showAlertView (Message msg:String) {
+    func showAlertView (Message msg:String, ConfrimStr cancelstr:String) {
         if msg == "" {
             return
         }
@@ -934,7 +1206,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate {
         btn.layer.borderColor = Color_Main_Red.cgColor
         btn.layer.borderWidth = 0.5
         btn.addTarget(self, action: #selector(removeAlert), for: .touchUpInside)
-        btn.setTitle(NSLocalizedString("cancel", comment: ""), for: .normal)
+        btn.setTitle(cancelstr, for: .normal)
         btn.setTitleColor(Color_Main_Red, for: .normal)
         alertViewBg.addSubview(btn)
     }
@@ -981,12 +1253,35 @@ extension AppDelegate : MessagingDelegate {
         FirebaseToken = fcmToken
         
         /*
-        Messaging.messaging().subscribe(toTopic: "Test_iOS") { error in
-            print("Subscribed to weather topic")
-        }*/
+         Messaging.messaging().subscribe(toTopic: "Test_iOS") { error in
+         print("Subscribed to weather topic")
+         }*/
         
         //let dataDict:[String: String] = ["token": fcmToken]
         //NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
     }
     
+}
+
+extension Alamofire.SessionManager{
+    @discardableResult
+    open func requestWithoutCache(
+        _ url: URLConvertible,
+        method: HTTPMethod = .post,
+        parameters: Parameters? = nil,
+        encoding: ParameterEncoding = URLEncoding.default,
+        headers: HTTPHeaders? = nil)// also you can add URLRequest.CachePolicy here as parameter
+        -> DataRequest
+    {
+        do {
+            var urlRequest = try URLRequest(url: url, method: method, headers: headers)
+            urlRequest.cachePolicy = .reloadIgnoringCacheData // <<== Cache disabled
+            let encodedURLRequest = try encoding.encode(urlRequest, with: parameters)
+            return request(encodedURLRequest)
+        } catch {
+            // TODO: find a better way to handle error
+            print(error)
+            return request(URLRequest(url: URL(string: "http://example.com/wrong_request")!))
+        }
+    }
 }

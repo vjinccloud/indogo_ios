@@ -35,9 +35,11 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Please agree to scan and take photo</string>
+	<string>IndoGo ingin mengakses kamera Anda
+Untuk scan ARC dan foto dokumen identitas Anda</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Please agree to upload photo</string>
+	<string>IndoGo ingin mengakses foto Anda
+Untuk mengunggah foto dokumen identitas Anda</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

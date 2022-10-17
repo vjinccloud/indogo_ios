@@ -20,6 +20,10 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     @IBOutlet weak var codeBgV: UIView!
     @IBOutlet weak var accountBgV: UIView!
     @IBOutlet weak var accountTextfield: UITextField!
+    
+    @IBOutlet weak var purposeBgV: UIView!
+    @IBOutlet weak var purposeTextfield: UITextField!
+    
     @IBOutlet weak var bankCodeTextfield: UITextField!
     var canSelectForTransfer = false
     @IBOutlet weak var nextBtn: UIButton!
@@ -30,35 +34,61 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     var tempRecipientObj:RecipientObj =  RecipientObj()
     
     @IBOutlet weak var bankImg: UIImageView!
+    @IBOutlet weak var purposeListTableView: UITableView!
+    var choseRelationIdx = -1
     
     //MARK: - Tableview Delegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return showBankList.count
+        if tableView == bankListTableView {
+            return showBankList.count
+        } else if tableView == purposeListTableView{
+            return AppDelegate.shared().relationObj.count
+        } else {
+            return 0
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "BankListTableViewCell", for: indexPath) as! BankListTableViewCell
-        let cellData = showBankList[indexPath.row]
-        let serchBankobj = UtilityTool().searchBankObj(BankName: cellData.bank_name!)
-        
-        let imgurl = serchBankobj.bank_photo!
-        let urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
-        cell.bankIconImgV.kf.setImage(with: urlhaed)
-        cell.bankL.text = cellData.bank_name
-        
-        cell.backgroundColor = .white
-        cell.selectionStyle = .none
-        return cell
+        if tableView == bankListTableView {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "BankListTableViewCell", for: indexPath) as! BankListTableViewCell
+            let cellData = showBankList[indexPath.row]
+            let serchBankobj = UtilityTool().searchBankObj(BankName: cellData.bank_name!)
+            
+            let imgurl = serchBankobj.bank_photo!
+            let urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
+            cell.bankIconImgV.kf.setImage(with: urlhaed)
+            cell.bankL.text = cellData.bank_name
+            
+            cell.backgroundColor = .white
+            cell.selectionStyle = .none
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            let cellData = AppDelegate.shared().relationObj[indexPath.row]
+            cell.textLabel?.text = cellData.name
+            cell.backgroundColor = .white
+            cell.selectionStyle = .none
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cellData = showBankList[indexPath.row]
-        bankCodeTextfield.text = cellData.bank_name
-        //bankImg
-        tempBankCode = cellData.bank_code
-        //bankCodeTextfield.resignFirstResponder()
-        accountTextfield.becomeFirstResponder()
-        changeBankImg(BankName: cellData.bank_name!)
+        if tableView == bankListTableView {
+            let cellData = showBankList[indexPath.row]
+            bankCodeTextfield.text = cellData.bank_name
+            //bankImg
+            tempBankCode = cellData.bank_code
+            //bankCodeTextfield.resignFirstResponder()
+            accountTextfield.becomeFirstResponder()
+            changeBankImg(BankName: cellData.bank_name!)
+        } else {
+            choseRelationIdx = indexPath.row
+            let cellData = AppDelegate.shared().relationObj[indexPath.row]
+            purposeTextfield.text = cellData.name
+            purposeTextfield.resignFirstResponder()
+        }
+        
     }
     
     //MARK: - Utility
@@ -70,7 +100,7 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     }
     
     func checkBtnState() {
-        if bankCodeTextfield.text! != "", accountTextfield.text! != "" {
+        if bankCodeTextfield.text! != "", accountTextfield.text! != "", purposeTextfield.text! != "" {
             nextBtn.isEnabled = true
             nextBtn.backgroundColor = Color_Main_Red
         } else {
@@ -81,6 +111,7 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     
     func closeAll() {
         closeText()
+        purposeTextfield.resignFirstResponder()
     }
     
     func closeText() {
@@ -115,23 +146,84 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         hideTextBtn.isHidden = false
         if textField == bankCodeTextfield {
             bankListTableView.isHidden = false
+            purposeListTableView.isHidden = true
+        } else if textField == purposeTextfield {
+            bankListTableView.isHidden = true
+            purposeListTableView.isHidden = false
         }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         hideTextBtn.isHidden = true
         bankListTableView.isHidden = true
+        purposeListTableView.isHidden = true
         checkBtnState()
         changeBankImg(BankName: bankCodeTextfield.text!)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
+        guard let text = textField.text else{
+            return true
+        }
+        
+        if textField == accountTextfield {
+            if !string.checkAlphabetDigit() {
+                return false
+            }
+        }
+        
+        if textField == bankCodeTextfield {
+            if !string.checkNumber() {
+                return false
+            }
+        }
+        
+        let textLength = text.count + string.count - range.length
+        if textLength>20 {
+            return false
+        }
+        
         let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         reloadDataAndTable(Str: newString)
         checkBtnState()
         return true
 
+    }
+    
+    //MARK: - Purpose
+    func embededPurpose() {
+        let controller = TransferPurposeEmbededVC(nibName: "TransferPurposeEmbededVC", bundle: nil)
+        controller.parentAddVC = self
+        controller.loadFrom = 1
+        //add as a childviewcontroller
+        addChild(controller)
+
+         // Add the child's View as a subview
+         self.view.addSubview(controller.view)
+         controller.view.frame = view.bounds
+         controller.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+         // tell the childviewcontroller it's contained in it's parent
+        controller.didMove(toParent: self)
+    }
+    
+    func addPurposeNextAction() {
+        if self.children.count > 0{
+            let viewControllers:[UIViewController] = self.children
+            for viewContoller in viewControllers{
+                viewContoller.willMove(toParent: nil)
+                viewContoller.view.removeFromSuperview()
+                viewContoller.removeFromParent()
+            }
+        }
+        
+        var storyboardId = "TransactionInfoConfirmVC"
+        if AppDelegate.shared().deviceSmall {
+            storyboardId = "TransactionInfoConfirmVCSmall"
+        }
+        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: storyboardId) as? TransactionInfoConfirmVC
+        self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
     //MARK: - API
@@ -142,7 +234,7 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
             return
         }
         
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "bank_code":serchBankobj.bank_code!, "bank_acc":accountTextfield.text!]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "bank_code":serchBankobj.bank_code!, "bank_acc":accountTextfield.text!, "relationships_id":AppDelegate.shared().relationObj[choseRelationIdx].idx!, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         closeAll()
         AppDelegate.shared().addLoadingView()
@@ -151,7 +243,7 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -176,12 +268,7 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
                     if self.canSelectForTransfer {
                         AppDelegate.shared().transactionObj.recipientObj = self.tempRecipientObj
                         
-                        var storyboardId = "TransactionInfoConfirmVC"
-                        if AppDelegate.shared().deviceSmall {
-                            storyboardId = "TransactionInfoConfirmVCSmall"
-                        }
-                        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: storyboardId) as? TransactionInfoConfirmVC
-                        self.navigationController?.pushViewController(nextVC!, animated: true)
+                        self.embededPurpose()
                     } else {
                         self.navigationController?.popViewController(animated: true)
                     }
@@ -230,6 +317,7 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         //accountTextfield.inputAccessoryView = generateToolBar()
         bankCodeTextfield.returnKeyType = .done
         accountTextfield.returnKeyType = .done
+        purposeTextfield.returnKeyType = .done
         
         showBankList = AppDelegate.shared().bankList
         bankListTableView.separatorStyle = .none
@@ -238,11 +326,18 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         bankListTableView.isHidden = true
         bankListTableView.backgroundColor = .white
         
+        purposeListTableView.separatorStyle = .none
+        purposeListTableView.delegate = self
+        purposeListTableView.dataSource = self
+        purposeListTableView.isHidden = true
+        purposeListTableView.backgroundColor = .white
+        
         bankCodeTextfield.keyboardType = .default
         bankCodeTextfield.autocorrectionType = .no
         accountTextfield.keyboardType = .numberPad
         accountTextfield.delegate = self
         bankCodeTextfield.delegate = self
+        purposeTextfield.delegate = self
         
         accountTextfield.autocapitalizationType = .allCharacters
         bankCodeTextfield.autocapitalizationType = .allCharacters
@@ -252,9 +347,12 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         bankCodeTextfield.becomeFirstResponder()
         bankCodeTextfield.placeholder = NSLocalizedString("Point Transfer Add Recipient Code PlaceHolder", comment: "")
         accountTextfield.placeholder = NSLocalizedString("Point Transfer Add Recipient Accounnt PlaceHolder", comment: "")
+        purposeTextfield.placeholder = NSLocalizedString("Purpose placeholder", comment: "")
+        purposeListTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         codeBgV.layer.cornerRadius = codeBgV.frame.size.height/2
         accountBgV.layer.cornerRadius = accountBgV.frame.size.height/2
+        purposeBgV.layer.cornerRadius = purposeBgV.frame.size.height/2
         nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2
         nextBtn.setTitle(NSLocalizedString("Point Transfer Add Recipient Next", comment: ""), for: .normal)
         nextBtn.backgroundColor = .clear

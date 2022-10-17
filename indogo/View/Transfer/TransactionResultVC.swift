@@ -63,7 +63,7 @@ class TransactionResultVC: UIViewController {
         var paymentAry:[String] = []
         paymentAry.append(payment_info)
         
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "payment_info":paymentAry]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "payment_info":paymentAry, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         AppDelegate.shared().addLoadingView()
         
@@ -71,7 +71,7 @@ class TransactionResultVC: UIViewController {
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -111,18 +111,18 @@ class TransactionResultVC: UIViewController {
             }
             
             totalTWDL.text = "Total TWD \(transferStateObj.total ?? "0")"
-            barTitleL.text = NSLocalizedString("Transfer State " + orderCheckStateObj.order_status, comment: "")
-            let serchBankobj = UtilityTool().searchBankObj(BankCode: transferStateObj.bank_code!)
+            //barTitleL.text = NSLocalizedString("Transfer State " + orderCheckStateObj.order_status, comment: "")
+            //let serchBankobj = UtilityTool().searchBankObj(BankCode: transferStateObj.bank_code!)
             
-            let imgurl = serchBankobj.bank_photo!
-            let urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
-            self.downIconIgV.kf.setImage(with: urlhaed)
+            //let imgurl = serchBankobj.bank_photo!
+            //let urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
+            //self.downIconIgV.kf.setImage(with: urlhaed)
             
-            self.downNameL.text = transferStateObj.recipient_name
-            self.downIDL.text = transferStateObj.to_acc
+            //self.downNameL.text = transferStateObj.recipient_name
+            //self.downIDL.text = transferStateObj.to_acc
             
-            self.downValueL.text = "IDR " + transferStateObj.transfer_amount_idr.stringToIntDecimalString()
-            self.downNoteL.text = NSLocalizedString("Transfer State Down Kurs Value Title", comment: "") + " " + transferStateObj.kurs_value
+            ////self.downValueL.text = "IDR " + transferStateObj.transfer_amount_idr.stringToIntDecimalString()
+            //self.downNoteL.text = NSLocalizedString("Transfer State Down Kurs Value Title", comment: "") + " " + transferStateObj.kurs_value
             
             /*
             let expireTimeStr = orderCheckStateObj.lm_time_expire!
@@ -154,7 +154,7 @@ class TransactionResultVC: UIViewController {
     
     public func getBarCode() {
         
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "payment_info":payment_info, "mode":2]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "payment_info":payment_info, "mode":2, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         AppDelegate.shared().addLoadingView()
         
@@ -172,7 +172,7 @@ class TransactionResultVC: UIViewController {
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -203,14 +203,15 @@ class TransactionResultVC: UIViewController {
     
     //MARK: - Button-Action
     @IBAction func backAction(_ sender: Any) {
-        self.navigationController?.popToRootViewController(animated: true)
-        //AppDelegate.shared().showTopButton()
+        //new tpye 直接回上頁
+        self.navigationController?.popViewController(animated: true)
+        //self.navigationController?.popToRootViewController(animated: true)
     }
     
     func showBottomBtnAndTeachPic(StoreStyle style:StoreType) {
-        topScrollView.setContentOffset(CGPoint.init(x: 0, y: teachView.frame.origin.y), animated: true)
+        //topScrollView.setContentOffset(CGPoint.init(x: 0, y: teachView.frame.origin.y), animated: false)
         teachView.isHidden = false
-        payV.isHidden = false
+        //payV.isHidden = false
         
         teach1ImgV.isHidden = true
         teach2ImgV.isHidden = true
@@ -228,6 +229,10 @@ class TransactionResultVC: UIViewController {
         } else if style == .hiLife {
             teach2ImgV.isHidden = false
         }
+    }
+    
+    func showPhoto(Type types:StoreType) {
+        chosedStyle = types
     }
     
     @IBAction func open711IntroAction(_ sender: Any) {
@@ -264,35 +269,45 @@ class TransactionResultVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        backL.text = NSLocalizedString("Transfer Result Title", comment: "")
-        barTitleL.text = NSLocalizedString("Transfer Result Bar Title", comment: "")
-        storeTitleL.text = NSLocalizedString("Transfer Result Store Title", comment: "")
-        goMapL.text = NSLocalizedString("Transfer Result Go Map Title", comment: "")
-        goPayL.text = NSLocalizedString("Transfer Result Pay Title", comment: "")
+        backL.text = NSLocalizedString("Transfer PayStep Title", comment: "")
+        //barTitleL.text = NSLocalizedString("Transfer Result Bar Title", comment: "")
+        //storeTitleL.text = NSLocalizedString("Transfer Result Store Title", comment: "")
+        //goMapL.text = NSLocalizedString("Transfer Result Go Map Title", comment: "")
+        //goPayL.text = NSLocalizedString("Transfer Result Pay Title", comment: "")
         
+        totalTWDL.text = ""
+        paymentInfoL.text = ""
         payV.isHidden = true
         teachView.isHidden = true
         goPayBtn.layer.cornerRadius = goPayBtn.frame.size.height/2
         
-        goMapBtn.layer.cornerRadius = goMapBtn.frame.size.height/2
-        goMapBtn.layer.borderColor = Color_Main_Red.cgColor
-        goMapBtn.layer.borderWidth = 0.5
-        
+        //goMapBtn.layer.cornerRadius = goMapBtn.frame.size.height/2
+        //goMapBtn.layer.borderColor = Color_Main_Red.cgColor
+        //goMapBtn.layer.borderWidth = 0.5
+        /*
         self.downIconIgV.image = nil
         
         self.downNameL.text = ""
         self.downIDL.text = ""
         self.downValueL.text = ""
         self.downNoteL.text = ""
-        
-        self.barNumberV.isHidden = true
-        
+        */
+        //self.barNumberV.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         AppDelegate.shared().hideTopButton()
+        
+        if payment_info.count<14 {
+            paymentInfoL.text = payment_info
+        } else {
+            paymentInfoL.text = payment_info.getSubString(Start: 0, EndNotInclude: 3) + " " + payment_info.getSubString(Start: 3, EndNotInclude: 9) + " " + payment_info.getSubString(Start: 9, EndNotInclude: 14)
+        }
+        
+        totalTWDL.text = "Total TWD \(transferStateObj.total ?? "0")"
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -303,7 +318,10 @@ class TransactionResultVC: UIViewController {
         }
         
         loadOnce = true
-        getOrderDetail()
+        //getOrderDetail()
+        //new type
+        showBottomBtnAndTeachPic(StoreStyle: chosedStyle)
+        
     }
 
     /*

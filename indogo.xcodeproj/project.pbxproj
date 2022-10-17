@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01163CC027D9245D0035AA06 /* TransferPurposeEmbededVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01163CBE27D9245D0035AA06 /* TransferPurposeEmbededVC.swift */; };
+		01163CC127D9245D0035AA06 /* TransferPurposeEmbededVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 01163CBF27D9245D0035AA06 /* TransferPurposeEmbededVC.xib */; };
+		011C097C28971DE300F6932B /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011C097B28971DE300F6932B /* Data+Extension.swift */; };
+		0160275B27D5296000D36284 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0160275A27D5296000D36284 /* Date+Extension.swift */; };
+		0160275F27D5361300D36284 /* icon_phone2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0160275C27D5361100D36284 /* icon_phone2.png */; };
+		0160276027D5361300D36284 /* icon_phone2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0160275D27D5361200D36284 /* icon_phone2@3x.png */; };
+		0160276127D5361300D36284 /* icon_phone2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0160275E27D5361200D36284 /* icon_phone2@2x.png */; };
+		0160276327D54B9400D36284 /* MemberChangePhoneIntroVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0160276227D54B9300D36284 /* MemberChangePhoneIntroVC.swift */; };
+		0160276527D54FDE00D36284 /* MemberChangeDataIntroVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0160276427D54FDE00D36284 /* MemberChangeDataIntroVC.swift */; };
+		0160276727D68BD400D36284 /* RegisterAddDateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0160276627D68BD300D36284 /* RegisterAddDateVC.swift */; };
+		0160276B27D6ABD200D36284 /* TransferPurposeObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0160276A27D6ABD200D36284 /* TransferPurposeObj.swift */; };
+		019F2A9E28FCA4F20008135B /* GradianBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019F2A9D28FCA4F20008135B /* GradianBarView.swift */; };
 		041E9D4324C70ABF00763D53 /* RegisterInputVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E9D4224C70ABF00763D53 /* RegisterInputVC.swift */; };
 		0420CE9A24FA39FD000CCC08 /* BankObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0420CE9924FA39FD000CCC08 /* BankObj.swift */; };
 		0420CE9C24FA44BC000CCC08 /* AddRecipientVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0420CE9B24FA44BC000CCC08 /* AddRecipientVC.swift */; };
@@ -409,6 +421,18 @@
 		04B0279124E150C400C59670 /* barEmpty@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04B0275824E150C400C59670 /* barEmpty@3x.png */; };
 		04B0279224E150C400C59670 /* signature_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04B0275924E150C400C59670 /* signature_2@2x.png */; };
 		04B480CF24BE2BA2004EF723 /* ForgotPassIntroVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B480CE24BE2BA2004EF723 /* ForgotPassIntroVC.swift */; };
+		04BC8E2B2669FA4A00373A8E /* TransactionNewMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BC8E2A2669FA4900373A8E /* TransactionNewMainVC.swift */; };
+		04BC8E2F266A043700373A8E /* PayNewMainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BC8E2D266A043700373A8E /* PayNewMainTableViewCell.swift */; };
+		04BC8E30266A043700373A8E /* PayNewMainTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC8E2E266A043700373A8E /* PayNewMainTableViewCell.xib */; };
+		04BC8E3B266A04D400373A8E /* newcellnext.png in Resources */ = {isa = PBXBuildFile; fileRef = 04BC8E33266A04CF00373A8E /* newcellnext.png */; };
+		04BC8E3C266A04D400373A8E /* newbank.png in Resources */ = {isa = PBXBuildFile; fileRef = 04BC8E34266A04D000373A8E /* newbank.png */; };
+		04BC8E3D266A04D400373A8E /* newtaishin.png in Resources */ = {isa = PBXBuildFile; fileRef = 04BC8E35266A04D000373A8E /* newtaishin.png */; };
+		04BC8E3E266A04D400373A8E /* newhilife.png in Resources */ = {isa = PBXBuildFile; fileRef = 04BC8E36266A04D100373A8E /* newhilife.png */; };
+		04BC8E3F266A04D400373A8E /* newok.png in Resources */ = {isa = PBXBuildFile; fileRef = 04BC8E37266A04D200373A8E /* newok.png */; };
+		04BC8E40266A04D400373A8E /* new711.png in Resources */ = {isa = PBXBuildFile; fileRef = 04BC8E38266A04D200373A8E /* new711.png */; };
+		04BC8E41266A04D400373A8E /* newfamily.png in Resources */ = {isa = PBXBuildFile; fileRef = 04BC8E39266A04D300373A8E /* newfamily.png */; };
+		04BC8E42266A04D400373A8E /* newwarn.png in Resources */ = {isa = PBXBuildFile; fileRef = 04BC8E3A266A04D400373A8E /* newwarn.png */; };
+		04BC8E45266A24BC00373A8E /* TransactionBankVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BC8E44266A24BC00373A8E /* TransactionBankVC.swift */; };
 		04C8CBEA24D5570400AE90F6 /* RegisterSelfPhotoStep2VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C8CBE924D5570400AE90F6 /* RegisterSelfPhotoStep2VC.swift */; };
 		04C8CBEE24D5635D00AE90F6 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C8CBED24D5635D00AE90F6 /* UIImage+Extension.swift */; };
 		04C8CBF024D83BD500AE90F6 /* RegisterIDTakePhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C8CBEF24D83BD500AE90F6 /* RegisterIDTakePhotoVC.swift */; };
@@ -442,6 +466,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		01163CBE27D9245D0035AA06 /* TransferPurposeEmbededVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferPurposeEmbededVC.swift; sourceTree = "<group>"; };
+		01163CBF27D9245D0035AA06 /* TransferPurposeEmbededVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TransferPurposeEmbededVC.xib; sourceTree = "<group>"; };
+		011C097B28971DE300F6932B /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
+		0160275A27D5296000D36284 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		0160275C27D5361100D36284 /* icon_phone2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_phone2.png; sourceTree = "<group>"; };
+		0160275D27D5361200D36284 /* icon_phone2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_phone2@3x.png"; sourceTree = "<group>"; };
+		0160275E27D5361200D36284 /* icon_phone2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_phone2@2x.png"; sourceTree = "<group>"; };
+		0160276227D54B9300D36284 /* MemberChangePhoneIntroVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberChangePhoneIntroVC.swift; sourceTree = "<group>"; };
+		0160276427D54FDE00D36284 /* MemberChangeDataIntroVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberChangeDataIntroVC.swift; sourceTree = "<group>"; };
+		0160276627D68BD300D36284 /* RegisterAddDateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAddDateVC.swift; sourceTree = "<group>"; };
+		0160276A27D6ABD200D36284 /* TransferPurposeObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferPurposeObj.swift; sourceTree = "<group>"; };
+		019F2A9D28FCA4F20008135B /* GradianBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradianBarView.swift; sourceTree = "<group>"; };
 		041E9D4224C70ABF00763D53 /* RegisterInputVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInputVC.swift; sourceTree = "<group>"; };
 		0420CE9924FA39FD000CCC08 /* BankObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankObj.swift; sourceTree = "<group>"; };
 		0420CE9B24FA44BC000CCC08 /* AddRecipientVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecipientVC.swift; sourceTree = "<group>"; };
@@ -846,6 +882,18 @@
 		04B0275824E150C400C59670 /* barEmpty@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "barEmpty@3x.png"; sourceTree = "<group>"; };
 		04B0275924E150C400C59670 /* signature_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "signature_2@2x.png"; sourceTree = "<group>"; };
 		04B480CE24BE2BA2004EF723 /* ForgotPassIntroVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassIntroVC.swift; sourceTree = "<group>"; };
+		04BC8E2A2669FA4900373A8E /* TransactionNewMainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionNewMainVC.swift; sourceTree = "<group>"; };
+		04BC8E2D266A043700373A8E /* PayNewMainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayNewMainTableViewCell.swift; sourceTree = "<group>"; };
+		04BC8E2E266A043700373A8E /* PayNewMainTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PayNewMainTableViewCell.xib; sourceTree = "<group>"; };
+		04BC8E33266A04CF00373A8E /* newcellnext.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newcellnext.png; sourceTree = "<group>"; };
+		04BC8E34266A04D000373A8E /* newbank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newbank.png; sourceTree = "<group>"; };
+		04BC8E35266A04D000373A8E /* newtaishin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newtaishin.png; sourceTree = "<group>"; };
+		04BC8E36266A04D100373A8E /* newhilife.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newhilife.png; sourceTree = "<group>"; };
+		04BC8E37266A04D200373A8E /* newok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newok.png; sourceTree = "<group>"; };
+		04BC8E38266A04D200373A8E /* new711.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = new711.png; sourceTree = "<group>"; };
+		04BC8E39266A04D300373A8E /* newfamily.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newfamily.png; sourceTree = "<group>"; };
+		04BC8E3A266A04D400373A8E /* newwarn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newwarn.png; sourceTree = "<group>"; };
+		04BC8E44266A24BC00373A8E /* TransactionBankVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionBankVC.swift; sourceTree = "<group>"; };
 		04C8CBE924D5570400AE90F6 /* RegisterSelfPhotoStep2VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterSelfPhotoStep2VC.swift; sourceTree = "<group>"; };
 		04C8CBED24D5635D00AE90F6 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		04C8CBEF24D83BD500AE90F6 /* RegisterIDTakePhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterIDTakePhotoVC.swift; sourceTree = "<group>"; };
@@ -909,6 +957,9 @@
 		043ADED624E1468900E0892E /* second */ = {
 			isa = PBXGroup;
 			children = (
+				0160275C27D5361100D36284 /* icon_phone2.png */,
+				0160275E27D5361200D36284 /* icon_phone2@2x.png */,
+				0160275D27D5361200D36284 /* icon_phone2@3x.png */,
 				049760C625149A7200921D17 /* teach1.jpg */,
 				049760C425149A7100921D17 /* teach1@2x.jpg */,
 				049760C825149A7200921D17 /* teach1@3x.jpg */,
@@ -1253,6 +1304,8 @@
 				0436E71724EAEE4D008A38E9 /* MemberEditVC.swift */,
 				0436E71924EC55D3008A38E9 /* PointHistorySingleObj.swift */,
 				0420CE9F24FC088E000CCC08 /* MemberUseAgreementVC.swift */,
+				0160276227D54B9300D36284 /* MemberChangePhoneIntroVC.swift */,
+				0160276427D54FDE00D36284 /* MemberChangeDataIntroVC.swift */,
 			);
 			path = Member;
 			sourceTree = "<group>";
@@ -1286,6 +1339,7 @@
 				04E82A6F24DAC39000E25DCD /* RegisterMakeSignVC.swift */,
 				04E82A7124DCFF9C00E25DCD /* RegisterEnterSMSCodeVC.swift */,
 				047B89302522F00500CC0809 /* RegisterIDAndSelfPhotoStep2VC.swift */,
+				0160276627D68BD300D36284 /* RegisterAddDateVC.swift */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -1334,6 +1388,7 @@
 		049686F224B78ABC005EF74A /* Stuff */ = {
 			isa = PBXGroup;
 			children = (
+				04BC8E32266A04C600373A8E /* third */,
 				043ADED624E1468900E0892E /* second */,
 				0496882724BCD3F0005EF74A /* cover */,
 			);
@@ -1343,6 +1398,7 @@
 		0496880624B8D61E005EF74A /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				0160275A27D5296000D36284 /* Date+Extension.swift */,
 				04E82A7324DD3A0F00E25DCD /* ImagePickerStatus.swift */,
 				0496884324BCDDF2005EF74A /* UIViewController+TapToDissmiss.swift */,
 				0496880724B8D61E005EF74A /* RootNavVC.swift */,
@@ -1363,6 +1419,7 @@
 				0420CE9924FA39FD000CCC08 /* BankObj.swift */,
 				04AC3EF725029C0500E48622 /* UIView+Extension.swift */,
 				04EC6A1225069556004D7343 /* Bundle+Extension.swift */,
+				011C097B28971DE300F6932B /* Data+Extension.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1377,6 +1434,7 @@
 				0472E23B24C2DC5E00CC48A0 /* Register */,
 				0496884524BE2923005EF74A /* ForgetPass */,
 				0496881824B99217005EF74A /* Promo */,
+				019F2A9D28FCA4F20008135B /* GradianBarView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1420,6 +1478,21 @@
 			path = ForgetPass;
 			sourceTree = "<group>";
 		};
+		04BC8E32266A04C600373A8E /* third */ = {
+			isa = PBXGroup;
+			children = (
+				04BC8E38266A04D200373A8E /* new711.png */,
+				04BC8E34266A04D000373A8E /* newbank.png */,
+				04BC8E33266A04CF00373A8E /* newcellnext.png */,
+				04BC8E39266A04D300373A8E /* newfamily.png */,
+				04BC8E36266A04D100373A8E /* newhilife.png */,
+				04BC8E37266A04D200373A8E /* newok.png */,
+				04BC8E35266A04D000373A8E /* newtaishin.png */,
+				04BC8E3A266A04D400373A8E /* newwarn.png */,
+			);
+			path = third;
+			sourceTree = "<group>";
+		};
 		04D9834B24F95D1F007D1269 /* Transfer */ = {
 			isa = PBXGroup;
 			children = (
@@ -1443,6 +1516,13 @@
 				04AC3EF52502923300E48622 /* BarCodeInfoObj.swift */,
 				049A184B2502A7BF00DD5749 /* TransactionExipredVC.swift */,
 				0466BFA2250E1E8F009EDEFF /* BankListTableViewCell.swift */,
+				04BC8E2A2669FA4900373A8E /* TransactionNewMainVC.swift */,
+				04BC8E2D266A043700373A8E /* PayNewMainTableViewCell.swift */,
+				04BC8E2E266A043700373A8E /* PayNewMainTableViewCell.xib */,
+				04BC8E44266A24BC00373A8E /* TransactionBankVC.swift */,
+				0160276A27D6ABD200D36284 /* TransferPurposeObj.swift */,
+				01163CBE27D9245D0035AA06 /* TransferPurposeEmbededVC.swift */,
+				01163CBF27D9245D0035AA06 /* TransferPurposeEmbededVC.xib */,
 			);
 			path = Transfer;
 			sourceTree = "<group>";
@@ -1553,6 +1633,7 @@
 				043AE01F24E1468A00E0892E /* unselect@3x.png in Resources */,
 				043AE0E624E1468B00E0892E /* transfur_coint@2x.png in Resources */,
 				043AE09224E1468A00E0892E /* tambah _poin.png in Resources */,
+				0160276027D5361300D36284 /* icon_phone2@3x.png in Resources */,
 				043ADFFD24E1468A00E0892E /* code@3x.png in Resources */,
 				04B0275D24E150C400C59670 /* take_id_front@2x.png in Resources */,
 				043AE02D24E1468A00E0892E /* poin@3x.png in Resources */,
@@ -1565,6 +1646,7 @@
 				0496884224BCD3F0005EF74A /* cover2.png in Resources */,
 				043AE02124E1468A00E0892E /* more_white.png in Resources */,
 				043AE06824E1468A00E0892E /* profile_picture.png in Resources */,
+				04BC8E40266A04D400373A8E /* new711.png in Resources */,
 				04B0277124E150C400C59670 /* signature_2@3x.png in Resources */,
 				043AE09324E1468A00E0892E /* r_share.png in Resources */,
 				04B0278424E150C400C59670 /* barEmpty@2x.png in Resources */,
@@ -1581,6 +1663,7 @@
 				043AE05124E1468A00E0892E /* graphic2@3x.png in Resources */,
 				043AE05D24E1468A00E0892E /* warning@3x.png in Resources */,
 				043AE0F824E1468B00E0892E /* icon_about_us@2x.png in Resources */,
+				04BC8E3D266A04D400373A8E /* newtaishin.png in Resources */,
 				043AE04724E1468A00E0892E /* icon_phone.png in Resources */,
 				04B0276C24E150C400C59670 /* id_code@2x.png in Resources */,
 				04B0276324E150C400C59670 /* take_id_back@2x.png in Resources */,
@@ -1593,6 +1676,7 @@
 				049760D125149A7300921D17 /* teach1@3x.jpg in Resources */,
 				043AE05724E1468A00E0892E /* success@3x.png in Resources */,
 				043AE00124E1468A00E0892E /* big_unselect@2x.png in Resources */,
+				04BC8E3F266A04D400373A8E /* newok.png in Resources */,
 				043AE02024E1468A00E0892E /* camera_switch_button@2x.png in Resources */,
 				043AE0C024E1468B00E0892E /* icon_ign_out.png in Resources */,
 				043AE03F24E1468A00E0892E /* point_bg@3x.png in Resources */,
@@ -1652,6 +1736,7 @@
 				043AE02624E1468A00E0892E /* code@2x.png in Resources */,
 				04B0278F24E150C400C59670 /* scanBarCodeResult.png in Resources */,
 				043AE08824E1468A00E0892E /* w_notice.png in Resources */,
+				04BC8E3B266A04D400373A8E /* newcellnext.png in Resources */,
 				043AE0E224E1468B00E0892E /* noview_w.png in Resources */,
 				049760D225149A7300921D17 /* teach2@3x.jpg in Resources */,
 				043AE04324E1468A00E0892E /* previous@2x.png in Resources */,
@@ -1686,8 +1771,10 @@
 				043AE0B224E1468B00E0892E /* online_service@2x.png in Resources */,
 				043AE00A24E1468A00E0892E /* logo2@3x.png in Resources */,
 				043AE02524E1468A00E0892E /* add_man@3x.png in Resources */,
+				0160275F27D5361300D36284 /* icon_phone2.png in Resources */,
 				043AE00B24E1468A00E0892E /* code.png in Resources */,
 				043ADFFC24E1468A00E0892E /* icon_faq.png in Resources */,
+				04BC8E3C266A04D400373A8E /* newbank.png in Resources */,
 				043AE11024E1468B00E0892E /* man@3x.png in Resources */,
 				043AE00E24E1468A00E0892E /* icon_ign_out@3x.png in Resources */,
 				043AE0AB24E1468B00E0892E /* r_record@2x.png in Resources */,
@@ -1700,6 +1787,7 @@
 				049B147A2508F424009E31DB /* fami_help@2x.jpg in Resources */,
 				043AE08724E1468A00E0892E /* indogo_logo@2x.png in Resources */,
 				043AE06024E1468A00E0892E /* question@3x.png in Resources */,
+				04BC8E42266A04D400373A8E /* newwarn.png in Resources */,
 				043AE0ED24E1468B00E0892E /* line.png in Resources */,
 				043AE04924E1468A00E0892E /* warning@2x.png in Resources */,
 				043AE06624E1468A00E0892E /* edit-1.png in Resources */,
@@ -1708,6 +1796,7 @@
 				043AE0F224E1468B00E0892E /* sand.png in Resources */,
 				043AE09B24E1468B00E0892E /* icon_point@2x.png in Resources */,
 				043AE10024E1468B00E0892E /* big_select@2x.png in Resources */,
+				04BC8E41266A04D400373A8E /* newfamily.png in Resources */,
 				043AE10124E1468B00E0892E /* transfur_coint@3x.png in Resources */,
 				043AE0F924E1468B00E0892E /* more_white@2x.png in Resources */,
 				043AE0AC24E1468B00E0892E /* unselect.png in Resources */,
@@ -1741,6 +1830,7 @@
 				049B14762508F27A009E31DB /* fami_help.jpg in Resources */,
 				049760CA25149A7300921D17 /* teach3.jpg in Resources */,
 				049686F124B6FC32005EF74A /* Podfile in Resources */,
+				04BC8E30266A043700373A8E /* PayNewMainTableViewCell.xib in Resources */,
 				0496883D24BCD3F0005EF74A /* cover3@3x.png in Resources */,
 				043AE01C24E1468A00E0892E /* success2.png in Resources */,
 				043AE04124E1468A00E0892E /* w_record@2x.png in Resources */,
@@ -1782,6 +1872,7 @@
 				043AE0BA24E1468B00E0892E /* passcode@2x.png in Resources */,
 				043AE10624E1468B00E0892E /* camera_button@3x.png in Resources */,
 				043AE06D24E1468A00E0892E /* w_share@3x.png in Resources */,
+				01163CC127D9245D0035AA06 /* TransferPurposeEmbededVC.xib in Resources */,
 				0496883E24BCD3F0005EF74A /* cover2@2x.png in Resources */,
 				043AE08524E1468A00E0892E /* face_icon.png in Resources */,
 				043AE07E24E1468A00E0892E /* failed@2x.png in Resources */,
@@ -1790,6 +1881,8 @@
 				04B0277224E150C400C59670 /* man_with_id_1@3x.png in Resources */,
 				043AE0CA24E1468B00E0892E /* exit.png in Resources */,
 				043AE0F524E1468B00E0892E /* noview_b@3x.png in Resources */,
+				04BC8E3E266A04D400373A8E /* newhilife.png in Resources */,
+				0160276127D5361300D36284 /* icon_phone2@2x.png in Resources */,
 				043AE0FE24E1468B00E0892E /* next@3x.png in Resources */,
 				043AE0BB24E1468B00E0892E /* profile_pic_change_button.png in Resources */,
 				043AE0BD24E1468B00E0892E /* success.png in Resources */,
@@ -1932,11 +2025,18 @@
 			files = (
 				04C8CBF024D83BD500AE90F6 /* RegisterIDTakePhotoVC.swift in Sources */,
 				0466BFA3250E1E8F009EDEFF /* BankListTableViewCell.swift in Sources */,
+				04BC8E45266A24BC00373A8E /* TransactionBankVC.swift in Sources */,
+				0160276727D68BD400D36284 /* RegisterAddDateVC.swift in Sources */,
+				04BC8E2B2669FA4A00373A8E /* TransactionNewMainVC.swift in Sources */,
 				0429A61E24E9A42200716696 /* String+Extention.swift in Sources */,
 				04C8CBF424D952D200AE90F6 /* RegisterIDTakeIntroVC.swift in Sources */,
+				0160276B27D6ABD200D36284 /* TransferPurposeObj.swift in Sources */,
 				04AC3EF225021AB000E48622 /* TransactionResultObj.swift in Sources */,
 				0436E71F24EFAB20008A38E9 /* PointHistoryTableViewCell.swift in Sources */,
+				0160276327D54B9400D36284 /* MemberChangePhoneIntroVC.swift in Sources */,
+				0160276527D54FDE00D36284 /* MemberChangeDataIntroVC.swift in Sources */,
 				0467180B24E436A5008A75B1 /* NoticeMainVC.swift in Sources */,
+				019F2A9E28FCA4F20008135B /* GradianBarView.swift in Sources */,
 				04D9835424F9684D007D1269 /* RecipientTableViewCell.swift in Sources */,
 				04F6FF1524D1B9C800887E80 /* RegisterShareScanQRCodeVC.swift in Sources */,
 				04C8CBEA24D5570400AE90F6 /* RegisterSelfPhotoStep2VC.swift in Sources */,
@@ -1965,6 +2065,7 @@
 				04D73A272574CA56005E6D5D /* ARCInputVC.swift in Sources */,
 				04F6FF1924D1C82000887E80 /* RegisterSelfPhotoVC.swift in Sources */,
 				0496884724BE2942005EF74A /* ForgotPassMainVC.swift in Sources */,
+				011C097C28971DE300F6932B /* Data+Extension.swift in Sources */,
 				0496880E24B8D61E005EF74A /* Log.swift in Sources */,
 				043AE11924E14BC600E0892E /* MemberMainVC.swift in Sources */,
 				0496881024B8D61E005EF74A /* BaseVC.swift in Sources */,
@@ -1981,6 +2082,8 @@
 				0420CEA024FC088E000CCC08 /* MemberUseAgreementVC.swift in Sources */,
 				0466A82224C15BA7008F6D38 /* ForgotPassEnterCodeVC.swift in Sources */,
 				0429A62024E9AAA900716696 /* NoticeObj.swift in Sources */,
+				0160275B27D5296000D36284 /* Date+Extension.swift in Sources */,
+				04BC8E2F266A043700373A8E /* PayNewMainTableViewCell.swift in Sources */,
 				04D9834F24F96181007D1269 /* RecipientObj.swift in Sources */,
 				0436E72624F03183008A38E9 /* TransferPointVC.swift in Sources */,
 				049686DD24B6EFB0005EF74A /* AppDelegate.swift in Sources */,
@@ -1994,6 +2097,7 @@
 				0496881A24B99235005EF74A /* PromoPageVC.swift in Sources */,
 				04D9D78B24E3C7A30036DC5C /* BottomMenuView.swift in Sources */,
 				04D73A262574CA56005E6D5D /* ArcScanWrong.swift in Sources */,
+				01163CC027D9245D0035AA06 /* TransferPurposeEmbededVC.swift in Sources */,
 				049687FD24B79B3C005EF74A /* SceneDelegate.swift in Sources */,
 				0429A62224E9B01F00716696 /* NoticeTableViewCell.swift in Sources */,
 				04D8562C24C2D14C007BD825 /* CustomAlertView.swift in Sources */,
@@ -2165,15 +2269,17 @@
 				CODE_SIGN_ENTITLEMENTS = indogo/indogo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 8P43SK2KHA;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = indogo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.indogo.dim.indogo;
 				PRODUCT_NAME = IndoGo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2190,15 +2296,18 @@
 				CODE_SIGN_ENTITLEMENTS = indogo/indogo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 8P43SK2KHA;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = indogo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.7;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.indogo.dim.indogo;
 				PRODUCT_NAME = IndoGo;
 				PROVISIONING_PROFILE_SPECIFIER = "";

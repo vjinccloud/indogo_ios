@@ -214,7 +214,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
     
     //MARK: - API
     public func callMemberData() {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         AppDelegate.shared().addLoadingView()
@@ -223,7 +223,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -248,7 +248,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
     }
     
     public func checkAmount() {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":AppDelegate.shared().transactionObj.totalNtdValue, "use_remit_point":1]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":AppDelegate.shared().transactionObj.totalNtdValue, "use_remit_point":1, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         
         let headers: HTTPHeaders = [:]
         closeAll()
@@ -258,7 +258,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -271,7 +271,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
                 }
                 //AppDelegate.shared().apiBackContentStr
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
-                Dlog("responseStr = \(responseStr ?? "")")
+                Dlog("checkAmount responseStr = \(responseStr ?? "")")
                 
                 AppDelegate.shared().recipientListObjs = []
                 AppDelegate.shared().recipientShownListObjs = []
@@ -320,18 +320,34 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
         if ((string == "0" || string == "") && (textField.text! as NSString).range(of: ".").location < range.location) {
             return true
         }
         
+        var isEmpty = false
         var newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         if newString == "" {
+            isEmpty = true
             newString = "1"
         }
         if textField == upTextField {
             justCalculateValue(UseStyle: 0, NweString: newString)
         } else if textField == downTextField {
             justCalculateValue(UseStyle: 1, NweString: newString)
+        }
+        
+        if isEmpty {
+            Dlog("isEmpty 1")
+            if textField == upTextField {
+                upTextField.text = "1"
+                upTextField.selectAll(nil)
+                return false
+            } else if textField == downTextField {
+                downTextField.text = "1"
+                downTextField.selectAll(nil)
+                return false
+            }
         }
 
         /*
@@ -401,6 +417,8 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
     //MARK: - View-Life
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Dlog("regionCode = \(Locale.current.regionCode)")
 
         // Do any additional setup after loading the view.
         self.setupHideKeyboardOnTap()
@@ -434,6 +452,9 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         
         leftTotalPL.text = AppDelegate.shared().memberData["remit_point"]!
         checkAndCalculateValue(UseStyle:0, NweString: "")
+        
+        AppDelegate.shared().getPurposeList()
+        AppDelegate.shared().getRelationList()
     }
     
     override func viewDidAppear(_ animated: Bool) {

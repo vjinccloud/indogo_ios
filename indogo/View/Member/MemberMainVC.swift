@@ -24,18 +24,19 @@ class MemberMainVC: UIViewController {
     @IBOutlet weak var termsL: UILabel!
     @IBOutlet weak var faqL: UILabel!
     @IBOutlet weak var logoutL: UILabel!
+    @IBOutlet weak var changePhoneL: UILabel!
     
     var loadOnce = false
     
     //MARK: - API
     func getPointHistory() {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         AppDelegate.shared().addLoadingView()
         
         let todoEndpoint: String = API_PointHistoryList;
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -63,7 +64,22 @@ class MemberMainVC: UIViewController {
     
     //MARK: - Button-Action
     @IBAction func editAction(_ sender: Any) {
+        
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "MemberChangeDataIntroVC") as? MemberChangeDataIntroVC
+        self.navigationController?.pushViewController(nextVC!, animated: true)
+        
+        //改成先警語
+        /*
         let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "MemberEditVC") as? MemberEditVC
+        self.navigationController?.pushViewController(nextVC!, animated: true)
+         */
+    }
+    
+    @IBAction func changePhoneAction(_ sender: Any) {
+        AppDelegate.shared().forgotPassTempMemID = AppDelegate.shared().getRemeberedAarcNo()
+        AppDelegate.shared().forgotPassTempPhone = AppDelegate.shared().memberData["app_phone_no"] ?? ""
+        
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "MemberChangePhoneIntroVC") as? MemberChangePhoneIntroVC
         self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
@@ -131,6 +147,7 @@ class MemberMainVC: UIViewController {
         nameL.text = AppDelegate.shared().memberData["member_name"]
         phoneL.text = AppDelegate.shared().memberData["app_phone_no"]
         backL.text = NSLocalizedString("Profile Main Title", comment: "")
+        changePhoneL.text = NSLocalizedString("Profile Main ChangePhone", comment: "")
         pointL.text = NSLocalizedString("Profile Main Point", comment: "")
         reciterL.text = NSLocalizedString("Profile Main Reciter", comment: "")
         transactionL.text = NSLocalizedString("Profile Main Transaction", comment: "")

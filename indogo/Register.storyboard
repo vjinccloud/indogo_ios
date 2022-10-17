@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--註冊條款-->
         <scene sceneID="hMe-vg-4ji">
             <objects>
-                <viewController storyboardIdentifier="RegisterAgreementVC" id="Nwq-zE-TVg" userLabel="註冊條款" customClass="RegisterAgreementVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterAgreementVC" id="Nwq-zE-TVg" userLabel="註冊條款" customClass="RegisterAgreementVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qhO-24-rK9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -22,7 +23,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GXJ-qc-O0I" userLabel="BarView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UpD-Zi-qNj">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UpD-Zi-qNj">
                                                 <rect key="frame" x="15" y="8.5" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="28" id="1Og-wh-Ny3"/>
@@ -62,7 +63,7 @@
                                                 </wkWebViewConfiguration>
                                             </wkWebView>
                                         </subviews>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                        <color key="backgroundColor" systemColor="tableCellGroupedBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="2Fz-Xa-8Qw" secondAttribute="bottom" id="6NP-Qz-Hj3"/>
                                             <constraint firstItem="2Fz-Xa-8Qw" firstAttribute="top" secondItem="Z9D-Vl-wY5" secondAttribute="top" id="MNs-e5-6Ib"/>
@@ -70,7 +71,7 @@
                                             <constraint firstAttribute="trailing" secondItem="2Fz-Xa-8Qw" secondAttribute="trailing" id="cCh-95-p85"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fjl-Pl-Bsq" userLabel="NextButton">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fjl-Pl-Bsq" userLabel="NextButton">
                                         <rect key="frame" x="83" y="687" width="248" height="45"/>
                                         <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -84,7 +85,7 @@
                                             <action selector="nextAction:" destination="Nwq-zE-TVg" eventType="touchUpInside" id="XSy-GS-sa5"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kEH-nj-bvM" userLabel="cancelButton">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kEH-nj-bvM" userLabel="cancelButton">
                                         <rect key="frame" x="83" y="742" width="248" height="45"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -117,6 +118,7 @@
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="1lh-hZ-pNh"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="1lh-hZ-pNh" firstAttribute="trailing" secondItem="iUb-2N-gSK" secondAttribute="trailing" id="2v8-Dg-DEi"/>
@@ -124,7 +126,6 @@
                             <constraint firstItem="iUb-2N-gSK" firstAttribute="leading" secondItem="1lh-hZ-pNh" secondAttribute="leading" id="Jde-h9-GqA"/>
                             <constraint firstItem="iUb-2N-gSK" firstAttribute="bottom" secondItem="qhO-24-rK9" secondAttribute="bottom" id="PfN-fj-ovo"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="1lh-hZ-pNh"/>
                     </view>
                     <connections>
                         <outlet property="agreementBackV" destination="Z9D-Vl-wY5" id="E02-fd-iSa"/>
@@ -141,7 +142,7 @@
         <!--註冊說明-->
         <scene sceneID="wOd-Rc-KBz">
             <objects>
-                <viewController storyboardIdentifier="RegisterIntroVC" id="EEo-Tl-d7t" userLabel="註冊說明" customClass="RegisterIntroVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterIntroVC" id="EEo-Tl-d7t" userLabel="註冊說明" customClass="RegisterIntroVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wVc-NX-oXH">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -149,7 +150,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="65x-yx-rdV">
                                 <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3sb-Ms-IQG">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3sb-Ms-IQG">
                                         <rect key="frame" x="95.5" y="476" width="207" height="44"/>
                                         <color key="backgroundColor" red="0.74231690169999998" green="0.087496928870000004" blue="0.12861678000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -173,7 +174,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m5e-yW-axE" userLabel="BarView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zuB-eC-Mn2">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zuB-eC-Mn2">
                                                 <rect key="frame" x="15" y="8.5" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="28" id="6bD-Zd-QDt"/>
@@ -202,7 +203,7 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gdp-YX-dvE" userLabel="TopTitle">
-                                        <rect key="frame" x="177.5" y="75" width="59.5" height="30"/>
+                                        <rect key="frame" x="177.5" y="75" width="59" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -254,6 +255,7 @@ berada dalam kotak yang ditentukan</string>
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="SX8-9P-bhU"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="65x-yx-rdV" firstAttribute="leading" secondItem="SX8-9P-bhU" secondAttribute="leading" id="NBz-ts-5T8"/>
@@ -261,7 +263,6 @@ berada dalam kotak yang ditentukan</string>
                             <constraint firstItem="SX8-9P-bhU" firstAttribute="trailing" secondItem="65x-yx-rdV" secondAttribute="trailing" id="u6B-cS-RWV"/>
                             <constraint firstItem="65x-yx-rdV" firstAttribute="bottom" secondItem="wVc-NX-oXH" secondAttribute="bottom" id="ywF-ej-1I0"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="SX8-9P-bhU"/>
                     </view>
                     <connections>
                         <outlet property="backL" destination="bK1-uL-Yxq" id="baw-Ve-1km"/>
@@ -278,7 +279,7 @@ berada dalam kotak yang ditentukan</string>
         <!--註冊輸入-->
         <scene sceneID="U9X-4z-JF9">
             <objects>
-                <viewController storyboardIdentifier="RegisterInputVC" id="WK1-X2-jt9" userLabel="註冊輸入" customClass="RegisterInputVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterInputVC" id="WK1-X2-jt9" userLabel="註冊輸入" customClass="RegisterInputVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SO6-tc-j4m">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -286,7 +287,7 @@ berada dalam kotak yang ditentukan</string>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="di7-G7-p1c" userLabel="BarView">
                                 <rect key="frame" x="0.0" y="44" width="414" height="45"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wpd-Qv-j4R">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wpd-Qv-j4R">
                                         <rect key="frame" x="15" y="8.5" width="28" height="28"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="28" id="3No-WN-GHN"/>
@@ -334,7 +335,7 @@ berada dalam kotak yang ditentukan</string>
                                                             <action selector="callCamActon:" destination="WK1-X2-jt9" eventType="touchUpInside" id="4mC-jl-Uue"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d1p-Sd-Byv">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d1p-Sd-Byv">
                                                         <rect key="frame" x="232" y="105" width="30" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="30" id="A5b-gs-UKq"/>
@@ -370,7 +371,7 @@ berada dalam kotak yang ditentukan</string>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="heg-wx-fC9">
                                                 <rect key="frame" x="0.0" y="180" width="414" height="62"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sXU-dX-PCH">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sXU-dX-PCH">
                                                         <rect key="frame" x="50" y="9" width="314" height="44"/>
                                                         <color key="backgroundColor" red="0.30754500629999998" green="0.32042944429999998" blue="0.35411232710000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
@@ -408,7 +409,7 @@ berada dalam kotak yang ditentukan</string>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fuk-N2-I4A">
                                                 <rect key="frame" x="0.0" y="242" width="414" height="62"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TFh-p0-Ffu">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TFh-p0-Ffu">
                                                         <rect key="frame" x="50" y="9" width="314" height="44"/>
                                                         <color key="backgroundColor" red="0.30754500629999998" green="0.32042944429999998" blue="0.35411232710000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
@@ -446,7 +447,7 @@ berada dalam kotak yang ditentukan</string>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DHt-80-ASW">
                                                 <rect key="frame" x="0.0" y="304" width="414" height="62"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QYa-L9-pDP">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QYa-L9-pDP">
                                                         <rect key="frame" x="50" y="9" width="314" height="44"/>
                                                         <color key="backgroundColor" red="0.30754500629999998" green="0.32042944429999998" blue="0.35411232710000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
@@ -497,7 +498,7 @@ berada dalam kotak yang ditentukan</string>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uta-Kw-As1">
                                                 <rect key="frame" x="0.0" y="366" width="414" height="62"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tl5-mc-E67">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tl5-mc-E67">
                                                         <rect key="frame" x="50" y="9" width="314" height="44"/>
                                                         <color key="backgroundColor" red="0.30754500629999998" green="0.32042944429999998" blue="0.35411232710000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
@@ -550,7 +551,7 @@ berada dalam kotak yang ditentukan</string>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KNu-mR-GwL">
                                                         <rect key="frame" x="50" y="19.5" width="314" height="0.5"/>
-                                                        <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="0.5" id="Dd6-GV-Skd"/>
                                                         </constraints>
@@ -593,7 +594,7 @@ berada dalam kotak yang ditentukan</string>
                                                             <constraint firstAttribute="height" constant="68" id="njC-cq-kQs"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yYb-Lk-XlQ">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yYb-Lk-XlQ">
                                                         <rect key="frame" x="66" y="8.5" width="282" height="68"/>
                                                         <connections>
                                                             <action selector="callScanArcActon:" destination="WK1-X2-jt9" eventType="touchUpInside" id="5YA-v5-HXz"/>
@@ -627,7 +628,7 @@ berada dalam kotak yang ditentukan</string>
                                                             <constraint firstAttribute="width" constant="282" id="gOJ-h5-Rcn"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KKF-1g-2g9">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KKF-1g-2g9">
                                                         <rect key="frame" x="73" y="31.5" width="268" height="22"/>
                                                         <connections>
                                                             <action selector="callScanArcActon:" destination="WK1-X2-jt9" eventType="touchUpInside" id="jqS-sc-XGr"/>
@@ -666,7 +667,7 @@ berada dalam kotak yang ditentukan</string>
                                                             <constraint firstAttribute="height" constant="0.5" id="THL-Ch-Rud"/>
                                                         </constraints>
                                                     </view>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zvx-l4-IwR">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zvx-l4-IwR">
                                                         <rect key="frame" x="48.5" y="19" width="317" height="34"/>
                                                         <connections>
                                                             <action selector="shareCodeInputAction:" destination="WK1-X2-jt9" eventType="touchUpInside" id="9JA-Wt-uG3"/>
@@ -691,7 +692,7 @@ berada dalam kotak yang ditentukan</string>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t6z-E6-KCD">
                                                 <rect key="frame" x="0.0" y="768" width="414" height="100"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DVJ-hg-kBI">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DVJ-hg-kBI">
                                                         <rect key="frame" x="103.5" y="48" width="207" height="44"/>
                                                         <color key="backgroundColor" red="0.74231690169999998" green="0.087496928870000004" blue="0.12861678000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
@@ -741,6 +742,7 @@ berada dalam kotak yang ditentukan</string>
                                 </constraints>
                             </scrollView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="m95-9H-3kU"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="IHX-j6-DRg" firstAttribute="leading" secondItem="m95-9H-3kU" secondAttribute="leading" id="152-03-f9L"/>
@@ -751,7 +753,6 @@ berada dalam kotak yang ditentukan</string>
                             <constraint firstItem="IHX-j6-DRg" firstAttribute="top" secondItem="di7-G7-p1c" secondAttribute="bottom" id="jeA-O2-qt0"/>
                             <constraint firstAttribute="bottom" secondItem="IHX-j6-DRg" secondAttribute="bottom" id="r8b-K1-lc4"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="m95-9H-3kU"/>
                     </view>
                     <navigationItem key="navigationItem" id="azK-7Y-aYq"/>
                     <connections>
@@ -792,7 +793,7 @@ berada dalam kotak yang ditentukan</string>
         <!--註冊(分享條碼前導)-->
         <scene sceneID="1k1-SV-eLb">
             <objects>
-                <viewController storyboardIdentifier="RegisterShareInputVC" id="UC6-dA-bz3" userLabel="註冊(分享條碼前導)" customClass="RegisterShareInputVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterShareInputVC" id="UC6-dA-bz3" userLabel="註冊(分享條碼前導)" customClass="RegisterShareInputVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PzE-jY-f5X">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -803,7 +804,7 @@ berada dalam kotak yang ditentukan</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Wj-Ge-J4P" userLabel="BarView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2eu-VC-I4N">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2eu-VC-I4N">
                                                 <rect key="frame" x="15" y="8.5" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="28" id="Ksd-5V-idU"/>
@@ -890,7 +891,7 @@ SEKARANG</string>
                                                                     <constraint firstItem="qXa-Oe-v4p" firstAttribute="centerY" secondItem="mD0-xU-AcX" secondAttribute="centerY" id="dm0-oF-3Ct"/>
                                                                 </constraints>
                                                             </view>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Coa-XH-Xga">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Coa-XH-Xga">
                                                                 <rect key="frame" x="50" y="5" width="314" height="100"/>
                                                                 <connections>
                                                                     <action selector="sendAction:" destination="UC6-dA-bz3" eventType="touchUpInside" id="lsa-MS-NeE"/>
@@ -934,7 +935,7 @@ SEKARANG</string>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9WJ-OR-ZKL">
                                                                 <rect key="frame" x="40" y="20" width="334" height="0.5"/>
-                                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="0.5" id="F6h-DY-904"/>
                                                                 </constraints>
@@ -1004,7 +1005,7 @@ SEKARANG</string>
                                                                     <constraint firstItem="7RE-aE-sGq" firstAttribute="top" secondItem="SFS-hr-NKA" secondAttribute="top" constant="5" id="hkd-1U-xJR"/>
                                                                 </constraints>
                                                             </view>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="naA-vx-muv" userLabel="NextButton">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="naA-vx-muv" userLabel="NextButton">
                                                                 <rect key="frame" x="83" y="120" width="248" height="45"/>
                                                                 <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <constraints>
@@ -1061,6 +1062,7 @@ SEKARANG</string>
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="KLv-wA-Yxm"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="TgR-oa-MIU" firstAttribute="top" secondItem="KLv-wA-Yxm" secondAttribute="top" id="G00-rL-anQ"/>
@@ -1068,7 +1070,6 @@ SEKARANG</string>
                             <constraint firstItem="TgR-oa-MIU" firstAttribute="bottom" secondItem="PzE-jY-f5X" secondAttribute="bottom" id="vq7-Z0-tmx"/>
                             <constraint firstItem="TgR-oa-MIU" firstAttribute="leading" secondItem="KLv-wA-Yxm" secondAttribute="leading" id="x1Z-Hq-fjX"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="KLv-wA-Yxm"/>
                     </view>
                     <connections>
                         <outlet property="backL" destination="ejR-Em-20O" id="xmA-5l-SIa"/>
@@ -1093,7 +1094,7 @@ SEKARANG</string>
         <!--註冊(QR掃描分享碼)-->
         <scene sceneID="P0b-UQ-M7P">
             <objects>
-                <viewController storyboardIdentifier="RegisterShareScanQRCodeVC" id="Qgl-qa-snn" userLabel="註冊(QR掃描分享碼)" customClass="RegisterShareScanQRCodeVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterShareScanQRCodeVC" id="Qgl-qa-snn" userLabel="註冊(QR掃描分享碼)" customClass="RegisterShareScanQRCodeVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RgF-cX-Ya8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1106,7 +1107,7 @@ SEKARANG</string>
                                         <subviews>
                                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HDW-fF-mfI">
                                                 <rect key="frame" x="120" y="182.5" width="174" height="365"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1158,7 +1159,7 @@ berada dalam kotak yang ditentukan</string>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="92x-Ra-Koh">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="92x-Ra-Koh">
                                         <rect key="frame" x="83" y="640" width="248" height="45"/>
                                         <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -1199,6 +1200,7 @@ berada dalam kotak yang ditentukan</string>
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="1dQ-tt-7Ps"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="1dQ-tt-7Ps" firstAttribute="trailing" secondItem="hP2-7F-TaY" secondAttribute="trailing" id="O7S-oc-OA4"/>
@@ -1206,7 +1208,6 @@ berada dalam kotak yang ditentukan</string>
                             <constraint firstItem="hP2-7F-TaY" firstAttribute="top" secondItem="1dQ-tt-7Ps" secondAttribute="top" id="pUa-Rw-LJy"/>
                             <constraint firstItem="hP2-7F-TaY" firstAttribute="leading" secondItem="1dQ-tt-7Ps" secondAttribute="leading" id="pjs-uz-qZj"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="1dQ-tt-7Ps"/>
                     </view>
                     <connections>
                         <outlet property="backBtn" destination="92x-Ra-Koh" id="WS1-YP-C0v"/>
@@ -1224,7 +1225,7 @@ berada dalam kotak yang ditentukan</string>
         <!--註冊(拍個人照)-->
         <scene sceneID="Pkk-lA-Ibh">
             <objects>
-                <viewController storyboardIdentifier="RegisterSelfPhotoVC" id="CTN-6y-qes" userLabel="註冊(拍個人照)" customClass="RegisterSelfPhotoVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterSelfPhotoVC" id="CTN-6y-qes" userLabel="註冊(拍個人照)" customClass="RegisterSelfPhotoVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="C45-Ot-tOj">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1235,7 +1236,7 @@ berada dalam kotak yang ditentukan</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZJ9-30-TeB" userLabel="BarView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uSv-Ka-CbE">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uSv-Ka-CbE">
                                                 <rect key="frame" x="15" y="8.5" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="28" id="27c-c0-AzO"/>
@@ -1267,7 +1268,7 @@ berada dalam kotak yang ditentukan</string>
                                         <rect key="frame" x="0.0" y="45" width="414" height="582"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8zx-4Q-kh0">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8zx-4Q-kh0">
                                         <rect key="frame" x="157" y="667" width="100" height="100"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="100" id="Jgy-GA-hQH"/>
@@ -1293,6 +1294,7 @@ berada dalam kotak yang ditentukan</string>
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="fbJ-Ti-4aG"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="99C-tk-4JL" firstAttribute="bottom" secondItem="C45-Ot-tOj" secondAttribute="bottom" id="DjG-JU-4SB"/>
@@ -1300,7 +1302,6 @@ berada dalam kotak yang ditentukan</string>
                             <constraint firstItem="99C-tk-4JL" firstAttribute="top" secondItem="fbJ-Ti-4aG" secondAttribute="top" id="YdF-5s-kef"/>
                             <constraint firstItem="fbJ-Ti-4aG" firstAttribute="trailing" secondItem="99C-tk-4JL" secondAttribute="trailing" id="gwB-z6-f2K"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="fbJ-Ti-4aG"/>
                     </view>
                     <connections>
                         <outlet property="backL" destination="aC4-6N-Mw3" id="lZg-nf-Mz9"/>
@@ -1314,7 +1315,7 @@ berada dalam kotak yang ditentukan</string>
         <!--註冊(拍個人照Step2)-->
         <scene sceneID="n2a-6m-DMr">
             <objects>
-                <viewController storyboardIdentifier="RegisterSelfPhotoStep2VC" id="z6n-Ar-rMd" userLabel="註冊(拍個人照Step2)" customClass="RegisterSelfPhotoStep2VC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterSelfPhotoStep2VC" id="z6n-Ar-rMd" userLabel="註冊(拍個人照Step2)" customClass="RegisterSelfPhotoStep2VC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hH3-gv-a4N">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1325,7 +1326,7 @@ berada dalam kotak yang ditentukan</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KKM-nR-wbP" userLabel="BarView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e3H-Ey-swx">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e3H-Ey-swx">
                                                 <rect key="frame" x="15" y="8.5" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="28" id="Mqg-BZ-GMH"/>
@@ -1368,7 +1369,7 @@ berada dalam kotak yang ditentukan</string>
                                             <constraint firstAttribute="bottom" secondItem="arn-TG-zBl" secondAttribute="bottom" id="hg1-eq-CRQ"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5mj-cs-dL9">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5mj-cs-dL9">
                                         <rect key="frame" x="352" y="637" width="42" height="42"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="42" id="5M0-sS-zn7"/>
@@ -1379,7 +1380,7 @@ berada dalam kotak yang ditentukan</string>
                                             <action selector="rotateAction:" destination="z6n-Ar-rMd" eventType="touchUpInside" id="VOo-f4-8q6"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oS7-kI-BpQ">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oS7-kI-BpQ">
                                         <rect key="frame" x="83" y="687" width="248" height="45"/>
                                         <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -1393,7 +1394,7 @@ berada dalam kotak yang ditentukan</string>
                                             <action selector="nextAction:" destination="z6n-Ar-rMd" eventType="touchUpInside" id="HNV-8S-kOe"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VqD-6a-CoD" userLabel="CancelBtn">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VqD-6a-CoD" userLabel="CancelBtn">
                                         <rect key="frame" x="83" y="752" width="248" height="45"/>
                                         <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -1428,6 +1429,7 @@ berada dalam kotak yang ditentukan</string>
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="ed8-FU-EgV"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ed8-FU-EgV" firstAttribute="trailing" secondItem="OKm-11-eAG" secondAttribute="trailing" id="Ues-le-8hp"/>
@@ -1435,7 +1437,6 @@ berada dalam kotak yang ditentukan</string>
                             <constraint firstItem="OKm-11-eAG" firstAttribute="top" secondItem="ed8-FU-EgV" secondAttribute="top" id="kVB-nR-Vxv"/>
                             <constraint firstItem="OKm-11-eAG" firstAttribute="leading" secondItem="ed8-FU-EgV" secondAttribute="leading" id="rXw-zL-bOL"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="ed8-FU-EgV"/>
                     </view>
                     <connections>
                         <outlet property="backL" destination="55o-L3-DEP" id="Es6-vs-EYw"/>
@@ -1453,7 +1454,7 @@ berada dalam kotak yang ditentukan</string>
         <!--註冊(拍證件照)-->
         <scene sceneID="T9U-eS-xHa">
             <objects>
-                <viewController storyboardIdentifier="RegisterIDTakePhotoVC" id="387-Zh-8kF" userLabel="註冊(拍證件照)" customClass="RegisterIDTakePhotoVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterIDTakePhotoVC" id="387-Zh-8kF" userLabel="註冊(拍證件照)" customClass="RegisterIDTakePhotoVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7GO-n9-Aze">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1464,7 +1465,7 @@ berada dalam kotak yang ditentukan</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gl9-mx-wU8" userLabel="BarView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y5P-wB-kXV">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y5P-wB-kXV">
                                                 <rect key="frame" x="15" y="8.5" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="28" id="dma-sU-cU4"/>
@@ -1526,7 +1527,7 @@ berada dalam kotak yang ditentukan</string>
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="take_id_front.png" translatesAutoresizingMaskIntoConstraints="NO" id="Wbf-cZ-8XY">
                                                                         <rect key="frame" x="5" y="55" width="364" height="221.5"/>
                                                                     </imageView>
-                                                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z1O-px-VFG">
+                                                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z1O-px-VFG">
                                                                         <rect key="frame" x="5" y="55" width="364" height="221.5"/>
                                                                         <connections>
                                                                             <action selector="takeFirstPhoto:" destination="387-Zh-8kF" eventType="touchUpInside" id="y9B-Kf-Bgz"/>
@@ -1585,7 +1586,7 @@ berada dalam kotak yang ditentukan</string>
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="take_id_back.png" translatesAutoresizingMaskIntoConstraints="NO" id="68h-ed-x3Y">
                                                                         <rect key="frame" x="5" y="55" width="364" height="222"/>
                                                                     </imageView>
-                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CrE-bT-aXs">
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CrE-bT-aXs">
                                                                         <rect key="frame" x="5" y="55" width="364" height="222"/>
                                                                         <connections>
                                                                             <action selector="takeSecPhoto:" destination="387-Zh-8kF" eventType="touchUpInside" id="IAA-NZ-e1e"/>
@@ -1619,7 +1620,7 @@ berada dalam kotak yang ditentukan</string>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KDe-c2-f7j">
                                                         <rect key="frame" x="0.0" y="603.5" width="414" height="70"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lAw-ne-Gah" userLabel="NextButton">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lAw-ne-Gah" userLabel="NextButton">
                                                                 <rect key="frame" x="83" y="20" width="248" height="45"/>
                                                                 <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <constraints>
@@ -1670,6 +1671,7 @@ berada dalam kotak yang ditentukan</string>
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="zZI-QV-GBZ"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="CE0-sA-nSx" firstAttribute="leading" secondItem="zZI-QV-GBZ" secondAttribute="leading" id="Ta4-nm-YXK"/>
@@ -1677,7 +1679,6 @@ berada dalam kotak yang ditentukan</string>
                             <constraint firstItem="zZI-QV-GBZ" firstAttribute="trailing" secondItem="CE0-sA-nSx" secondAttribute="trailing" id="fvF-Bb-o3N"/>
                             <constraint firstItem="CE0-sA-nSx" firstAttribute="top" secondItem="zZI-QV-GBZ" secondAttribute="top" id="kRs-3t-aYH"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="zZI-QV-GBZ"/>
                     </view>
                     <connections>
                         <outlet property="backL" destination="sWN-pO-uWz" id="2X7-Eo-Of0"/>
@@ -1697,7 +1698,7 @@ berada dalam kotak yang ditentukan</string>
         <!--證件拍照掃描說明-->
         <scene sceneID="N4U-aE-dKw">
             <objects>
-                <viewController storyboardIdentifier="RegisterIDTakeIntroVC" id="kLf-Yd-G8y" userLabel="證件拍照掃描說明" customClass="RegisterIDTakeIntroVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterIDTakeIntroVC" id="kLf-Yd-G8y" userLabel="證件拍照掃描說明" customClass="RegisterIDTakeIntroVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sfk-0X-wh5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1708,7 +1709,7 @@ berada dalam kotak yang ditentukan</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zSG-FI-A48" userLabel="BarView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sI8-rj-e06">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sI8-rj-e06">
                                                 <rect key="frame" x="15" y="8.5" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="28" id="4QJ-9X-sMH"/>
@@ -1767,7 +1768,7 @@ berada dalam kotak yang ditentukan</string>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r5B-JU-cXq">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r5B-JU-cXq">
                                         <rect key="frame" x="83" y="680" width="248" height="45"/>
                                         <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -1809,6 +1810,7 @@ berada dalam kotak yang ditentukan</string>
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="jBI-ON-Nvx"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="jBI-ON-Nvx" firstAttribute="trailing" secondItem="Rl7-Bm-WcV" secondAttribute="trailing" id="EVO-hf-zfK"/>
@@ -1816,7 +1818,6 @@ berada dalam kotak yang ditentukan</string>
                             <constraint firstItem="Rl7-Bm-WcV" firstAttribute="bottom" secondItem="sfk-0X-wh5" secondAttribute="bottom" id="t52-Dj-RKO"/>
                             <constraint firstItem="Rl7-Bm-WcV" firstAttribute="leading" secondItem="jBI-ON-Nvx" secondAttribute="leading" id="wbx-MW-v0e"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="jBI-ON-Nvx"/>
                     </view>
                     <connections>
                         <outlet property="backL" destination="Ssk-Ln-YGQ" id="MHb-ex-9xQ"/>
@@ -1835,7 +1836,7 @@ berada dalam kotak yang ditentukan</string>
         <!--證件拍照-->
         <scene sceneID="fPR-ku-Ayj">
             <objects>
-                <viewController storyboardIdentifier="RegisterIDCameraVC" id="xdu-Yg-fJt" userLabel="證件拍照" customClass="RegisterIDCameraVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterIDCameraVC" id="xdu-Yg-fJt" userLabel="證件拍照" customClass="RegisterIDCameraVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tYz-WZ-j8B">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1846,7 +1847,7 @@ berada dalam kotak yang ditentukan</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="554-pC-mjA" userLabel="BarView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I7h-sN-ztG">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I7h-sN-ztG">
                                                 <rect key="frame" x="15" y="8.5" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="28" id="uZ2-au-Fwy"/>
@@ -1905,7 +1906,7 @@ berada dalam kotak yang ditentukan</string>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AOf-Ik-g4R">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AOf-Ik-g4R">
                                         <rect key="frame" x="157" y="680" width="100" height="100"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -1922,7 +1923,7 @@ berada dalam kotak yang ditentukan</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Do5-Us-WTW">
                                         <rect key="frame" x="0.0" y="680" width="414" height="100"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XJ6-3J-aDD">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XJ6-3J-aDD">
                                                 <rect key="frame" x="41" y="27.5" width="145" height="45"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="45" id="PbK-zC-V5A"/>
@@ -1935,7 +1936,7 @@ berada dalam kotak yang ditentukan</string>
                                                     <action selector="cancelAction:" destination="xdu-Yg-fJt" eventType="touchUpInside" id="jO5-BL-g6K"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RlL-Am-6G5">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RlL-Am-6G5">
                                                 <rect key="frame" x="228" y="27.5" width="145" height="45"/>
                                                 <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -1991,6 +1992,7 @@ berada dalam kotak yang ditentukan</string>
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="E9e-e0-4iI"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="iZr-2D-WgX" firstAttribute="bottom" secondItem="tYz-WZ-j8B" secondAttribute="bottom" id="4gt-j1-OE0"/>
@@ -1998,7 +2000,6 @@ berada dalam kotak yang ditentukan</string>
                             <constraint firstItem="E9e-e0-4iI" firstAttribute="trailing" secondItem="iZr-2D-WgX" secondAttribute="trailing" id="WtR-D9-izw"/>
                             <constraint firstItem="iZr-2D-WgX" firstAttribute="leading" secondItem="E9e-e0-4iI" secondAttribute="leading" id="rHm-ri-bue"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="E9e-e0-4iI"/>
                     </view>
                     <connections>
                         <outlet property="backL" destination="8xW-ts-Nof" id="hcj-GY-uGz"/>
@@ -2022,7 +2023,7 @@ berada dalam kotak yang ditentukan</string>
         <!--註冊(拍持證照)-->
         <scene sceneID="D5O-WK-4gy">
             <objects>
-                <viewController storyboardIdentifier="RegisterIDSignVC" id="W6G-Qe-Mxp" userLabel="註冊(拍持證照)" customClass="RegisterIDSignVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterIDSignVC" id="W6G-Qe-Mxp" userLabel="註冊(拍持證照)" customClass="RegisterIDSignVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="klr-1h-kJh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2033,7 +2034,7 @@ berada dalam kotak yang ditentukan</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tfe-7b-XoO" userLabel="BarView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="35s-u6-kuy">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="35s-u6-kuy">
                                                 <rect key="frame" x="15" y="8.5" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="28" id="jl1-6c-nlO"/>
@@ -2095,7 +2096,7 @@ berada dalam kotak yang ditentukan</string>
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="man_with_id_1.png" translatesAutoresizingMaskIntoConstraints="NO" id="iOp-iZ-Dve">
                                                                         <rect key="frame" x="5" y="55" width="364" height="221.5"/>
                                                                     </imageView>
-                                                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="68G-cO-q5X">
+                                                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="68G-cO-q5X">
                                                                         <rect key="frame" x="5" y="55" width="364" height="221.5"/>
                                                                         <connections>
                                                                             <action selector="takeFirstPhoto:" destination="W6G-Qe-Mxp" eventType="touchUpInside" id="Iu0-yR-U7q"/>
@@ -2154,7 +2155,7 @@ berada dalam kotak yang ditentukan</string>
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="take_visa.png" translatesAutoresizingMaskIntoConstraints="NO" id="zi5-ac-Fjq">
                                                                         <rect key="frame" x="5" y="55" width="364" height="222"/>
                                                                     </imageView>
-                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="usd-r2-ev8">
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="usd-r2-ev8">
                                                                         <rect key="frame" x="5" y="55" width="364" height="222"/>
                                                                         <connections>
                                                                             <action selector="takeSecPhoto:" destination="W6G-Qe-Mxp" eventType="touchUpInside" id="5Im-hH-bdH"/>
@@ -2213,7 +2214,7 @@ berada dalam kotak yang ditentukan</string>
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="signature_1.png" translatesAutoresizingMaskIntoConstraints="NO" id="4ds-6z-RYq">
                                                                         <rect key="frame" x="5" y="55" width="364" height="74.5"/>
                                                                     </imageView>
-                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i4w-My-cVs">
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i4w-My-cVs">
                                                                         <rect key="frame" x="5" y="55" width="364" height="74.5"/>
                                                                         <connections>
                                                                             <action selector="signAction:" destination="W6G-Qe-Mxp" eventType="touchUpInside" id="rya-wB-eZm"/>
@@ -2247,7 +2248,7 @@ berada dalam kotak yang ditentukan</string>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cQI-EY-GIU">
                                                         <rect key="frame" x="0.0" y="758" width="414" height="70"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lwf-Nj-2aS" userLabel="NextButton">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lwf-Nj-2aS" userLabel="NextButton">
                                                                 <rect key="frame" x="83" y="20" width="248" height="45"/>
                                                                 <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <constraints>
@@ -2299,6 +2300,7 @@ berada dalam kotak yang ditentukan</string>
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="JCL-PV-edV"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Dex-Up-fE3" firstAttribute="leading" secondItem="JCL-PV-edV" secondAttribute="leading" id="08d-pQ-MCv"/>
@@ -2306,7 +2308,6 @@ berada dalam kotak yang ditentukan</string>
                             <constraint firstItem="JCL-PV-edV" firstAttribute="trailing" secondItem="Dex-Up-fE3" secondAttribute="trailing" id="B9t-ve-B8O"/>
                             <constraint firstItem="Dex-Up-fE3" firstAttribute="top" secondItem="JCL-PV-edV" secondAttribute="top" id="tEx-8E-iIc"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="JCL-PV-edV"/>
                     </view>
                     <connections>
                         <outlet property="backL" destination="8Xf-rS-tql" id="Cso-SK-zeS"/>
@@ -2329,7 +2330,7 @@ berada dalam kotak yang ditentukan</string>
         <!--持證拍照說明-->
         <scene sceneID="iCp-rM-M66">
             <objects>
-                <viewController storyboardIdentifier="RegisterIDWithSelfIntroVC" id="TbY-CJ-oxp" userLabel="持證拍照說明" customClass="RegisterIDWithSelfIntroVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterIDWithSelfIntroVC" id="TbY-CJ-oxp" userLabel="持證拍照說明" customClass="RegisterIDWithSelfIntroVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BX3-cx-qeb">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2340,7 +2341,7 @@ berada dalam kotak yang ditentukan</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hSY-GW-99r" userLabel="BarView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S7L-WF-q6D">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S7L-WF-q6D">
                                                 <rect key="frame" x="15" y="8.5" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="28" id="Ozt-j7-bU3"/>
@@ -2381,7 +2382,7 @@ berada dalam kotak yang ditentukan</string>
                                             <constraint firstAttribute="width" secondItem="hDQ-PG-71N" secondAttribute="height" multiplier="375:438" id="rfU-d9-1Ya"/>
                                         </constraints>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qcb-To-K6M">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qcb-To-K6M">
                                         <rect key="frame" x="83" y="558.5" width="248" height="45"/>
                                         <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -2418,6 +2419,7 @@ berada dalam kotak yang ditentukan</string>
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="qCN-rP-QqF"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="qCN-rP-QqF" firstAttribute="trailing" secondItem="Dah-cl-HcC" secondAttribute="trailing" id="0SS-vu-qB1"/>
@@ -2425,7 +2427,6 @@ berada dalam kotak yang ditentukan</string>
                             <constraint firstItem="Dah-cl-HcC" firstAttribute="bottom" secondItem="BX3-cx-qeb" secondAttribute="bottom" id="CdO-4f-dfL"/>
                             <constraint firstItem="Dah-cl-HcC" firstAttribute="leading" secondItem="qCN-rP-QqF" secondAttribute="leading" id="Ggb-5p-ZMi"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="qCN-rP-QqF"/>
                     </view>
                     <connections>
                         <outlet property="backL" destination="EWh-gE-AhD" id="MH1-xU-UMl"/>
@@ -2442,7 +2443,7 @@ berada dalam kotak yang ditentukan</string>
         <!--證件拍照-->
         <scene sceneID="NoU-7s-ebR">
             <objects>
-                <viewController storyboardIdentifier="RegisterMakeSignVC" id="Paz-VH-Any" userLabel="證件拍照" customClass="RegisterMakeSignVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterMakeSignVC" id="Paz-VH-Any" userLabel="證件拍照" customClass="RegisterMakeSignVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="va3-Mv-UwO">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2453,7 +2454,7 @@ berada dalam kotak yang ditentukan</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p3a-gI-l1s" userLabel="BarView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c4N-xG-ZoC">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c4N-xG-ZoC">
                                                 <rect key="frame" x="15" y="8.5" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="28" id="hrY-XQ-Q7S"/>
@@ -2483,7 +2484,7 @@ berada dalam kotak yang ditentukan</string>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y5C-ov-jw8" customClass="SwiftSignatureView" customModule="SwiftSignatureView">
                                         <rect key="frame" x="10" y="115" width="394" height="295.5"/>
-                                        <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Y5C-ov-jw8" secondAttribute="height" multiplier="4:3" id="V4A-AP-KEe"/>
                                         </constraints>
@@ -2502,7 +2503,7 @@ berada dalam kotak yang ditentukan</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I2u-f3-VNp">
                                         <rect key="frame" x="0.0" y="410.5" width="414" height="100"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qyr-Z8-mw9">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qyr-Z8-mw9">
                                                 <rect key="frame" x="41" y="27.5" width="145" height="45"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="45" id="1sg-pb-KeM"/>
@@ -2515,7 +2516,7 @@ berada dalam kotak yang ditentukan</string>
                                                     <action selector="cancelAction:" destination="Paz-VH-Any" eventType="touchUpInside" id="wmS-EC-7Kk"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jYc-Dc-C40">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jYc-Dc-C40">
                                                 <rect key="frame" x="228" y="27.5" width="145" height="45"/>
                                                 <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -2559,6 +2560,7 @@ berada dalam kotak yang ditentukan</string>
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="LHN-fB-7qJ"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="L1c-qZ-wM8" firstAttribute="bottom" secondItem="va3-Mv-UwO" secondAttribute="bottom" id="4o8-em-4T2"/>
@@ -2566,7 +2568,6 @@ berada dalam kotak yang ditentukan</string>
                             <constraint firstItem="LHN-fB-7qJ" firstAttribute="trailing" secondItem="L1c-qZ-wM8" secondAttribute="trailing" id="i6o-v0-XWC"/>
                             <constraint firstItem="L1c-qZ-wM8" firstAttribute="leading" secondItem="LHN-fB-7qJ" secondAttribute="leading" id="lov-UV-HZh"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="LHN-fB-7qJ"/>
                     </view>
                     <connections>
                         <outlet property="backL" destination="0Ka-EF-VWM" id="fEK-yM-Zo9"/>
@@ -2584,7 +2585,7 @@ berada dalam kotak yang ditentukan</string>
         <!--註冊(輸入驗證碼)-->
         <scene sceneID="iaj-eA-E34">
             <objects>
-                <viewController storyboardIdentifier="RegisterEnterSMSCodeVC" id="4b1-9H-VrG" userLabel="註冊(輸入驗證碼)" customClass="RegisterEnterSMSCodeVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterEnterSMSCodeVC" id="4b1-9H-VrG" userLabel="註冊(輸入驗證碼)" customClass="RegisterEnterSMSCodeVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HOo-GA-57x">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2595,7 +2596,7 @@ berada dalam kotak yang ditentukan</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FLb-tG-FXt" userLabel="BarView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3nt-Jz-e4N">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3nt-Jz-e4N">
                                                 <rect key="frame" x="15" y="8.5" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="28" id="1h0-I8-fOg"/>
@@ -2637,7 +2638,7 @@ Anda dibawah ini :</string>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hnj-qB-ubs" userLabel="NextBtn">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hnj-qB-ubs" userLabel="NextBtn">
                                         <rect key="frame" x="70" y="306" width="244" height="40"/>
                                         <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -2658,7 +2659,7 @@ Anda dibawah ini :</string>
                                             <constraint firstAttribute="width" constant="30" id="peN-XK-0n5"/>
                                         </constraints>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U3g-nc-JvE">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U3g-nc-JvE">
                                         <rect key="frame" x="62" y="386" width="290" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="EQh-xF-7Ta"/>
@@ -2706,6 +2707,7 @@ Anda dibawah ini :</string>
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="m23-B9-5Me"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="6Zu-aT-1hi" firstAttribute="leading" secondItem="m23-B9-5Me" secondAttribute="leading" id="59q-nc-dvf"/>
@@ -2713,7 +2715,6 @@ Anda dibawah ini :</string>
                             <constraint firstItem="6Zu-aT-1hi" firstAttribute="top" secondItem="m23-B9-5Me" secondAttribute="top" id="ecV-fK-sJ7"/>
                             <constraint firstItem="m23-B9-5Me" firstAttribute="trailing" secondItem="6Zu-aT-1hi" secondAttribute="trailing" id="foC-rC-hBI"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="m23-B9-5Me"/>
                     </view>
                     <connections>
                         <outlet property="allCodeTextField" destination="Zvb-g5-4d4" id="ggD-DW-m8G"/>
@@ -2731,7 +2732,7 @@ Anda dibawah ini :</string>
         <!--證件拍照掃描說明(小)-->
         <scene sceneID="crP-VO-bfR">
             <objects>
-                <viewController storyboardIdentifier="RegisterIDTakeIntroVCSmall" id="1p1-IE-Ea8" userLabel="證件拍照掃描說明(小)" customClass="RegisterIDTakeIntroVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterIDTakeIntroVCSmall" id="1p1-IE-Ea8" userLabel="證件拍照掃描說明(小)" customClass="RegisterIDTakeIntroVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Keb-bK-Y1d">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2742,7 +2743,7 @@ Anda dibawah ini :</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l6i-8L-ba2" userLabel="BarView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CQw-mW-xCm">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CQw-mW-xCm">
                                                 <rect key="frame" x="15" y="8.5" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="28" id="NEN-bT-JEW"/>
@@ -2801,7 +2802,7 @@ berada dalam kotak yang ditentukan</string>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wqA-hl-Azp">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wqA-hl-Azp">
                                         <rect key="frame" x="83" y="609.5" width="248" height="45"/>
                                         <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -2843,6 +2844,7 @@ berada dalam kotak yang ditentukan</string>
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="6GU-Ji-jXJ"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="j3q-dD-HT7" firstAttribute="bottom" secondItem="Keb-bK-Y1d" secondAttribute="bottom" id="2xK-C5-OUt"/>
@@ -2850,7 +2852,6 @@ berada dalam kotak yang ditentukan</string>
                             <constraint firstItem="j3q-dD-HT7" firstAttribute="top" secondItem="6GU-Ji-jXJ" secondAttribute="top" id="e8f-yu-sOx"/>
                             <constraint firstItem="j3q-dD-HT7" firstAttribute="leading" secondItem="6GU-Ji-jXJ" secondAttribute="leading" id="xpZ-YM-b6y"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6GU-Ji-jXJ"/>
                     </view>
                     <connections>
                         <outlet property="backL" destination="p0I-KO-e4B" id="CNe-RQ-PwH"/>
@@ -2869,7 +2870,7 @@ berada dalam kotak yang ditentukan</string>
         <!--證件拍照(小)-->
         <scene sceneID="Iqq-2S-HkC">
             <objects>
-                <viewController storyboardIdentifier="RegisterIDCameraVCSmall" id="A6m-Cn-BR9" userLabel="證件拍照(小)" customClass="RegisterIDCameraVC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterIDCameraVCSmall" id="A6m-Cn-BR9" userLabel="證件拍照(小)" customClass="RegisterIDCameraVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VMH-Vi-6bb">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2880,7 +2881,7 @@ berada dalam kotak yang ditentukan</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wcb-Ci-iT1" userLabel="BarView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xGh-je-Mh6">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xGh-je-Mh6">
                                                 <rect key="frame" x="15" y="8.5" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="28" id="SoO-DU-zZ3"/>
@@ -2939,7 +2940,7 @@ berada dalam kotak yang ditentukan</string>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lnw-Gz-Hug">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lnw-Gz-Hug">
                                         <rect key="frame" x="172" y="589.5" width="70" height="70"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -2956,7 +2957,7 @@ berada dalam kotak yang ditentukan</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bum-f1-JtZ">
                                         <rect key="frame" x="0.0" y="589.5" width="414" height="70"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yMR-Sh-PF2">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yMR-Sh-PF2">
                                                 <rect key="frame" x="41" y="12.5" width="145" height="45"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="45" id="wNy-kf-Aey"/>
@@ -2969,7 +2970,7 @@ berada dalam kotak yang ditentukan</string>
                                                     <action selector="cancelAction:" destination="A6m-Cn-BR9" eventType="touchUpInside" id="1gR-Ea-aIw"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4G9-Rs-A4Q">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4G9-Rs-A4Q">
                                                 <rect key="frame" x="228" y="12.5" width="145" height="45"/>
                                                 <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -3025,6 +3026,7 @@ berada dalam kotak yang ditentukan</string>
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="CpZ-rE-zRV"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="CAW-C3-idV" firstAttribute="leading" secondItem="CpZ-rE-zRV" secondAttribute="leading" id="Fvh-CM-KM0"/>
@@ -3032,7 +3034,6 @@ berada dalam kotak yang ditentukan</string>
                             <constraint firstItem="CAW-C3-idV" firstAttribute="bottom" secondItem="VMH-Vi-6bb" secondAttribute="bottom" id="Lf6-AY-jvY"/>
                             <constraint firstItem="CpZ-rE-zRV" firstAttribute="trailing" secondItem="CAW-C3-idV" secondAttribute="trailing" id="rey-ev-goC"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="CpZ-rE-zRV"/>
                     </view>
                     <connections>
                         <outlet property="backL" destination="QK4-DH-LWu" id="6G1-et-xC8"/>
@@ -3056,7 +3057,7 @@ berada dalam kotak yang ditentukan</string>
         <!--註冊(拍持證照Step2)-->
         <scene sceneID="kTd-Up-g4M">
             <objects>
-                <viewController storyboardIdentifier="RegisterIDAndSelfPhotoStep2VC" id="rw4-ZH-eCl" userLabel="註冊(拍持證照Step2)" customClass="RegisterIDAndSelfPhotoStep2VC" customModule="indogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterIDAndSelfPhotoStep2VC" id="rw4-ZH-eCl" userLabel="註冊(拍持證照Step2)" customClass="RegisterIDAndSelfPhotoStep2VC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Zqb-Er-ymH">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3067,7 +3068,7 @@ berada dalam kotak yang ditentukan</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fJM-xK-nhq" userLabel="BarView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I3n-bp-lg6">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I3n-bp-lg6">
                                                 <rect key="frame" x="15" y="8.5" width="28" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="28" id="4CK-DN-ZNJ"/>
@@ -3128,7 +3129,7 @@ berada dalam kotak yang ditentukan</string>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LBa-gw-pPK">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LBa-gw-pPK">
                                         <rect key="frame" x="217" y="737" width="147" height="45"/>
                                         <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -3142,7 +3143,7 @@ berada dalam kotak yang ditentukan</string>
                                             <action selector="nextAction:" destination="rw4-ZH-eCl" eventType="touchUpInside" id="fir-xe-VtG"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FxY-cB-2NR" userLabel="CancelBtn">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FxY-cB-2NR" userLabel="CancelBtn">
                                         <rect key="frame" x="50" y="737" width="147" height="45"/>
                                         <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -3179,6 +3180,7 @@ berada dalam kotak yang ditentukan</string>
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="RuA-VC-6cI"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="RuA-VC-6cI" firstAttribute="trailing" secondItem="mwc-Qk-LVG" secondAttribute="trailing" id="gpi-rO-njk"/>
@@ -3186,7 +3188,6 @@ berada dalam kotak yang ditentukan</string>
                             <constraint firstItem="mwc-Qk-LVG" firstAttribute="leading" secondItem="RuA-VC-6cI" secondAttribute="leading" id="tCd-SU-FDY"/>
                             <constraint firstItem="mwc-Qk-LVG" firstAttribute="bottom" secondItem="Zqb-Er-ymH" secondAttribute="bottom" id="vQG-lj-rBu"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="RuA-VC-6cI"/>
                     </view>
                     <connections>
                         <outlet property="backL" destination="U9D-zL-kdv" id="imJ-rm-aGx"/>
@@ -3201,6 +3202,670 @@ berada dalam kotak yang ditentukan</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="laF-jb-0Td" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1867" y="783"/>
+        </scene>
+        <!--更改資料前警語-->
+        <scene sceneID="I2P-HT-dp2">
+            <objects>
+                <viewController storyboardIdentifier="MemberChangeDataIntroVC" id="gzM-4N-9Pr" userLabel="更改資料前警語" customClass="MemberChangeDataIntroVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="neo-h9-Dqd">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GQw-zd-efu">
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ErR-fW-48G" userLabel="BarView">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgv-6i-oKr">
+                                                <rect key="frame" x="15" y="8.5" width="28" height="28"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="28" id="g3i-zk-Wdh"/>
+                                                    <constraint firstAttribute="width" constant="28" id="nJx-S5-8UA"/>
+                                                </constraints>
+                                                <state key="normal" backgroundImage="previous.png"/>
+                                                <connections>
+                                                    <action selector="backAction:" destination="gzM-4N-9Pr" eventType="touchUpInside" id="kCU-VV-mRH"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="KEMBALI" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cAV-2C-MYH">
+                                                <rect key="frame" x="63" y="13.5" width="63" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="cAV-2C-MYH" firstAttribute="leading" secondItem="kgv-6i-oKr" secondAttribute="trailing" constant="20" id="28P-8l-Ol5"/>
+                                            <constraint firstItem="cAV-2C-MYH" firstAttribute="centerY" secondItem="ErR-fW-48G" secondAttribute="centerY" id="8MU-gg-13W"/>
+                                            <constraint firstItem="kgv-6i-oKr" firstAttribute="leading" secondItem="ErR-fW-48G" secondAttribute="leading" constant="15" id="U5h-1U-G9S"/>
+                                            <constraint firstItem="kgv-6i-oKr" firstAttribute="centerY" secondItem="ErR-fW-48G" secondAttribute="centerY" id="c70-lO-6iI"/>
+                                            <constraint firstAttribute="height" constant="45" id="fEL-iU-hOY"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cAV-2C-MYH" secondAttribute="trailing" constant="20" symbolic="YES" id="lr0-eU-lWh"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wdF-4u-6GR" userLabel="Title">
+                                        <rect key="frame" x="20" y="65" width="374" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gsW-jf-KrQ">
+                                        <rect key="frame" x="20" y="115" width="374" height="36"/>
+                                        <string key="text">Silahkan scan Barcode ARC
+Anda dibawah ini :</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Eh-G2-HJt" userLabel="phone">
+                                        <rect key="frame" x="113" y="181" width="188.5" height="18"/>
+                                        <string key="text">Silahkan scan Barcode ARC
+Anda dibawah ini :</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7g1-dp-ZaI" userLabel="second">
+                                        <rect key="frame" x="113" y="229" width="188.5" height="36"/>
+                                        <string key="text">Silahkan scan Barcode ARC
+Anda dibawah ini :</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OAW-Ux-X3B">
+                                        <rect key="frame" x="103.5" y="295" width="207" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="oD9-3E-7Su"/>
+                                        </constraints>
+                                        <state key="normal" title="Button">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="saN-It-6B1" userLabel="NextBtn">
+                                        <rect key="frame" x="103.5" y="375" width="207" height="40"/>
+                                        <color key="backgroundColor" red="0.74015587569999997" green="0.085361562670000002" blue="0.12797230479999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="jFM-7l-3RQ"/>
+                                        </constraints>
+                                        <state key="normal" title="Button">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="nextAction:" destination="gzM-4N-9Pr" eventType="touchUpInside" id="irh-lR-yXO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="wdF-4u-6GR" firstAttribute="top" secondItem="ErR-fW-48G" secondAttribute="bottom" constant="20" id="7Z3-aI-yjg"/>
+                                    <constraint firstItem="saN-It-6B1" firstAttribute="width" secondItem="OAW-Ux-X3B" secondAttribute="width" id="A1E-TY-c9A"/>
+                                    <constraint firstItem="8Eh-G2-HJt" firstAttribute="centerX" secondItem="GQw-zd-efu" secondAttribute="centerX" id="AZf-cI-KNa"/>
+                                    <constraint firstItem="wdF-4u-6GR" firstAttribute="leading" secondItem="gsW-jf-KrQ" secondAttribute="leading" id="CP4-bH-12o"/>
+                                    <constraint firstItem="7g1-dp-ZaI" firstAttribute="centerX" secondItem="GQw-zd-efu" secondAttribute="centerX" id="Gzz-w3-6ki"/>
+                                    <constraint firstItem="gsW-jf-KrQ" firstAttribute="top" secondItem="wdF-4u-6GR" secondAttribute="bottom" constant="20" id="JeD-yv-bfy"/>
+                                    <constraint firstItem="saN-It-6B1" firstAttribute="top" secondItem="OAW-Ux-X3B" secondAttribute="bottom" constant="40" id="SFe-rN-119"/>
+                                    <constraint firstItem="7g1-dp-ZaI" firstAttribute="top" secondItem="8Eh-G2-HJt" secondAttribute="bottom" constant="30" id="YPi-Qj-faW"/>
+                                    <constraint firstItem="ErR-fW-48G" firstAttribute="top" secondItem="GQw-zd-efu" secondAttribute="top" id="YQu-8G-CUQ"/>
+                                    <constraint firstItem="OAW-Ux-X3B" firstAttribute="centerX" secondItem="gsW-jf-KrQ" secondAttribute="centerX" id="aWQ-hM-HyG"/>
+                                    <constraint firstItem="8Eh-G2-HJt" firstAttribute="top" secondItem="gsW-jf-KrQ" secondAttribute="bottom" constant="30" id="ieD-r7-U2h"/>
+                                    <constraint firstAttribute="trailing" secondItem="ErR-fW-48G" secondAttribute="trailing" id="lkA-B6-b4p"/>
+                                    <constraint firstItem="gsW-jf-KrQ" firstAttribute="leading" secondItem="GQw-zd-efu" secondAttribute="leading" constant="20" id="m1N-m2-bu8"/>
+                                    <constraint firstItem="OAW-Ux-X3B" firstAttribute="top" secondItem="7g1-dp-ZaI" secondAttribute="bottom" constant="30" id="muo-lW-xrg"/>
+                                    <constraint firstItem="saN-It-6B1" firstAttribute="centerX" secondItem="GQw-zd-efu" secondAttribute="centerX" id="nTh-ah-pbw"/>
+                                    <constraint firstItem="ErR-fW-48G" firstAttribute="leading" secondItem="GQw-zd-efu" secondAttribute="leading" id="nq9-O8-nly"/>
+                                    <constraint firstItem="OAW-Ux-X3B" firstAttribute="width" secondItem="GQw-zd-efu" secondAttribute="width" multiplier="0.5" id="rCS-Nu-jDe"/>
+                                    <constraint firstItem="wdF-4u-6GR" firstAttribute="trailing" secondItem="gsW-jf-KrQ" secondAttribute="trailing" id="uO4-bq-kOT"/>
+                                    <constraint firstAttribute="trailing" secondItem="gsW-jf-KrQ" secondAttribute="trailing" constant="20" id="v0x-he-5Km"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="TpG-gI-mQN"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="TpG-gI-mQN" firstAttribute="trailing" secondItem="GQw-zd-efu" secondAttribute="trailing" id="HUZ-zA-LHj"/>
+                            <constraint firstItem="GQw-zd-efu" firstAttribute="bottom" secondItem="neo-h9-Dqd" secondAttribute="bottom" id="HsZ-VK-zaZ"/>
+                            <constraint firstItem="GQw-zd-efu" firstAttribute="top" secondItem="TpG-gI-mQN" secondAttribute="top" id="Rh4-PX-M4X"/>
+                            <constraint firstItem="GQw-zd-efu" firstAttribute="leading" secondItem="TpG-gI-mQN" secondAttribute="leading" id="VTy-la-7xY"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="backL" destination="cAV-2C-MYH" id="3ic-nB-Nav"/>
+                        <outlet property="nextBtn" destination="saN-It-6B1" id="fw9-Bl-uYe"/>
+                        <outlet property="phoneL" destination="8Eh-G2-HJt" id="yvN-wa-Ge5"/>
+                        <outlet property="sendAgainBtn" destination="OAW-Ux-X3B" id="4Qj-s1-s3f"/>
+                        <outlet property="titleL" destination="wdF-4u-6GR" id="IyH-aW-xfa"/>
+                        <outlet property="top2L" destination="7g1-dp-ZaI" id="Au0-LE-1sx"/>
+                        <outlet property="topL" destination="gsW-jf-KrQ" id="33q-in-raT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MF5-gS-yJ9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6364" y="783"/>
+        </scene>
+        <!--更改電話-->
+        <scene sceneID="xH7-jr-f3p">
+            <objects>
+                <viewController storyboardIdentifier="MemberChangePhoneIntroVC" id="VcY-eZ-SvZ" userLabel="更改電話" customClass="MemberChangePhoneIntroVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="j37-Tw-uth">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SvO-sc-WFy" userLabel="BarView">
+                                <rect key="frame" x="0.0" y="44" width="414" height="45"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kxF-ah-9IZ">
+                                        <rect key="frame" x="15" y="8.5" width="28" height="28"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="28" id="sue-dQ-63X"/>
+                                            <constraint firstAttribute="height" constant="28" id="tQp-FZ-GPj"/>
+                                        </constraints>
+                                        <state key="normal" backgroundImage="previous.png"/>
+                                        <connections>
+                                            <action selector="backAction:" destination="VcY-eZ-SvZ" eventType="touchUpInside" id="aG4-vb-l1p"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="KEMBALI" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4rY-fO-cIt">
+                                        <rect key="frame" x="63" y="13.5" width="63" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="kxF-ah-9IZ" firstAttribute="centerY" secondItem="SvO-sc-WFy" secondAttribute="centerY" id="SUS-Sz-1m1"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="4rY-fO-cIt" secondAttribute="trailing" constant="20" symbolic="YES" id="ftC-vO-4LV"/>
+                                    <constraint firstAttribute="height" constant="45" id="k9W-bX-Vhi"/>
+                                    <constraint firstItem="4rY-fO-cIt" firstAttribute="leading" secondItem="kxF-ah-9IZ" secondAttribute="trailing" constant="20" id="q8d-Ds-NE7"/>
+                                    <constraint firstItem="4rY-fO-cIt" firstAttribute="centerY" secondItem="SvO-sc-WFy" secondAttribute="centerY" id="qLA-gL-Mu3"/>
+                                    <constraint firstItem="kxF-ah-9IZ" firstAttribute="leading" secondItem="SvO-sc-WFy" secondAttribute="leading" constant="15" id="wHa-HW-j6o"/>
+                                </constraints>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q11-bF-Psz">
+                                <rect key="frame" x="0.0" y="89" width="414" height="807"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="KL1-W6-ctk">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="525"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bMB-1K-qGv">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="35"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="35" id="bhE-a7-VVM"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gJq-4d-o66">
+                                                <rect key="frame" x="0.0" y="35" width="414" height="95"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xpl-4m-lc6">
+                                                        <rect key="frame" x="65" y="0.0" width="37.5" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6jQ-1d-Jux">
+                                                        <rect key="frame" x="50" y="25.5" width="314" height="44"/>
+                                                        <color key="backgroundColor" red="0.30754500629999998" green="0.32042944429999998" blue="0.35411232710000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="44" id="4ha-lW-6fd"/>
+                                                        </constraints>
+                                                    </button>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phone.png" translatesAutoresizingMaskIntoConstraints="NO" id="HHI-ao-AiA">
+                                                        <rect key="frame" x="56" y="34.5" width="26" height="26"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="26" id="h42-1J-3TX"/>
+                                                            <constraint firstAttribute="width" constant="26" id="zRW-QK-pT5"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sbd-6l-D4d">
+                                                        <rect key="frame" x="92" y="37" width="232" height="21"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
+                                                    </textField>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="6jQ-1d-Jux" firstAttribute="leading" secondItem="gJq-4d-o66" secondAttribute="leading" constant="50" id="49v-FH-3uX"/>
+                                                    <constraint firstItem="6jQ-1d-Jux" firstAttribute="centerY" secondItem="gJq-4d-o66" secondAttribute="centerY" id="5zd-nM-4Ug"/>
+                                                    <constraint firstItem="sbd-6l-D4d" firstAttribute="trailing" secondItem="6jQ-1d-Jux" secondAttribute="trailing" constant="-40" id="6Ho-ix-XL5"/>
+                                                    <constraint firstItem="Xpl-4m-lc6" firstAttribute="top" secondItem="gJq-4d-o66" secondAttribute="top" id="ET8-8H-tyh"/>
+                                                    <constraint firstItem="HHI-ao-AiA" firstAttribute="centerY" secondItem="6jQ-1d-Jux" secondAttribute="centerY" id="Jcj-de-nib"/>
+                                                    <constraint firstItem="sbd-6l-D4d" firstAttribute="leading" secondItem="HHI-ao-AiA" secondAttribute="trailing" constant="10" id="P2y-Hf-xCb"/>
+                                                    <constraint firstItem="sbd-6l-D4d" firstAttribute="centerY" secondItem="HHI-ao-AiA" secondAttribute="centerY" id="ag7-QV-3nJ"/>
+                                                    <constraint firstAttribute="trailing" secondItem="6jQ-1d-Jux" secondAttribute="trailing" constant="50" id="gBV-tB-MVC"/>
+                                                    <constraint firstItem="Xpl-4m-lc6" firstAttribute="leading" secondItem="6jQ-1d-Jux" secondAttribute="leading" constant="15" id="qoO-Xx-2WX"/>
+                                                    <constraint firstItem="HHI-ao-AiA" firstAttribute="leading" secondItem="6jQ-1d-Jux" secondAttribute="leading" constant="6" id="rDa-zV-x35"/>
+                                                    <constraint firstAttribute="height" constant="95" id="tjP-VS-hwN"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ctI-F7-eEA">
+                                                <rect key="frame" x="0.0" y="130" width="414" height="95"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sWx-K7-GnR">
+                                                        <rect key="frame" x="65" y="0.0" width="37.5" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y7z-sz-IRr">
+                                                        <rect key="frame" x="50" y="25.5" width="314" height="44"/>
+                                                        <color key="backgroundColor" red="0.30754500629999998" green="0.32042944429999998" blue="0.35411232710000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="44" id="Tq1-df-v77"/>
+                                                        </constraints>
+                                                    </button>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phone.png" translatesAutoresizingMaskIntoConstraints="NO" id="3Fe-ZR-Odz">
+                                                        <rect key="frame" x="56" y="34.5" width="26" height="26"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="26" id="CoB-F3-Hq0"/>
+                                                            <constraint firstAttribute="height" constant="26" id="qa0-kE-XXw"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b3S-qy-eLD">
+                                                        <rect key="frame" x="92" y="37" width="232" height="21"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
+                                                    </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kh9-JD-Trc">
+                                                        <rect key="frame" x="65" y="77" width="37.5" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <color key="textColor" red="0.74015587569999997" green="0.085361562670000002" blue="0.12797230479999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="b3S-qy-eLD" firstAttribute="trailing" secondItem="Y7z-sz-IRr" secondAttribute="trailing" constant="-40" id="4Yr-tY-6Eq"/>
+                                                    <constraint firstItem="Y7z-sz-IRr" firstAttribute="centerY" secondItem="ctI-F7-eEA" secondAttribute="centerY" id="6wy-Vt-X1L"/>
+                                                    <constraint firstItem="b3S-qy-eLD" firstAttribute="leading" secondItem="3Fe-ZR-Odz" secondAttribute="trailing" constant="10" id="DfJ-3b-xv0"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Kh9-JD-Trc" secondAttribute="bottom" id="Kac-E2-HwV"/>
+                                                    <constraint firstItem="Y7z-sz-IRr" firstAttribute="leading" secondItem="ctI-F7-eEA" secondAttribute="leading" constant="50" id="SAF-kU-1Yr"/>
+                                                    <constraint firstAttribute="height" constant="95" id="TmN-wV-ARx"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Y7z-sz-IRr" secondAttribute="trailing" constant="50" id="Y05-Nn-6nh"/>
+                                                    <constraint firstItem="b3S-qy-eLD" firstAttribute="centerY" secondItem="3Fe-ZR-Odz" secondAttribute="centerY" id="YJo-Tc-jnn"/>
+                                                    <constraint firstItem="sWx-K7-GnR" firstAttribute="top" secondItem="ctI-F7-eEA" secondAttribute="top" id="a40-Yi-xGY"/>
+                                                    <constraint firstItem="3Fe-ZR-Odz" firstAttribute="centerY" secondItem="Y7z-sz-IRr" secondAttribute="centerY" id="ael-MA-WtV"/>
+                                                    <constraint firstItem="Kh9-JD-Trc" firstAttribute="leading" secondItem="Y7z-sz-IRr" secondAttribute="leading" constant="15" id="eJc-wO-Foh"/>
+                                                    <constraint firstItem="sWx-K7-GnR" firstAttribute="leading" secondItem="Y7z-sz-IRr" secondAttribute="leading" constant="15" id="pq5-8D-hsi"/>
+                                                    <constraint firstItem="3Fe-ZR-Odz" firstAttribute="leading" secondItem="Y7z-sz-IRr" secondAttribute="leading" constant="6" id="re6-a3-Boe"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2BU-kX-ZN8">
+                                                <rect key="frame" x="0.0" y="225" width="414" height="100"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0wg-uk-TDp">
+                                                        <rect key="frame" x="103.5" y="48" width="207" height="44"/>
+                                                        <color key="backgroundColor" red="0.74231690169999998" green="0.087496928870000004" blue="0.12861678000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="44" id="7hY-7x-iI7"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                        <state key="normal" title="Masuk">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="nextAction:" destination="VcY-eZ-SvZ" eventType="touchUpInside" id="jnz-y4-3mG"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="0wg-uk-TDp" firstAttribute="centerY" secondItem="2BU-kX-ZN8" secondAttribute="centerY" constant="20" id="Gwp-MZ-VC1"/>
+                                                    <constraint firstItem="0wg-uk-TDp" firstAttribute="centerX" secondItem="2BU-kX-ZN8" secondAttribute="centerX" id="PHH-jI-6Tz"/>
+                                                    <constraint firstAttribute="height" constant="100" id="YkG-wY-8y4"/>
+                                                    <constraint firstItem="0wg-uk-TDp" firstAttribute="width" secondItem="2BU-kX-ZN8" secondAttribute="width" multiplier="0.5" id="ygE-h6-Bbg"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vJw-V3-Dc6">
+                                                <rect key="frame" x="0.0" y="325" width="414" height="50"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="6od-6O-xSv"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OPe-Xr-ukM">
+                                                <rect key="frame" x="0.0" y="375" width="414" height="150"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="150" id="Hib-tJ-l6O"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="KL1-W6-ctk" firstAttribute="width" secondItem="Q11-bF-Psz" secondAttribute="width" id="2C2-iO-Vls"/>
+                                    <constraint firstAttribute="bottom" secondItem="KL1-W6-ctk" secondAttribute="bottom" id="51B-X8-GM3"/>
+                                    <constraint firstItem="KL1-W6-ctk" firstAttribute="leading" secondItem="Q11-bF-Psz" secondAttribute="leading" id="bw6-jf-OYl"/>
+                                    <constraint firstAttribute="trailing" secondItem="KL1-W6-ctk" secondAttribute="trailing" id="fUo-5a-obU"/>
+                                    <constraint firstItem="KL1-W6-ctk" firstAttribute="top" secondItem="Q11-bF-Psz" secondAttribute="top" id="rzR-TX-X2l"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="hDh-hh-ukS"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="hDh-hh-ukS" firstAttribute="trailing" secondItem="Q11-bF-Psz" secondAttribute="trailing" id="BeG-Mo-dCQ"/>
+                            <constraint firstItem="SvO-sc-WFy" firstAttribute="top" secondItem="hDh-hh-ukS" secondAttribute="top" id="FhR-iy-Cpo"/>
+                            <constraint firstItem="hDh-hh-ukS" firstAttribute="trailing" secondItem="SvO-sc-WFy" secondAttribute="trailing" id="Nga-Z9-2IE"/>
+                            <constraint firstItem="Q11-bF-Psz" firstAttribute="top" secondItem="SvO-sc-WFy" secondAttribute="bottom" id="RuV-Sf-AQF"/>
+                            <constraint firstAttribute="bottom" secondItem="Q11-bF-Psz" secondAttribute="bottom" id="Ub4-cA-pdx"/>
+                            <constraint firstItem="SvO-sc-WFy" firstAttribute="leading" secondItem="hDh-hh-ukS" secondAttribute="leading" id="sYR-sb-XNn"/>
+                            <constraint firstItem="Q11-bF-Psz" firstAttribute="leading" secondItem="hDh-hh-ukS" secondAttribute="leading" id="syN-3W-0bM"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="9zc-TP-Vbk"/>
+                    <connections>
+                        <outlet property="backL" destination="4rY-fO-cIt" id="xZD-uY-9t4"/>
+                        <outlet property="inputMoreSpaceView" destination="OPe-Xr-ukM" id="T2R-f6-BlS"/>
+                        <outlet property="phoneBtn" destination="6jQ-1d-Jux" id="QCv-dd-Fta"/>
+                        <outlet property="phoneNewBtn" destination="Y7z-sz-IRr" id="rEt-O8-Sp7"/>
+                        <outlet property="phoneNewTextfield" destination="b3S-qy-eLD" id="hOe-oL-QGW"/>
+                        <outlet property="phoneNewTitle" destination="sWx-K7-GnR" id="NxQ-rA-aDb"/>
+                        <outlet property="phoneNewView" destination="ctI-F7-eEA" id="YNp-Ps-Eo7"/>
+                        <outlet property="phoneNewWarnL" destination="Kh9-JD-Trc" id="S7G-1e-Eco"/>
+                        <outlet property="phoneTextfield" destination="sbd-6l-D4d" id="cx1-9l-QRH"/>
+                        <outlet property="phoneTitle" destination="Xpl-4m-lc6" id="brL-aW-M4g"/>
+                        <outlet property="phoneView" destination="gJq-4d-o66" id="1JC-oL-6SW"/>
+                        <outlet property="registerBtn" destination="0wg-uk-TDp" id="n18-Eq-eFc"/>
+                        <outlet property="topScrollView" destination="Q11-bF-Psz" id="cVj-4F-nfA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U5X-0a-3uI" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3412" y="122"/>
+        </scene>
+        <!--註冊新增生日-->
+        <scene sceneID="jHG-i6-YnQ">
+            <objects>
+                <viewController storyboardIdentifier="RegisterAddDateVC" id="zJe-ee-OtJ" userLabel="註冊新增生日" customClass="RegisterAddDateVC" customModule="IndoGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Tk4-Gr-epo">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oxf-aY-COi" userLabel="BarView">
+                                <rect key="frame" x="0.0" y="44" width="414" height="45"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vDG-Tk-d3b">
+                                        <rect key="frame" x="15" y="8.5" width="28" height="28"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="28" id="8wF-6O-EYT"/>
+                                            <constraint firstAttribute="width" constant="28" id="zi1-l6-dEa"/>
+                                        </constraints>
+                                        <state key="normal" backgroundImage="previous.png"/>
+                                        <connections>
+                                            <action selector="backAction:" destination="zJe-ee-OtJ" eventType="touchUpInside" id="ugg-bQ-gnt"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="KEMBALI" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8oI-vh-MOq">
+                                        <rect key="frame" x="63" y="13.5" width="63" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="4vW-xQ-dq8"/>
+                                    <constraint firstItem="8oI-vh-MOq" firstAttribute="centerY" secondItem="oxf-aY-COi" secondAttribute="centerY" id="Me1-Us-4cr"/>
+                                    <constraint firstItem="vDG-Tk-d3b" firstAttribute="centerY" secondItem="oxf-aY-COi" secondAttribute="centerY" id="Si2-Lj-beq"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="8oI-vh-MOq" secondAttribute="trailing" constant="20" symbolic="YES" id="UUU-rD-bFq"/>
+                                    <constraint firstItem="8oI-vh-MOq" firstAttribute="leading" secondItem="vDG-Tk-d3b" secondAttribute="trailing" constant="20" id="dO6-9F-UIx"/>
+                                    <constraint firstItem="vDG-Tk-d3b" firstAttribute="leading" secondItem="oxf-aY-COi" secondAttribute="leading" constant="15" id="eut-Vc-aDj"/>
+                                </constraints>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3El-Ec-Xld">
+                                <rect key="frame" x="0.0" y="89" width="414" height="807"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="iIb-jJ-EcY">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="645"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MyM-9U-CCz">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="20"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="20" id="KKc-Jz-P0L"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cy5-gf-Xvc">
+                                                <rect key="frame" x="0.0" y="20" width="414" height="85"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hrK-rS-91R">
+                                                        <rect key="frame" x="73" y="31.5" width="268" height="22"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="barEmpty.png" translatesAutoresizingMaskIntoConstraints="NO" id="gOJ-z2-o2B">
+                                                        <rect key="frame" x="66" y="8.5" width="282" height="68"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="282" id="Tyk-qR-uvD"/>
+                                                            <constraint firstAttribute="height" constant="68" id="acn-ly-sbd"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cO3-c9-J3D">
+                                                        <rect key="frame" x="73" y="31.5" width="268" height="22"/>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="cO3-c9-J3D" firstAttribute="centerY" secondItem="hrK-rS-91R" secondAttribute="centerY" id="0Ya-NN-raS"/>
+                                                    <constraint firstItem="hrK-rS-91R" firstAttribute="centerX" secondItem="gOJ-z2-o2B" secondAttribute="centerX" id="3Fx-Re-bfI"/>
+                                                    <constraint firstAttribute="height" constant="85" id="94F-SA-UbU"/>
+                                                    <constraint firstItem="hrK-rS-91R" firstAttribute="centerY" secondItem="gOJ-z2-o2B" secondAttribute="centerY" id="CrH-0n-KVY"/>
+                                                    <constraint firstItem="gOJ-z2-o2B" firstAttribute="centerX" secondItem="Cy5-gf-Xvc" secondAttribute="centerX" id="O6P-Az-PRF"/>
+                                                    <constraint firstItem="hrK-rS-91R" firstAttribute="width" secondItem="gOJ-z2-o2B" secondAttribute="width" multiplier="0.95" id="WJ8-VW-Qdh"/>
+                                                    <constraint firstItem="cO3-c9-J3D" firstAttribute="centerX" secondItem="hrK-rS-91R" secondAttribute="centerX" id="bYs-tg-8dU"/>
+                                                    <constraint firstItem="gOJ-z2-o2B" firstAttribute="centerY" secondItem="Cy5-gf-Xvc" secondAttribute="centerY" id="edl-Nc-0Cg"/>
+                                                    <constraint firstItem="cO3-c9-J3D" firstAttribute="height" secondItem="hrK-rS-91R" secondAttribute="height" id="iY2-jL-kur"/>
+                                                    <constraint firstItem="hrK-rS-91R" firstAttribute="height" secondItem="gOJ-z2-o2B" secondAttribute="height" multiplier="0.308824" constant="0.94999999999999996" id="rug-Lz-7qa"/>
+                                                    <constraint firstItem="cO3-c9-J3D" firstAttribute="width" secondItem="hrK-rS-91R" secondAttribute="width" id="ti6-kp-tz5"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e6r-e0-6F4">
+                                                <rect key="frame" x="0.0" y="105" width="414" height="50"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t2o-eI-nEQ">
+                                                        <rect key="frame" x="50" y="19.5" width="314" height="0.5"/>
+                                                        <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="0.5" id="Vqm-au-hsB"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="5Ln-bz-3ZA"/>
+                                                    <constraint firstItem="t2o-eI-nEQ" firstAttribute="leading" secondItem="e6r-e0-6F4" secondAttribute="leading" constant="50" id="K4D-xu-6zj"/>
+                                                    <constraint firstAttribute="trailing" secondItem="t2o-eI-nEQ" secondAttribute="trailing" constant="50" id="bGf-Y8-Bne"/>
+                                                    <constraint firstAttribute="bottom" secondItem="t2o-eI-nEQ" secondAttribute="bottom" constant="30" id="fAC-rm-JWd"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ecn-Yt-b7F">
+                                                <rect key="frame" x="0.0" y="155" width="414" height="95"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jBm-VD-c1B">
+                                                        <rect key="frame" x="65" y="0.0" width="37.5" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PpA-JE-jhT">
+                                                        <rect key="frame" x="50" y="25.5" width="314" height="44"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="44" id="nZR-gB-2Bb"/>
+                                                        </constraints>
+                                                    </button>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ryK-9t-JDl">
+                                                        <rect key="frame" x="90" y="37" width="234" height="21"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
+                                                    </textField>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="next-1.png" translatesAutoresizingMaskIntoConstraints="NO" id="k76-Dq-w0J">
+                                                        <rect key="frame" x="316" y="33.5" width="28" height="28"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="28" id="0Oy-Ce-FcS"/>
+                                                            <constraint firstAttribute="width" constant="28" id="p8c-eM-3M2"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="jBm-VD-c1B" firstAttribute="leading" secondItem="PpA-JE-jhT" secondAttribute="leading" constant="15" id="04H-8b-fdT"/>
+                                                    <constraint firstItem="k76-Dq-w0J" firstAttribute="centerY" secondItem="PpA-JE-jhT" secondAttribute="centerY" id="27V-Zf-OTQ"/>
+                                                    <constraint firstAttribute="height" constant="95" id="AXb-uv-Wfz"/>
+                                                    <constraint firstItem="PpA-JE-jhT" firstAttribute="centerY" secondItem="Ecn-Yt-b7F" secondAttribute="centerY" id="Lal-zh-0mW"/>
+                                                    <constraint firstItem="PpA-JE-jhT" firstAttribute="leading" secondItem="Ecn-Yt-b7F" secondAttribute="leading" constant="50" id="Llt-Vv-OZW"/>
+                                                    <constraint firstAttribute="trailing" secondItem="PpA-JE-jhT" secondAttribute="trailing" constant="50" id="SH4-E5-i3a"/>
+                                                    <constraint firstItem="ryK-9t-JDl" firstAttribute="trailing" secondItem="PpA-JE-jhT" secondAttribute="trailing" constant="-40" id="Xuo-qc-kMv"/>
+                                                    <constraint firstItem="jBm-VD-c1B" firstAttribute="top" secondItem="Ecn-Yt-b7F" secondAttribute="top" id="fws-rF-jjd"/>
+                                                    <constraint firstItem="ryK-9t-JDl" firstAttribute="leading" secondItem="PpA-JE-jhT" secondAttribute="leading" constant="40" id="nc6-7M-o0i"/>
+                                                    <constraint firstItem="ryK-9t-JDl" firstAttribute="centerY" secondItem="PpA-JE-jhT" secondAttribute="centerY" id="vaI-GU-Gx5"/>
+                                                    <constraint firstItem="k76-Dq-w0J" firstAttribute="trailing" secondItem="PpA-JE-jhT" secondAttribute="trailing" constant="-20" id="xZR-SX-VQZ"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FRh-eg-cCI">
+                                                <rect key="frame" x="0.0" y="250" width="414" height="95"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="trP-xZ-23i">
+                                                        <rect key="frame" x="65" y="0.0" width="37.5" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gKg-KM-WAa">
+                                                        <rect key="frame" x="50" y="25.5" width="314" height="44"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="44" id="nfX-9h-vrN"/>
+                                                        </constraints>
+                                                    </button>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="next-1.png" translatesAutoresizingMaskIntoConstraints="NO" id="Vib-0a-eFT">
+                                                        <rect key="frame" x="316" y="33.5" width="28" height="28"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="28" id="Cas-fa-FGo"/>
+                                                            <constraint firstAttribute="height" constant="28" id="R4c-qP-Hr2"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Llo-hd-me0">
+                                                        <rect key="frame" x="90" y="37" width="234" height="21"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
+                                                    </textField>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="gKg-KM-WAa" firstAttribute="centerY" secondItem="FRh-eg-cCI" secondAttribute="centerY" id="5ZW-eH-QNK"/>
+                                                    <constraint firstItem="trP-xZ-23i" firstAttribute="top" secondItem="FRh-eg-cCI" secondAttribute="top" id="7RU-9X-Tav"/>
+                                                    <constraint firstItem="Llo-hd-me0" firstAttribute="centerY" secondItem="gKg-KM-WAa" secondAttribute="centerY" id="SOo-AX-aW2"/>
+                                                    <constraint firstItem="gKg-KM-WAa" firstAttribute="leading" secondItem="FRh-eg-cCI" secondAttribute="leading" constant="50" id="bZ7-tT-kA8"/>
+                                                    <constraint firstItem="Vib-0a-eFT" firstAttribute="trailing" secondItem="gKg-KM-WAa" secondAttribute="trailing" constant="-20" id="c6N-1l-Ae9"/>
+                                                    <constraint firstItem="Llo-hd-me0" firstAttribute="trailing" secondItem="gKg-KM-WAa" secondAttribute="trailing" constant="-40" id="cHU-N4-JCL"/>
+                                                    <constraint firstAttribute="trailing" secondItem="gKg-KM-WAa" secondAttribute="trailing" constant="50" id="dY2-ff-ZZC"/>
+                                                    <constraint firstItem="trP-xZ-23i" firstAttribute="leading" secondItem="gKg-KM-WAa" secondAttribute="leading" constant="15" id="euS-jI-qri"/>
+                                                    <constraint firstItem="Llo-hd-me0" firstAttribute="leading" secondItem="gKg-KM-WAa" secondAttribute="leading" constant="40" id="f6m-Hq-v5r"/>
+                                                    <constraint firstAttribute="height" constant="95" id="jej-my-cKk"/>
+                                                    <constraint firstItem="Vib-0a-eFT" firstAttribute="centerY" secondItem="gKg-KM-WAa" secondAttribute="centerY" id="xYY-AN-bII"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M0X-Mz-Yv8">
+                                                <rect key="frame" x="0.0" y="345" width="414" height="100"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tau-m9-XES">
+                                                        <rect key="frame" x="103.5" y="48" width="207" height="44"/>
+                                                        <color key="backgroundColor" red="0.74231690169999998" green="0.087496928870000004" blue="0.12861678000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="44" id="Jrn-FQ-Ctw"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                        <state key="normal" title="Masuk">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="nextAction:" destination="zJe-ee-OtJ" eventType="touchUpInside" id="NMZ-Jl-XJv"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="tau-m9-XES" firstAttribute="centerX" secondItem="M0X-Mz-Yv8" secondAttribute="centerX" id="5O0-yv-Brj"/>
+                                                    <constraint firstItem="tau-m9-XES" firstAttribute="centerY" secondItem="M0X-Mz-Yv8" secondAttribute="centerY" constant="20" id="Tsg-OY-qBx"/>
+                                                    <constraint firstItem="tau-m9-XES" firstAttribute="width" secondItem="M0X-Mz-Yv8" secondAttribute="width" multiplier="0.5" id="k62-kw-tKh"/>
+                                                    <constraint firstAttribute="height" constant="100" id="kh1-e5-nHp"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LjW-M1-U8n">
+                                                <rect key="frame" x="0.0" y="445" width="414" height="50"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="Vg3-fH-YFL"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3BP-N7-hS4">
+                                                <rect key="frame" x="0.0" y="495" width="414" height="150"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="150" id="vGI-0D-S3W"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="iIb-jJ-EcY" firstAttribute="width" secondItem="3El-Ec-Xld" secondAttribute="width" id="6MY-bU-12f"/>
+                                    <constraint firstItem="iIb-jJ-EcY" firstAttribute="leading" secondItem="3El-Ec-Xld" secondAttribute="leading" id="GNh-fI-mfy"/>
+                                    <constraint firstItem="iIb-jJ-EcY" firstAttribute="top" secondItem="3El-Ec-Xld" secondAttribute="top" id="Hdu-Ua-lHU"/>
+                                    <constraint firstAttribute="bottom" secondItem="iIb-jJ-EcY" secondAttribute="bottom" id="QNE-er-cL4"/>
+                                    <constraint firstAttribute="trailing" secondItem="iIb-jJ-EcY" secondAttribute="trailing" id="dDo-bc-dTL"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="CEZ-g6-pn4"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="3El-Ec-Xld" firstAttribute="leading" secondItem="CEZ-g6-pn4" secondAttribute="leading" id="Fbl-Fw-agt"/>
+                            <constraint firstItem="CEZ-g6-pn4" firstAttribute="trailing" secondItem="3El-Ec-Xld" secondAttribute="trailing" id="LDa-27-SVH"/>
+                            <constraint firstItem="oxf-aY-COi" firstAttribute="top" secondItem="CEZ-g6-pn4" secondAttribute="top" id="S72-IZ-Bv7"/>
+                            <constraint firstItem="CEZ-g6-pn4" firstAttribute="trailing" secondItem="oxf-aY-COi" secondAttribute="trailing" id="Yw7-Ur-wvE"/>
+                            <constraint firstAttribute="bottom" secondItem="3El-Ec-Xld" secondAttribute="bottom" id="ZuT-lv-ZWs"/>
+                            <constraint firstItem="oxf-aY-COi" firstAttribute="leading" secondItem="CEZ-g6-pn4" secondAttribute="leading" id="ipZ-b4-da1"/>
+                            <constraint firstItem="3El-Ec-Xld" firstAttribute="top" secondItem="oxf-aY-COi" secondAttribute="bottom" id="uXA-nS-ZdO"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="7Rb-la-vgS"/>
+                    <connections>
+                        <outlet property="arcCodeL" destination="hrK-rS-91R" id="DnF-BH-MAk"/>
+                        <outlet property="backL" destination="8oI-vh-MOq" id="tqK-hK-ode"/>
+                        <outlet property="inputMoreSpaceView" destination="3BP-N7-hS4" id="94W-km-ekU"/>
+                        <outlet property="phoneBtn" destination="PpA-JE-jhT" id="Oij-4Q-0Hl"/>
+                        <outlet property="phoneNewBtn" destination="gKg-KM-WAa" id="j5a-Bz-DUd"/>
+                        <outlet property="phoneNewTextfield" destination="Llo-hd-me0" id="YEy-VV-el7"/>
+                        <outlet property="phoneNewTitle" destination="trP-xZ-23i" id="xlA-ua-ABB"/>
+                        <outlet property="phoneNewView" destination="FRh-eg-cCI" id="18Q-3i-nKy"/>
+                        <outlet property="phoneTextfield" destination="ryK-9t-JDl" id="khk-4L-Ybt"/>
+                        <outlet property="phoneTitle" destination="jBm-VD-c1B" id="CHf-Nm-cMc"/>
+                        <outlet property="phoneView" destination="Ecn-Yt-b7F" id="wUp-Vp-1tR"/>
+                        <outlet property="registerBtn" destination="tau-m9-XES" id="K8K-JT-BHl"/>
+                        <outlet property="topScrollView" destination="3El-Ec-Xld" id="9vp-Yr-O5A"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BYX-mh-Vah" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3412" y="122"/>
         </scene>
     </scenes>
     <resources>
@@ -3228,5 +3893,17 @@ berada dalam kotak yang ditentukan</string>
         <image name="take_id_back.png" width="332.5" height="206.5"/>
         <image name="take_id_front.png" width="332.5" height="206.5"/>
         <image name="take_visa.png" width="332" height="208"/>
+        <systemColor name="opaqueSeparatorColor">
+            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="tableCellGroupedBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="tertiarySystemGroupedBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

@@ -34,7 +34,7 @@ class TransactionInfoConfirmVC: UIViewController {
     
     //MARK: - API
     public func callMemberData() {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         AppDelegate.shared().addLoadingView()
@@ -43,7 +43,7 @@ class TransactionInfoConfirmVC: UIViewController {
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -65,6 +65,70 @@ class TransactionInfoConfirmVC: UIViewController {
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
+    }
+    
+    public func createTransaction() {
+        let obj = AppDelegate.shared().transactionObj
+        let recipient_id = AppDelegate.shared().transactionObj.recipientObj.recipient_id!
+        
+        var parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":obj.ntdValue,"kurs_lm_time":AppDelegate.shared().memberData["kurs_lm_time"]!, "service_charge":obj.feeValue, "total_payment":obj.totalNtdValue, "transfer_idr":
+            obj.targetValue, "recipient_id":recipient_id, "pin_code_mode":1, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
+        
+        if obj.usePoint == 0 {
+            parameters["use_remit_point"] = 0
+        } else {
+            parameters["use_remit_point"] = 1
+            parameters["use_points"] = obj.usePoint
+        }
+        
+        let headers: HTTPHeaders = [:]
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_TransactionCreate;
+        
+        Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
+        
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("responseStr = \(responseStr ?? "")")
+                
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                if result == ResponseState.ok {
+                    self.getNextStep()
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                }
+        }
+    }
+    
+    func getNextStep() {
+        let transferStateObj = TransferStateObj()
+        let serchBankobj = UtilityTool().searchBankObj(BankName: AppDelegate.shared().transactionObj.recipientObj.bank_name!)
+        
+        transferStateObj.bank_code = serchBankobj.bank_code
+        transferStateObj.to_acc = AppDelegate.shared().transactionObj.recipientObj.bank_acc
+        transferStateObj.total = "\(AppDelegate.shared().transactionObj.totalNtdValue)"
+        transferStateObj.transfer_amount_idr = "\(AppDelegate.shared().transactionObj.targetValue)"
+            transferStateObj.recipient_name =  AppDelegate.shared().transactionObj.recipientObj.recipient_name
+        
+        //新的首頁
+        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransactionNewMainVC") as? TransactionNewMainVC
+        //let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransactionResultVC") as? TransactionResultVC
+        nextVC?.payment_info = AppDelegate.shared().tempTransactionResultObj.payment_info
+        nextVC?.transferStateObj = transferStateObj
+        self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
     //MARK: - Button-Action
@@ -95,8 +159,12 @@ class TransactionInfoConfirmVC: UIViewController {
         let kursValue = Double(AppDelegate.shared().memberData["kurs_value"]!)!
         AppDelegate.shared().transactionObj.targetValue = Int(ceil(Double(obj.ntdValue) * kursValue))
         
+        //改成直接到結果頁
+        createTransaction()
+        /*
         let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransactionAgreeMentVC") as? TransactionAgreeMentVC
         self.navigationController?.pushViewController(nextVC!, animated: true)
+         */
     }
     
     override func viewDidLoad() {

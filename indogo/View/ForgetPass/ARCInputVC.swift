@@ -55,7 +55,7 @@ class ARCInputVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate {
             return
         }
         
-        let parameters:Parameters = ["arc_no":code]
+        let parameters:Parameters = ["arc_no":code, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         Dlog("parameters=\(parameters)")
@@ -63,7 +63,7 @@ class ARCInputVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate {
         AppDelegate.shared().addLoadingView()
         
         let todoEndpoint: String = API_CheckMemExist;
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -108,9 +108,16 @@ class ARCInputVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate {
                         
                         return
                     } else if self.fromType == .forgotPass {
+                        //要顯示錯誤
+                        let alert = UIAlertController(title: NSLocalizedString("Incorrect ARC Number", comment: ""), message: NSLocalizedString("Please input Your ARC number correctly", comment: ""), preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("ok", comment: ""), style: .default) { action in
+                        })
+                        self.present(alert, animated: true)
+                        /*
                         let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassCheckPhoneVC") as? ForgotPassCheckPhoneVC
                         nextVC?.checkType = 1
                         self.navigationController?.pushViewController(nextVC!, animated: true)
+                        */
                     }
                     
                     /*
@@ -143,6 +150,25 @@ class ARCInputVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.backgroundColor = Color_Main_DarkGray
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        guard let text = textField.text else{
+            return true
+        }
+        
+        if !string.checkAlphabetDigit() {
+            return false
+        }
+        
+        let textLength = text.count + string.count - range.length
+        if textLength>20 {
+            return false
+        }
+        
+        return true
+
     }
     
     /*
@@ -189,7 +215,9 @@ class ARCInputVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate {
         titleL.text = NSLocalizedString("Please input Your ARC number", comment: "")
         
         textBackV.layer.cornerRadius = textBackV.frame.height/2
-        allCodeTextField.keyboardType = .numberPad
+        allCodeTextField.keyboardType = .alphabet
+        allCodeTextField.delegate = self
+        allCodeTextField.autocapitalizationType = .allCharacters
         
         /*
         codeT1.backgroundColor = Color_Main_DarkGray

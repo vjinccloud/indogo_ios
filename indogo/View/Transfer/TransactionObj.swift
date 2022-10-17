@@ -15,4 +15,5 @@ class TransactionObj: NSObject {
     var usePoint = 0
     var totalNtdValue = 0
     var recipientObj:RecipientObj = RecipientObj()
+    var purposes_id = "0"
 }

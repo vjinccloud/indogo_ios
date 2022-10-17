@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 import Firebase
 
-class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewControllerDataSource, CustomAlertDelegate {
+class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewControllerDataSource, UITextFieldDelegate, CustomAlertDelegate {
     
     @IBOutlet weak var accountBtn: UIButton!
     @IBOutlet weak var accountTextfield: UITextField!
@@ -107,16 +107,16 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
     
     //MARK: - API
     func checkTokenLogin() {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         AppDelegate.shared().addLoadingView()
         
         let todoEndpoint: String = API_CheckLogin;
         
-        Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
+        Dlog("checkTokenLogin todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -129,12 +129,37 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 }
                 
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
-                Dlog("responseStr = \(responseStr ?? "")")
+                Dlog("checkTokenLogin responseStr = \(responseStr ?? "")")
                 
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 if result == ResponseState.ok {
                     AppDelegate.shared().nowBottomMenuType = AppDelegate.shared().defautBottomMenuType
                     AppDelegate.shared().changeRootOfFunc(Type: .transaction)
+                    /*
+                    //檢查版本
+                    let appVersionFromBackend = Float(AppDelegate.shared().memberData["app_version"]!)
+                    let appVersionInApp = Float((Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String)!)
+                    Dlog("appVersionFromBackend = \(appVersionFromBackend ?? 0), appVersionInApp = \(appVersionInApp ?? 0)")
+                    if appVersionFromBackend! > appVersionInApp! {
+                        DispatchQueue.main.async{
+                            let alert = UIAlertController(title: "", message: NSLocalizedString("Please Update App", comment: ""), preferredStyle: .alert)
+                            let action1 = UIAlertAction(title: NSLocalizedString("ok", comment: ""), style: .default, handler:{(_)-> Void in
+                                let urlString:String = AppDelegate.shared().memberData["app_market"]!
+                                
+                                if let phoneCallURL = URL(string: urlString) {
+                                    if (UIApplication.shared.canOpenURL(phoneCallURL)) {
+                                        UIApplication.shared.open(phoneCallURL, options: [:], completionHandler: nil)
+                                    }
+                                    exit(0)
+                                }
+                            })
+                            alert.addAction(action1)
+                            let window = UIApplication.shared.keyWindow
+                            window?.rootViewController!.present(alert ,animated: true,completion: nil)
+                        }
+                        return
+                    }
+                    */
                     //傳輸token
                     self.sendToken()
                     //讀取未讀通知數量
@@ -148,7 +173,8 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
     }
     
     func loginNext() {
-        let parameters:Parameters = ["login_id":accountTextfield.text!, "login_password": UtilityTool().sha256(Code: passTextField.text!)]
+        let parameters:Parameters = ["login_id":accountTextfield.text!, "login_password": UtilityTool().sha256(Code: passTextField.text!), "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
+        //let parameters:Parameters = ["login_id":accountTextfield.text!, "login_password": UtilityTool().sha256(Code: passTextField.text!)]
         let headers: HTTPHeaders = [:]
         
         AppDelegate.shared().addLoadingView()
@@ -156,8 +182,9 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         let todoEndpoint: String = API_Login;
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
+        URLCache.shared.removeAllCachedResponses()
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -170,10 +197,35 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                 }
                 
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
-                Dlog("responseStr = \(responseStr ?? "")")
+                Dlog("login responseStr = \(responseStr ?? "")")
                 
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 if result == ResponseState.ok {
+                    /*
+                    //檢查版本(之後要改成新欄位)
+                    let appVersionFromBackend = Float(AppDelegate.shared().memberData["app_version"]!)
+                    let appVersionInApp = Float((Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String)!)
+                    Dlog("appVersionFromBackend = \(appVersionFromBackend ?? 0), appVersionInApp = \(appVersionInApp ?? 0)")
+                    if appVersionFromBackend! > appVersionInApp! {
+                        DispatchQueue.main.async{
+                            let alert = UIAlertController(title: "", message: NSLocalizedString("Please Update App", comment: ""), preferredStyle: .alert)
+                            let action1 = UIAlertAction(title: NSLocalizedString("ok", comment: ""), style: .default, handler:{(_)-> Void in
+                                let urlString:String = AppDelegate.shared().memberData["app_market"]!
+                                
+                                if let phoneCallURL = URL(string: urlString) {
+                                    if (UIApplication.shared.canOpenURL(phoneCallURL)) {
+                                        UIApplication.shared.open(phoneCallURL, options: [:], completionHandler: nil)
+                                    }
+                                    exit(0)
+                                }
+                            })
+                            alert.addAction(action1)
+                            let window = UIApplication.shared.keyWindow
+                            window?.rootViewController!.present(alert ,animated: true,completion: nil)
+                        }
+                        return
+                    }*/
+                    
                     //傳輸token
                     self.sendToken()
                     //會員資料編輯要顯示的
@@ -189,6 +241,7 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
                     AppDelegate.shared().nowBottomMenuType = AppDelegate.shared().defautBottomMenuType
                     AppDelegate.shared().changeRootOfFunc(Type: .transaction)
                     //AppDelegate.shared().showAlertWithWindow(self, Message: "Hi, \(AppDelegate.shared().memberData["member_name"] ?? "") 登入成功")
+                    URLCache.shared.removeAllCachedResponses()
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
@@ -200,14 +253,14 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
             return
         }
         
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken,"device_token":FirebaseToken]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken,"device_token":FirebaseToken, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         let todoEndpoint: String = API_PhoneTokenSet;
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 
                 guard response.result.error == nil else {
@@ -232,7 +285,7 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         AppDelegate.shared().addLoadingView()
         
         let todoEndpoint: String = API_Promo;
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -367,6 +420,7 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         accountBtn.layer.cornerRadius = accountBtn.frame.height/2
         passBtn.layer.cornerRadius = passBtn.frame.height/2
         loginBtn.layer.cornerRadius = loginBtn.frame.height/2
+        loginBtn.addGradienOfIndoGo()
         
         lupaBtn.layer.cornerRadius = lupaBtn.frame.height/2
         lupaBtn.layer.borderColor = UIColor.white.cgColor
@@ -374,6 +428,9 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         
         accountTextfield.keyboardType = .asciiCapable
         passTextField.keyboardType = .asciiCapable
+        
+        accountTextfield.delegate = self
+        passTextField.delegate = self
         
         accountTextfield.autocapitalizationType = .allCharacters
         
@@ -397,11 +454,11 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         accountTextfield.text = AppDelegate.shared().getRemeberedAccount()
         passTextField.text = AppDelegate.shared().getRemeberedPassword()
         
-        /*
+        
         if DevMode {
-            accountTextfield.text = "XC00000092" //XX00000026
+            accountTextfield.text = "XC00000026" //XX00000092
             passTextField.text = "123456"
-        }*/
+        }
         
         AppDelegate.shared().rootController = self
     }
@@ -443,6 +500,23 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
             AppDelegate.shared().sessionToken = userDefaults.value(forKey: "sessionToken") as! String
             checkTokenLogin()
         }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else{
+            return true
+        }
+        
+        if !string.checkAlphabetDigit() {
+            return false
+        }
+        
+        let textLength = text.count + string.count - range.length
+        if textLength>20 {
+            return false
+        }
+        
+        return true
     }
 }
 

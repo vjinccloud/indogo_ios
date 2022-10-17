@@ -23,10 +23,11 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var codeT2: UITextField!
     @IBOutlet weak var codeT3: UITextField!
     @IBOutlet weak var codeT4: UITextField!
+    var registerFromIndex = 0
     
     //MARK: - API
     func sendSMS() {
-        let parameters:Parameters = ["arc_no":AppDelegate.shared().tempRegisterObj.arcNum!]
+        let parameters:Parameters = ["arc_no":AppDelegate.shared().tempRegisterObj.arcNum!, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         Dlog("parameters=\(parameters)")
@@ -34,7 +35,7 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
         AppDelegate.shared().addLoadingView()
         
         let todoEndpoint: String = API_ResendRegisterSMS;
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -86,7 +87,7 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
         let code =  allCodeTextField.text!
         //codeT1.text! + codeT2.text! + codeT3.text! + codeT4.text!
         
-        let parameters:Parameters = ["arc_no":AppDelegate.shared().tempRegisterObj.arcNum!, "sms_code":code]
+        let parameters:Parameters = ["arc_no":AppDelegate.shared().tempRegisterObj.arcNum!, "sms_code":code, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         Dlog("parameters=\(parameters)")
@@ -94,7 +95,7 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
         AppDelegate.shared().addLoadingView()
         
         let todoEndpoint: String = API_VerifyRegisterSMS;
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -111,25 +112,90 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 
                 if result == ResponseState.ok {
-                    //回首頁，並帶入帳密
-                    guard let viewControllers = self.navigationController?.viewControllers else {
-                        return
+                    if self.registerFromIndex == 0 {
+                        //回首頁，並帶入帳密
+                        guard let viewControllers = self.navigationController?.viewControllers else {
+                            return
+                        }
+                        
+                        for firstViewController in viewControllers {
+                            if firstViewController is ViewController {
+                                let obj = AppDelegate.shared().tempRegisterObj
+                                let vc = firstViewController as! ViewController
+                                vc.accountTextfield.text = obj.arcNum
+                                vc.passTextField.text = obj.passwaord
+                                break
+                            }
+                        }
+                        self.navigationController?.popToRootViewController(animated: true)
+                    } else if self.registerFromIndex == 1 {
+                        //註冊第一步完成
+                        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterIDTakePhotoVC") as? RegisterIDTakePhotoVC
+                        self.navigationController?.pushViewController(nextVC!, animated: true)
                     }
                     
-                    for firstViewController in viewControllers {
-                        if firstViewController is ViewController {
-                            let obj = AppDelegate.shared().tempRegisterObj
-                            let vc = firstViewController as! ViewController
-                            vc.accountTextfield.text = obj.arcNum
-                            vc.passTextField.text = obj.passwaord
-                            break
-                        }
-                    }
-                    self.navigationController?.popToRootViewController(animated: true)
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
+    }
+    
+    func registerStep1() {
+        
+        let obj = AppDelegate.shared().tempRegisterObj
+        
+        let headers: HTTPHeaders = [
+            "Content-type": "multipart/form-data"
+        ]
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_Register;
+        
+        Alamofire.upload(multipartFormData: { (multipartFormData) in
+            
+            multipartFormData.append(obj.account!.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: "name")
+            multipartFormData.append(obj.phoneNum!.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: "phone")
+            multipartFormData.append(obj.arcNum!.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: "arc_no")
+            multipartFormData.append(UtilityTool().sha256(Code: obj.passwaord!).data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: "password")
+            multipartFormData.append(obj.shareCode.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: "share_member_id")
+            
+        }, usingThreshold: UInt64.init(), to: todoEndpoint, method: .post, headers: headers) { (result) in
+            
+            switch result {
+            case .success(let upload, _, _):
+                upload.response { response in
+                    
+                    AppDelegate.shared().removeLoadingView()
+                    
+                    guard response.error == nil else {
+                        // got an error in getting the data, need to handle it
+                        print("error calling on \(todoEndpoint), response = \(response)")
+                        print(response.error!)
+                        return
+                    }
+                    
+                    //下一步，簡訊
+                    let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                    Dlog("responseStr = \(responseStr ?? "")")
+                    let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                    
+                    if result == ResponseState.ok {
+                        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterEnterSMSCodeVC") as? RegisterEnterSMSCodeVC
+                        self.navigationController?.pushViewController(nextVC!, animated: true)
+                    } else if result == ResponseState.failed {
+                        AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                    }
+                }
+            case .failure(let error):
+                print("Error in upload: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func registerStep1NextAction() {
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterIDTakePhotoVC") as? RegisterIDTakePhotoVC
+        self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
     @IBAction func backAction(_ sender: Any) {

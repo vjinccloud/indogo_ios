@@ -63,6 +63,27 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
     
     @IBOutlet weak var nextBtn: UIButton!
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        guard let text = textField.text else{
+            return true
+        }
+        
+        if textField == accountTextfield {
+            if !string.checkAlphabetDigit() {
+                return false
+            }
+        }
+        
+        let textLength = text.count + string.count - range.length
+        if textLength>20 {
+            return false
+        }
+        
+        return true
+
+    }
+    
     //MARK: - API
     func showMustAllChangedAlert(Type type:Int) {
         if type == 0 { //ARC ARC證照前後圖片與簽名須同時變更
@@ -206,7 +227,17 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
     
     //MARK: - Button-Action
     @IBAction func backAction(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+        //self.navigationController?.popViewController(animated: true)
+        guard let viewControllers = self.navigationController?.viewControllers else {
+            return
+        }
+        
+        for firstViewController in viewControllers {
+            if firstViewController is MemberMainVC {
+                self.navigationController?.popToViewController(firstViewController, animated: true)
+                break
+            }
+        }
     }
     
     @IBAction func takeFirstPhoto(_ sender: Any) {

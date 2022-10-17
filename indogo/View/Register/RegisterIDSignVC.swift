@@ -54,16 +54,12 @@ class RegisterIDSignVC: UIViewController {
         
         AppDelegate.shared().addLoadingView()
         
-        let todoEndpoint: String = API_Register;
+        //let todoEndpoint: String = API_Register;
+        let todoEndpoint: String = API_RegisterStep2;
         
         Alamofire.upload(multipartFormData: { (multipartFormData) in
             
-            multipartFormData.append(obj.account!.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: "name")
-            multipartFormData.append(obj.phoneNum!.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: "phone")
             multipartFormData.append(obj.arcNum!.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: "arc_no")
-            multipartFormData.append(UtilityTool().sha256(Code: obj.passwaord!).data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: "password")
-            multipartFormData.append(obj.shareCode.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: "share_member_id")
-            
             
             multipartFormData.append(obj.frontImg.ImgPress(LimitInBytes: ImageLimitInBytes), withName: "arc", fileName: "arc.jpg", mimeType: "image/jpg")
             multipartFormData.append(obj.backImg.ImgPress(LimitInBytes: ImageLimitInBytes), withName: "arc_back", fileName: "arc_back.jpg", mimeType: "image/jpg")
@@ -87,14 +83,34 @@ class RegisterIDSignVC: UIViewController {
                         return
                     }
                     
-                    //下一步，簡訊
+                    //下一步，改成直接回首頁(原先是進入簡訊)
                     let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                     Dlog("responseStr = \(responseStr ?? "")")
                     let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                     
                     if result == ResponseState.ok {
+                        
+                        //回首頁，並帶入帳密
+                        guard let viewControllers = self.navigationController?.viewControllers else {
+                            return
+                        }
+                        
+                        for firstViewController in viewControllers {
+                            if firstViewController is ViewController {
+                                let obj = AppDelegate.shared().tempRegisterObj
+                                let vc = firstViewController as! ViewController
+                                vc.accountTextfield.text = obj.arcNum
+                                vc.passTextField.text = obj.passwaord
+                                break
+                            }
+                        }
+                        self.navigationController?.popToRootViewController(animated: true)
+                        
+                        /*
                         let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterEnterSMSCodeVC") as? RegisterEnterSMSCodeVC
+                        nextVC?.registerFromIndex = 0
                         self.navigationController?.pushViewController(nextVC!, animated: true)
+                         */
                     } else if result == ResponseState.failed {
                         AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                     }

@@ -109,8 +109,11 @@ class APIHandle {
         case API_SendSMS:
             sendSMS(DataStr: resultStr)
             break
-        case API_Register:
+        case API_Register: //API_ResendRegisterSMS
             sendRegisterSMS(DataStr: resultStr)
+            break
+        case API_RegisterStep1, API_RegisterStep2,API_ResendRegisterSMS:
+            sendRegisterSMS2(DataStr: resultStr)
             break
         case API_NoticeRecordList:
             checkNoticeList(DataStr: resultStr)
@@ -144,6 +147,12 @@ class APIHandle {
             break
         case API_BarCode_711, API_BarCode_fami, API_BarCode_ok, API_BarCode_hilife:
             checkBarCode(DataStr: resultStr)
+            break
+        case API_GetPurpose:
+            checkPurpose(DataStr: resultStr)
+            break
+        case API_GetRelation:
+            checkRelation(DataStr: resultStr)
             break
         default:
             break
@@ -217,6 +226,44 @@ class APIHandle {
             AppDelegate.shared().tempBarCodeInfoObj = obj
         } else {
             AppDelegate.shared().tempBarCodeInfoObj = BarCodeInfoObj()
+        }
+    }
+    
+    private func checkPurpose(DataStr dataStr:String) {
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        for i in 0..<ary.count {
+            
+            let subAry = ary[i].components(separatedBy: AppDelegate.shared().subSeperatorStr)
+            
+            let obj:TransferPurposeObj = TransferPurposeObj()
+            for j in 0..<subAry.count {
+                obj.setValueByOrder(Order: j, Value: subAry[j])
+            }
+            
+            if obj.name != "" {
+                Dlog("== \(i) =========")
+                obj.printSelf()
+                AppDelegate.shared().purposeObj.append(obj)
+            }
+        }
+    }
+    
+    private func checkRelation(DataStr dataStr:String) {
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        for i in 0..<ary.count {
+            
+            let subAry = ary[i].components(separatedBy: AppDelegate.shared().subSeperatorStr)
+            
+            let obj:TransferPurposeObj = TransferPurposeObj()
+            for j in 0..<subAry.count {
+                obj.setValueByOrder(Order: j, Value: subAry[j])
+            }
+            
+            if obj.name != "" {
+                Dlog("== \(i) =========")
+                obj.printSelf()
+                AppDelegate.shared().relationObj.append(obj)
+            }
         }
     }
     
@@ -326,6 +373,14 @@ class APIHandle {
         AppDelegate.shared().forgotPassTempSMS = dataStr
     }
     
+    private func sendRegisterSMS2(DataStr dataStr:String) {
+        
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        
+        AppDelegate.shared().forgotPassTempSMS = ary[0]
+        Dlog("sms = \(AppDelegate.shared().forgotPassTempSMS)")
+    }
+    
     private func checkMemExist(DataStr dataStr:String) {
         AppDelegate.shared().forgotPassTempPhone = dataStr
     }
@@ -412,6 +467,7 @@ class APIHandle {
                 obj.setValueByOrder(Order: j, Value: subAry[j])
             }
             AppDelegate.shared().noteListObjs.append(obj)
+            Dlog("noti_id = \(obj.noti_id), noti_name = \(obj.noti_name), \(obj.title), \(obj.link)")
         }
     }
     
@@ -425,7 +481,7 @@ class APIHandle {
         //AppDelegate.shared().seperatorStr = separateStr
         */
         let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
-        
+        Dlog("ary0 = \(ary[0])")
         AppDelegate.shared().userLogin(TokenStr: ary[0])
         let keyAry:[String] = ["member_name","kurs_value","kurs_lm_time","service_charge","remit_point","free_service_charge","share_id","app_phone_no","app_share_bonus","google_map_url","app_version","app_market","line_url","games_url","member_id","arc_photo","arc_back_photo","signature_photo","id_card_photo","self_photo"]
         for i in 0..<keyAry.count {

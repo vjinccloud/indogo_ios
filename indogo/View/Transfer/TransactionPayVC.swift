@@ -58,7 +58,7 @@ class TransactionPayVC: UIViewController {
     //MARK: - API
     public func getBarCode() {
         
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "payment_info":payment_info, "mode":2]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "payment_info":payment_info, "mode":2, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         AppDelegate.shared().addLoadingView()
         
@@ -76,7 +76,7 @@ class TransactionPayVC: UIViewController {
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -98,6 +98,14 @@ class TransactionPayVC: UIViewController {
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
+    }
+    
+    @IBAction func showPhoto(_ sender: Any) {
+        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransactionResultVC") as? TransactionResultVC
+        nextVC?.payment_info = payment_info
+        nextVC?.showPhoto(Type: chosedStyle)
+        nextVC?.transferStateObj = transferStateObj
+        self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
     func reloadData() {
@@ -203,7 +211,7 @@ class TransactionPayVC: UIViewController {
         backL.text = NSLocalizedString("Transfer PayStep Title", comment: "")
         upIntoL.text = NSLocalizedString("Transfer PayStep Up Intro", comment: "")
         warnL.text = NSLocalizedString("Transfer PayStep Warn", comment: "")
-        paymentInfoL.text = payment_info
+        paymentInfoL.text = payment_info.separateSpecialForIndoGo()
         totalTWDL.text = "Total TWD \(transferStateObj.total.stringToIntDecimalString())"
         minDownL.text = NSLocalizedString("Transfer PayStep Min Title", comment: "")
         secDownL.text = NSLocalizedString("Transfer PayStep Sec Title", comment: "")

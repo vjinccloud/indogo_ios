@@ -23,6 +23,40 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     var searchShowIndex:[Int] = []
     var cellBarColor:[UIColor] = []
     var loadOnce = false
+    var dateEnd:Date!
+    var tempDateEnd:Date!
+    var dateStartStr = ""
+    var dateEndStr = ""
+    
+    var pageNext:Int = 1
+    var pageEnd = false
+    var moreStart = false
+    var lastReadDetailIdx = 0
+    
+    //MARK: - Scroll
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if  pageEnd == false, moreStart == false, (myTable.contentOffset.y+10)>=(myTable.contentSize.height-myTable.frame.size.height) {
+            //self.searchNews(Add: true)
+            generateTimeString()
+            getTransferList()
+            moreStart = true
+        }
+    }
+    
+    //MARK: - Handle Time
+    func generateTimeString(FromeStart isStart:Bool = false) {
+        if isStart {
+            AppDelegate.shared().transferStateListObjs = []
+            AppDelegate.shared().transferOrderCheckListObjs = []
+            lastReadDetailIdx = 0
+            tempDateEnd = Date()
+            dateEnd = tempDateEnd
+            generateTimeString()
+        }
+        dateEndStr = dateEnd.toString() + " 23:59:59"
+        tempDateEnd = dateEnd.addDays(Days: -90)
+        dateStartStr = tempDateEnd.toString() + " 00:00:00"
+    }
     
     //MARK: - TableView Delegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -46,8 +80,19 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         
         let realIdx = searchShowIndex[indexPath.row]
         let cellData = showDataList[realIdx]
-        let cellOrderCheckData = showOrderCheckDataList[realIdx]
         
+        let payment_info = cellData.payment_info
+        var cellOrderCheckData:TransferOrderCheckObj = TransferOrderCheckObj()
+        //api可能會重複給訂單資料，所以用找到的第一個
+        for i in 0..<showDataList.count {
+            if showDataList[i].payment_info == payment_info {
+                cellOrderCheckData = showOrderCheckDataList[i]
+                break
+            }
+        }
+        
+        //let cellOrderCheckData = showOrderCheckDataList[realIdx]
+       
         let serchBankobj = UtilityTool().searchBankObj(BankCode: cellData.bank_code!)
         
         cell.barTitleL.text = NSLocalizedString("Transfer State " + cellOrderCheckData.order_status, comment: "")
@@ -192,7 +237,9 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
             return
         }
         
-        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransactionResultVC") as? TransactionResultVC
+        //新的首頁
+        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransactionNewMainVC") as? TransactionNewMainVC
+        //let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransactionResultVC") as? TransactionResultVC
         nextVC?.payment_info = cellData.payment_info
         nextVC?.transferStateObj = cellData
         self.navigationController?.pushViewController(nextVC!, animated: true)
@@ -201,12 +248,16 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     //MARK: - API
     public func getAllOrdersDetail() {
         var paymentAry:[String] = []
-        for i in 0..<AppDelegate.shared().transferStateListObjs.count {
+        for i in lastReadDetailIdx..<AppDelegate.shared().transferStateListObjs.count {
             let obj = AppDelegate.shared().transferStateListObjs[i]
             paymentAry.append(obj.payment_info)
         }
         
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "payment_info":paymentAry]
+        if paymentAry.count == 0 {
+            return
+        }
+        
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "payment_info":paymentAry, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         closeAll()
         AppDelegate.shared().addLoadingView()
@@ -215,7 +266,7 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -230,9 +281,10 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                 Dlog("responseStr = \(responseStr ?? "")")
                 
-                AppDelegate.shared().transferOrderCheckListObjs = []
+                //AppDelegate.shared().transferOrderCheckListObjs = []
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 if result == ResponseState.ok {
+                    self.lastReadDetailIdx = AppDelegate.shared().transferStateListObjs.count
                     self.reloadDataAndTable(Str: self.searchTextfield.text!)
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
@@ -240,8 +292,14 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         }
     }
     
-    public func getTransferList() {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken]
+    public func getTransferList(UsingDate usingDate:Bool = true) {
+        var parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "date_start":dateStartStr, "date_end":dateEndStr, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
+        Dlog("usingDate = \(usingDate)")
+        if usingDate == false {
+            AppDelegate.shared().transferStateListObjs = []
+            parameters = ["token":AppDelegate.shared().sessionToken]
+        }
+        
         let headers: HTTPHeaders = [:]
         closeAll()
         AppDelegate.shared().addLoadingView()
@@ -250,7 +308,7 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -264,16 +322,32 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
                 
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
                 Dlog("responseStr = \(responseStr ?? "")")
+                Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.setMoreStartNormally), userInfo: nil, repeats: true)
+                self.dateEnd = self.tempDateEnd
                 
-                AppDelegate.shared().transferStateListObjs = []
+                //AppDelegate.shared().transferStateListObjs = []
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 if result == ResponseState.ok {
-                    self.getAllOrdersDetail()
+                    
+                    if usingDate == false {
+                        self.pageEnd = true
+                    } else {
+                        if AppDelegate.shared().transferStateListObjs.count == 0 { //如果第一次取得就是沒有項目，則轉成取得全部
+                            self.getTransferList(UsingDate: false)
+                        } else {
+                            self.getAllOrdersDetail()
+                        }
+                    }
+                    
                     //self.reloadDataAndTable()
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
+    }
+    
+    @objc func setMoreStartNormally() {
+        moreStart = false
     }
     
     //MARK: - Button-Action
@@ -310,6 +384,19 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        guard let text = textField.text else{
+            return true
+        }
+        
+        if !string.checkAlphabetDigitAndSpace() {
+            return false
+        }
+        
+        let textLength = text.count + string.count - range.length
+        if textLength>20 {
+            return false
+        }
         
         let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         reloadDataAndTable(Str: newString)
@@ -352,7 +439,7 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         self.setupHideKeyboardOnTap()
         let nib = UINib(nibName: "TransferStateType1TableViewCell", bundle: nil)
         myTable.register(nib, forCellReuseIdentifier: "TransferStateType1TableViewCell")
-        myTable.bounces = false
+        myTable.bounces = true
         myTable.backgroundColor = .clear
         myTable.separatorStyle = .none
         
@@ -368,6 +455,8 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         super.viewDidAppear(animated)
         
         if loadOnce {
+            pageEnd = false
+            getTransferList()
             AppDelegate.shared().showTopButton()
             return
         }
@@ -381,6 +470,7 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         cellBarColor.append(UtilityTool().hexStringToUIColor(hex: "#706F6F"))
         
         //nowPage = 1
+        generateTimeString(FromeStart: true)
         getTransferList()
         
         //頂部兩個按鈕

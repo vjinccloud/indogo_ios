@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import Kingfisher
 import KingfisherWebP
+import ImageSlideshow
 import SwiftyJSON
 
 class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -17,6 +18,7 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBOutlet weak var showPhotoView: UIView!
     @IBOutlet weak var myTableView: UITableView!
     @IBOutlet weak var backL: UILabel!
+    var imagesSlideshowView: ImageSlideshow!
     var loadOnce = false
     var nowPage = 0
     var stopLoadMore = false
@@ -25,7 +27,7 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     //MARK: - API
     func getNotice() {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "page":nowPage, "limit":pageLimit]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "page":nowPage, "limit":pageLimit, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         Dlog("parameters=\(parameters)")
@@ -40,7 +42,7 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         isLoading = true
         
         let todoEndpoint: String = API_NoticeRecordList;
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 self.isLoading = false
@@ -54,7 +56,7 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 }
                 
                 let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
-                Dlog("todoEndpoint = \(todoEndpoint),responseStr = \(responseStr ?? "")")
+                Dlog("todoEndpoint = \(todoEndpoint),ssresponseStr = \(responseStr ?? "")")
                 
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 
@@ -87,13 +89,13 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     func readNotice(Idx idx:String) {
         let ary:[String] = [idx]
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "notification_record_id":ary]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "notification_record_id":ary, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         Dlog("parameters=\(parameters)")
         
         let todoEndpoint: String = API_NotificationRead;
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 guard response.result.error == nil else {
                     // got an error in getting the data, need to handle it
@@ -110,13 +112,13 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     func getPointHistory() {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         AppDelegate.shared().addLoadingView()
         
         let todoEndpoint: String = API_PointHistoryList;
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -198,10 +200,40 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             readNotice(Idx: data.idStr)
         }
         
-        if data.tpyeStr.hasPrefix("點數異動") {
+        if data.noti_name == "phone number change" {
+           //改變電話
+           AppDelegate.shared().forgotPassTempMemID = AppDelegate.shared().getRemeberedAarcNo()
+           AppDelegate.shared().forgotPassTempPhone = AppDelegate.shared().memberData["app_phone_no"] ?? ""
+           
+           let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "MemberChangePhoneIntroVC") as? MemberChangePhoneIntroVC
+           self.navigationController?.pushViewController(nextVC!, animated: true)
+       } else if data.noti_name == "link" {
+           let urlString:String = data.link
+
+           if let phoneCallURL = URL(string: urlString) {
+               if (UIApplication.shared.canOpenURL(phoneCallURL)) {
+                   UIApplication.shared.open(phoneCallURL, options: [:], completionHandler: nil)
+               }
+           }
+       } else if data.tpyeStr.hasPrefix("點數異動") {
             getPointHistory()
         } else if data.tpyeStr.hasPrefix("訂單變更") {
             goTransferList()
+        } else if data.noti_name == "pic" {
+            let imgurl = ServerURL + data.photo
+            let urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
+            imagesSlideshowView = ImageSlideshow(frame: CGRect.init(x: 10, y: 10, width: showPhotoView.frame.width-20, height: showPhotoView.frame.height-20))
+            var imagesSources: [KingfisherSource] = []
+            imagesSources.append(KingfisherSource(url: urlhaed!))
+            imagesSlideshowView.setImageInputs(imagesSources)
+            showPhotoView.addSubview(imagesSlideshowView)
+            imagesSlideshowView.zoomEnabled = true
+            let btn = UIButton.init(frame: CGRect.init(x: imagesSlideshowView.frame.origin.x+imagesSlideshowView.frame.size.width-40, y: imagesSlideshowView.frame.origin.y-20, width: 40, height: 40))
+            btn.setImage(UIImage.init(named: "close.png"), for: .normal)
+            imagesSlideshowView.addSubview(btn)
+            btn.addTarget(self, action: #selector(closePhotoView), for: .touchUpInside)
+            showPhotoView.isHidden = false
+            
         } else if data.tpyeStr.hasPrefix("公告") {
             if data.photo.count > 5 {
                 let imgurl = ServerURL + data.photo
@@ -222,6 +254,10 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "MemberEditVC") as? MemberEditVC
             self.navigationController?.pushViewController(nextVC!, animated: true)
         }
+    }
+    
+    @objc func closeSliderPhoto() {
+        imagesSlideshowView.removeFromSuperview()
     }
     
     @objc func closePhotoView() {

@@ -26,7 +26,7 @@ class TransactionAgreeMentVC: UIViewController {
         let obj = AppDelegate.shared().transactionObj
         let recipient_id = AppDelegate.shared().transactionObj.recipientObj.recipient_id!
         
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "doc_name":"外籍勞工薪資結匯申報委託書", "recipient_id":recipient_id, "transfer_amount_ntd":obj.ntdValue+obj.feeValue]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "doc_name":"外籍勞工薪資結匯申報委託書", "recipient_id":recipient_id, "transfer_amount_ntd":obj.ntdValue+obj.feeValue, "purposes_id": obj.purposes_id, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         AppDelegate.shared().addLoadingView()
@@ -35,7 +35,7 @@ class TransactionAgreeMentVC: UIViewController {
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -64,7 +64,7 @@ class TransactionAgreeMentVC: UIViewController {
         let recipient_id = AppDelegate.shared().transactionObj.recipientObj.recipient_id!
         
         var parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":obj.ntdValue,"kurs_lm_time":AppDelegate.shared().memberData["kurs_lm_time"]!, "service_charge":obj.feeValue, "total_payment":obj.totalNtdValue, "transfer_idr":
-            obj.targetValue, "recipient_id":recipient_id, "pin_code_mode":1]
+            obj.targetValue, "recipient_id":recipient_id, "pin_code_mode":1, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         
         if obj.usePoint == 0 {
             parameters["use_remit_point"] = 0
@@ -81,7 +81,7 @@ class TransactionAgreeMentVC: UIViewController {
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -115,7 +115,9 @@ class TransactionAgreeMentVC: UIViewController {
         transferStateObj.transfer_amount_idr = "\(AppDelegate.shared().transactionObj.targetValue)"
             transferStateObj.recipient_name =  AppDelegate.shared().transactionObj.recipientObj.recipient_name
         
-        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransactionResultVC") as? TransactionResultVC
+        //新的首頁
+        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransactionNewMainVC") as? TransactionNewMainVC
+        //let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransactionResultVC") as? TransactionResultVC
         nextVC?.payment_info = AppDelegate.shared().tempTransactionResultObj.payment_info
         nextVC?.transferStateObj = transferStateObj
         self.navigationController?.pushViewController(nextVC!, animated: true)

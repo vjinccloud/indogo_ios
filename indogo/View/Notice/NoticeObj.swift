@@ -16,6 +16,9 @@ class NoticeObj: NSObject {
     var tpyeStr:String! = ""
     var createTime:String! = ""
     var photo:String! = ""
+    var link:String! = ""
+    var noti_id:String! = ""
+    var noti_name:String! = ""
     
     public func setValueByOrder(Order orderNum:Int, Value valueStr:String) {
         if orderNum == 0 {
@@ -32,6 +35,12 @@ class NoticeObj: NSObject {
             createTime = valueStr
         } else if orderNum == 6 {
             photo = valueStr
+        } else if orderNum == 7 {
+            link = valueStr
+        } else if orderNum == 8 {
+            noti_id = valueStr
+        } else if orderNum == 9 {
+            noti_name = valueStr
         }
     }
     

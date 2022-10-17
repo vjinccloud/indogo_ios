@@ -54,6 +54,21 @@ class TransferPointVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
     var chosedIndx = -1
     var inSecondStep = false
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        guard let text = textField.text else{
+            return true
+        }
+        
+        let textLength = text.count + string.count - range.length
+        if textLength>20 {
+            return false
+        }
+        
+        return true
+
+    }
+    
     //MARK: - TableView Delegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
          return AppDelegate.shared().transferFriendListObj.count
@@ -86,7 +101,7 @@ class TransferPointVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
     
     //MARK: - API
     public func getAgrrementContent() {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "doc_name":"點數轉移規則"]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "doc_name":"點數轉移規則", "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         AppDelegate.shared().addLoadingView()
@@ -95,7 +110,7 @@ class TransferPointVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -121,7 +136,7 @@ class TransferPointVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
     }
     
     public func checkTransferFirstStep(Mode mode:Int) {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "phone":phoneTextfield.text!, "mode":mode]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "phone":phoneTextfield.text!, "mode":mode, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         AppDelegate.shared().addLoadingView()
@@ -130,7 +145,7 @@ class TransferPointVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -169,7 +184,7 @@ class TransferPointVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
     }
     
     public func transferSecondStep() {
-        var parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "remit_point":pointTextfield.text!]
+        var parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "remit_point":pointTextfield.text!, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         
         let data = AppDelegate.shared().transferFriendListObj[chosedIndx]
         if data.memberStyle == .normal {
@@ -188,7 +203,7 @@ class TransferPointVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 

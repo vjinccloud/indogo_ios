@@ -29,6 +29,21 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
     
     var parentVC:RegisterInputVC!
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        guard let text = textField.text else{
+            return true
+        }
+        
+        let textLength = text.count + string.count - range.length
+        if textLength>20 {
+            return false
+        }
+        
+        return true
+
+    }
+    
     //MARK: - API
     func checkBtnState() {
         if inputTextField.text!.count>0 {

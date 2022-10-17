@@ -18,11 +18,17 @@ var FirebaseToken = ""
 
 var ImageLimitInBytes:Int = 300000
 
+let SecureSaltStr = "indo"
+let SecureIvStr = "indogoEncodeIv00"
+let SecurePSStr = "indogoEncodePass"
+
 //顏色
 public let Color_Main_Bule = UtilityTool().hexStringToUIColor(hex: "#2a65ec")
 public let Color_Main_Red = UtilityTool().hexStringToUIColor(hex: "#b20808")
 public let Color_Main_LightGray = UtilityTool().hexStringToUIColor(hex: "#d6d7d8")
 public let Color_Main_DarkGray = UtilityTool().hexStringToUIColor(hex: "#3b3f47")
+public let Color_Gradient_Left = UtilityTool().hexStringToUIColor(hex: "#83088c")
+public let Color_Gradient_Right = UtilityTool().hexStringToUIColor(hex: "#d2118a")
 
 //開發階段
 let DevMode = false
@@ -32,8 +38,10 @@ let AppVersion = "1.0"
 let AppId = 1
 //正式
 //let ServerURL = "https://prod.indogo.link"
+let ServerURL = "https://prod.indogo.com.tw"
 //測試機
-let ServerURL = "https://prod.indogo.link"
+//let ServerURL = "https://dev.indogo.link"
+//(測試機全家會有問題)
 
 //訂票時限
 let orderTicketTimeLimitSecs:Double = 300
@@ -45,6 +53,8 @@ let API_CheckLogin = ServerURL + "/app/remit/check_token"
 let API_CheckMemExist = ServerURL + "/app/remit/check_mem_exists"
 let API_SendSMS = ServerURL + "/app/remit/password_forget_sms"
 let API_Register = ServerURL + "/app/remit/register"
+let API_RegisterStep1 = ServerURL + "/app/remit/register_step_1"
+let API_RegisterStep2 = ServerURL + "/app/remit/register_step_2"
 let API_ResendRegisterSMS = ServerURL + "/app/remit/request_sms_code"
 let API_VerifyRegisterSMS = ServerURL + "/app/remit/verify_sms_code"
 let API_NoticeRecordList = ServerURL + "/app/remit/notification_record"
@@ -69,6 +79,12 @@ let API_UpdateARC = ServerURL + "/app/remit/update_arc"
 let API_UpdateID = ServerURL + "/app/remit/update_id_card"
 let API_PassUpdate = ServerURL + "/app/remit/password_update"
 let API_PhoneTokenSet = ServerURL + "/app/remit/phone_token_set"
+
+let API_GetBankCode = ServerURL + "/console/api/getVAccount"
+let API_GetPurpose = ServerURL + "/app/remit/transfer_purpose"
+let API_GetRelation = ServerURL + "/app/remit/relationship"
+let API_SendUpdatePhoneSMS = ServerURL + "/app/remit/update_phone_sms"
+let API_VerifyUpdatePhoneSMS = ServerURL + "/app/remit/update_phone"
 
 public enum TransferMemberStyle {
     case normal

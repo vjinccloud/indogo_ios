@@ -12,6 +12,7 @@
 "shopping" = "SHOPPING"; //商城
 "agree" = "SETUJU"; //同意/確認
 "cancel" = "BATAL"; //取消
+"cancelForError" = "TUTUP"; //取消2
 "login" = "Masuk"; //登入
 "recover passcode" = "Lupa Kata Sandi"; //密碼回復
 "register" = "REGISTRASI"; //註冊
@@ -19,6 +20,14 @@
 "pic take" = "MULAI"; //拍照
 "pic scan" = "MULAI/SCAN"; //拍照/掃描
 "pic scan 2" = "MULAI SCAN"; //拍照/掃描
+
+"scan failed" = "Scan Gagal"; //掃描失敗
+"or" = "Atau";
+"re scan" = "Scan Ulang"; //重新掃描
+"input arc number" = "Masukkan nomor ARC";
+"Incorrect ARC Number" = "Nomor ARC Salah";
+"Please input Your ARC number correctly" = "Silahkan masukkan Nomor ARC Anda dengan benar";
+
 "back" = ""; //返回(改成不顯示)
 "back Show" = "KEMBALI"; //返回
 "send" = "KIRIM"; //送出
@@ -26,10 +35,12 @@
 "API DecodeFail" = "Server sedang sibuk, silakan coba lagi nanti"; //伺服器忙線中，請稍候再試
 "account" = "Nomor ARC"; //帳號
 "passcode" = "Kata Sandi"; //密碼
-"scan again" = "SCAN ULANG"; //再次掃描
-"scan format wrong" = "Wrong"; //掃描格式錯誤
+"scan again" = "Scan Ulang"; //再次掃描
+"scan format wrong" = "Format Salah"; //掃描格式錯誤
+"Please input Your ARC number" = "Masukkan No ARC"; //請輸入
 "API Timeout" = "Jaringan Internet Anda Tidak Stabil, Silahkan Dicoba Kembali";
 "SMS Code Wrong" = "Kode SMS Salah, Silahkan Diulangi";
+"Please Update App" = "Perbaharui Sekarang Juga, Sebelum Melakukan Transaksi"; //強制更新
 
 "Arc Change Same Time" = "Silahkan Perbaharui Semua Photo ARC dan Tanda Tangan";
 "Self Photo Change Same Time" = "Silahkan Perbaharui Semua Data Photo Paspor dan Tanda Tangan";
@@ -130,7 +141,8 @@
 "Register Input Foto Select Camera" = "Ambil Foto Dari Kamera";
 "Register Input Foto Select Gallery" = "Pilih Dari Galeri";
 
-"Profile Main Title" = "Profil Anda";
+"Profile Main Title" = "PROFIL ANDA";
+"Profile Main ChangePhone" = "Ganti Nomor HP";
 "Profile Main Point" = "Poin Anda";
 "Profile Main Reciter" = "Daftar Nomor Rekening";
 "Profile Main Transaction" = "Riwayat Transaksi";
@@ -213,8 +225,9 @@
 "Transfer Result Go Map Title" = "Cari Mini Market Terdekat";
 "Transfer Result Pay Title" = "LANGSUNG KE KASIR";
 
-"Transfer PayStep Title" = "Kode Pin Anda";
+"Transfer PayStep Title" = "KODE PIN ANDA";
 "Transfer PayStep Up Intro" = "Silahkan melakukan\npembayaran dikasir";
+"Transfer PayStep Intro" = "Silahkan pilih metode pembayaran";
 "Transfer PayStep Min Title" = "MENIT";
 "Transfer PayStep Sec Title" = "DETIK";
 "Transfer PayStep Warn" = "Masa berlaku barcode hanya 10 menit\nJika masa berlaku barcode berakhir, Anda dapat meminta\nulang dengan menekan\ntombol di atas";
@@ -225,3 +238,37 @@
 "Transfer Expired Step Warn2" = "Barcode pembayaran Anda\ntelah habis masa berlaku";
 "Transfer Expired Step Warn Title" = "Mohon Maaf";
 "Transfer Expired Step Btn Title" = "MINTA ULANG BARCODE";
+
+"Coming Soon" = "Segera Hadir";
+
+"Transfer New Main 711" = "Seven Eleven";
+"Transfer New Main family" = "Family Mart";
+"Transfer New Main ok" = "OK Mart";
+"Transfer New Main hilife" = "Hi-Life";
+"Transfer New Main bank" = "Transfer ke Rekening Bank";
+
+"Transfer New bank code" = "Kode Bank (銀行代碼)";
+"Transfer New bank acc" = "Nomor Rekening (帳號)";
+"Transfer New bank total" = "Total (總金額)";
+"Transfer New bank expire" = "繳費截止時間：";
+"Transfer New bank expire 2" = "超過繳費時間，請重新下單取得新的繳費帳號";
+"Transfer New bank expire 3" = "Masa Berlaku kode PIN Anda akan berakhir pada";
+"Transfer New bank expire year" = "Tanggal";
+"Transfer New bank expire time" = "pukul";
+"Transfer New bank copy success" = "Sukses";
+
+"Change Data Intro Title" = "Verifikasi Nomor HP";
+"Change Data Intro Line1" = "Pastikan No. Telepon Anda Aktif";
+"Change Data Intro Line2" = "Kami akan mengirimakn\nKode SMS ke No. Telepon Anda";
+"Change Data Intro Btn Title" = "Ganti Nomor HP";
+
+"Change Phone Bar Title" = "MASUKKAN NOMOR HP BARU";
+"Change Phone Title" = "Nomor HP Lama";
+"Change Phone Title2" = "Masukkan Nomor HP Baru";
+"Change Phone Warn" = "*Nomor HP Salah";
+
+"Register AddDate Title" = "Tanggal Lahir";
+"Register AddDate Title2" = "Masa Berlaku ARC";
+"Purpose placeholder" = "Pilih Hubungan";
+"Purpose Select default word" = "Silahkan Pilih";
+"Purpose Select Title" = "Tujuan Kirim Uang";

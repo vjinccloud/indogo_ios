@@ -22,6 +22,23 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
     var showDataList:[RecipientObj] = []
     //因為怕會重複一直進入而產生無法返回的迴圈
     var hasGotoAddRecipient = false
+    var embededPurpooseView:UIView!
+    
+    //MARK: - Purpose
+    func embededPurpose() {
+        let controller = TransferPurposeEmbededVC(nibName: "TransferPurposeEmbededVC", bundle: nil)
+        controller.parentVC = self
+        //add as a childviewcontroller
+        addChild(controller)
+
+         // Add the child's View as a subview
+         self.view.addSubview(controller.view)
+         controller.view.frame = view.bounds
+         controller.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+         // tell the childviewcontroller it's contained in it's parent
+        controller.didMove(toParent: self)
+    }
     
     //MARK: - TableView Delegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -38,6 +55,7 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
         let serchBankobj = UtilityTool().searchBankObj(BankName: cellData.bank_name!)
         
         let imgurl = serchBankobj.bank_photo!
+        print("bank_photo = \(imgurl)")
         let urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
         cell.logoImgV.kf.setImage(with: urlhaed)
         
@@ -65,6 +83,29 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
         }
         
         AppDelegate.shared().transactionObj.recipientObj = showDataList[indexPath.row]
+        embededPurpose()
+        
+        /*
+        AppDelegate.shared().transactionObj.recipientObj = showDataList[indexPath.row]
+        
+        var storyboardId = "TransactionInfoConfirmVC"
+        if AppDelegate.shared().deviceSmall {
+            storyboardId = "TransactionInfoConfirmVCSmall"
+        }
+        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: storyboardId) as? TransactionInfoConfirmVC
+        self.navigationController?.pushViewController(nextVC!, animated: true)*/
+    }
+    
+    //MARK: - Purpose
+    func addPurposeNextAction() {
+        if self.children.count > 0{
+            let viewControllers:[UIViewController] = self.children
+            for viewContoller in viewControllers{
+                viewContoller.willMove(toParent: nil)
+                viewContoller.view.removeFromSuperview()
+                viewContoller.removeFromParent()
+            }
+        }
         
         var storyboardId = "TransactionInfoConfirmVC"
         if AppDelegate.shared().deviceSmall {
@@ -77,7 +118,7 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
     //MARK: - API
     public func hideRecipient(Recipient obj:RecipientObj) {
         let serchBankobj = UtilityTool().searchBankObj(BankName: obj.bank_name!)
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "bank_code":serchBankobj.bank_code!, "bank_acc":obj.bank_acc!]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "bank_code":serchBankobj.bank_code!, "bank_acc":obj.bank_acc!, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         closeAll()
         AppDelegate.shared().addLoadingView()
@@ -86,7 +127,7 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -113,9 +154,9 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
     public func getRecipents() {
         var parameters:Parameters = [:]
         if canSelectForTransfer {
-            parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":AppDelegate.shared().transactionObj.totalNtdValue, "use_remit_point":1]
+            parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":AppDelegate.shared().transactionObj.totalNtdValue, "use_remit_point":1, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         } else {
-            parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":0, "use_remit_point":0]
+            parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":0, "use_remit_point":0, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         }
         
         let headers: HTTPHeaders = [:]
@@ -126,7 +167,7 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -200,6 +241,19 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        guard let text = textField.text else{
+            return true
+        }
+        
+        if !string.checkAlphabetDigitAndSpace() {
+            return false
+        }
+        
+        let textLength = text.count + string.count - range.length
+        if textLength>20 {
+            return false
+        }
         
         let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         reloadDataAndTable(Str: newString)

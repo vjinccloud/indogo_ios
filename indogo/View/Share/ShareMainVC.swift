@@ -29,13 +29,13 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     //MARK: - API
     func getPointHistory() {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         AppDelegate.shared().addLoadingView()
         
         let todoEndpoint: String = API_PointHistoryList;
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -62,7 +62,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     public func getShareContent() {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "doc_name":"分享文案"]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "doc_name":"分享文案", "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         AppDelegate.shared().addLoadingView()
@@ -71,7 +71,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -194,7 +194,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     public func callMemberData() {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken]
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         AppDelegate.shared().addLoadingView()
@@ -203,7 +203,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -262,7 +262,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     @IBAction func transferPointAction(_ sender: Any) {
         //暫時隱藏功能
-        AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("Coming Soon", comment: "") + " ...")
+        AppDelegate.shared().showNormalAlertWithWindow(self, Message: NSLocalizedString("Coming Soon", comment: "") + " ...")
         
         return
         let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransferPointVC") as? TransferPointVC

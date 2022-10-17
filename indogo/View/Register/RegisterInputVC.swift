@@ -55,6 +55,28 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
     var hasMeCode = false
     var meImg:UIImage!
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        guard let text = textField.text else{
+            return true
+        }
+        
+        if textField == accountTextfield || textField == passTextField || textField == rePassTextField || textField == arcTextfield {
+            if !string.checkAlphabetDigit() {
+                return false
+            }
+        }
+        
+        
+        let textLength = text.count + string.count - range.length
+        if textLength>20 {
+            return false
+        }
+        
+        return true
+
+    }
+    
     //MARK: - Button-Action
     @IBAction func shareCodeInputAction(_ sender: Any) {
         let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterShareInputVC") as? RegisterShareInputVC
@@ -76,8 +98,12 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
             AppDelegate.shared().tempRegisterObj.shareCode = ""
         }
         
-        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterIDTakePhotoVC") as? RegisterIDTakePhotoVC
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterAddDateVC") as? RegisterAddDateVC
         self.navigationController?.pushViewController(nextVC!, animated: true)
+        
+        /*
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterIDTakePhotoVC") as? RegisterIDTakePhotoVC
+        self.navigationController?.pushViewController(nextVC!, animated: true)*/
     }
     
     @IBAction func cancelAction(_ sender: Any) {
@@ -534,14 +560,14 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
     
     //測試用(僅在模擬器發生)
     func simulatorNextAction() {
-        /*
+        
         accountTextfield.text = "ask"
         phoneTextfield.text = "0935499332"
         passTextField.text = "a12345"
         rePassTextField.text = "a12345"
         setArcCodeString(Code: "XC00000092") //XX00000037
         
-        checkNextBtnState(CheckText: true)*/
+        checkNextBtnState(CheckText: true)
     }
 
     /*

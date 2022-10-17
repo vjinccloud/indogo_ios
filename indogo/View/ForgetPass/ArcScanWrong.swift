@@ -14,6 +14,7 @@ class ArcScanWrong: UIViewController {
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var preBtn: UIButton!
     @IBOutlet weak var topL: UILabel!
+    @IBOutlet weak var orL: UILabel!
     
     public var fromType:ScanParentType = ScanParentType.forgotPass
     
@@ -46,6 +47,7 @@ class ArcScanWrong: UIViewController {
         preBtn.layer.borderWidth = 0.5
         preBtn.layer.borderColor = UIColor.white.cgColor
         topL.text = NSLocalizedString("scan failed", comment: "")
+        orL.text = NSLocalizedString("or", comment: "")
     }
     
 

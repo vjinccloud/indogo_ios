@@ -27,6 +27,9 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
     var stopNow:Bool = false
     var allStop = false
     
+    var wrongTimes = 0
+    var countDownTimer:Timer!
+    
     public var fromType:ScanParentType = ScanParentType.forgotPass
     
     //MARK: - Utility
@@ -34,6 +37,10 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
         obj.removeFromSuperview()
         self.stopNow = false
         self.captureSession.startRunning()
+        
+        if countDownTimer == nil {
+            countDownTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(countDownEnd), userInfo: nil, repeats: false)
+        }
     }
     
     func customAlertnextActionSecond(Ref obj: CustomAlertView) {
@@ -64,17 +71,30 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
         }
         
         if checkedWrong {
-            let window = UIApplication.shared.keyWindow
-            let customAlert = CustomAlertView.init(frame: self.view.frame)
-            customAlert.initSimpleAlert(Title: "", Content: NSLocalizedString("scan format wrong" , comment: ""), NextBtn1Str: NSLocalizedString("ok" , comment: ""))
-            window!.addSubview(customAlert)
-            customAlert.customDelegate = self
+            if wrongTimes == 3 {
+                //改成跳新的一頁
+                let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ArcScanWrong") as? ArcScanWrong
+                nextVC!.fromType = fromType
+                self.navigationController?.pushViewController(nextVC!, animated: true)
+            } else {
+                wrongTimes += 1;
+                
+                let window = UIApplication.shared.keyWindow
+                let customAlert = CustomAlertView.init(frame: self.view.frame)
+                customAlert.initSimpleAlert(Title: "", Content: NSLocalizedString("scan format wrong" , comment: ""), NextBtn1Str: NSLocalizedString("ok" , comment: ""))
+                window!.addSubview(customAlert)
+                customAlert.customDelegate = self
+            }
+            
+            /*
+            
+            */
             return
         }
         
         scanL.isHidden = true
         
-        let parameters:Parameters = ["arc_no":code]
+        let parameters:Parameters = ["arc_no":code, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
         Dlog("parameters=\(parameters)")
@@ -82,7 +102,7 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
         AppDelegate.shared().addLoadingView()
         
         let todoEndpoint: String = API_CheckMemExist;
-        AppDelegate.shared().alamofireManagerWithTimeout.request(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
             .responseString(encoding: String.Encoding.utf8)  { response in
                 AppDelegate.shared().removeLoadingView()
                 
@@ -146,6 +166,10 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
         stopNow = false
         if allStop != true, captureSession?.isRunning == false {
             captureSession.startRunning()
+            
+            if countDownTimer == nil {
+                countDownTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(countDownEnd), userInfo: nil, repeats: false)
+            }
         }
     }
     
@@ -153,11 +177,11 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
     func metadataOutput(_ captureOutput: AVCaptureMetadataOutput,
                         didOutput metadataObjects: [AVMetadataObject],
                         from connection: AVCaptureConnection) {
+      
         // Check if the metadataObjects array is contains at least one object.
         if metadataObjects.count == 0 {
             return
         }
-        
         //self.captureSession?.stopRunning()
         
         // Get the metadata object.
@@ -171,6 +195,10 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
                     }
                     self.stopNow = true
                     if (self.captureSession?.isRunning == true) {
+                        if self.countDownTimer != nil, self.countDownTimer.isValid {
+                            self.countDownTimer.invalidate()
+                            self.countDownTimer = nil;
+                        }
                         self.captureSession.stopRunning()
                     }
                     self.scanNext(Code: outputString)
@@ -199,7 +227,6 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
     }
     
     func initCamera() {
-        
         guard let captureDevice = AVCaptureDevice.default(for: AVMediaType.video) else {
             Dlog("無攝影裝置")
             #if targetEnvironment(simulator)
@@ -240,7 +267,7 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
             
             //Initialise the video preview layer and add it as a sublayer to the viewPreview view's layer
             
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [self] in
                 
                 let previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
                 previewLayer.frame = self.scanView.layer.bounds
@@ -251,6 +278,11 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
                 
                 //start video capture
                 self.captureSession?.startRunning()
+                
+                if self.countDownTimer == nil {
+                    self.countDownTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(countDownEnd), userInfo: nil, repeats: false)
+                }
+                
                 self.scanL.isHidden = false
                 self.scanL.blink()
             }
@@ -279,14 +311,33 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
         scanL.isHidden = true
     }
     
+    @objc func countDownEnd() {
+        if countDownTimer != nil, countDownTimer.isValid {
+            countDownTimer.invalidate()
+            countDownTimer = nil;
+        }
+        let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ArcScanWrong") as? ArcScanWrong
+        nextVC!.fromType = fromType
+        self.navigationController?.pushViewController(nextVC!, animated: true)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if (captureSession?.isRunning == false) {
-            captureSession.startRunning()
-        }
-        
         if loadOnce {
+            
+            if (captureSession?.isRunning == false) {
+                captureSession.startRunning()
+                
+                self.scanL.isHidden = false
+                self.scanL.blink()
+                
+                if countDownTimer == nil {
+                    countDownTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(countDownEnd), userInfo: nil, repeats: false)
+                }
+            }
+            
+            wrongTimes = 0
             stopNow = false
             allStop = false
             return
@@ -302,6 +353,10 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
         allStop = true
         stopNow = true
         if (captureSession?.isRunning == true) {
+            if countDownTimer != nil, countDownTimer.isValid {
+                countDownTimer.invalidate()
+                countDownTimer = nil;
+            }
             captureSession.stopRunning()
         }
     }
