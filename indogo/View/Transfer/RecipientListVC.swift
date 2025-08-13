@@ -85,15 +85,6 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
         AppDelegate.shared().transactionObj.recipientObj = showDataList[indexPath.row]
         embededPurpose()
         
-        /*
-        AppDelegate.shared().transactionObj.recipientObj = showDataList[indexPath.row]
-        
-        var storyboardId = "TransactionInfoConfirmVC"
-        if AppDelegate.shared().deviceSmall {
-            storyboardId = "TransactionInfoConfirmVCSmall"
-        }
-        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: storyboardId) as? TransactionInfoConfirmVC
-        self.navigationController?.pushViewController(nextVC!, animated: true)*/
     }
     
     //MARK: - Purpose
@@ -154,7 +145,13 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
     public func getRecipents() {
         var parameters:Parameters = [:]
         if canSelectForTransfer {
-            parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":AppDelegate.shared().transactionObj.totalNtdValue, "use_remit_point":1, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
+            
+            var use_remit_point = 0
+            if AppDelegate.shared().transactionObj.usePoint > 0 {
+                use_remit_point = 1
+            }
+            
+            parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":AppDelegate.shared().transactionObj.ntdValue, "use_remit_point":use_remit_point, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         } else {
             parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":0, "use_remit_point":0, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         }

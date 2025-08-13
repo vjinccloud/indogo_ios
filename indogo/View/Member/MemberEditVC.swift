@@ -50,6 +50,13 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
     @IBOutlet weak var forthView: UIView!
     @IBOutlet weak var signView: UIView!
     
+    @IBOutlet weak var subBarV1: UIView!
+    @IBOutlet weak var subBarV2: UIView!
+    @IBOutlet weak var subBarV3: UIView!
+    @IBOutlet weak var subBarV4: UIView!
+    @IBOutlet weak var subBarV5: UIView!
+    
+    @IBOutlet weak var barV: GradianBarView!
     var meImg:UIImage!
     
     var frontImage:UIImage!
@@ -60,6 +67,8 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
     
     var hasUpdateARC = false
     var hasUpdateID = false
+    var loadOnce = false
+    var selectFrom:MemberPhotoEditFrom = .avatar
     
     @IBOutlet weak var nextBtn: UIButton!
     
@@ -273,15 +282,11 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
     }
     
     @IBAction func takeForthPhoto(_ sender: Any) {
-        var storyboardId = "RegisterIDTakeIntroVC"
-        if AppDelegate.shared().deviceSmall {
-            storyboardId = "RegisterIDTakeIntroVCSmall"
-        }
-        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: storyboardId) as? RegisterIDTakeIntroVC
-        nextVC?.takePhotoType = PhotoIDType.passportFromEdit
-        self.navigationController?.pushViewController(nextVC!, animated: true)
-        
-        hideTopAndBottom()
+        selectFrom = .visa
+        let customAlert = CustomAlertView.init(frame: topScrollView.frame)
+        customAlert.initTwoActionAlert(Title: NSLocalizedString("Register Input Foto Select Title" , comment: ""), Content: "", NextBtn1Str: NSLocalizedString("Register Input Foto Select Camera" , comment: ""), NextBtn2Str: NSLocalizedString("Register Input Foto Select Gallery" , comment: ""), CancelBtn1Str: NSLocalizedString("cancel" , comment: ""))
+        self.view.addSubview(customAlert)
+        customAlert.customDelegate = self
     }
     
     @IBAction func signAction(_ sender: Any) {
@@ -320,11 +325,17 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
             return
         }
         
+        //202304 改成先送出更新再驗證
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "MemberChangeDataIntroVC") as? MemberChangeDataIntroVC
+        self.navigationController?.pushViewController(nextVC!, animated: true)
+        /*
         //回會員頁
         self.navigationController?.popViewController(animated: true)
+         */
     }
     
     @IBAction func callCamActon(_ sender: Any) {
+        selectFrom = .avatar
         let customAlert = CustomAlertView.init(frame: topScrollView.frame)
         customAlert.initTwoActionAlert(Title: NSLocalizedString("Register Input Foto Select Title" , comment: ""), Content: "", NextBtn1Str: NSLocalizedString("Register Input Foto Select Camera" , comment: ""), NextBtn2Str: NSLocalizedString("Register Input Foto Select Gallery" , comment: ""), CancelBtn1Str: NSLocalizedString("cancel" , comment: ""))
         self.view.addSubview(customAlert)
@@ -333,19 +344,33 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
     
     func customAlertnextAction(Ref obj: CustomAlertView) {
         obj.removeFromSuperview()
-        ImagePicker.GetCameraStatus(view: self,completion: { (scuess)->Void in
-            if(scuess){
-                //拍照
-                DispatchQueue.main.async{
-                    let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterSelfPhotoVC") as? RegisterSelfPhotoVC
-                    nextVC?.takePhotoType = .normalFromEdit
-                    self.navigationController?.pushViewController(nextVC!, animated: true)
+        
+        if selectFrom == .visa {
+            var storyboardId = "RegisterIDTakeIntroVC"
+            if AppDelegate.shared().deviceSmall {
+                storyboardId = "RegisterIDTakeIntroVCSmall"
+            }
+            let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: storyboardId) as? RegisterIDTakeIntroVC
+            nextVC?.takePhotoType = PhotoIDType.passportFromEdit
+            self.navigationController?.pushViewController(nextVC!, animated: true)
+            
+            hideTopAndBottom()
+            return
+        } else if selectFrom == .avatar {
+            ImagePicker.GetCameraStatus(view: self,completion: { (scuess)->Void in
+                if(scuess){
+                    //拍照
+                    DispatchQueue.main.async{
+                        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterSelfPhotoVC") as? RegisterSelfPhotoVC
+                        nextVC?.takePhotoType = .normalFromEdit
+                        self.navigationController?.pushViewController(nextVC!, animated: true)
+                    }
                 }
-            }
-            else{
-                print("無法使用相機")
-            }
-        })
+                else{
+                    print("無法使用相機")
+                }
+            })
+        }
     }
     
     func customAlertnextActionSecond(Ref obj: CustomAlertView) {
@@ -391,7 +416,11 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
                 return
             }
             
-            self.setImage(Image: UIImage.init(data: data)!)
+            if self.selectFrom == .avatar {
+                self.setImage(Image: UIImage.init(data: data)!)
+            } else if self.selectFrom == .visa {
+                self.setTakedPic(Type: .passportFromEdit, Img: UIImage.init(data: data)!)
+            }
         })
     }
     
@@ -484,10 +513,10 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
 
         // Do any additional setup after loading the view.
         backL.text = NSLocalizedString("back", comment: "")
-        
+        barV.addGradienOfIndoGo()
         nextBtn.setTitle(NSLocalizedString("ok", comment: ""), for: .normal)
         nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2
-        nextBtn.layer.backgroundColor = Color_Main_Red.cgColor
+        nextBtn.layer.backgroundColor = UIColor.clear.cgColor
         nextBtn.setTitleColor(.white, for: .normal)
         nextBtn.layer.borderWidth = 0.5
         nextBtn.layer.borderColor = Color_Main_Red.cgColor
@@ -549,11 +578,11 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
         var imgurl = ServerURL + AppDelegate.shared().memberData["arc_photo"]!
         var urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
         firstImgV.kf.setImage(with: urlhaed)
-        
+        Dlog("arc_photo imgurl = \(imgurl)")
         imgurl = ServerURL + AppDelegate.shared().memberData["arc_back_photo"]!
         urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
         secImgV.kf.setImage(with: urlhaed)
-        
+        Dlog("arc_back_photo imgurl = \(imgurl)")
         imgurl = ServerURL + AppDelegate.shared().memberData["self_photo"]!
         urlhaed = URL(string: imgurl.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)
         thirdImgV.kf.setImage(with: urlhaed)
@@ -574,6 +603,18 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
         
         AppDelegate.shared().showTopButton()
         AppDelegate.shared().showBottomMenu()
+        
+        if loadOnce {
+            return
+        }
+        
+        loadOnce = true
+        subBarV1.addGradienOfIndoGo()
+        subBarV2.addGradienOfIndoGo()
+        subBarV3.addGradienOfIndoGo()
+        subBarV4.addGradienOfIndoGo()
+        subBarV5.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
     }
 
     /*

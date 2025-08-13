@@ -18,6 +18,16 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     @IBOutlet weak var searchTextfield: UITextField!
     @IBOutlet weak var myTable: UITableView!
     
+    @IBOutlet weak var leftV: UIView!
+    @IBOutlet weak var leftL: UILabel!
+    @IBOutlet weak var rightV: UIView!
+    @IBOutlet weak var rightL: UILabel!
+    
+    @IBOutlet weak var leftImgV: UIImageView!
+    @IBOutlet weak var rightImgV: UIImageView!
+    @IBOutlet weak var leftBtn: UIButton!
+    @IBOutlet weak var rightBtn: UIButton!
+    
     var showDataList:[TransferStateObj] = []
     var showOrderCheckDataList:[TransferOrderCheckObj] = []
     var searchShowIndex:[Int] = []
@@ -32,15 +42,17 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     var pageEnd = false
     var moreStart = false
     var lastReadDetailIdx = 0
+    var choseState = 0
     
     //MARK: - Scroll
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if  pageEnd == false, moreStart == false, (myTable.contentOffset.y+10)>=(myTable.contentSize.height-myTable.frame.size.height) {
+        /*
+        if  searchTextfield.text == "", pageEnd == false, moreStart == false, (myTable.contentOffset.y+10)>=(myTable.contentSize.height-myTable.frame.size.height) {
             //self.searchNews(Add: true)
             generateTimeString()
             getTransferList()
             moreStart = true
-        }
+        }*/
     }
     
     //MARK: - Handle Time
@@ -100,6 +112,7 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         
         let colorIdx = Int(cellOrderCheckData.order_status)! - 1
         if colorIdx >= 0, colorIdx <= 4 {
+            Dlog("cellBarColor\(colorIdx), \(cellOrderCheckData.order_status)")
             cell.barV.backgroundColor = cellBarColor[colorIdx]
         }
         
@@ -293,19 +306,22 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     }
     
     public func getTransferList(UsingDate usingDate:Bool = true) {
-        var parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "date_start":dateStartStr, "date_end":dateEndStr, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
+        /*
+        var parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "date_start":dateStartStr, "date_end":dateEndStr, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString(), "transfered":choseState]
         Dlog("usingDate = \(usingDate)")
         if usingDate == false {
             AppDelegate.shared().transferStateListObjs = []
-            parameters = ["token":AppDelegate.shared().sessionToken]
+            parameters = ["token":AppDelegate.shared().sessionToken, "transfered":choseState]
         }
-        
+        */
+        //改成都取得全部
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString(), "transfered":choseState]
         let headers: HTTPHeaders = [:]
         closeAll()
         AppDelegate.shared().addLoadingView()
         
         let todoEndpoint: String = API_TransferHistory;
-        
+        Dlog("a list count = \(AppDelegate.shared().transferStateListObjs.count)")
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
         AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
@@ -332,8 +348,10 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
                     if usingDate == false {
                         self.pageEnd = true
                     } else {
+                        Dlog("list count = \(AppDelegate.shared().transferStateListObjs.count)")
                         if AppDelegate.shared().transferStateListObjs.count == 0 { //如果第一次取得就是沒有項目，則轉成取得全部
-                            self.getTransferList(UsingDate: false)
+                            //self.getTransferList(UsingDate: false)
+                            self.reloadDataAndTable(Str: self.searchTextfield.text!)
                         } else {
                             self.getAllOrdersDetail()
                         }
@@ -351,6 +369,22 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     }
     
     //MARK: - Button-Action
+    @IBAction func leftAction(_ sender: Any) {
+        choseState = 0
+        lastReadDetailIdx = 0
+        AppDelegate.shared().transferStateListObjs = []
+        AppDelegate.shared().transferOrderCheckListObjs = []
+        btnStateAndAction(Next: true)
+    }
+    
+    @IBAction func rightAction(_ sender: Any) {
+        choseState = 1
+        lastReadDetailIdx = 0
+        AppDelegate.shared().transferStateListObjs = []
+        AppDelegate.shared().transferOrderCheckListObjs = []
+        btnStateAndAction(Next: true)
+    }
+    
     @IBAction func searchAction(_ sender: Any) {
         closeAll()
         reloadDataAndTable(Str: searchTextfield.text!)
@@ -405,6 +439,22 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     }
     
     //MARK: - Utility
+    func btnStateAndAction(Next next:Bool = false) {
+        if choseState == 0 {
+            leftV.backgroundColor = Color_BtnChose
+            rightV.backgroundColor = Color_BtnNotChose
+            rightImgV.image = UIImage.init(named: "rightcircle0")
+        } else {
+            rightV.backgroundColor = Color_BtnChose
+            leftV.backgroundColor = Color_BtnNotChose
+            rightImgV.image = UIImage.init(named: "rightcircle")
+        }
+        
+        if next {
+            getTransferList()
+        }
+    }
+    
     func reloadDataAndTable(Str str:String) {
         //根據search字串過濾
         searchShowIndex = []
@@ -443,6 +493,15 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         myTable.backgroundColor = .clear
         myTable.separatorStyle = .none
         
+        leftV.layer.cornerRadius = 5
+        rightV.layer.cornerRadius = 5
+        leftImgV.image = UIImage.init(named: "leftcircle")
+        leftL.text = NSLocalizedString("Transfer State Left Btn", comment: "")
+        
+        rightImgV.image = UIImage.init(named: "rightcircle0")
+        rightL.text = NSLocalizedString("Transfer State Right Btn", comment: "")
+        btnStateAndAction()
+        
         searchTextfield.keyboardType = .default
         searchTextfield.returnKeyType = .search
         searchTextfield.delegate = self
@@ -456,13 +515,12 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         
         if loadOnce {
             pageEnd = false
-            getTransferList()
+            btnStateAndAction(Next: true)
             AppDelegate.shared().showTopButton()
             return
         }
         
         loadOnce = true
-        
         cellBarColor.append(UtilityTool().hexStringToUIColor(hex: "#BD1621"))
         cellBarColor.append(UtilityTool().hexStringToUIColor(hex: "#156784"))
         cellBarColor.append(UtilityTool().hexStringToUIColor(hex: "#FDA11A"))
@@ -471,7 +529,7 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         
         //nowPage = 1
         generateTimeString(FromeStart: true)
-        getTransferList()
+        btnStateAndAction(Next: true)
         
         //頂部兩個按鈕
         AppDelegate.shared().topMargin = self.view.safeAreaInsets.top

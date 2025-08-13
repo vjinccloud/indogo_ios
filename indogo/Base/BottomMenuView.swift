@@ -25,30 +25,30 @@ class BottomMenuView: UIView {
         //扣除底部安全距離的高度
         realHeightWithoutSafetyBottom = height
         
-        self.backgroundColor = UtilityTool().hexStringToUIColor(hex: "#333333")
+        self.backgroundColor = UtilityTool().hexStringToUIColor(hex: "#ffffff")
         buttonWidth = (self.frame.size.width-2*spaceWidth)/CGFloat(totalButtons)
-        btnNormalAry.append("w_sand")
-        btnChosedAry.append("r_sand")
+        btnNormalAry.append("r_sand")
+        btnChosedAry.append("w_sand")
         btnFuncType.append(.transaction)
         
-        btnNormalAry.append("w_record")
-        btnChosedAry.append("r_record")
+        btnNormalAry.append("r_record")
+        btnChosedAry.append("w_record")
         btnFuncType.append(.transState)
         
-        btnNormalAry.append("w_share")
-        btnChosedAry.append("r_share")
+        btnNormalAry.append("r_share")
+        btnChosedAry.append("w_share")
         btnFuncType.append(.sharing)
         
-        btnNormalAry.append("w_notice")
-        btnChosedAry.append("r_notice")
+        btnNormalAry.append("r_notice")
+        btnChosedAry.append("w_notice")
         btnFuncType.append(.notice)
         
-        btnNormalAry.append("w_mamber")
-        btnChosedAry.append("r_mamber")
+        btnNormalAry.append("r_mamber")
+        btnChosedAry.append("w_mamber")
         btnFuncType.append(.profile)
         
         topLine = UIView.init(frame: CGRect.init(x: 0, y: 0, width: buttonWidth, height: 2))
-        topLine.backgroundColor = UIColor.init(red: 26/255, green: 143/255, blue: 246/255, alpha: 1)
+        topLine.backgroundColor = Color_Main_Red
         self.addSubview(topLine)
         
         for i in 0..<totalButtons {

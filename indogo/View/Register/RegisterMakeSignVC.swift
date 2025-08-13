@@ -21,6 +21,7 @@ class RegisterMakeSignVC: UIViewController {
     @IBOutlet weak var confirmView: UIView!
     @IBOutlet weak var cancelBtn: UIButton!
     @IBOutlet weak var confirmBtn: UIButton!
+    @IBOutlet weak var barV: UIView!
     
     var takePhotoType:PhotoIDType = PhotoIDType.sign
     
@@ -69,12 +70,15 @@ class RegisterMakeSignVC: UIViewController {
         
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.height/2
         cancelBtn.backgroundColor = .clear
-        cancelBtn.layer.borderColor = Color_Main_Red.cgColor
+        cancelBtn.layer.borderColor = Color_Purple.cgColor
         cancelBtn.layer.borderWidth = 0.5
         confirmBtn.layer.cornerRadius = confirmBtn.frame.size.height/2
         
         cancelBtn.setTitle(NSLocalizedString("Register Self Photo Retake", comment: ""), for: .normal)
         confirmBtn.setTitle(NSLocalizedString("Register Self Photo Confrim", comment: ""), for: .normal)
+        
+        barV.addGradienOfIndoGo()
+        confirmBtn.addGradienOfIndoGo()
     }
     
     /*

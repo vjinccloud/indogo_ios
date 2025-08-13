@@ -13,6 +13,7 @@ import UIKit
 var AppWidth:CGFloat = 320.0
 var AppTotalHeight:CGFloat = 960.0
 var AppTopBarHeight:CGFloat = 50.0
+var AppBottomBarHeight:CGFloat = 50.0
 var AppEmptyHeight:CGFloat = 800.0
 var FirebaseToken = ""
 
@@ -21,14 +22,20 @@ var ImageLimitInBytes:Int = 300000
 let SecureSaltStr = "indo"
 let SecureIvStr = "indogoEncodeIv00"
 let SecurePSStr = "indogoEncodePass"
+let AES28Key = "cryptindogocrypt"
 
 //顏色
 public let Color_Main_Bule = UtilityTool().hexStringToUIColor(hex: "#2a65ec")
-public let Color_Main_Red = UtilityTool().hexStringToUIColor(hex: "#b20808")
+public let Color_Main_Red = UtilityTool().hexStringToUIColor(hex: "#83088c") //UtilityTool().hexStringToUIColor(hex: "#b20808")
 public let Color_Main_LightGray = UtilityTool().hexStringToUIColor(hex: "#d6d7d8")
 public let Color_Main_DarkGray = UtilityTool().hexStringToUIColor(hex: "#3b3f47")
 public let Color_Gradient_Left = UtilityTool().hexStringToUIColor(hex: "#83088c")
 public let Color_Gradient_Right = UtilityTool().hexStringToUIColor(hex: "#d2118a")
+
+public let Color_BtnChose = UIColor.init(named: "BtnChose")!
+public let Color_BtnNotChose = UIColor.init(named: "BtnNotChose")!
+public let Color_NewBg = UIColor.init(named: "NewBg")!
+public let Color_Purple = UIColor.init(named: "Purple")!
 
 //開發階段
 let DevMode = false
@@ -37,11 +44,12 @@ let Lang_APIDecodeFail = NSLocalizedString("API DecodeFail", comment: "伺服器
 let AppVersion = "1.0"
 let AppId = 1
 //正式
-//let ServerURL = "https://prod.indogo.link"
-let ServerURL = "https://prod.indogo.com.tw"
+//let ServerURL = "https://prod.indogo.com.tw"
 //測試機
-//let ServerURL = "https://dev.indogo.link"
+let ServerURL = "https://Prod.indogo.com.tw"
 //(測試機全家會有問題)
+
+let PinCodeMode = 3
 
 //訂票時限
 let orderTicketTimeLimitSecs:Double = 300
@@ -49,6 +57,7 @@ let orderTicketTimeLimitSecs:Double = 300
 //API後續網址設定
 let API_Promo = ServerURL + "/app/remit/app_photos"
 let API_Login = ServerURL + "/app/remit/login"
+let API_CheckArcExist = ServerURL + "/app/check_arc_exists"
 let API_CheckLogin = ServerURL + "/app/remit/check_token"
 let API_CheckMemExist = ServerURL + "/app/remit/check_mem_exists"
 let API_SendSMS = ServerURL + "/app/remit/password_forget_sms"
@@ -64,6 +73,7 @@ let API_TransferPointFirstStep = ServerURL + "/app/remit/point_transfer_check"
 let API_TransferPointSecondStep = ServerURL + "/app/remit/point_transfer"
 let API_MemberRecipents = ServerURL + "/app/remit/member_recipients"
 let API_MemberHideRecipent = ServerURL + "/app/remit/hide_recipient"
+let API_MemberDelete = ServerURL + "/app/remit/delete_member"
 let API_BankList = ServerURL + "/app/remit/bank_list"
 let API_AddRecipient = ServerURL + "/app/remit/add_recipient_v2"
 let API_TransferHistory = ServerURL + "/app/remit/money_transfer_history"
@@ -86,14 +96,31 @@ let API_GetRelation = ServerURL + "/app/remit/relationship"
 let API_SendUpdatePhoneSMS = ServerURL + "/app/remit/update_phone_sms"
 let API_VerifyUpdatePhoneSMS = ServerURL + "/app/remit/update_phone"
 
+let API_GetInfo = ServerURL + "/app/get_info"
+let API_VerifyPointMsg = ServerURL + "/app/remit/verify_point_msg"
+let API_VerifyPoint = ServerURL + "/app/remit/verify_point"
+let API_DataCheck = ServerURL + "/app/remit/data_check"
+
 public enum TransferMemberStyle {
     case normal
     case shop
 }
 
+enum MemberPhotoEditFrom {
+    case avatar
+    case visa
+    case none
+}
+
+enum EnterPassNextAction {
+    case Login
+    case Transfer
+}
+
 enum ScanParentType {
     case forgotPass
     case register
+    case mainToScan
 }
 
 enum PhotoIDType {

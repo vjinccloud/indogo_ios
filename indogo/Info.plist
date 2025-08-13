@@ -32,11 +32,13 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<true/>
+		<false/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>IndoGo ingin mengakses kamera Anda
 Untuk scan ARC dan foto dokumen identitas Anda</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Because the APP can only be used in Taiwan, we kindly request information regarding your location.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>IndoGo ingin mengakses foto Anda
 Untuk mengunggah foto dokumen identitas Anda</string>

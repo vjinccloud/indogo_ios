@@ -20,6 +20,7 @@ class MemberChangeDataIntroVC: UIViewController {
     @IBOutlet weak var top2L: UILabel!
     @IBOutlet weak var phoneL: UILabel!
     @IBOutlet weak var sendAgainBtn: UIButton!
+    @IBOutlet weak var barV: UIView!
     
     //MARK: - View-Life
     override func viewDidLoad() {
@@ -32,7 +33,7 @@ class MemberChangeDataIntroVC: UIViewController {
         sendAgainBtn.setTitle(NSLocalizedString("Change Data Intro Btn Title", comment: ""), for: .normal)
         sendAgainBtn.layer.cornerRadius = sendAgainBtn.frame.height/2
         sendAgainBtn.layer.borderWidth = 0.5
-        sendAgainBtn.layer.borderColor = UIColor.darkGray.cgColor
+        sendAgainBtn.layer.borderColor = Color_Purple.cgColor
         titleL.text = NSLocalizedString("Change Data Intro Title", comment: "")
         topL.text = NSLocalizedString("Change Data Intro Line1", comment: "")
         
@@ -41,6 +42,8 @@ class MemberChangeDataIntroVC: UIViewController {
         phoneL.text = AppDelegate.shared().forgotPassTempPhone
         
         top2L.text = NSLocalizedString("Change Data Intro Line2", comment: "")
+        barV.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -42,6 +42,9 @@ extension UIView {
     }
     
     func removeGradienLayer() {
+        if self.layer.sublayers == nil {
+            return
+        }
         for sublayer in self.layer.sublayers! {
             if sublayer is CAGradientLayer {
                 sublayer.removeFromSuperlayer()

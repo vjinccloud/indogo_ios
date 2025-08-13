@@ -18,6 +18,7 @@ class ARCInputVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate {
     @IBOutlet weak var titleL: UILabel!
     @IBOutlet weak var allCodeTextField: UITextField!
     @IBOutlet weak var textBackV: UIView!
+    @IBOutlet weak var barV: UIView!
     
     public var fromType:ScanParentType = ScanParentType.forgotPass
     
@@ -91,21 +92,30 @@ class ARCInputVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate {
                     }
                     
                 } else if result == ResponseState.member_not_exist {
+                    Dlog("member_not_exist \(self.fromType)")
                     //會員不存在，註冊
                     if self.fromType == .register { //回到註冊畫面
+                        //202404改成RegisterPurpleInputVC是後面才有
+                        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterPurpleInputVC") as? RegisterPurpleInputVC
+                        nextVC!.presetArc = code
+                        self.navigationController?.pushViewController(nextVC!, animated: true)
+                        //nextVC!.setArcCodeString(Code: code)
+                        
+                        /*
                         guard let viewControllers = self.navigationController?.viewControllers else {
                             return
                         }
-
+                        //RegisterPurpleMain
                         for firstViewController in viewControllers {
-                            if firstViewController is RegisterInputVC {
-                                let nextVC = firstViewController as! RegisterInputVC
+                            if firstViewController is RegisterPurpleInputVC {
+                                Dlog("RegisterPurpleInputVC")
+                                let nextVC = firstViewController as! RegisterPurpleInputVC
                                 nextVC.setArcCodeString(Code: code)
                                 self.navigationController?.popToViewController(nextVC, animated: true)
                                 break
                             }
                         }
-                        
+                        */
                         return
                     } else if self.fromType == .forgotPass {
                         //要顯示錯誤
@@ -145,11 +155,11 @@ class ARCInputVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate {
     
     //MARK: - Text Delegate
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.backgroundColor = Color_Main_Red
+        textField.backgroundColor = .clear
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.backgroundColor = Color_Main_DarkGray
+        textField.backgroundColor = .clear
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -219,6 +229,8 @@ class ARCInputVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate {
         allCodeTextField.delegate = self
         allCodeTextField.autocapitalizationType = .allCharacters
         
+        barV.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
         /*
         codeT1.backgroundColor = Color_Main_DarkGray
         codeT1.keyboardType = .numberPad

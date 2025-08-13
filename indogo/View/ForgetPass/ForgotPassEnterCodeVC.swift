@@ -23,7 +23,23 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var codeT2: UITextField!
     @IBOutlet weak var codeT3: UITextField!
     @IBOutlet weak var codeT4: UITextField!
+    @IBOutlet weak var barV: UIView!
+    var timer:Timer!
+    private var buttonEnabledDate: Date?
     var nextIndex = 0
+    
+    //MARK: - Timer
+    @objc func timeToReSend() {
+        let currentDate = Date()
+        if currentDate >= self.buttonEnabledDate! {
+            timer.invalidate()
+            self.sendAgainBtn.isEnabled = true
+            self.sendAgainBtn.setTitle("Minta Ulang Kode SMS", for: .normal)
+        } else {
+            let remainingSeconds = Int(self.buttonEnabledDate!.timeIntervalSince(currentDate))
+            self.sendAgainBtn.setTitle("Sisa Waktu \(remainingSeconds) Detik", for: .normal)
+        }
+    }
     
     //MARK: - API
     func sendSMS() {
@@ -52,6 +68,10 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 
                 if result == ResponseState.ok {
+                    self.sendAgainBtn.isEnabled = false
+                    self.buttonEnabledDate = Date().addingTimeInterval(30)
+                    self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timeToReSend), userInfo: nil, repeats: true)
+                    
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
@@ -90,6 +110,48 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
         }
     }
     
+    func verifyPoint() {
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "verify_code":allCodeTextField.text!, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
+        let headers: HTTPHeaders = [:]
+        
+        Dlog("parameters=\(parameters)")
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_VerifyPoint
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("responseStr = \(responseStr ?? "")")
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                
+                if result == ResponseState.ok {
+                    guard let viewControllers = self.navigationController?.viewControllers else {
+                        return
+                    }
+                    
+                    for firstViewController in viewControllers {
+                        if firstViewController is ShareMainVC {
+                            self.navigationController?.popToViewController(firstViewController, animated: true)
+                            break
+                        }
+                    }
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                }
+        }
+    }
+    
     func checkUpdatePhoneSMS() {
         let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "sms_code":allCodeTextField.text!, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
@@ -116,6 +178,8 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 
                 if result == ResponseState.ok {
+                    self.navigationController?.popToRootViewController(animated: true)
+                    /*
                     guard let viewControllers = self.navigationController?.viewControllers else {
                         return
                     }
@@ -125,7 +189,7 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
                             self.navigationController?.popToViewController(firstViewController, animated: true)
                             break
                         }
-                    }
+                    }*/
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
@@ -151,13 +215,14 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
             checkUpdatePhoneSMS()
             return
         }
-        
+        Dlog("AppDelegate.shared().forgotPassTempSMS = \(AppDelegate.shared().forgotPassTempSMS)")
         AppDelegate.shared().forgotPassTempEnterCode = allCodeTextField.text!
         
+        /*
         if AppDelegate.shared().forgotPassTempSMS != allCodeTextField.text! {
             AppDelegate.shared().showAlertWithWindow(self, Message: "SMS Code Wrong")
             return
-        }
+        }*/
         
         /*
         if codeT1.text == "" || codeT2.text == "" || codeT3.text == "" || codeT4.text == "" {
@@ -173,10 +238,16 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
             let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassChangeVC") as? ForgotPassChangeVC
             self.navigationController?.pushViewController(nextVC!, animated: true)
         } else if nextIndex == 1 {
+            //202304 改成直接回首頁(MemberMain)
+            self.navigationController?.popToRootViewController(animated: true)
+            /*
             let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "MemberEditVC") as? MemberEditVC
             self.navigationController?.pushViewController(nextVC!, animated: true)
+             */
         } else if nextIndex == 2 {
             self.navigationController?.popToRootViewController(animated: true)
+        } else if nextIndex == 3 {
+            verifyPoint()
         }
     }
     
@@ -241,9 +312,16 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
         titleL.text = NSLocalizedString("TFFRHP Enter Title", comment: "")
         topL.text = NSLocalizedString("TFFRHP Enter Top", comment: "") + AppDelegate.shared().forgotPassTempPhone
         
-        allCodeTextField.backgroundColor = Color_Main_DarkGray
+        allCodeTextField.backgroundColor = .white
         allCodeTextField.keyboardType = .numberPad
         
+        barV.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
+        
+        self.sendAgainBtn.isEnabled = false
+        self.buttonEnabledDate = Date().addingTimeInterval(30)
+        self.timer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.timeToReSend), userInfo: nil, repeats: true)
+    
         /*
         codeT1.backgroundColor = Color_Main_DarkGray
         codeT1.keyboardType = .numberPad

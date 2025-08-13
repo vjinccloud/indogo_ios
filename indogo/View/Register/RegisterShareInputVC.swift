@@ -27,7 +27,7 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var textBackV: UIView!
     @IBOutlet weak var topScrollView: UIScrollView!
     
-    var parentVC:RegisterInputVC!
+    var parentVC:RegisterPurpleInputVC!
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         

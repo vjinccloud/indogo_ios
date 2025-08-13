@@ -8,6 +8,7 @@
 
 import UIKit
 import CommonCrypto
+import CryptoSwift
 
 protocol Randomizer {
     static func randomIv() -> Data
@@ -211,6 +212,18 @@ extension String {
         return formattedStr
     }
     
+    //將數字轉成千分位的數字再回傳字傳
+    static func stringToOnlyIntString(Number num:Int) -> String {
+        
+        let formatter: NumberFormatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.positiveFormat = "#,##0"
+        //let formattedStr: String = formatter.string(from: NSNumber(value: Double(num)))!
+        let formattedStr: String = formatter.string(for: num)!
+        
+        return formattedStr
+    }
+    
     //將字串轉成整數字再回傳字傳
     func stringToIntDecimalString() -> String {
         let oriStr = self
@@ -228,6 +241,13 @@ extension String {
         
         return stringToIntDecimalString(Number: (strB as NSString).doubleValue)
         
+    }
+    
+    func base64EncodedString() -> String? {
+        guard let data = self.data(using: .utf8) else {
+            return nil
+        }
+        return data.base64EncodedString()
     }
     
     //將數字轉成千分位含小數兩點的數字再回傳字傳 (這個版本是正確的)
@@ -261,4 +281,32 @@ extension String {
         str.insert(" ", at: str.index(str.startIndex, offsetBy: 3))
         return str
     }
+    
+    func AES128encrypt(aes_key:String) -> String{
+        var encryptedStr = ""
+        do {//  AES encrypt
+            let encrypted = try AES(key: Array(aes_key.utf8), blockMode: ECB(), padding: .pkcs7).encrypt(self.bytes);
+            //加密结果从data转成string 转换失败  返回""
+            encryptedStr = encrypted.toBase64()
+        } catch {
+            print(error.localizedDescription)
+        }
+        return encryptedStr
+    }
+    
+    //  AES解密
+    func classfuncaes_decrypt(aes_key:String) -> String{
+        //decode base64
+        let data = Data(base64Encoded: self, options: .ignoreUnknownCharacters)!
+        var decrypted: [UInt8] = []
+        do {
+            // decode AES
+            decrypted = try AES(key: Array(aes_key.utf8), blockMode: ECB(), padding: .pkcs7).decrypt(data.bytes);
+        } catch {
+            print(error.localizedDescription)
+        }
+        //解密结果从data转成string 转换失败  返回""
+        return String(bytes: Data(decrypted).bytes, encoding: .utf8) ?? ""
+    }
+    
 }

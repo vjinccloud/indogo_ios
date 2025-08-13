@@ -19,6 +19,7 @@ class RegisterIDTakeIntroVC: UIViewController {
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var bottomImgV: UIImageView!
     
+    @IBOutlet weak var barV: UIView!
     @IBOutlet weak var coverImgWidthConstrain: NSLayoutConstraint!
     @IBOutlet weak var coverImgV: UIImageView!
     var takePhotoType:PhotoIDType = PhotoIDType.front
@@ -57,7 +58,8 @@ class RegisterIDTakeIntroVC: UIViewController {
         // Do any additional setup after loading the view.
         backL.text = NSLocalizedString("back", comment: "")
         backL.adjustsFontSizeToFitWidth = true
-        
+        barV.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
         nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2
         nextBtn.setTitle(NSLocalizedString("Register ID Photo Intro", comment: ""), for: .normal)
     }

@@ -22,13 +22,18 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     @IBOutlet weak var historyView: UIView!
     @IBOutlet weak var hostoryTableView: UITableView!
     
+    @IBOutlet weak var klaimPointL: UILabel!
+    @IBOutlet weak var historyBarV: UIView!
     @IBOutlet weak var tableBackV: UIView!
+    @IBOutlet weak var pointBgV: UIView!
     
+    @IBOutlet weak var alertNumL: UILabel!
+    var alertRealNumL: UILabel!
     var loadOnce = false
     var loadMemberOnce = false
     
     //MARK: - API
-    func getPointHistory() {
+    func getPointHistory(NextAlert alert:Bool = false) {
         let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
@@ -53,8 +58,34 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 
                 if result == ResponseState.ok {
-                    AppDelegate.shared().pointRootShowHistory = true
-                    self.callPointHistory()
+                    if alert {
+                        let num = AppDelegate.shared().historyListObj.count
+                        if self.alertRealNumL != nil {
+                            self.alertRealNumL.removeFromSuperview()
+                            self.alertRealNumL = nil
+                        }
+                        
+                        if num == 0 {
+                            return
+                        }
+                        
+                        self.alertRealNumL = UILabel.init(frame: CGRect.init(x: 0, y: 0, width: 22, height: 22))
+                        self.alertRealNumL.font = UIFont.systemFont(ofSize: 16)
+                        self.alertRealNumL.adjustsFontSizeToFitWidth = true
+                        self.pointBgV.addSubview(self.alertRealNumL)
+                        self.alertRealNumL.text = "\(num)"
+                        self.alertRealNumL.textAlignment = .center
+                        self.alertRealNumL.textColor = .white
+                        let center = self.alertNumL.center
+                        self.alertRealNumL.center = center
+                        self.alertRealNumL.layer.cornerRadius = self.alertRealNumL.frame.height/2
+                        self.alertRealNumL.layer.backgroundColor = UIColor.red.cgColor
+                        self.alertRealNumL.isHidden = false
+                    } else {
+                        AppDelegate.shared().pointRootShowHistory = true
+                        self.callPointHistory()
+                    }
+                    
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
@@ -143,7 +174,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         let cell = tableView.dequeueReusableCell(withIdentifier: "pointhistorycell", for: indexPath) as! PointHistoryTableViewCell
         
         let obj = AppDelegate.shared().historyListObj[indexPath.row]
-        cell.cell1L.text = obj.show_time
+        cell.cell1L.text = obj.lm_time
         cell.cell2L.text = obj.reason_show
         let pointValue = Int(obj.remit_point)!
         if pointValue >= 0 {
@@ -155,7 +186,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
             cell.contentView.backgroundColor = Color_Main_LightGray
             cell.backgroundColor = Color_Main_LightGray
         }
-        cell.cell4L.text = "\(obj.show_point)"
+        cell.cell4L.text = "\(obj.verifyPoint!)"
         
         cell.selectionStyle = .none
         return cell
@@ -171,7 +202,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         var all = Int(AppDelegate.shared().memberData["remit_point"]!)
         for i in 0..<AppDelegate.shared().historyListObj.count {
             AppDelegate.shared().historyListObj[i].show_point = all!
-            all = all! - Int(AppDelegate.shared().historyListObj[i].remit_point)!
+            all = all! - (Int(AppDelegate.shared().historyListObj[i].remit_point) ?? 0)
         }
         
         hostoryTableView.delegate = self
@@ -188,7 +219,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         nameL.text = AppDelegate.shared().memberData["member_name"]
         pointBtn.setTitle("  " + AppDelegate.shared().memberData["remit_point"]!, for: .normal)
         midL.text = "MID : " + AppDelegate.shared().memberData["member_id"]!
-        
+        klaimPointL.text = AppDelegate.shared().memberData["verify_point"]!
         let image = generateQRCode(from: AppDelegate.shared().memberData["member_id"]!)
         qrCodeImgV.image = image
     }
@@ -261,12 +292,25 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     @IBAction func transferPointAction(_ sender: Any) {
+        if AppDelegate.shared().historyListObj.count == 0 {
+            //return
+        }
+        
+        if klaimPointL.text == "0" {
+            return
+        }
+        
+        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "ShareClaimVC") as? ShareClaimVC
+        self.navigationController?.pushViewController(nextVC!, animated: true)
+        
+        /*
         //暫時隱藏功能
         AppDelegate.shared().showNormalAlertWithWindow(self, Message: NSLocalizedString("Coming Soon", comment: "") + " ...")
         
         return
         let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransferPointVC") as? TransferPointVC
         self.navigationController?.pushViewController(nextVC!, animated: true)
+         */
     }
     
     //MARK: - View-Life
@@ -280,17 +324,21 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         iconView.layer.cornerRadius = iconView.frame.size.height/2
         
         addPointL.layer.cornerRadius = 5
-        addPointL.layer.borderColor = UIColor.white.cgColor
-        addPointL.layer.borderWidth = 0.5
+        //addPointL.layer.borderColor = UIColor.white.cgColor
+        //addPointL.layer.borderWidth = 0.5
         
         transferPointL.layer.cornerRadius = 5
-        transferPointL.layer.borderColor = UIColor.white.cgColor
-        transferPointL.layer.borderWidth = 0.5
+        //transferPointL.layer.borderColor = UIColor.white.cgColor
+        //transferPointL.layer.borderWidth = 0.5
         
         iconImgV.image = AppDelegate.shared().getIconImage()
         iconImgV.contentMode = .scaleAspectFill
         iconImgV.layer.cornerRadius = iconImgV.frame.size.height/2
         iconImgV.clipsToBounds = true
+        
+        iconView.isHidden = true
+        alertNumL.isHidden = true
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -304,6 +352,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         loadMemberOnce = true
         initData()
         callMemberData()
+        getPointHistory(NextAlert: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -311,11 +360,12 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         if loadOnce {
             AppDelegate.shared().showTopButton()
+            initData()
             return
         }
         
         loadOnce = true
-        
+        historyBarV.addGradienOfIndoGo()
         //頂部兩個按鈕
         AppDelegate.shared().topMargin = self.view.safeAreaInsets.top
         AppDelegate.shared().addTopButton()

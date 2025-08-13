@@ -18,9 +18,12 @@ class RegisterIDTakePhotoVC: UIViewController {
     @IBOutlet weak var firstPhotoTitleL: UILabel!
     @IBOutlet weak var secPhotoTitleL: UILabel!
     
+    @IBOutlet weak var barV: UIView!
     @IBOutlet weak var firstImgV: UIImageView!
     @IBOutlet weak var secImgV: UIImageView!
     
+    @IBOutlet weak var subBarV3: UIView!
+    @IBOutlet weak var subBarV2: UIView!
     var firstHasTaked = false
     var secHasTaked = false
     
@@ -85,14 +88,21 @@ class RegisterIDTakePhotoVC: UIViewController {
             pass = false
         }
         
-        
+        if pass {
+            nextBtn.addGradienOfIndoGo()
+            nextBtn.isEnabled = true
+        } else {
+            nextBtn.backgroundColor = .clear
+            nextBtn.isEnabled = false
+        }
+        /*
         if pass {
             nextBtn.backgroundColor = Color_Main_Red
             nextBtn.isEnabled = true
         } else {
             nextBtn.backgroundColor = .clear
             nextBtn.isEnabled = false
-        }
+        }*/
     }
     
     //MARK: - View-Life
@@ -124,6 +134,10 @@ class RegisterIDTakePhotoVC: UIViewController {
         secView.clipsToBounds = true
         
         checkNextBtnState()
+        
+        barV.addGradienOfIndoGo()
+        subBarV2.addGradienOfIndoGo()
+        subBarV3.addGradienOfIndoGo()
     }
     
 

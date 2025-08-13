@@ -1,0 +1,212 @@
+PODS:
+  - Alamofire (4.9.1)
+  - AlamofireImage (3.6.0):
+    - Alamofire (~> 4.9)
+  - CryptoSwift (1.8.4)
+  - FirebaseAnalytics (11.13.0):
+    - FirebaseAnalytics/AdIdSupport (= 11.13.0)
+    - FirebaseCore (~> 11.13.0)
+    - FirebaseInstallations (~> 11.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/MethodSwizzler (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+    - nanopb (~> 3.30910.0)
+  - FirebaseAnalytics/AdIdSupport (11.13.0):
+    - FirebaseCore (~> 11.13.0)
+    - FirebaseInstallations (~> 11.0)
+    - GoogleAppMeasurement (= 11.13.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/MethodSwizzler (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+    - nanopb (~> 3.30910.0)
+  - FirebaseCore (11.13.0):
+    - FirebaseCoreInternal (~> 11.13.0)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GoogleUtilities/Logger (~> 8.1)
+  - FirebaseCoreInternal (11.13.0):
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+  - FirebaseInstallations (11.13.0):
+    - FirebaseCore (~> 11.13.0)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GoogleUtilities/UserDefaults (~> 8.1)
+    - PromisesObjC (~> 2.4)
+  - FirebaseMessaging (11.13.0):
+    - FirebaseCore (~> 11.13.0)
+    - FirebaseInstallations (~> 11.0)
+    - GoogleDataTransport (~> 10.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GoogleUtilities/Reachability (~> 8.1)
+    - GoogleUtilities/UserDefaults (~> 8.1)
+    - nanopb (~> 3.30910.0)
+  - FSPagerView (0.8.3)
+  - GoogleAppMeasurement (11.13.0):
+    - GoogleAppMeasurement/AdIdSupport (= 11.13.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/MethodSwizzler (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+    - nanopb (~> 3.30910.0)
+  - GoogleAppMeasurement/AdIdSupport (11.13.0):
+    - GoogleAppMeasurement/WithoutAdIdSupport (= 11.13.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/MethodSwizzler (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+    - nanopb (~> 3.30910.0)
+  - GoogleAppMeasurement/WithoutAdIdSupport (11.13.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/MethodSwizzler (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+    - nanopb (~> 3.30910.0)
+  - GoogleDataTransport (10.1.0):
+    - nanopb (~> 3.30910.0)
+    - PromisesObjC (~> 2.4)
+  - GoogleUtilities/AppDelegateSwizzler (8.1.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Environment (8.1.0):
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Logger (8.1.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/MethodSwizzler (8.1.0):
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Network (8.1.0):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Privacy
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (8.1.0)":
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Privacy (8.1.0)
+  - GoogleUtilities/Reachability (8.1.0):
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/UserDefaults (8.1.0):
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
+  - ImageSlideshow (1.7.0):
+    - ImageSlideshow/Core (= 1.7.0)
+  - ImageSlideshow/Core (1.7.0)
+  - ImageSlideshow/Kingfisher (1.7.0):
+    - ImageSlideshow/Core
+    - Kingfisher (> 3.0)
+  - iProgressHUD (1.1.1)
+  - Kingfisher (4.8.1)
+  - KingfisherWebP (0.4.2):
+    - Kingfisher (~> 4.0)
+    - libwebp (>= 0.5.0)
+  - libwebp (1.5.0):
+    - libwebp/demux (= 1.5.0)
+    - libwebp/mux (= 1.5.0)
+    - libwebp/sharpyuv (= 1.5.0)
+    - libwebp/webp (= 1.5.0)
+  - libwebp/demux (1.5.0):
+    - libwebp/webp
+  - libwebp/mux (1.5.0):
+    - libwebp/demux
+  - libwebp/sharpyuv (1.5.0)
+  - libwebp/webp (1.5.0):
+    - libwebp/sharpyuv
+  - nanopb (3.30910.0):
+    - nanopb/decode (= 3.30910.0)
+    - nanopb/encode (= 3.30910.0)
+  - nanopb/decode (3.30910.0)
+  - nanopb/encode (3.30910.0)
+  - PKHUD (5.3.0)
+  - ProgressHUD (14.1.1)
+  - PromisesObjC (2.4.0)
+  - QRCodeReader.swift (10.1.0)
+  - RSBarcodes_Swift (5.0.2)
+  - SwiftSignatureView (3.2.1)
+  - SwiftyJSON (4.3.0)
+  - ZKProgressHUD (5.1.2)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.7)
+  - AlamofireImage
+  - CryptoSwift
+  - FirebaseAnalytics
+  - FirebaseCore
+  - FirebaseMessaging
+  - FSPagerView
+  - ImageSlideshow (~> 1.7.0)
+  - ImageSlideshow/Kingfisher
+  - iProgressHUD (~> 1.1.1)
+  - Kingfisher (~> 4.8.1)
+  - KingfisherWebP
+  - PKHUD
+  - ProgressHUD
+  - QRCodeReader.swift
+  - RSBarcodes_Swift (~> 5.0.2)
+  - SwiftSignatureView (~> 3.0)
+  - SwiftyJSON (~> 4.0)
+  - ZKProgressHUD
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - AlamofireImage
+    - CryptoSwift
+    - FirebaseAnalytics
+    - FirebaseCore
+    - FirebaseCoreInternal
+    - FirebaseInstallations
+    - FirebaseMessaging
+    - FSPagerView
+    - GoogleAppMeasurement
+    - GoogleDataTransport
+    - GoogleUtilities
+    - ImageSlideshow
+    - iProgressHUD
+    - Kingfisher
+    - KingfisherWebP
+    - libwebp
+    - nanopb
+    - PKHUD
+    - ProgressHUD
+    - PromisesObjC
+    - QRCodeReader.swift
+    - RSBarcodes_Swift
+    - SwiftSignatureView
+    - SwiftyJSON
+    - ZKProgressHUD
+
+SPEC CHECKSUMS:
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  AlamofireImage: be9963c6582d68b39e89191f64c82a7d7bf40fdd
+  CryptoSwift: e64e11850ede528a02a0f3e768cec8e9d92ecb90
+  FirebaseAnalytics: 630349facf4a114a0977e5d7570e104261973287
+  FirebaseCore: c692c7f1c75305ab6aff2b367f25e11d73aa8bd0
+  FirebaseCoreInternal: 29d7b3af4aaf0b8f3ed20b568c13df399b06f68c
+  FirebaseInstallations: 0ee9074f2c1e86561ace168ee1470dc67aabaf02
+  FirebaseMessaging: 195bbdb73e6ca1dbc76cd46e73f3552c084ef6e4
+  FSPagerView: 670405b2f18e2a87fa37f20b00de783e562c25a8
+  GoogleAppMeasurement: 0dfca1a4b534d123de3945e28f77869d10d0d600
+  GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
+  GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
+  ImageSlideshow: f8eec5e37a980f60923b585ff23b0e140fd24018
+  iProgressHUD: caa742128253c97f2c2e1ec59e2bbe6cf689df6a
+  Kingfisher: 868c1149679a7ab6869be118faa9b5aed154aaf0
+  KingfisherWebP: 53632f3da248ccabd4999d775903d6ae0aaa7768
+  libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
+  nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
+  PKHUD: 98f3e4bc904b9c916f1c5bb6d765365b5357291b
+  ProgressHUD: abb9136ae23c85204236828562cb9a8ec98efb44
+  PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
+  QRCodeReader.swift: 373a389fe9a22d513c879a32a6f647c58f4ef572
+  RSBarcodes_Swift: a651a689afd3e621cdcdb99419eee580f5173bf4
+  SwiftSignatureView: b09443ea8359a5bc267202226f4606fc03193173
+  SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
+  ZKProgressHUD: af9e9929c6935587da382bf23d31b4e995b8c229
+
+PODFILE CHECKSUM: d49afbccc21550c1b2c9fb4fe341cbc7c124a0e5
+
+COCOAPODS: 1.15.2

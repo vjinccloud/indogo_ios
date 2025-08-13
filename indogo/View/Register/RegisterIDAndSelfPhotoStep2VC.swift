@@ -40,12 +40,7 @@ class RegisterIDAndSelfPhotoStep2VC: UIViewController {
 
         for firstViewController in viewControllers {
             if takePhotoType == .normal {
-                if firstViewController is RegisterInputVC {
-                    let nextVC = firstViewController as! RegisterInputVC
-                    nextVC.setImage(Image: finalImg)
-                    self.navigationController?.popToViewController(nextVC, animated: true)
-                    break
-                }
+                
             } else if takePhotoType == .normalFromEdit {
                 if firstViewController is MemberEditVC {
                     let nextVC = firstViewController as! MemberEditVC

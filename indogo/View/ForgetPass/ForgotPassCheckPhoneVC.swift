@@ -18,6 +18,7 @@ class ForgotPassCheckPhoneVC: UIViewController {
     @IBOutlet weak var msgL: UILabel!
     @IBOutlet weak var downBtn: UIButton!
     @IBOutlet weak var upBtn: UIButton!
+    @IBOutlet weak var barV: UIView!
     
     public var checkType:Int = 0
     
@@ -121,6 +122,9 @@ class ForgotPassCheckPhoneVC: UIViewController {
             downBtn.setTitleColor(.black, for: .normal)
             downBtn.backgroundColor = .white
         }
+        
+        barV.addGradienOfIndoGo()
+        downBtn.addGradienOfIndoGo()
         
     }
 

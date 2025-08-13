@@ -64,11 +64,13 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
             cell.selectionStyle = .none
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            //let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "RelationTVC", for: indexPath) as! RelationTVC
             let cellData = AppDelegate.shared().relationObj[indexPath.row]
             cell.textLabel?.text = cellData.name
+            cell.textLabel?.highlightedTextColor = .white
             cell.backgroundColor = .white
-            cell.selectionStyle = .none
+            //cell.selectionStyle = .none
             return cell
         }
     }
@@ -82,11 +84,14 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
             //bankCodeTextfield.resignFirstResponder()
             accountTextfield.becomeFirstResponder()
             changeBankImg(BankName: cellData.bank_name!)
+            purposeBgV.isHidden = false
         } else {
             choseRelationIdx = indexPath.row
             let cellData = AppDelegate.shared().relationObj[indexPath.row]
             purposeTextfield.text = cellData.name
-            purposeTextfield.resignFirstResponder()
+            //purposeTextfield.resignFirstResponder()
+            purposeListTableView.isHidden = true
+            checkBtnState()
         }
         
     }
@@ -102,10 +107,12 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     func checkBtnState() {
         if bankCodeTextfield.text! != "", accountTextfield.text! != "", purposeTextfield.text! != "" {
             nextBtn.isEnabled = true
-            nextBtn.backgroundColor = Color_Main_Red
+            nextBtn.addGradienOfIndoGo()
+            nextBtn.setTitleColor(.white, for: .normal)
         } else {
             nextBtn.isEnabled = false
-            nextBtn.backgroundColor = .clear
+            nextBtn.removeGradienLayer()
+            nextBtn.setTitleColor(Color_Main_Red, for: .normal)
         }
     }
     
@@ -174,7 +181,7 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         }
         
         if textField == bankCodeTextfield {
-            if !string.checkNumber() {
+            if !string.checkAlphabetDigit() {
                 return false
             }
         }
@@ -260,6 +267,7 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
                 
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 if result == ResponseState.ok {
+                    self.tempRecipientObj.bank_name = self.bankCodeTextfield.text!
                     self.tempRecipientObj.bank_acc = self.accountTextfield.text!
                     self.tempRecipientObj.bank_code = serchBankobj.bank_code!
                     self.tempRecipientObj.recipient_id = AppDelegate.shared().tempRecipientObj.recipient_id
@@ -267,8 +275,9 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
                     
                     if self.canSelectForTransfer {
                         AppDelegate.shared().transactionObj.recipientObj = self.tempRecipientObj
-                        
-                        self.embededPurpose()
+                        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "AddRecipientPurposeVC") as? AddRecipientPurposeVC
+                        self.navigationController?.pushViewController(nextVC!, animated: true)
+                        //self.embededPurpose()
                     } else {
                         self.navigationController?.popViewController(animated: true)
                     }
@@ -286,6 +295,12 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     
     @IBAction func hideTextAction(_ sender: Any) {
         closeAll()
+    }
+    
+    @IBAction func showPurposeAction(_ sender: Any) {
+        closeAll()
+        bankListTableView.isHidden = true
+        purposeListTableView.isHidden = false
     }
     
     @IBAction func backAction(_ sender: Any) {
@@ -319,6 +334,8 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         accountTextfield.returnKeyType = .done
         purposeTextfield.returnKeyType = .done
         
+        purposeTextfield.isEnabled = false
+        
         showBankList = AppDelegate.shared().bankList
         bankListTableView.separatorStyle = .none
         bankListTableView.delegate = self
@@ -339,6 +356,8 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         bankCodeTextfield.delegate = self
         purposeTextfield.delegate = self
         
+        purposeBgV.isHidden = true
+        
         accountTextfield.autocapitalizationType = .allCharacters
         bankCodeTextfield.autocapitalizationType = .allCharacters
         
@@ -347,8 +366,8 @@ class AddRecipientVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         bankCodeTextfield.becomeFirstResponder()
         bankCodeTextfield.placeholder = NSLocalizedString("Point Transfer Add Recipient Code PlaceHolder", comment: "")
         accountTextfield.placeholder = NSLocalizedString("Point Transfer Add Recipient Accounnt PlaceHolder", comment: "")
-        purposeTextfield.placeholder = NSLocalizedString("Purpose placeholder", comment: "")
-        purposeListTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        purposeTextfield.placeholder = NSLocalizedString("Purpose Select Title", comment: "")
+        purposeListTableView.register(RelationTVC.self, forCellReuseIdentifier: "RelationTVC")
         
         codeBgV.layer.cornerRadius = codeBgV.frame.size.height/2
         accountBgV.layer.cornerRadius = accountBgV.frame.size.height/2

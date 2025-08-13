@@ -80,7 +80,7 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
     //MARK: - Button-Action
     @IBAction func shareCodeInputAction(_ sender: Any) {
         let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterShareInputVC") as? RegisterShareInputVC
-        nextVC?.parentVC = self
+        //nextVC?.parentVC = self
         self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     

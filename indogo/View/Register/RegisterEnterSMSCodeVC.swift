@@ -24,6 +24,8 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var codeT3: UITextField!
     @IBOutlet weak var codeT4: UITextField!
     var registerFromIndex = 0
+    @IBOutlet weak var barV: UIView!
+    var canPress = false
     
     //MARK: - API
     func sendSMS() {
@@ -60,7 +62,17 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
     
     //MARK: - Button-Action
     @IBAction func sendAgain(_ sender: Any) {
+        if !canPress {
+            return
+        }
+        
+        canPress = false
+        Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(self.changeState), userInfo: nil, repeats: false)
         sendSMS()
+    }
+    
+    @objc func changeState() {
+        canPress = true
     }
     
     @IBAction func nextAction(_ sender: Any) {
@@ -257,9 +269,12 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
         titleL.text = NSLocalizedString("TFFRHP Enter Title", comment: "")
         topL.text = NSLocalizedString("TFFRHP Enter Top", comment: "") + AppDelegate.shared().forgotPassTempPhone
         
-        allCodeTextField.backgroundColor = Color_Main_DarkGray
+        allCodeTextField.backgroundColor = .white
         allCodeTextField.keyboardType = .numberPad
+        barV.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
         
+        Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(self.changeState), userInfo: nil, repeats: false)
         /*
         codeT1.backgroundColor = Color_Main_DarkGray
         codeT1.keyboardType = .numberPad

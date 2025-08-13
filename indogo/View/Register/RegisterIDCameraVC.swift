@@ -22,6 +22,7 @@ class RegisterIDCameraVC: UIViewController, UINavigationControllerDelegate, AVCa
     @IBOutlet weak var cancelBtn: UIButton!
     @IBOutlet weak var confirmBtn: UIButton!
     
+    @IBOutlet weak var barV: UIView!
     @IBOutlet weak var resultImgV: UIImageView!
     @IBOutlet weak var coverImgV: UIImageView!
     @IBOutlet weak var coverImgWidthConstrain: NSLayoutConstraint!
@@ -232,7 +233,7 @@ class RegisterIDCameraVC: UIViewController, UINavigationControllerDelegate, AVCa
         confirmBtn.layer.cornerRadius = confirmBtn.frame.size.height/2
         
         confirmView.isHidden = true
-        
+        barV.addGradienOfIndoGo()
         cancelBtn.setTitle(NSLocalizedString("Register Self Photo Retake", comment: ""), for: .normal)
         confirmBtn.setTitle(NSLocalizedString("Register Self Photo Confrim", comment: ""), for: .normal)
     }
@@ -250,6 +251,7 @@ class RegisterIDCameraVC: UIViewController, UINavigationControllerDelegate, AVCa
             return
         }
         
+        confirmBtn.addGradienOfIndoGo()
         hideTakedImg()
         loadOnce = true
         checkCameraPermission()

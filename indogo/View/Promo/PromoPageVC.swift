@@ -25,7 +25,7 @@ class PromoPageVC: UIViewController {
     }
     
     func setImage() {
-        unitImv.contentMode = .scaleAspectFit
+        unitImv.contentMode = .scaleAspectFill
         unitImv.clipsToBounds = true
         let imgurl = ServerURL + promoUrl
         Dlog("imgurl = --\(imgurl)--")

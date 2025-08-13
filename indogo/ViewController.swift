@@ -9,13 +9,19 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
-import Firebase
+import FirebaseMessaging
+import FirebaseCore
+import FirebaseAnalytics
 
 class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewControllerDataSource, UITextFieldDelegate, CustomAlertDelegate {
+    
+    @IBOutlet weak var barV: GradianBarView!
+    @IBOutlet weak var newLoginhintL: UILabel!
     
     @IBOutlet weak var accountBtn: UIButton!
     @IBOutlet weak var accountTextfield: UITextField!
     
+    @IBOutlet weak var passUnitV: UIView!
     @IBOutlet weak var passBtn: UIButton!
     @IBOutlet weak var passTextField: UITextField!
     
@@ -38,6 +44,19 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
     var rememberMeState = true
     
     //MARK: - Button-Action
+    @IBAction func backAction(_ sender: Any) {
+        AppDelegate.shared().showCompany()
+    }
+    
+    @IBAction func scanArcAction(_ sender: Any) {
+        /*
+        AppDelegate.shared().tempRemeberState = self.rememberMeState
+        let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassIntroVC") as? ForgotPassIntroVC
+        nextVC!.fromType = .mainToScan
+        self.navigationController?.pushViewController(nextVC!, animated: true)
+         */
+    }
+    
     @IBAction func showPassAction(_ sender: Any) {
         passTextField.isSecureTextEntry.toggle()
         
@@ -64,12 +83,7 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
             return
         }
         
-        if passTextField.text?.count == 0 {
-            //AppDelegate.shared().showAlertWithWindow(self, Message: "請輸入密碼")
-            return
-        }
-        
-        loginNext()
+        checkArcExist()
     }
     
     @IBAction func forgotPassAction(_ sender: Any) {
@@ -248,6 +262,54 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         }
     }
     
+    func checkArcExist() {
+        let timeStamp = "\(Date().timeIntervalSince1970)"
+        let straes = timeStamp.AES128encrypt(aes_key: AES28Key)
+        let parameters:Parameters = ["arc_no":accountTextfield.text!, "token":straes, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "timestamp":timeStamp]
+        let headers: HTTPHeaders = [:]
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_CheckArcExist;
+        
+        Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
+        URLCache.shared.removeAllCachedResponses()
+        
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("login responseStr = \(responseStr ?? "")")
+                
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                if result == ResponseState.ok {
+                    AppDelegate.shared().tempRemeberState = self.rememberMeState
+                    AppDelegate.shared().tempArcForLogin = self.accountTextfield.text!
+                    let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginStep2VC") as? LoginStep2VC
+                    self.navigationController?.pushViewController(nextVC!, animated: true)
+                    URLCache.shared.removeAllCachedResponses()
+                } else if result == ResponseState.member_not_exist {
+                    AppDelegate.shared().tempRemeberState = self.rememberMeState
+                    //進入註冊
+                    let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterAgreementVC") as? RegisterAgreementVC
+                    nextVC?.tempARC = self.accountTextfield.text!
+                    self.navigationController?.pushViewController(nextVC!, animated: true)
+                    URLCache.shared.removeAllCachedResponses()
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                }
+        }
+    }
+    
     func sendToken() {
         if FirebaseToken == "" {
             return
@@ -387,6 +449,8 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         } else {
             self.promoView.isHidden = false
             self.promoPageCtrl.isHidden = false
+            self.view.bringSubviewToFront(self.promoView)
+            self.view.bringSubviewToFront(self.promoPageCtrl)
             
             self.topScrollView.isHidden = true
         }
@@ -413,9 +477,12 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         // Do any additional setup after loading the view.
         self.setupHideKeyboardOnTap()
         Analytics.logEvent("iOS_Login", parameters: nil)
+        barV.addGradienOfIndoGo()
+        passUnitV.isHidden = true
         
         promoView.isHidden = true
         promoPageCtrl.isHidden = true
+        newLoginhintL.text = NSLocalizedString("New Login Hint", comment: "")
         
         accountBtn.layer.cornerRadius = accountBtn.frame.height/2
         passBtn.layer.cornerRadius = passBtn.frame.height/2
@@ -433,14 +500,15 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         passTextField.delegate = self
         
         accountTextfield.autocapitalizationType = .allCharacters
+        accountTextfield.placeholder = NSLocalizedString("New Login Account PlaceHolder", comment: "")
         
-        accountTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("account", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        //accountTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("account", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
-        passTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("passcode", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        //passTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("passcode", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         loginBtn.setTitle(NSLocalizedString("login", comment: ""), for: .normal)
         lupaBtn.setTitle(NSLocalizedString("recover passcode", comment: ""), for: .normal)
-        registerBtn.setTitle(NSLocalizedString("register", comment: ""), for: .normal)
+        //registerBtn.setTitle(NSLocalizedString("register", comment: ""), for: .normal)
         
         //let bnumber = Bundle.main.buildNumber
         
@@ -449,11 +517,14 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         remeberBtn.setTitle(" " + NSLocalizedString("remmber me", comment: ""), for: .normal)
         
         passTextField.isSecureTextEntry = true
-        registerBtn.layer.cornerRadius = registerBtn.frame.height/2
+        //registerBtn.layer.cornerRadius = registerBtn.frame.height/2
         
         accountTextfield.text = AppDelegate.shared().getRemeberedAccount()
         passTextField.text = AppDelegate.shared().getRemeberedPassword()
+        loginBtn.addGradienOfIndoGo()
         
+        lupaBtn.isHidden = true
+        //registerBtn.isHidden = true
         
         if DevMode {
             accountTextfield.text = "XC00000026" //XX00000092
@@ -461,6 +532,23 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         }
         
         AppDelegate.shared().rootController = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        if loadOnce {
+            return
+        }
+        AppTopBarHeight = view.safeAreaInsets.top
+        AppBottomBarHeight = view.safeAreaInsets.bottom
+        AppDelegate.shared().tempArcForLogin = ""
+        AppDelegate.shared().showCompany()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -494,12 +582,16 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
            getPromo()
         }
         
-        //自動登入
+        //自動登入(取消)
+        /*
         let userDefaults = UserDefaults.standard
         if userDefaults.value(forKey: "sessionToken") != nil {
             AppDelegate.shared().sessionToken = userDefaults.value(forKey: "sessionToken") as! String
             checkTokenLogin()
-        }
+        }*/
+        
+        AppDelegate.shared().hideFloatingBtn()
+        
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

@@ -12,8 +12,8 @@ import SwiftyJSON
 import Kingfisher
 import KingfisherWebP
 
-class TransferMainVC: UIViewController, UITextFieldDelegate {
-
+class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate {
+    
     @IBOutlet weak var boxV: UIView!
     @IBOutlet weak var upNameL: UILabel!
     @IBOutlet weak var upTextLineV: UIView!
@@ -42,6 +42,23 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
     var decresedCharge = 0
     var decresedChargeUnit = 50
     var totalChage = 0
+    var statusNow = 0
+    
+    func customAlertnextAction(Ref obj: CustomAlertView) {
+        obj.removeFromSuperview()
+        
+        if statusNow == 1 || statusNow == 3 {
+            let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "MemberEditVC") as? MemberEditVC
+            self.navigationController?.pushViewController(nextVC!, animated: true)
+        } else if statusNow == 2 {
+            //checkAmount()
+            self.goRecipientList()
+        }
+    }
+    
+    func customAlertnextActionSecond(Ref obj: CustomAlertView) {
+        
+    }
     
     //MARK: - Utility
     func setUpKursValue() {
@@ -157,6 +174,8 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         
         totalChage = upValue! + serviceCharge - decresedCharge
         totalNTDL.text = "\(totalChage)".stringToIntDecimalString()
+        
+        Dlog("totalChage = \(totalChage)")
     }
     
     //MARK: - Button Action
@@ -209,6 +228,9 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         AppDelegate.shared().transactionObj.totalNtdValue = totalChage
         
         //送出前要查詢是否超過金額
+        //202304 改成先檢查會員資料
+        //checkMemberData()
+        //202306 改成先MR
         checkAmount()
     }
     
@@ -247,8 +269,78 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         }
     }
     
+    public func checkMemberData() {
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
+        
+        let headers: HTTPHeaders = [:]
+        closeAll()
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_DataCheck;
+        
+        Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
+        
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
+                    return
+                }
+                //AppDelegate.shared().apiBackContentStr
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("checkAmount responseStr = \(responseStr ?? "")")
+                
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                if result == ResponseState.ok {
+                    //self.checkAmount()
+                    self.goRecipientList()
+                } else if result == ResponseState.error {
+                    let msg = NSLocalizedString("Transfer Result Exceed", comment: "") + " " + AppDelegate.shared().apiBackContentStr.stringToIntDecimalString()
+                    AppDelegate.shared().showAlertWithWindow(self, Message:msg)
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                } else if result == ResponseState.dataCheckStatus1 {
+                    self.statusNow = 1
+                    let customAlert = CustomAlertView.init(frame: self.view.bounds)
+                    //customAlert.initDataCheckAlert(Title: "Pemberitahuan", Content: "Masa berlaku ARC Anda kurang dari 10 hari", NextBtn1Str: "perbaharui arc")
+                    customAlert.initDataCheckAlert(Title: "Pemberitahuan", Content: AppDelegate.shared().apiBackContentStr, NextBtn1Str: "ok")
+                    self.view.addSubview(customAlert)
+                    customAlert.customDelegate = self
+                } else if result == ResponseState.dataCheckStatus3 {
+                    self.statusNow = 3
+                    let customAlert = CustomAlertView.init(frame: self.view.bounds)
+                    //customAlert.initDataCheckAlert(Title: "Pemberitahuan", Content: "Masa berlaku ARC Anda sudah berakhir", NextBtn1Str: "perbaharui arc")
+                    customAlert.initDataCheckAlert(Title: "Pemberitahuan", Content: AppDelegate.shared().apiBackContentStr, NextBtn1Str: "ok")
+                    customAlert.customDelegate = self
+                    self.view.addSubview(customAlert)
+                } else if result == ResponseState.dataCheckStatus2 {
+                    self.statusNow = 2
+                    let customAlert = CustomAlertView.init(frame: self.view.bounds)
+                    //customAlert.initDataCheckAlert(Title: "Pemberitahuan", Content: "Silakan unggah kembali foto ARC Belakang, ARC Depan, Foto Selfie", NextBtn1Str: "perbaharui arc")
+                    customAlert.initDataCheckAlert(Title: "Pemberitahuan", Content: AppDelegate.shared().apiBackContentStr, NextBtn1Str: "ok")
+                    customAlert.customDelegate = self
+                    self.view.addSubview(customAlert)
+                }
+        }
+    }
+    
     public func checkAmount() {
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":AppDelegate.shared().transactionObj.totalNtdValue, "use_remit_point":1, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
+        
+        var use_remit_point = 0
+        if decresedCharge > 0 {
+            use_remit_point = 1
+        }
+        
+        //檢查金額要扣掉手續費
+        let charge = Int(upTextField.text!.replacingOccurrences(of: ",", with: ""))!
+        //AppDelegate.shared().transactionObj.totalNtdValue
+        
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":charge, "use_remit_point":use_remit_point, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         
         let headers: HTTPHeaders = [:]
         closeAll()
@@ -276,17 +368,30 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
                 AppDelegate.shared().recipientListObjs = []
                 AppDelegate.shared().recipientShownListObjs = []
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                
                 if result == ResponseState.ok {
-                    let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "RecipientListVC") as? RecipientListVC
-                    nextVC!.canSelectForTransfer = true
-                    self.navigationController?.pushViewController(nextVC!, animated: true)
+                    self.checkMemberData()
                 } else if result == ResponseState.error {
                     let msg = NSLocalizedString("Transfer Result Exceed", comment: "") + " " + AppDelegate.shared().apiBackContentStr.stringToIntDecimalString()
                     AppDelegate.shared().showAlertWithWindow(self, Message:msg)
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                } else if result == ResponseState.maxExceed {
+                    Dlog("AppDelegate.shared().tempTransferLeftAmount = \(AppDelegate.shared().tempTransferLeftAmount)")
+                    self.upTextField.text = "\(AppDelegate.shared().tempTransferLeftAmount)"
+                    self.justCalculateValue(UseStyle: 0, NweString: "\(AppDelegate.shared().tempTransferLeftAmount)")
+                    let customAlert = CustomAlertView.init(frame: self.view.bounds)
+                    customAlert.initAmountAlert(Title: "Mohon Maaf")
+                    self.view.addSubview(customAlert)
+                    self.checkAndCalculateValue(UseStyle: 0, NweString: "")
                 }
         }
+    }
+    
+    func goRecipientList() {
+        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "RecipientListVC") as? RecipientListVC
+        nextVC!.canSelectForTransfer = true
+        self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
     //MARK: - Text Delegate
@@ -469,6 +574,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate {
         }
         
         loadOnce = true
+        rightBgV.addGradienOfIndoGo()
         callMemberData()
         //頂部兩個按鈕
         AppDelegate.shared().topMargin = self.view.safeAreaInsets.top

@@ -212,7 +212,7 @@
 "Transfer Confirm Title" = "Periksa Kembali";
 "Transfer Confirm TWD Title" = "Kirim";
 "Transfer Confirm Fee Title" = "Ongkos Kirim";
-"Transfer Confirm UsePoint Title" = "Potong Poin";
+"Transfer Confirm UsePoint Title" = "Tukar Poin";
 "Transfer Confirm Total Title" = "Total";
 
 "Transfer Agreement Title" = "Pernyataan";
@@ -226,7 +226,7 @@
 "Transfer Result Pay Title" = "LANGSUNG KE KASIR";
 
 "Transfer PayStep Title" = "KODE PIN ANDA";
-"Transfer PayStep Up Intro" = "Silahkan melakukan\npembayaran dikasir";
+"Transfer PayStep Up Intro" = "Silahkan melakukan\npembayaran di kasir";
 "Transfer PayStep Intro" = "Silahkan pilih metode pembayaran";
 "Transfer PayStep Min Title" = "MENIT";
 "Transfer PayStep Sec Title" = "DETIK";
@@ -272,3 +272,16 @@
 "Purpose placeholder" = "Pilih Hubungan";
 "Purpose Select default word" = "Silahkan Pilih";
 "Purpose Select Title" = "Tujuan Kirim Uang";
+
+"Transfer State Left Btn" = "Proses";
+"Transfer State Right Btn" = "Berhasil";
+"New Login Hint" = "Masuk atau Daftar Pakai ARC Aja";
+"New Login Account PlaceHolder" = "Masukkan Nomor ARC";
+"New Login Pass PlaceHolder" = "Kata Sand";
+"New RegisterMain Warning" = "Silahkan Masukkan Nomor ARC";
+"New RegisterMain Top" = "Mohon untuk menyiapkan\nARC Anda";
+
+"debate title" = "Lembaga Penyelesaian";
+"ereciept" = "Cek Fapiao";
+"Get point intro title" = "Pastikan No. Telepon Anda Aktif";
+"Get point intro warning" = "Kami akan mengirimkan\nKode SMS ke No. Telepon Anda";

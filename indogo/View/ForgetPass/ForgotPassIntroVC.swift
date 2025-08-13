@@ -14,6 +14,7 @@ class ForgotPassIntroVC: UIViewController {
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var topL: UILabel!
     @IBOutlet weak var bottomL: UILabel!
+    @IBOutlet weak var barView: UIView!
     public var fromType:ScanParentType = ScanParentType.forgotPass
     
     //MARK: - Button-Action
@@ -37,6 +38,8 @@ class ForgotPassIntroVC: UIViewController {
         nextBtn.layer.cornerRadius = nextBtn.frame.height/2
         topL.text = NSLocalizedString("top for forgoet sec", comment: "")
         bottomL.text = NSLocalizedString("bottom for forgoet sec", comment: "")
+        nextBtn.addGradienOfIndoGo()
+        barView.addGradienOfIndoGo()
     }
     
 

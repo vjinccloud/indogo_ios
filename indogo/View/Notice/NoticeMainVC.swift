@@ -156,7 +156,7 @@ class NoticeMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         if data.readable == "0" {
             cell.titleL.textColor = Color_Main_Red
         } else {
-            cell.titleL.textColor = .lightGray
+            cell.titleL.textColor = .black
         }
         
         cell.titleL.text = data.title

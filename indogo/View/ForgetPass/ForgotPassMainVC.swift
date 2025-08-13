@@ -13,6 +13,7 @@ class ForgotPassMainVC: UIViewController {
     @IBOutlet weak var backL: UILabel!
     @IBOutlet weak var topL: UILabel!
     @IBOutlet weak var introL: UILabel!
+    @IBOutlet weak var barV: GradianBarView!
     
     //MARK: - Button-Action
     @IBAction func nextAction(_ sender: Any) {
@@ -37,9 +38,9 @@ class ForgotPassMainVC: UIViewController {
         introL.text = NSLocalizedString("intro for forgoet main", comment: "")
         
         AppDelegate.shared().hideTopButton()
+        barV.addGradienOfIndoGo()
     }
     
-
     /*
     // MARK: - Navigation
 

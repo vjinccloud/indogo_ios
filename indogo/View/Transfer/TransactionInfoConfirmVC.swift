@@ -72,7 +72,7 @@ class TransactionInfoConfirmVC: UIViewController {
         let recipient_id = AppDelegate.shared().transactionObj.recipientObj.recipient_id!
         
         var parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":obj.ntdValue,"kurs_lm_time":AppDelegate.shared().memberData["kurs_lm_time"]!, "service_charge":obj.feeValue, "total_payment":obj.totalNtdValue, "transfer_idr":
-            obj.targetValue, "recipient_id":recipient_id, "pin_code_mode":1, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
+            obj.targetValue, "recipient_id":recipient_id, "pin_code_mode":PinCodeMode, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         
         if obj.usePoint == 0 {
             parameters["use_remit_point"] = 0
@@ -133,6 +133,13 @@ class TransactionInfoConfirmVC: UIViewController {
     
     //MARK: - Button-Action
     @IBAction func nextAction(_ sender: Any) {
+        //202211改成增加一頁輸入密碼
+        //又取消
+        /*
+        let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginStep2VC") as? LoginStep2VC
+        nextVC?.nextAction = .Transfer
+        self.navigationController?.pushViewController(nextVC!, animated: true)
+        */
         //再計算一次匯率
         callMemberData()
     }
@@ -155,9 +162,12 @@ class TransactionInfoConfirmVC: UIViewController {
     
     //MARK: - View-Life
     func recalculateTargetMoneyAndGoNext() {
+        //202304 改成不重新計算
+        /*
         let obj = AppDelegate.shared().transactionObj
         let kursValue = Double(AppDelegate.shared().memberData["kurs_value"]!)!
         AppDelegate.shared().transactionObj.targetValue = Int(ceil(Double(obj.ntdValue) * kursValue))
+        */
         
         //改成直接到結果頁
         createTransaction()

@@ -13,6 +13,7 @@ class TransferPurposeEmbededVC: UIViewController, UITextFieldDelegate, UITableVi
     @IBOutlet weak var nameL: UILabel!
     @IBOutlet weak var purposeBgV: UIView!
     
+    @IBOutlet weak var nameBgV: UIView!
     @IBOutlet weak var resultL: UILabel!
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var purposeListTableView: UITableView!
@@ -31,7 +32,12 @@ class TransferPurposeEmbededVC: UIViewController, UITextFieldDelegate, UITableVi
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let cellData = AppDelegate.shared().purposeObj[indexPath.row]
         cell.textLabel?.text = cellData.name
-        cell.backgroundColor = .clear
+        if indexPath.row == chosePurposeIdx {
+            cell.backgroundColor = .white
+        } else {
+            cell.backgroundColor = .clear
+        }
+        
         cell.selectionStyle = .none
         return cell
     }
@@ -41,14 +47,17 @@ class TransferPurposeEmbededVC: UIViewController, UITextFieldDelegate, UITableVi
         let cellData = AppDelegate.shared().purposeObj[indexPath.row]
         resultL.text = cellData.name
         checkBtnState()
+        tableView.reloadData()
     }
     
     func checkBtnState() {
         if chosePurposeIdx != -1 {
+            nextBtn.addGradienOfIndoGo()
             nextBtn.isEnabled = true
             nextBtn.backgroundColor = Color_Main_Red
             nextBtn.setTitleColor(.white, for: .normal)
         } else {
+            nextBtn.removeGradienLayer()
             nextBtn.isEnabled = false
             nextBtn.backgroundColor = .clear
             nextBtn.setTitleColor(Color_Main_Red, for: .normal)
@@ -75,6 +84,7 @@ class TransferPurposeEmbededVC: UIViewController, UITextFieldDelegate, UITableVi
         nextBtn.layer.borderColor = Color_Main_Red.cgColor
         nextBtn.setTitleColor(Color_Main_Red, for: .normal)
         nextBtn.isEnabled = false
+        nameBgV.addGradienOfIndoGo()
         
         Dlog("count = \(AppDelegate.shared().purposeObj.count)")
     }

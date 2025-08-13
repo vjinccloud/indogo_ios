@@ -20,6 +20,7 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
     @IBOutlet weak var scanView: UIView!
     @IBOutlet weak var scanMaskView: UIView!
     
+    @IBOutlet weak var barV: UIView!
     var captureSession:AVCaptureSession!
     var capturePhotoOutput:AVCapturePhotoOutput!
     
@@ -52,6 +53,9 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
         //Delay一下
         DispatchQueue.main.async {
             //self.scanNext(Code: "XC00000092")
+            let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterPurpleInputVC") as? RegisterPurpleInputVC
+            self.navigationController?.pushViewController(nextVC!, animated: true)
+            //nextVC!.setArcCodeString(Code: "XC00000092")
         }
     }
     
@@ -132,19 +136,23 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
                 } else if result == ResponseState.member_not_exist {
                     //會員不存在，註冊
                     if self.fromType == .register { //回到註冊畫面
+                        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterPurpleInputVC") as? RegisterPurpleInputVC
+                        nextVC!.presetArc = code
+                        self.navigationController?.pushViewController(nextVC!, animated: true)
+                        /*
                         guard let viewControllers = self.navigationController?.viewControllers else {
                             return
                         }
 
                         for firstViewController in viewControllers {
-                            if firstViewController is RegisterInputVC {
-                                let nextVC = firstViewController as! RegisterInputVC
+                            if firstViewController is RegisterPurpleInputVC {
+                                let nextVC = firstViewController as! RegisterPurpleInputVC
                                 nextVC.setArcCodeString(Code: code)
                                 self.navigationController?.popToViewController(nextVC, animated: true)
                                 break
                             }
                         }
-                        
+                        */
                         return
                     } else if self.fromType == .forgotPass {
                         let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassCheckPhoneVC") as? ForgotPassCheckPhoneVC
@@ -309,6 +317,7 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
         topL.text = NSLocalizedString("top for forget arc scan", comment: "")
         bottomL.text = NSLocalizedString("bottom for forgoet sec", comment: "")
         scanL.isHidden = true
+        barV.addGradienOfIndoGo()
     }
     
     @objc func countDownEnd() {

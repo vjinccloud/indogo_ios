@@ -20,6 +20,7 @@ class ForgotPassChangeVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var repassBtn: UIButton!
     @IBOutlet weak var repassTextField: UITextField!
     @IBOutlet weak var showRePassBtn: UIButton!
+    @IBOutlet weak var barV: UIView!
     
     @IBOutlet weak var nextBtn: UIButton!
     
@@ -91,7 +92,23 @@ class ForgotPassChangeVC: UIViewController, UITextFieldDelegate {
                 let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
                 
                 if result == ResponseState.ok {
-                    self.navigationController?.popToRootViewController(animated: true)
+                    //回輸入密碼頁
+                    guard let viewControllers = self.navigationController?.viewControllers else {
+                        return
+                    }
+                    
+                    var isBack = false
+                    for firstViewController in viewControllers {
+                        if firstViewController is LoginStep2VC {
+                            isBack = true
+                            self.navigationController?.popToViewController(firstViewController, animated: true)
+                            return
+                        }
+                    }
+                    
+                    if !isBack {
+                        self.navigationController?.popToRootViewController(animated: true)
+                    }
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
@@ -140,10 +157,10 @@ class ForgotPassChangeVC: UIViewController, UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == passTextField {
-            passBtn.backgroundColor = Color_Main_DarkGray
+            passBtn.backgroundColor = .white
             warnL.isHidden = true
         } else if textField == repassTextField {
-            repassBtn.backgroundColor = Color_Main_DarkGray
+            repassBtn.backgroundColor = .white
             warn2L.isHidden = true
         }
         checkState()
@@ -161,8 +178,8 @@ class ForgotPassChangeVC: UIViewController, UITextFieldDelegate {
         repassBtn.layer.cornerRadius = repassBtn.frame.size.height/2
         nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2
         
-        passTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("passcode", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-        repassTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("TFFRHP Change placehold2", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        passTextField.placeholder = NSLocalizedString("passcode", comment: "")
+        repassTextField.placeholder = NSLocalizedString("TFFRHP Change placehold2", comment: "")
         
         nextBtn.setTitle(NSLocalizedString("send", comment: ""), for: .normal)
         nextBtn.backgroundColor = .clear
@@ -180,6 +197,8 @@ class ForgotPassChangeVC: UIViewController, UITextFieldDelegate {
         warn2L.text = NSLocalizedString("TFFRHP Change warn2", comment: "")
         warnL.isHidden = true
         warn2L.isHidden = true
+        barV.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
     }
     
 

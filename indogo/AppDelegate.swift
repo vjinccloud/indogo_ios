@@ -13,12 +13,14 @@ import UserNotifications
 import iProgressHUD
 import PKHUD
 import CommonCrypto
-import Firebase
+import FirebaseCore
 import FirebaseMessaging
 import WebKit
+import CoreLocation
+import ZKProgressHUD
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKUIDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate, WKNavigationDelegate, WKUIDelegate {
     
     var floatingButton: UIButton!
     var floatingContainer: UIView!
@@ -29,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKU
     var callUrlOnce = false
     
     var blackWindow:UIView!
+    var companyV:CompanyV!
     
     var topContainer:UIView!
     var normalPageBtn:UIButton!
@@ -40,6 +43,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKU
     var ipAddr = "0.0.0.0"
     
     var alertViewContainer:UIView!
+    let locationManager = CLLocationManager()
+    var hasCallGPS:Bool = false
+    var latValue:Double = 0
+    var lonValue:Double = 0
+    var latLastSendValue:Double = 0
+    var lonLastSendValue:Double = 0
     
     var hasLogin = false
     var floatingBtnBackFrame:CGRect!
@@ -104,6 +113,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKU
     var purposeObj:[TransferPurposeObj] = []
     var hasRelation = false
     var relationObj:[TransferPurposeObj] = []
+    var getInfoStrAry:[String] = []
+    
+    var tempArcForLogin:String = ""
+    var tempRemeberState:Bool = false
+    var showTokenFailedContainer:UIView!
+    
+    var tempTransferMaxWarningStr = ""
+    var tempTransferMaxAmount = 0
+    var tempTransferMaxAmountStr = ""
+    var tempTransferLeftAmount = 0
     
     //MARK: - Web Delegate
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
@@ -126,6 +145,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKU
         
         //檢查版本
         checkAppStoreVersion()
+        
+        callForGPS()
         
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
@@ -152,7 +173,67 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKU
         AppDelegate.shared().seperatorStr = NSLocalizedString("leading space", comment: "")
         AppDelegate.shared().subSeperatorStr = NSLocalizedString("leading sub space", comment: "")
         self.getBankList()
+        NotificationCenter.default.addObserver(self, selector: #selector(screenshotTaken), name: UIApplication.userDidTakeScreenshotNotification, object: nil)
+
+        //測試AES
+        //let straes = "2022/10/17 16:04".AES128encrypt(aes_key: "cryptindogocrypt")
+        //Dlog("aes encrypt = \(straes)")
         return true
+    }
+    
+    @objc func screenshotTaken() {
+        Dlog("Screenshot taken!")
+        //showAlertView(Message: "screenshotTaken", ConfrimStr: NSLocalizedString("cancel", comment: ""))
+        let msg = "Tangkapan layar ini mengandung unsur data privasi Anda\n\nPastikan simpan dengan aman untuk memastikan privasinya"
+        let cancelstr = "YA"
+        let window = UIApplication.shared.keyWindow
+        
+        showTokenFailedContainer = UIView(frame: CGRect.init(x: 0, y: 0, width: window!.bounds.width, height: window!.bounds.height))
+        window!.addSubview(showTokenFailedContainer);
+        showTokenFailedContainer.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.7)
+        
+        //決定字串高度
+        let strL = UILabel.init(frame: CGRect.init(x: 0, y: 0, width: window!.bounds.width - 100, height: 10))
+        strL.text = msg
+        strL.font = UIFont.systemFont(ofSize: 14)
+        let height = strL.requiredHeight
+        let boxHeight = 130 + height
+        
+        let alertViewBg = UIView.init(frame: CGRect.init(x: 35, y: window!.bounds.height/2 - 20 - boxHeight/2, width: window!.bounds.width - 70, height: boxHeight))
+        showTokenFailedContainer.addSubview(alertViewBg)
+        
+        alertViewBg.backgroundColor = .white
+        alertViewBg.layer.cornerRadius = 10
+        alertViewBg.clipsToBounds = true
+        
+        //頂部紅色條
+        let topView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: alertViewBg.frame.size.width, height: 45))
+        topView.backgroundColor = Color_Main_Red
+        alertViewBg.addSubview(topView)
+        topView.addGradienOfIndoGo()
+        let label = UILabel.init(frame: topView.bounds)
+        label.text = "Pemberitahuan"
+        label.font = UIFont.systemFont(ofSize: 17)
+        label.textColor = .white
+        label.textAlignment = .center
+        alertViewBg.addSubview(label)
+        
+        //字
+        strL.frame = CGRect.init(x: 25, y: 65, width: alertViewBg.frame.size.width - 50, height: height)
+        strL.textAlignment = .center
+        strL.numberOfLines = 0
+        alertViewBg.addSubview(strL)
+        
+        //按鈕
+        let btn = UIButton.init(frame: CGRect.init(x: alertViewBg.frame.size.width * 0.2, y: boxHeight - 50, width: alertViewBg.frame.size.width * 0.6, height: 35))
+        btn.layer.cornerRadius = btn.frame.size.height/2
+        btn.layer.borderColor = Color_Main_Red.cgColor
+        btn.layer.borderWidth = 0.5
+        btn.addTarget(self, action: #selector(removeTokenAlert), for: .touchUpInside)
+        btn.setTitle(cancelstr, for: .normal)
+        btn.setTitleColor(.white, for: .normal)
+        btn.addGradienOfIndoGo()
+        alertViewBg.addSubview(btn)
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -231,6 +312,115 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKU
     func clearAllSetup() {
         AppDelegate.shared().hasArcResultAndGotoRegister = false
         AppDelegate.shared().arcScanReulstForRegister = ""
+    }
+    
+    //MARK: - GPS
+    func callForGPS() {
+        Dlog("callForGPS")
+        
+        if hasCallGPS {
+            return
+        }
+        
+        hasCallGPS = true
+        
+        #if targetEnvironment(simulator)
+        latValue = 25.1550312042236
+        lonValue = 121.766418457031
+        gpsCode = "\(latValue),\(lonValue)"
+        //self.sendToken()
+        #else
+        #endif
+        
+        if DevMode {
+            latValue = 25.1550312042236
+            lonValue = 121.766418457031
+            gpsCode = "\(latValue),\(lonValue)"
+        }
+        // Create a CLLocationManager and assign a delegate
+        locationManager.delegate = self
+        locationManager.startUpdatingLocation()
+        // Request a user’s location once
+        
+        if #available(iOS 14.0, *) {
+            switch locationManager.authorizationStatus {
+            case .authorizedAlways:
+                Dlog("locationManager authorizedAlways")
+                locationManager.requestLocation()
+            case .authorizedWhenInUse:
+                Dlog("locationManager authorizedWhenInUse")
+                locationManager.requestLocation()
+            default:
+                locationManager.requestLocation()
+            }
+        } else {
+            switch CLLocationManager.authorizationStatus() {
+            case .authorizedAlways, .authorizedWhenInUse:
+                locationManager.requestLocation()
+            default:
+                locationManager.requestLocation()
+            }
+        }
+        
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .denied: // Setting option: Never
+            print("LocationManager didChangeAuthorization denied")
+        case .notDetermined: // Setting option: Ask Next Time
+            print("LocationManager didChangeAuthorization notDetermined")
+            locationManager.requestWhenInUseAuthorization()
+        case .authorizedWhenInUse: // Setting option: While Using the App
+            print("LocationManager didChangeAuthorization authorizedWhenInUse")
+            
+            // Stpe 6: Request a one-time location information
+            locationManager.requestLocation()
+            
+        case .authorizedAlways: // Setting option: Always
+            print("LocationManager didChangeAuthorization authorizedAlways")
+            
+            // Stpe 6: Request a one-time location information
+            locationManager.requestLocation()
+        case .restricted: // Restricted by parental control
+            print("LocationManager didChangeAuthorization restricted")
+        default:
+            locationManager.requestWhenInUseAuthorization()
+            print("LocationManager didChangeAuthorization")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("LocationManager didUpdateLocations: numberOfLocation: \(locations.count)")
+        
+        /*
+         locations.forEach { (location) in
+         print("LocationManager altitude: \(location.altitude)")
+         print("LocationManager floor?.level: \(location.floor?.level ?? 0)")
+         print("LocationManager horizontalAccuracy: \(location.horizontalAccuracy)")
+         print("LocationManager verticalAccuracy: \(location.verticalAccuracy)")
+         print("LocationManager speedAccuracy: \(location.speedAccuracy)")
+         print("LocationManager speed: \(location.speed)")
+         print("LocationManager timestamp: \(location.timestamp)")
+         //print("LocationManager courseAccuracy: \(location.courseAccuracy)") // 13.4
+         print("LocationManager course: \(location.course)")
+         }
+         */
+        
+        latValue = locations.first!.coordinate.latitude
+        lonValue = locations.first!.coordinate.longitude
+        gpsCode = "\(latValue),\(lonValue)"
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+      print("LocationManager didFailWithError \(error.localizedDescription)")
+      if let error = error as? CLError, error.code == .denied {
+         // Location updates are not authorized.
+        // To prevent forever looping of `didFailWithError` callback
+         //locationManager.stopMonitoringSignificantLocationChanges()
+          gpsCode = "0,0"
+         return
+      }
     }
     
     //MARK: - Notification
@@ -344,6 +534,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKU
         hasBottomMenu = true
     }
     
+    //MARK: - Conpany Window
+    func showCompany() {
+        Dlog("companyV Show")
+        if companyV != nil {
+            companyV.removeFromSuperview()
+        }
+        
+        let window = UIApplication.shared.keyWindow
+        companyV = CompanyV.init(frame: window!.bounds)
+        companyV.backgroundColor = .black
+        window?.addSubview(companyV)
+        companyV.initFirst()
+    }
+    
+    func hideCompany() {
+        Dlog("companyV Hide")
+        if companyV != nil {
+            companyV.removeFromSuperview()
+        }
+        if AppDelegate.shared().rootController is ViewController {
+            let vc = AppDelegate.shared().rootController as ViewController
+            let userDefaults = UserDefaults.standard
+            if userDefaults.value(forKey: "sessionToken") != nil {
+                AppDelegate.shared().sessionToken = userDefaults.value(forKey: "sessionToken") as! String
+                vc.checkTokenLogin()
+            }
+        }
+        
+    }
+    
     //MARK: - BlackWindow
     func showBlackWindow() {
         Dlog("BlackWindow Show")
@@ -375,8 +595,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKU
     
     func showFloatingBtn() {
         if hasFloatingBtn {
+            floatingButton.alpha = 1
             let window = UIApplication.shared.keyWindow
             window?.bringSubviewToFront(floatingButton)
+        }
+    }
+    
+    func hideFloatingBtn() {
+        if hasFloatingBtn {
+            floatingButton.alpha = 0
         }
     }
     
@@ -537,7 +764,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKU
     @objc func callLine() {
         removeFloatingContainer()
         
-        let urlString:String = "https://line.me/ti/p/%40indogo"
+        let urlString:String = memberData["line_url"] ?? ""
+        //"https://line.me/ti/p/%40indogo"
         
         if let openURL = URL(string: urlString) {
             if (UIApplication.shared.canOpenURL(openURL)) {
@@ -571,7 +799,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKU
         configuration.urlCache = nil
         configuration.requestCachePolicy = .reloadIgnoringCacheData
         
-        let serverTrustPolicies: [String: ServerTrustPolicy] = ["prod.indogo.com.tw": .disableEvaluation]
+        //let serverTrustPolicies: [String: ServerTrustPolicy] = ["prod.indogo.com.tw": .disableEvaluation]
+        let serverTrustPolicies: [String: ServerTrustPolicy] = [:]
         let servertrustManager = ServerTrustPolicyManager(policies: serverTrustPolicies)
         
         return Alamofire.SessionManager(configuration: configuration, serverTrustPolicyManager: servertrustManager)
@@ -929,7 +1158,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKU
                 navigaterId = "TransferMainNC"
             } else if type == LoginFuncType.sharing {
                 storyboardId = "Member"
-                var storyboardId = "ShareMainNC"
+                var storyboardId = "ShareMainNC"  //ShareMainNCSmall
                 if AppDelegate.shared().deviceSmall {
                     storyboardId = "ShareMainNCSmall"
                 }
@@ -1094,6 +1323,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKU
         shopPageBtn.setTitleColor(.darkGray, for: .normal)
         
         initLinePosX()
+        hideTopButton()
     }
     
     @objc func callFloatingShopWeb() {
@@ -1126,7 +1356,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKU
     }
     
     func showTopButton() {
-        topContainer.isHidden = false
+        //topContainer.isHidden = false
     }
     
     func hideTopButton() {
@@ -1144,13 +1374,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKU
     
     //正在讀取
     func addLoadingView() {
-        PKHUD.sharedHUD.contentView = PKHUDProgressView()
-        PKHUD.sharedHUD.show()
+        //PKHUD.sharedHUD.contentView = PKHUDProgressView()
+        //PKHUD.sharedHUD.show()
+        ZKProgressHUD.show()
     }
     
     //關掉讀取按鈕
     func removeLoadingView() {
-        PKHUD.sharedHUD.hide()
+        //PKHUD.sharedHUD.hide()
+        ZKProgressHUD.dismiss()
+        
     }
     
     //跳出alert(錯誤訊息專用)
@@ -1164,7 +1397,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKU
     }
     
     //自定義 alert
-    func showAlertView (Message msg:String, ConfrimStr cancelstr:String) {
+    func showAlertView(Message msg:String, ConfrimStr cancelstr:String) {
         if msg == "" {
             return
         }
@@ -1211,8 +1444,72 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WKNavigationDelegate, WKU
         alertViewBg.addSubview(btn)
     }
     
-    @objc func removeAlert () {
+    @objc func removeAlert() {
         alertViewContainer.removeFromSuperview()
+    }
+    
+    //自定義 alert
+    func showTokenAlertView() {
+        let msg = "Akun Anda telah login\ndi perangkat lain\nSilahkan login ulang"
+        let cancelstr = "OKE"
+        let window = UIApplication.shared.keyWindow
+        
+        showTokenFailedContainer = UIView(frame: CGRect.init(x: 0, y: 0, width: window!.bounds.width, height: window!.bounds.height))
+        window!.addSubview(showTokenFailedContainer);
+        showTokenFailedContainer.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.7)
+        
+        //決定字串高度
+        let strL = UILabel.init(frame: CGRect.init(x: 0, y: 0, width: window!.bounds.width - 100, height: 10))
+        strL.text = msg
+        strL.font = UIFont.systemFont(ofSize: 14)
+        let height = strL.requiredHeight
+        let boxHeight = 200 + height
+        
+        let alertViewBg = UIView.init(frame: CGRect.init(x: 35, y: window!.bounds.height/2 - 20 - boxHeight/2, width: window!.bounds.width - 70, height: boxHeight))
+        showTokenFailedContainer.addSubview(alertViewBg)
+        
+        alertViewBg.backgroundColor = .white
+        alertViewBg.layer.cornerRadius = 10
+        alertViewBg.clipsToBounds = true
+        
+        //頂部紅色條
+        let topView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: alertViewBg.frame.size.width, height: 45))
+        topView.backgroundColor = Color_Main_Red
+        alertViewBg.addSubview(topView)
+        topView.addGradienOfIndoGo()
+        let label = UILabel.init(frame: topView.bounds)
+        label.text = "Pemberitahuan"
+        label.font = UIFont.systemFont(ofSize: 17)
+        label.textColor = .white
+        label.textAlignment = .center
+        alertViewBg.addSubview(label)
+        
+        let imgV = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 70, height: 70))
+        imgV.center = CGPoint.init(x: alertViewBg.frame.size.width/2, y: 45 + 10 + imgV.frame.height/2)
+        imgV.image = UIImage.init(named: "user_d")
+        imgV.contentMode = .scaleAspectFit
+        alertViewBg.addSubview(imgV)
+        
+        //字
+        strL.frame = CGRect.init(x: 25, y: 60+75, width: alertViewBg.frame.size.width - 50, height: height)
+        strL.textAlignment = .center
+        strL.numberOfLines = 0
+        alertViewBg.addSubview(strL)
+        
+        //按鈕
+        let btn = UIButton.init(frame: CGRect.init(x: alertViewBg.frame.size.width * 0.2, y: boxHeight - 50, width: alertViewBg.frame.size.width * 0.6, height: 35))
+        btn.layer.cornerRadius = btn.frame.size.height/2
+        btn.layer.borderColor = Color_Main_Red.cgColor
+        btn.layer.borderWidth = 0.5
+        btn.addTarget(self, action: #selector(removeTokenAlert), for: .touchUpInside)
+        btn.setTitle(cancelstr, for: .normal)
+        btn.setTitleColor(.white, for: .normal)
+        btn.addGradienOfIndoGo()
+        alertViewBg.addSubview(btn)
+    }
+    
+    @objc func removeTokenAlert() {
+        showTokenFailedContainer.removeFromSuperview()
     }
     
     func getDocumentsDirectory() -> URL {
@@ -1248,9 +1545,9 @@ extension AppDelegate : MessagingDelegate {
     
     // [START refresh_token]
     
-    internal func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+    internal func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("Firebase registration token: \(fcmToken)")
-        FirebaseToken = fcmToken
+        FirebaseToken = fcmToken ?? ""
         
         /*
          Messaging.messaging().subscribe(toTopic: "Test_iOS") { error in
@@ -1283,5 +1580,33 @@ extension Alamofire.SessionManager{
             print(error)
             return request(URLRequest(url: URL(string: "http://example.com/wrong_request")!))
         }
+    }
+}
+
+class CustomServerTrustPoliceManager : ServerTrustPolicyManager {
+    //自訂信任協議
+    override func serverTrustPolicy(forHost host: String) -> ServerTrustPolicy? {
+        //如果網域符合
+        if host.hasSuffix("prod.indogo.com.tw") {
+                        //從檔案資料夾取出憑證
+            //let dir_bundle = Bundle.init(path: "/certificate")!
+            //Bundle.main.url(forResource: "certificate", withExtension: "der")
+            //Bundle.url("certificate","der")
+            let pathToCert = Bundle.main.path(forResource: "certificate", ofType: "der")
+            let localCertificate = NSData(contentsOfFile: pathToCert!)
+            let certificates = [SecCertificateCreateWithData(nil, localCertificate!)!]
+            
+            let serverTrustPolicy = ServerTrustPolicy.pinCertificates(
+                //進行比對的參數
+                certificates: certificates,
+                validateCertificateChain: true,
+                validateHost: true
+            )
+            return serverTrustPolicy
+        }
+        return .performDefaultEvaluation(validateHost: true)
+    }
+    public init() {
+        super.init(policies: [:])
     }
 }

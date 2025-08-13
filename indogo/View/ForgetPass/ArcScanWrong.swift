@@ -15,6 +15,7 @@ class ArcScanWrong: UIViewController {
     @IBOutlet weak var preBtn: UIButton!
     @IBOutlet weak var topL: UILabel!
     @IBOutlet weak var orL: UILabel!
+    @IBOutlet weak var barV: UIView!
     
     public var fromType:ScanParentType = ScanParentType.forgotPass
     
@@ -24,9 +25,14 @@ class ArcScanWrong: UIViewController {
     }
     
     @IBAction func inputAction(_ sender: Any) {
-        let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ARCInputVC") as? ARCInputVC
-        nextVC!.fromType = fromType
-        self.navigationController?.pushViewController(nextVC!, animated: true)
+        if fromType == .mainToScan {
+            self.navigationController?.popToRootViewController(animated: true)
+        } else {
+            let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ARCInputVC") as? ARCInputVC
+            nextVC!.fromType = fromType
+            self.navigationController?.pushViewController(nextVC!, animated: true)
+        }
+        
     }
     
     @IBAction func backAction(_ sender: Any) {
@@ -45,9 +51,11 @@ class ArcScanWrong: UIViewController {
         preBtn.layer.cornerRadius = nextBtn.frame.height/2
         preBtn.layer.backgroundColor = UIColor.clear.cgColor
         preBtn.layer.borderWidth = 0.5
-        preBtn.layer.borderColor = UIColor.white.cgColor
+        preBtn.layer.borderColor = Color_Purple.cgColor
         topL.text = NSLocalizedString("scan failed", comment: "")
         orL.text = NSLocalizedString("or", comment: "")
+        barV.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
     }
     
 

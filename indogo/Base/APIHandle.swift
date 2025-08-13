@@ -15,7 +15,15 @@ public enum ResponseState {
     case ok
     case error
     case member_not_exist
+    case maxExceed
     case lack_point
+    case error509
+    case error714
+    case error715
+    case error716
+    case dataCheckStatus1
+    case dataCheckStatus2
+    case dataCheckStatus3
 }
 
 class APIHandle {
@@ -71,10 +79,22 @@ class APIHandle {
             //特殊狀況
             if apiStr == API_CheckMemExist && stateStr == "3" {
                 return ResponseState.member_not_exist
-            } else if apiStr == API_MemberRecipents && stateStr == "509" {
-                return ResponseState.error
+            } else if apiStr == API_MemberRecipents && (stateStr == "509" || stateStr == "714" || stateStr == "715" || stateStr == "716") {
+                if stateStr == "509" {
+                    getRecipientMaxAmount(DataStr: resultStr, Is509: true)
+                } else {
+                    getRecipientMaxAmount(DataStr: resultStr)
+                }
+                
+                return ResponseState.maxExceed
             } else if apiStr == API_BankList {
                 return ResponseState.failed
+            } else if apiStr == API_DataCheck && stateStr == "1" {
+                return ResponseState.dataCheckStatus1
+            } else if apiStr == API_DataCheck && stateStr == "2" {
+                return ResponseState.dataCheckStatus2
+            } else if apiStr == API_DataCheck && stateStr == "3" {
+                return ResponseState.dataCheckStatus3
             } else {
                 //取得最後訊息並顯示
                 if apiStr == API_TransferPointFirstStep {
@@ -84,16 +104,25 @@ class APIHandle {
                         return ResponseState.error
                     }
                     
+                } else if apiStr == API_CheckArcExist {
+                    return ResponseState.member_not_exist
                 } else {
                     //AppDelegate.shared().showAlertWithWindow(vc, Message: resultStr)
                     return ResponseState.failed
                 }
                 
             }
+        } else {
+            if apiStr == API_MemberDelete {
+                AppDelegate.shared().apiBackContentStr = resultStr
+            }
         }
         
         //根據 API 字串處理後續
         switch apiStr {
+        case API_GetInfo:
+            getinfo(DataStr: resultStr)
+            break
         case API_Promo:
             promo(DataStr: resultStr)
             break
@@ -188,6 +217,7 @@ class APIHandle {
         //目前直接用zero width空格
         let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
         for j in 0..<ary.count {
+            Dlog("\(j+1). value = \(ary[j])")
             if j==0 {
                 AppDelegate.shared().tempRecipientObj.recipient_id = ary[0]
             } else if j==1 {
@@ -342,6 +372,33 @@ class APIHandle {
         }
     }
     
+    private func getRecipientMaxAmount(DataStr dataStr:String, Is509 is509:Bool = false) {
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().subSeperatorStr)
+        for i in 0..<ary.count {
+            if i==0 {
+                AppDelegate.shared().tempTransferMaxWarningStr = ary[i]
+            } else if i==1 {
+                let str = ary[i]
+                if is509 {
+                    AppDelegate.shared().tempTransferMaxAmountStr = str
+                    AppDelegate.shared().tempTransferMaxAmount = Int(str) ?? 0
+                } else {
+                    AppDelegate.shared().tempTransferLeftAmount = Int(str) ?? 0
+                }
+            } else if i==2 {
+                let str = ary[i]
+                if is509 {
+                    AppDelegate.shared().tempTransferLeftAmount = Int(str) ?? 0
+                } else {
+                    AppDelegate.shared().tempTransferMaxAmount = Int(str) ?? 0
+                }
+                
+            }
+        }
+        
+        Dlog("str = \(AppDelegate.shared().tempTransferMaxWarningStr), left = \(AppDelegate.shared().tempTransferLeftAmount), max = \(AppDelegate.shared().tempTransferMaxAmount)")
+    }
+    
     private func checkRecipientList(DataStr dataStr:String) {
         //目前直接用zero width空格
         let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
@@ -387,6 +444,45 @@ class APIHandle {
     
     private func checkPointHistoryList(DataStr dataStr:String) {
         AppDelegate.shared().historyListObj = []
+        
+        if dataStr.count < 3 {
+            return
+        }
+        
+        let subAry = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        
+        var expiredateStr = ""
+        if subAry.count<5 {
+            return
+            /*
+            let ary = subAry[4].components(separatedBy:" ")
+            let arySub = ary[0].components(separatedBy:"-")
+            if arySub.count >= 2 {
+                expiredateStr = arySub[2] + "/" + arySub[1] + "/" + arySub[0]
+            }*/
+        }
+        
+        let obj:PointHistorySingleObj = PointHistorySingleObj()
+        
+        for j in 0..<5 {
+            let subStr = subAry[j]
+            let realAry = subStr.components(separatedBy: AppDelegate.shared().subSeperatorStr)
+            
+            
+            /*
+            for k in 0..<realAry.count {
+                Dlog("now value(\(k)) = \(realAry[k])")
+                obj.setValueByOrderNew(Order: k, Value: realAry[k])
+                obj.printSelf()
+            }*/
+            Dlog("now value(\(j)) = \(subStr)")
+            obj.setValueByOrderNew(Order: j, Value: subStr)
+        }
+        
+        obj.printSelf()
+        //obj.expirDate = expiredateStr
+        AppDelegate.shared().historyListObj.append(obj)
+        /*
         //目前直接用zero width空格
         let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
         for i in 0..<ary.count {
@@ -403,6 +499,7 @@ class APIHandle {
             obj.printSelf()
             AppDelegate.shared().historyListObj.append(obj)
         }
+         */
     }
     
     private func checkPointTransferFirstStep(DataStr dataStr:String, SubStr subStr:String) {
@@ -483,7 +580,7 @@ class APIHandle {
         let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
         Dlog("ary0 = \(ary[0])")
         AppDelegate.shared().userLogin(TokenStr: ary[0])
-        let keyAry:[String] = ["member_name","kurs_value","kurs_lm_time","service_charge","remit_point","free_service_charge","share_id","app_phone_no","app_share_bonus","google_map_url","app_version","app_market","line_url","games_url","member_id","arc_photo","arc_back_photo","signature_photo","id_card_photo","self_photo"]
+        let keyAry:[String] = ["member_name","kurs_value","kurs_lm_time","service_charge","remit_point","free_service_charge","share_id","app_phone_no","app_share_bonus","google_map_url","app_version","app_market","line_url","games_url","member_id","arc_photo","arc_back_photo","signature_photo","id_card_photo","self_photo","if_free","verify_point"]
         for i in 0..<keyAry.count {
             var value = ""
             if (i+1) < ary.count {
@@ -524,6 +621,21 @@ class APIHandle {
             idx += spaceCount
         }*/
         Dlog("promoUrlAry = \(AppDelegate.shared().promoUrlAry.count)")
+    }
+    
+    private func getinfo(DataStr dataStr:String) {
+        AppDelegate.shared().getInfoStrAry = []
+        
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().subSeperatorStr)
+        for i in 0..<ary.count {
+            var str = ary[i]
+            str = str.trimmingCharacters(in: .whitespaces)
+            AppDelegate.shared().getInfoStrAry.append(str)
+            
+            Dlog("\(i) str = \(str)")
+        }
+        
+        Dlog("getInfoStrAry = \(AppDelegate.shared().getInfoStrAry.count)")
     }
     
 }

@@ -18,7 +18,7 @@ class RegisterIntroVC: UIViewController {
     
     //MARK: - Button-Action
     @IBAction func nextAction(_ sender: Any) {
-        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterInputVC") as? RegisterInputVC
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterPurpleInputVC") as? RegisterPurpleInputVC
         self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     

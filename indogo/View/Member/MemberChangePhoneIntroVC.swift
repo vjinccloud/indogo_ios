@@ -32,6 +32,7 @@ class MemberChangePhoneIntroVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var registerBtn: UIButton!
     @IBOutlet weak var arcCodeL: UILabel!
     
+    @IBOutlet weak var barV: UIView!
     @IBOutlet weak var errorView: UIView!
     @IBOutlet weak var errorL: UILabel!
     
@@ -104,6 +105,7 @@ class MemberChangePhoneIntroVC: UIViewController, UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         inputMoreSpaceView.isHidden = false
+        /*
         if textField == phoneTextfield {
             topScrollView.contentOffset = CGPoint.init(x: 0, y: phoneView.frame.origin.y)
             phoneBtn.backgroundColor = Color_Main_LightGray
@@ -112,12 +114,13 @@ class MemberChangePhoneIntroVC: UIViewController, UITextFieldDelegate {
             topScrollView.contentOffset = CGPoint.init(x: 0, y: phoneNewView.frame.origin.y)
             phoneNewBtn.backgroundColor = Color_Main_LightGray
             phoneNewTextfield.textColor = .black
-        }
+        }*/
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         inputMoreSpaceView.isHidden = true
         
+        /*
         if textField == phoneTextfield {
             if textField.text!.count == 0 {
                 phoneBtn.backgroundColor = Color_Main_DarkGray
@@ -134,7 +137,7 @@ class MemberChangePhoneIntroVC: UIViewController, UITextFieldDelegate {
                 phoneNewBtn.backgroundColor = Color_Main_LightGray
                 phoneNewTextfield.textColor = .black
             }
-        }
+        }*/
         
         checkNextBtnState(CheckText: true)
     }
@@ -151,11 +154,13 @@ class MemberChangePhoneIntroVC: UIViewController, UITextFieldDelegate {
         }
         
         if pass {
-            registerBtn.backgroundColor = Color_Main_Red
+            registerBtn.setTitleColor(.white, for: .normal)
+            registerBtn.addGradienOfIndoGo()
             registerBtn.isEnabled = true
             phoneNewWarnL.isHidden = true
         } else {
-            registerBtn.backgroundColor = .clear
+            registerBtn.removeGradienLayer()
+            registerBtn.setTitleColor(.black, for: .normal)
             registerBtn.isEnabled = false
             phoneNewWarnL.isHidden = false
         }
@@ -182,6 +187,7 @@ class MemberChangePhoneIntroVC: UIViewController, UITextFieldDelegate {
 
         // Do any additional setup after loading the view.
         self.setupHideKeyboardOnTap()
+        barV.addGradienOfIndoGo()
         
         backL.text = NSLocalizedString("Change Phone Bar Title", comment: "")
         phoneTitle.text = NSLocalizedString("Change Phone Title", comment: "")
@@ -190,21 +196,25 @@ class MemberChangePhoneIntroVC: UIViewController, UITextFieldDelegate {
         phoneBtn.layer.cornerRadius = phoneBtn.frame.size.height/2
         phoneTextfield.delegate = self
         phoneTextfield.inputAccessoryView = generateToolBar()
-        phoneTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register Input Phone", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        phoneTextfield.placeholder = NSLocalizedString("Register Input Phone", comment: "")
         
         phoneNewBtn.layer.cornerRadius = phoneNewBtn.frame.size.height/2
         phoneNewTextfield.delegate = self
         phoneNewTextfield.inputAccessoryView = generateToolBar()
-        phoneNewTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register Input Phone", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        phoneNewTextfield.placeholder = NSLocalizedString("Register Input Phone", comment: "")
         
         phoneNewWarnL.isHidden = true
         
         registerBtn.setTitle(NSLocalizedString("send", comment: ""), for: .normal)
+        registerBtn.layer.backgroundColor = UIColor.clear.cgColor
         registerBtn.layer.cornerRadius = registerBtn.frame.size.height/2
         registerBtn.layer.borderColor = Color_Main_Red.cgColor
         registerBtn.layer.borderWidth = 0.5
         checkNextBtnState(CheckText: false)
         phoneNewWarnL.isHidden = true
+        
+        phoneTextfield.text = AppDelegate.shared().forgotPassTempPhone
+        phoneTextfield.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
