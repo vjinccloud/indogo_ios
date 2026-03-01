@@ -237,6 +237,8 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
             */
         }
         
+        let newValue = (Int(AppDelegate.shared().memberData["remit_point"]!) ?? 0) - decresedCharge
+        leftTotalPL.text = "\(newValue)"
         checkAndCalculateValue(UseStyle: 0, NweString: "")
     }
 
