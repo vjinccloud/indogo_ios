@@ -39,6 +39,7 @@ class MemberChangePhoneIntroVC: UIViewController, UITextFieldDelegate {
     var hasSharedCode = false
     var hasMeCode = false
     var meImg:UIImage!
+    var loadOnce = false
     
     //MARK: - API
     func sendSMS() {
@@ -182,6 +183,16 @@ class MemberChangePhoneIntroVC: UIViewController, UITextFieldDelegate {
     }
     
     //MARK: - View-Life
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
+        barV.addGradienOfIndoGo()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

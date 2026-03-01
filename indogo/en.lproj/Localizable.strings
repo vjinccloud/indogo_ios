@@ -49,6 +49,7 @@
 "Agreement to Scan" = "Anda Harus Membuka Izin Akses Kamera Melalui Aplikasi Ini";
 "Agreement to Photo" = "Anda Harus Membuka Izin Akses Kamera Melalui Aplikasi Ini";
 
+"Main Title" = "KIRIM UANG";
 "Register Error Empty" = "Silahkan masukkan data Anda";
 "Register Error Tel" = "Silahkan Masukkan Nomor HP Anda Yang Benar";
 "Register Error ARC" = "Nomor ARC Salah, Silahkan Diulangi";
@@ -69,8 +70,8 @@
 "top for forgoet sec" = "Cara Scan\nBarcode ARC";
 "bottom for forgoet sec" = "Pastikan seluruh barcode\nberada dalam kotak yang ditentukan";
 "bottom for forgoet sec ARC" = "Pastikan seluruh ARC Anda berada\ndalam kotak yang ditentukan";
-"bottom for forgoet sec Back" = "Pastikan seluruh KTP Anda berada\ndalam kotak yang ditentukan";
-"bottom for forgoet sec Selfie" = "Pastikan wajah Anda terlihat\ndengan jelas saat foto";
+"bottom for forgoet sec Back" = "Pastikan berada dalam\nkotak yang ditentukan";
+"bottom for forgoet sec Selfie" = "Pastikan Anda memegang ARC dan\nseluruh bagian wajah terlihat jelas saat foto";
 "bottom for forgoet sec Sign" = "Tulis nama sesuai dengan\nNama yang tertera di ARC";
 "top for forget arc scan" = "Silahkan scan barcode ARC\nyang tertera di bawah ARC Anda";
 "top for forget result has phone" = "Nomor ARC yang Anda masukan :";
@@ -128,12 +129,12 @@
 "Register ID Photo Title Front" = "Cara Memfoto ARC Bagian Depan";
 "Register ID Photo Title Back" = "Cara Memfoto ARC Bagian Belakang";
 
-"Register ID Self First" = "Foto Selfie";
-"Register ID Self Sec" = "Foto KTP / Paspor";
+"Register ID Self First" = "Selfie Sambil Pegang ARC";
+"Register ID Self Sec" = "Foto KTP / Paspor / ARC";
 "Register ID Self Sign" = "Tanda Tangan";
-"Register ID Photo Title Passport" = "Cara Memfoto KTP";
+"Register ID Photo Title Passport" = "CARA FOTO KTP/PASPOR";
 
-"Register ID Face And ID Intro" = "Cara Foto Selfie";
+"Register ID Face And ID Intro" = "Cara Foto Selfie Sambil Memegang ARC";
 
 "Register ID Make Signature Top" = "Tulis nama sesuai dengan Nama yang tertera di ARC";
 
@@ -147,7 +148,7 @@
 "Profile Main Reciter" = "Daftar Nomor Rekening";
 "Profile Main Transaction" = "Riwayat Transaksi";
 "Profile Main Call" = "Layanan Konsumen";
-"Profile Main About" = "Tentang Kami";
+"Profile Main About" = "CEK FAPIAO";
 "Profile Main Terms" = "Syarat & Ketentuan";
 "Profile Main Faq" = "FAQ";
 "Profile Main Logout" = "Keluar";
@@ -202,8 +203,9 @@
 "Transfer State Down Time Title" = "Pukul";
 "Transfer State Down Kurs Value Title" = "Referensi Kurs";
 
+"Transfer Main Top Box Title" = "Bulan ini masih bisa kirim";
 "Transfer Main Box Up Title" = "Jumlah Transfer";
-"Transfer Main Box Down Title" = "Referensi Kurs";
+"Transfer Main Box Down Title" = "Kurs Saat Ini";
 "Transfer Main Charge Title" = "Ongkos Kirim";
 "Transfer Main Use Point Title" = "Diskon";
 "Transfer Main Total Money" = "Total NTD";
@@ -273,8 +275,8 @@
 "Purpose Select default word" = "Silahkan Pilih";
 "Purpose Select Title" = "Tujuan Kirim Uang";
 
-"Transfer State Left Btn" = "Proses";
-"Transfer State Right Btn" = "Berhasil";
+"Transfer State Left Btn" = "Hari ini";
+"Transfer State Right Btn" = "Riwayat";
 "New Login Hint" = "Masuk atau Daftar Pakai ARC Aja";
 "New Login Account PlaceHolder" = "Masukkan Nomor ARC";
 "New Login Pass PlaceHolder" = "Kata Sand";
@@ -282,6 +284,9 @@
 "New RegisterMain Top" = "Mohon untuk menyiapkan\nARC Anda";
 
 "debate title" = "Lembaga Penyelesaian";
-"ereciept" = "Cek Fapiao";
+"ereciept" = "Cek Bonus / Fapiao";
 "Get point intro title" = "Pastikan No. Telepon Anda Aktif";
 "Get point intro warning" = "Kami akan mengirimkan\nKode SMS ke No. Telepon Anda";
+
+"Promote Check Title" = "PRMO DISKON";
+"Promote Check Label" = "Masukkan Kode Promo";

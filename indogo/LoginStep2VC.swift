@@ -364,12 +364,11 @@ class LoginStep2VC: UIViewController, UITextFieldDelegate, CustomAlertDelegate {
         
         // Do any additional setup after loading the view.
         self.setupHideKeyboardOnTap()
-        barV.addGradienOfIndoGo()
+        
         newLoginhintL.text = NSLocalizedString("New Login Hint", comment: "")
         
         passBtn.layer.cornerRadius = passBtn.frame.height/2
         loginBtn.layer.cornerRadius = loginBtn.frame.height/2
-        loginBtn.addGradienOfIndoGo()
         
         lupaBtn.layer.cornerRadius = lupaBtn.frame.height/2
         lupaBtn.layer.borderColor = UIColor.white.cgColor
@@ -393,7 +392,6 @@ class LoginStep2VC: UIViewController, UITextFieldDelegate, CustomAlertDelegate {
         if passTextField.text!.count > 0 {
             passBtn.backgroundColor = Color_Main_LightGray
         }
-        loginBtn.addGradienOfIndoGo()
         rememberMeState = AppDelegate.shared().tempRemeberState
         
         if DevMode {
@@ -403,14 +401,18 @@ class LoginStep2VC: UIViewController, UITextFieldDelegate, CustomAlertDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if loadOnce {
-            return
-        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        if loadOnce {
+            return
+        }
+        loadOnce = true
+        barV.addGradienOfIndoGo()
+        loginBtn.addGradienOfIndoGo()
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

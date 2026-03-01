@@ -22,6 +22,7 @@ class RegisterPurpleMain: UIViewController, UITextFieldDelegate, CustomAlertDele
     @IBOutlet weak var loginBtn: UIButton!
     var oldCenter:CGPoint!
     var tempARC = ""
+    var loadOnce = false
     
     //MARK: - Utility
     func customAlertnextAction(Ref obj: CustomAlertView) {
@@ -137,14 +138,14 @@ class RegisterPurpleMain: UIViewController, UITextFieldDelegate, CustomAlertDele
         introL.text = NSLocalizedString("New RegisterMain Warning", comment: "")
         
         AppDelegate.shared().hideTopButton()
-        barV.addGradienOfIndoGo()
+        
         accountTextfield.delegate = self
         accountTextfield.autocapitalizationType = .allCharacters
         accountTextfield.placeholder = NSLocalizedString("New Login Account PlaceHolder", comment: "")
         loginBtn.setTitle(NSLocalizedString("ok", comment: ""), for: .normal)
         accountBtn.layer.cornerRadius = accountBtn.frame.height/2
         loginBtn.layer.cornerRadius = loginBtn.frame.height/2
-        loginBtn.addGradienOfIndoGo()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -152,6 +153,13 @@ class RegisterPurpleMain: UIViewController, UITextFieldDelegate, CustomAlertDele
         
         oldCenter = self.view.center
         accountTextfield.text = tempARC
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
+        loginBtn.addGradienOfIndoGo()
+        barV.addGradienOfIndoGo()
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

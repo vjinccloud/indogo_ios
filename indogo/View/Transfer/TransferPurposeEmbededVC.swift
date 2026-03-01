@@ -21,6 +21,7 @@ class TransferPurposeEmbededVC: UIViewController, UITextFieldDelegate, UITableVi
     var loadFrom = 0
     var parentVC:RecipientListVC!
     var parentAddVC:AddRecipientVC!
+    var loadOnce = false
     
     //MARK: - Tableview Delegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -65,6 +66,16 @@ class TransferPurposeEmbededVC: UIViewController, UITextFieldDelegate, UITableVi
     }
     
     //MARK: - View-Life
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
+        nameBgV.addGradienOfIndoGo()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -84,7 +95,6 @@ class TransferPurposeEmbededVC: UIViewController, UITextFieldDelegate, UITableVi
         nextBtn.layer.borderColor = Color_Main_Red.cgColor
         nextBtn.setTitleColor(Color_Main_Red, for: .normal)
         nextBtn.isEnabled = false
-        nameBgV.addGradienOfIndoGo()
         
         Dlog("count = \(AppDelegate.shared().purposeObj.count)")
     }

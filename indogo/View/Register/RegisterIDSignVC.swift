@@ -24,9 +24,15 @@ class RegisterIDSignVC: UIViewController {
     @IBOutlet weak var secImgV: UIImageView!
     @IBOutlet weak var signImgV: UIImageView!
     
+    @IBOutlet weak var barV: GradianBarView!
+    @IBOutlet weak var subBarV1: UIView!
+    @IBOutlet weak var subBarV2: UIView!
+    @IBOutlet weak var subBarV3: UIView!
+    
     var firstHasTaked = false
     var secHasTaked = false
     var signHasTaked = false
+    var loadOnce = false
     
     var frontImage:UIImage!
     var backImage:UIImage!
@@ -216,7 +222,20 @@ class RegisterIDSignVC: UIViewController {
         checkNextBtnState()
     }
     
-
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        
+        loadOnce = true
+        barV.addGradienOfIndoGo()
+        subBarV1.addGradienOfIndoGo()
+        subBarV2.addGradienOfIndoGo()
+        subBarV3.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
+    }
     /*
     // MARK: - Navigation
 

@@ -23,9 +23,11 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var codeT2: UITextField!
     @IBOutlet weak var codeT3: UITextField!
     @IBOutlet weak var codeT4: UITextField!
+    @IBOutlet weak var phoneL: UILabel!
     var registerFromIndex = 0
     @IBOutlet weak var barV: UIView!
     var canPress = false
+    var loadOnce = false
     
     //MARK: - API
     func sendSMS() {
@@ -271,10 +273,12 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
         
         allCodeTextField.backgroundColor = .white
         allCodeTextField.keyboardType = .numberPad
-        barV.addGradienOfIndoGo()
-        nextBtn.addGradienOfIndoGo()
+        
         
         Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(self.changeState), userInfo: nil, repeats: false)
+        
+        //202601
+        phoneL.text = AppDelegate.shared().tempRegisterObj.phoneNum!
         /*
         codeT1.backgroundColor = Color_Main_DarkGray
         codeT1.keyboardType = .numberPad
@@ -292,7 +296,17 @@ class RegisterEnterSMSCodeVC: UIViewController, UITextFieldDelegate {
         */
     }
     
-
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
+        barV.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
+    }
+    
     /*
     // MARK: - Navigation
 

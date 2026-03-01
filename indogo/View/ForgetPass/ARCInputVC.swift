@@ -20,6 +20,7 @@ class ARCInputVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate {
     @IBOutlet weak var textBackV: UIView!
     @IBOutlet weak var barV: UIView!
     
+    var loadOnce = false
     public var fromType:ScanParentType = ScanParentType.forgotPass
     
     //MARK: - Utility
@@ -228,9 +229,7 @@ class ARCInputVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate {
         allCodeTextField.keyboardType = .alphabet
         allCodeTextField.delegate = self
         allCodeTextField.autocapitalizationType = .allCharacters
-        
-        barV.addGradienOfIndoGo()
-        nextBtn.addGradienOfIndoGo()
+
         /*
         codeT1.backgroundColor = Color_Main_DarkGray
         codeT1.keyboardType = .numberPad
@@ -246,6 +245,17 @@ class ARCInputVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate {
         codeT4.keyboardType = .numberPad
         codeT4.delegate = self
         */
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
+        barV.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
     }
 
     /*

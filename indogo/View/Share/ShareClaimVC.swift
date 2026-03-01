@@ -28,13 +28,24 @@ class ShareClaimVC: UIViewController {
     @IBOutlet weak var deadLineL: UILabel!
     @IBOutlet weak var nextBtnbottomLength: NSLayoutConstraint!
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
+        barV.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        barV.addGradienOfIndoGo()
-        backL.text = "Reddem Poin"
-        nextBtn.addGradienOfIndoGo()
+        
+        backL.text = "KLAIM POIN"
+        
         nextBtn.setTitle("LANJUT", for: .normal)
         nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2
         

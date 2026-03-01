@@ -124,6 +124,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var tempTransferMaxAmountStr = ""
     var tempTransferLeftAmount = 0
     
+    var transferQuotaTotal:Int = 0
+    var transferQuotaLeft:Int = 0
+    
+    var temparcVIP = ""
+    var tempIsVIP = ""
+    var tempVIPUrlStr = ""
+    var tempDiscountCodeResultAry:[String] = ["","","",""]
+    
     //MARK: - Web Delegate
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         Dlog("Start loading")

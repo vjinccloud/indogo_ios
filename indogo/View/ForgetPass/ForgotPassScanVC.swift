@@ -317,7 +317,6 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
         topL.text = NSLocalizedString("top for forget arc scan", comment: "")
         bottomL.text = NSLocalizedString("bottom for forgoet sec", comment: "")
         scanL.isHidden = true
-        barV.addGradienOfIndoGo()
     }
     
     @objc func countDownEnd() {
@@ -354,6 +353,7 @@ class ForgotPassScanVC: UIViewController, UINavigationControllerDelegate, AVCapt
         
         loadOnce = true
         checkCameraPermission()
+        barV.addGradienOfIndoGo()
     }
 
     override func viewWillDisappear(_ animated: Bool) {

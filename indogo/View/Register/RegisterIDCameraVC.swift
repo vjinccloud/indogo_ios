@@ -233,7 +233,7 @@ class RegisterIDCameraVC: UIViewController, UINavigationControllerDelegate, AVCa
         confirmBtn.layer.cornerRadius = confirmBtn.frame.size.height/2
         
         confirmView.isHidden = true
-        barV.addGradienOfIndoGo()
+        
         cancelBtn.setTitle(NSLocalizedString("Register Self Photo Retake", comment: ""), for: .normal)
         confirmBtn.setTitle(NSLocalizedString("Register Self Photo Confrim", comment: ""), for: .normal)
     }
@@ -250,7 +250,7 @@ class RegisterIDCameraVC: UIViewController, UINavigationControllerDelegate, AVCa
             allStop = false
             return
         }
-        
+        barV.addGradienOfIndoGo()
         confirmBtn.addGradienOfIndoGo()
         hideTakedImg()
         loadOnce = true

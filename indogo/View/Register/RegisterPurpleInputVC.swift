@@ -125,13 +125,14 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
     }
     
     //MARK: - View-Life
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         self.setupHideKeyboardOnTap()
         errorView.isHidden = true
-        barV.addGradienOfIndoGo()
+        
         backL.text = NSLocalizedString("back", comment: "")
         accountBtn.layer.cornerRadius = accountBtn.frame.size.height/2
         phoneBtn.layer.cornerRadius = phoneBtn.frame.size.height/2
@@ -175,6 +176,7 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
         registerBtn.layer.borderColor = Color_Purple.cgColor
         registerBtn.layer.borderWidth = 0.5
         
+        phoneTextfield.text = "09"
         //inputArcView.isHidden = true
         checkNextBtnState(CheckText: false)
         #if targetEnvironment(simulator)
@@ -209,6 +211,7 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
         }
         
         loadOnce = true
+        barV.addGradienOfIndoGo()
         
         if presetArc != "" {
             arcCodeL.text = presetArc
@@ -221,6 +224,8 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
+        var max = 20
+        
         guard let text = textField.text else{
             return true
         }
@@ -229,11 +234,15 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
             if !string.checkAlphabetDigit() {
                 return false
             }
+        } else if textField == accountTextfield {
+            max = 100
+            if !string.checkAccountString() {
+                return false
+            }
         }
         
-        
         let textLength = text.count + string.count - range.length
-        if textLength>20 {
+        if textLength>max {
             return false
         }
         

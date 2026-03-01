@@ -42,8 +42,7 @@ class SpecialPageVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        barV.addGradienOfIndoGo()
-        nextBtn.addGradienOfIndoGo()
+        
         nextBtn.setTitle("SALIN LINK", for: .normal)
         nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2
     }
@@ -57,6 +56,8 @@ class SpecialPageVC: UIViewController {
         }
         
         loadOnce = true
+        barV.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
         var startY:CGFloat = barV.frame.origin.y+barV.frame.height
         
         let scrollV = UIScrollView.init(frame: CGRect.init(x: 0, y: startY, width: self.view.frame.width, height: self.view.frame.height-startY-60))

@@ -61,8 +61,12 @@ class RegisterInputVC: UIViewController, UITextFieldDelegate,UIImagePickerContro
             return true
         }
         
-        if textField == accountTextfield || textField == passTextField || textField == rePassTextField || textField == arcTextfield {
+        if textField == passTextField || textField == rePassTextField || textField == arcTextfield {
             if !string.checkAlphabetDigit() {
+                return false
+            }
+        } else if textField == accountTextfield {
+            if !string.checkAccountString() {
                 return false
             }
         }

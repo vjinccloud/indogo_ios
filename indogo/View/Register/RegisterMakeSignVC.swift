@@ -24,6 +24,7 @@ class RegisterMakeSignVC: UIViewController {
     @IBOutlet weak var barV: UIView!
     
     var takePhotoType:PhotoIDType = PhotoIDType.sign
+    var loadOnce = false
     
     //MARK: - Button-Action
     @IBAction func backAction(_ sender: Any) {
@@ -77,6 +78,15 @@ class RegisterMakeSignVC: UIViewController {
         cancelBtn.setTitle(NSLocalizedString("Register Self Photo Retake", comment: ""), for: .normal)
         confirmBtn.setTitle(NSLocalizedString("Register Self Photo Confrim", comment: ""), for: .normal)
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
         barV.addGradienOfIndoGo()
         confirmBtn.addGradienOfIndoGo()
     }

@@ -139,6 +139,14 @@ extension String {
         return alphabet
     }
     
+    func checkAccountString() -> Bool {
+        let allowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789<,>"
+        let allowedCharacterSet = CharacterSet(charactersIn: allowedCharacters)
+        let typedCharacterSet = CharacterSet(charactersIn: self)
+        let alphabet = allowedCharacterSet.isSuperset(of: typedCharacterSet)
+        return alphabet
+    }
+    
     func checkAlphabetDigitAndSpace() -> Bool {
         let allowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
         let allowedCharacterSet = CharacterSet(charactersIn: allowedCharacters)

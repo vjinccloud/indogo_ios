@@ -20,6 +20,7 @@ class RegisterIDWithSelfIntroVC: UIViewController, UIImagePickerControllerDelega
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var barV: UIView!
     
+    var loadOnce = false
     var takePhotoType:PhotoIDType = PhotoIDType.faceAndId
     
     //MARK: - Button-Action
@@ -123,10 +124,21 @@ class RegisterIDWithSelfIntroVC: UIViewController, UIImagePickerControllerDelega
 
         // Do any additional setup after loading the view.
         backL.text = NSLocalizedString("Register ID Face And ID Intro", comment: "")
-        barV.addGradienOfIndoGo()
-        nextBtn.addGradienOfIndoGo()
+        backL.adjustsFontSizeToFitWidth = true
+        
         nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2
         nextBtn.setTitle(NSLocalizedString("Register ID Photo Intro", comment: ""), for: .normal)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
+        barV.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
     }
     
     override func viewWillAppear(_ animated: Bool) {

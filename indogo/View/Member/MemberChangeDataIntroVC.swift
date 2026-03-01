@@ -21,6 +21,7 @@ class MemberChangeDataIntroVC: UIViewController {
     @IBOutlet weak var phoneL: UILabel!
     @IBOutlet weak var sendAgainBtn: UIButton!
     @IBOutlet weak var barV: UIView!
+    var loadOnce = false
     
     //MARK: - View-Life
     override func viewDidLoad() {
@@ -42,14 +43,24 @@ class MemberChangeDataIntroVC: UIViewController {
         phoneL.text = AppDelegate.shared().forgotPassTempPhone
         
         top2L.text = NSLocalizedString("Change Data Intro Line2", comment: "")
-        barV.addGradienOfIndoGo()
-        nextBtn.addGradienOfIndoGo()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
             
         AppDelegate.shared().hideTopButton()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
+        barV.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
     }
     
     //MARK: - API

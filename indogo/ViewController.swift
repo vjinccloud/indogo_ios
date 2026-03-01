@@ -477,7 +477,7 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         // Do any additional setup after loading the view.
         self.setupHideKeyboardOnTap()
         Analytics.logEvent("iOS_Login", parameters: nil)
-        barV.addGradienOfIndoGo()
+        
         passUnitV.isHidden = true
         
         promoView.isHidden = true
@@ -487,7 +487,6 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         accountBtn.layer.cornerRadius = accountBtn.frame.height/2
         passBtn.layer.cornerRadius = passBtn.frame.height/2
         loginBtn.layer.cornerRadius = loginBtn.frame.height/2
-        loginBtn.addGradienOfIndoGo()
         
         lupaBtn.layer.cornerRadius = lupaBtn.frame.height/2
         lupaBtn.layer.borderColor = UIColor.white.cgColor
@@ -521,7 +520,6 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
         
         accountTextfield.text = AppDelegate.shared().getRemeberedAccount()
         passTextField.text = AppDelegate.shared().getRemeberedPassword()
-        loginBtn.addGradienOfIndoGo()
         
         lupaBtn.isHidden = true
         //registerBtn.isHidden = true
@@ -560,6 +558,9 @@ class ViewController: UIViewController,UIPageViewControllerDelegate,UIPageViewCo
             AppDelegate.shared().showTopButton()
             return
         }
+        
+        barV.addGradienOfIndoGo()
+        loginBtn.addGradienOfIndoGo()
         
         if self.view.frame.size.width < 380 {
             AppDelegate.shared().deviceSmall = true

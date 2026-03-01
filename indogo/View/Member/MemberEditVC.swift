@@ -79,13 +79,13 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
         }
         
         if textField == accountTextfield {
-            if !string.checkAlphabetDigit() {
+            if !string.checkAccountString() {
                 return false
             }
         }
         
         let textLength = text.count + string.count - range.length
-        if textLength>20 {
+        if textLength>100 {
             return false
         }
         
@@ -513,7 +513,7 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
 
         // Do any additional setup after loading the view.
         backL.text = NSLocalizedString("back", comment: "")
-        barV.addGradienOfIndoGo()
+        
         nextBtn.setTitle(NSLocalizedString("ok", comment: ""), for: .normal)
         nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2
         nextBtn.layer.backgroundColor = UIColor.clear.cgColor
@@ -571,6 +571,7 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
         phoneTextfield.text = AppDelegate.shared().memberData["app_phone_no"]!
         arcCodeL.text = AppDelegate.shared().getRemeberedAarcNo()
         
+        accountTextfield.delegate = self
         accountTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register Input Name", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         phoneTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register Input Phone", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
@@ -609,6 +610,7 @@ class MemberEditVC: UIViewController, UITextFieldDelegate,UIImagePickerControlle
         }
         
         loadOnce = true
+        barV.addGradienOfIndoGo()
         subBarV1.addGradienOfIndoGo()
         subBarV2.addGradienOfIndoGo()
         subBarV3.addGradienOfIndoGo()

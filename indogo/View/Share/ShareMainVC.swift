@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-        @IBOutlet weak var iconView: UIView!
+    @IBOutlet weak var iconView: UIView!
     @IBOutlet weak var iconImgV: UIImageView!
     @IBOutlet weak var nameL: UILabel!
     @IBOutlet weak var pointBtn: UIButton!
@@ -336,7 +336,7 @@ class ShareMainVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         iconImgV.layer.cornerRadius = iconImgV.frame.size.height/2
         iconImgV.clipsToBounds = true
         
-        iconView.isHidden = true
+        //iconView.isHidden = true
         alertNumL.isHidden = true
         
     }

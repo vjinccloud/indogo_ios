@@ -21,6 +21,7 @@ class ForgotPassCheckPhoneVC: UIViewController {
     @IBOutlet weak var barV: UIView!
     
     public var checkType:Int = 0
+    var loadOnce = false
     
     //MARK: - API
     func sendSMS() {
@@ -123,11 +124,19 @@ class ForgotPassCheckPhoneVC: UIViewController {
             downBtn.backgroundColor = .white
         }
         
-        barV.addGradienOfIndoGo()
-        downBtn.addGradienOfIndoGo()
-        
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
+        barV.addGradienOfIndoGo()
+        downBtn.addGradienOfIndoGo()
+    }
+    
     /*
     // MARK: - Navigation
 

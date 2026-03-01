@@ -21,6 +21,7 @@ class ShareGetPointIntroVC: UIViewController {
     @IBOutlet weak var phoneL: UILabel!
     @IBOutlet weak var sendAgainBtn: UIButton!
     @IBOutlet weak var barV: UIView!
+    var loadOnce = false
     
     //MARK: - View-Life
     override func viewDidLoad() {
@@ -42,8 +43,7 @@ class ShareGetPointIntroVC: UIViewController {
         phoneL.text = AppDelegate.shared().forgotPassTempPhone
         
         top2L.text = NSLocalizedString("Get point intro warning", comment: "")
-        barV.addGradienOfIndoGo()
-        nextBtn.addGradienOfIndoGo()
+        
         sendAgainBtn.isEnabled = true
     }
     
@@ -51,6 +51,17 @@ class ShareGetPointIntroVC: UIViewController {
         super.viewWillAppear(animated)
             
         AppDelegate.shared().hideTopButton()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
+        barV.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
     }
     
     //MARK: - API

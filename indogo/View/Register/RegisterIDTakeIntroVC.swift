@@ -23,6 +23,7 @@ class RegisterIDTakeIntroVC: UIViewController {
     @IBOutlet weak var coverImgWidthConstrain: NSLayoutConstraint!
     @IBOutlet weak var coverImgV: UIImageView!
     var takePhotoType:PhotoIDType = PhotoIDType.front
+    var loadOnce = false
     
     //MARK: - Button-Action
     @IBAction func backAction(_ sender: Any) {
@@ -58,10 +59,20 @@ class RegisterIDTakeIntroVC: UIViewController {
         // Do any additional setup after loading the view.
         backL.text = NSLocalizedString("back", comment: "")
         backL.adjustsFontSizeToFitWidth = true
-        barV.addGradienOfIndoGo()
-        nextBtn.addGradienOfIndoGo()
+        
         nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2
         nextBtn.setTitle(NSLocalizedString("Register ID Photo Intro", comment: ""), for: .normal)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
+        barV.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,7 +87,9 @@ class RegisterIDTakeIntroVC: UIViewController {
             backL.text = NSLocalizedString("Register ID Photo Title Back", comment: "")
         } else if takePhotoType == PhotoIDType.passport || takePhotoType == PhotoIDType.passportFromEdit {
             bottomImgV.image = UIImage.init(named: "visa.png")
-            bottomL.text = NSLocalizedString("bottom for forgoet sec Back", comment: "")
+            //202601
+            
+            bottomL.text = ""//NSLocalizedString("bottom for forgoet sec Back", comment: "")
             backL.text = NSLocalizedString("Register ID Photo Title Passport", comment: "")
         }
         

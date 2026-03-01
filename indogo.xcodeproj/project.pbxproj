@@ -38,6 +38,8 @@
 		016E95B629EC79C000607D21 /* user_arc.png in Resources */ = {isa = PBXBuildFile; fileRef = 016E95B529EC79C000607D21 /* user_arc.png */; };
 		017142252910F9AC006BF766 /* RegisterPurpleMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017142242910F9AC006BF766 /* RegisterPurpleMain.swift */; };
 		017142D52911A9C1006BF766 /* RegisterPurpleInputVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017142D42911A9C1006BF766 /* RegisterPurpleInputVC.swift */; };
+		017BB5A82F37E7B300ED4386 /* BonusSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BB5A72F37E7A500ED4386 /* BonusSelectVC.swift */; };
+		017BB5AA2F38FD3300ED4386 /* PromoteCheckVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BB5A92F38FD1900ED4386 /* PromoteCheckVC.swift */; };
 		0187A42229671A0700459255 /* indonesia.png in Resources */ = {isa = PBXBuildFile; fileRef = 0187A42129671A0600459255 /* indonesia.png */; };
 		0187A42429671A0D00459255 /* taiwan.png in Resources */ = {isa = PBXBuildFile; fileRef = 0187A42329671A0C00459255 /* taiwan.png */; };
 		018DC5AA296C194800EAA8D1 /* rightcircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 018DC5A8296C194800EAA8D1 /* rightcircle.png */; };
@@ -882,6 +884,8 @@
 		016E95B529EC79C000607D21 /* user_arc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_arc.png; sourceTree = "<group>"; };
 		017142242910F9AC006BF766 /* RegisterPurpleMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPurpleMain.swift; sourceTree = "<group>"; };
 		017142D42911A9C1006BF766 /* RegisterPurpleInputVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPurpleInputVC.swift; sourceTree = "<group>"; };
+		017BB5A72F37E7A500ED4386 /* BonusSelectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusSelectVC.swift; sourceTree = "<group>"; };
+		017BB5A92F38FD1900ED4386 /* PromoteCheckVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoteCheckVC.swift; sourceTree = "<group>"; };
 		0187A42129671A0600459255 /* indonesia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = indonesia.png; sourceTree = "<group>"; };
 		0187A42329671A0C00459255 /* taiwan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = taiwan.png; sourceTree = "<group>"; };
 		018DC5A8296C194800EAA8D1 /* rightcircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rightcircle.png; sourceTree = "<group>"; };
@@ -2469,6 +2473,8 @@
 		043AE11724E14BB000E0892E /* Member */ = {
 			isa = PBXGroup;
 			children = (
+				017BB5A92F38FD1900ED4386 /* PromoteCheckVC.swift */,
+				017BB5A72F37E7A500ED4386 /* BonusSelectVC.swift */,
 				043AE11824E14BC600E0892E /* MemberMainVC.swift */,
 				0436E71724EAEE4D008A38E9 /* MemberEditVC.swift */,
 				0436E71924EC55D3008A38E9 /* PointHistorySingleObj.swift */,
@@ -3598,12 +3604,14 @@
 				0429A61E24E9A42200716696 /* String+Extention.swift in Sources */,
 				04C8CBF424D952D200AE90F6 /* RegisterIDTakeIntroVC.swift in Sources */,
 				0160276B27D6ABD200D36284 /* TransferPurposeObj.swift in Sources */,
+				017BB5AA2F38FD3300ED4386 /* PromoteCheckVC.swift in Sources */,
 				04AC3EF225021AB000E48622 /* TransactionResultObj.swift in Sources */,
 				0436E71F24EFAB20008A38E9 /* PointHistoryTableViewCell.swift in Sources */,
 				0160276327D54B9400D36284 /* MemberChangePhoneIntroVC.swift in Sources */,
 				0160276527D54FDE00D36284 /* MemberChangeDataIntroVC.swift in Sources */,
 				0467180B24E436A5008A75B1 /* NoticeMainVC.swift in Sources */,
 				019F2A9E28FCA4F20008135B /* GradianBarView.swift in Sources */,
+				017BB5A82F37E7B300ED4386 /* BonusSelectVC.swift in Sources */,
 				04D9835424F9684D007D1269 /* RecipientTableViewCell.swift in Sources */,
 				04F6FF1524D1B9C800887E80 /* RegisterShareScanQRCodeVC.swift in Sources */,
 				0154EF20290EF4AC001F07FD /* LoginStep2VC.swift in Sources */,
@@ -3847,7 +3855,7 @@
 				CODE_SIGN_ENTITLEMENTS = indogo/indogo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8P43SK2KHA;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3862,7 +3870,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.2;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.indogo.dim.indogo;
 				PRODUCT_NAME = IndoGo;
@@ -3880,7 +3888,7 @@
 				CODE_SIGN_ENTITLEMENTS = indogo/indogo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8P43SK2KHA;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3895,7 +3903,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.2;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.indogo.dim.indogo;
 				PRODUCT_NAME = IndoGo;

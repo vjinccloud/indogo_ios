@@ -27,6 +27,7 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
     var timer:Timer!
     private var buttonEnabledDate: Date?
     var nextIndex = 0
+    var loadOnce = false
     
     //MARK: - Timer
     @objc func timeToReSend() {
@@ -315,9 +316,6 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
         allCodeTextField.backgroundColor = .white
         allCodeTextField.keyboardType = .numberPad
         
-        barV.addGradienOfIndoGo()
-        nextBtn.addGradienOfIndoGo()
-        
         self.sendAgainBtn.isEnabled = false
         self.buttonEnabledDate = Date().addingTimeInterval(30)
         self.timer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.timeToReSend), userInfo: nil, repeats: true)
@@ -339,7 +337,16 @@ class ForgotPassEnterCodeVC: UIViewController, UITextFieldDelegate {
         */
     }
     
-
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
+        barV.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
+    }
     /*
     // MARK: - Navigation
 

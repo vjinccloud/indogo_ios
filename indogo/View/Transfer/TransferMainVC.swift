@@ -33,6 +33,14 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
     @IBOutlet weak var leftDownL: UILabel!
     @IBOutlet weak var rightBgV: UIView!
     @IBOutlet weak var rightTitleL: UILabel!
+    @IBOutlet weak var leftButton: UIButton!
+    @IBOutlet weak var titleL: UILabel!
+    
+    @IBOutlet weak var topbox_barLength: NSLayoutConstraint!
+    @IBOutlet weak var topbox_barbackV: UIView!
+    @IBOutlet weak var topbox_barV: UIView!
+    @IBOutlet weak var topbox_titleL: UILabel!
+    @IBOutlet weak var topbox_MoneyL: UILabel!
     
     var loadOnce = false
     var kursValue:Double = 0
@@ -178,14 +186,34 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
         Dlog("totalChage = \(totalChage)")
     }
     
+    func changeLeftButtonState(clearState:Bool) {
+        if clearState {
+            leftBgV.removeGradienLayer()
+            leftBgV.layer.borderColor = Color_Main_Red.cgColor
+            leftPL.backgroundColor = .clear
+            leftPL.layer.backgroundColor = Color_Main_Red.cgColor
+            
+            leftPL.textColor = .white
+            leftTotalPL.textColor = .black
+            leftDownL.textColor = .black
+        } else {
+            leftBgV.addGradienOfIndoGo()
+            leftPL.textColor = Color_Purple
+            leftPL.layer.backgroundColor = UIColor.white.cgColor
+            leftTotalPL.textColor = .white
+            leftDownL.textColor = .white
+        }
+    }
+    
     //MARK: - Button Action
     @IBAction func leftBtnAction(_ sender: Any) {
         let value = Int(AppDelegate.shared().memberData["remit_point"]!)!
         
         if decresedCharge == serviceCharge || decresedCharge == value {
             decresedCharge = 0
+            changeLeftButtonState(clearState: true)
         } else {
-            
+            changeLeftButtonState(clearState: false)
             //暫時改成 0 或 全部
             decresedCharge = serviceCharge
             if decresedCharge > value {
@@ -388,6 +416,50 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
         }
     }
     
+    func plotQuotaState() {
+        topbox_MoneyL.text = String.stringToOnlyIntString(Number: AppDelegate.shared().transferQuotaTotal) + " NTD"
+        
+        if AppDelegate.shared().transferQuotaLeft == 0 || AppDelegate.shared().transferQuotaTotal == 0 {
+            topbox_barLength.constant = 1
+        } else {
+            topbox_barLength.constant = topbox_barbackV.frame.width * (Double(AppDelegate.shared().transferQuotaLeft)/Double(AppDelegate.shared().transferQuotaTotal))
+        }
+    }
+    
+    public func getQuota() {
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken]
+        let headers: HTTPHeaders = [:]
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_GetQuota;
+        
+        Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
+        
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("responseStr = \(responseStr ?? "")")
+                
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                if result == ResponseState.ok {
+                    self.plotQuotaState()
+                    //self.getRecipents()
+                } else if result == ResponseState.failed {
+                    //AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                }
+        }
+    }
+    
     func goRecipientList() {
         let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "RecipientListVC") as? RecipientListVC
         nextVC!.canSelectForTransfer = true
@@ -527,7 +599,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
 
         // Do any additional setup after loading the view.
         self.setupHideKeyboardOnTap()
-        
+        titleL.text = NSLocalizedString("Main Title", comment: "")
         upTextLineV.isHidden = true
         downTextLineV.isHidden = true
         boxV.layer.borderWidth = 1
@@ -542,11 +614,18 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
         
         rightBgV.layer.cornerRadius = rightBgV.frame.size.height/2
         
+        topbox_barbackV.layer.cornerRadius = topbox_barbackV.frame.size.height/2
+        topbox_barbackV.layer.borderWidth = 1
+        topbox_barbackV.layer.borderColor = Color_Main_LightGray.cgColor
+        topbox_barV.layer.cornerRadius = topbox_barV.frame.size.height/2
+        topbox_barV.layer.backgroundColor = Color_Main_Red.cgColor
+        
         upTextField.keyboardType = .numberPad
         downTextField.keyboardType = .numberPad
         upTextField.delegate = self
         downTextField.delegate = self
         
+        topbox_titleL.text = NSLocalizedString("Transfer Main Top Box Title", comment: "")
         upNameL.text = NSLocalizedString("Transfer Main Box Up Title", comment: "")
         downNameL.text = NSLocalizedString("Transfer Main Box Down Title", comment: "")
         kirimL.text = NSLocalizedString("Transfer Main Charge Title", comment: "")
@@ -558,6 +637,9 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
         leftTotalPL.text = AppDelegate.shared().memberData["remit_point"]!
         checkAndCalculateValue(UseStyle:0, NweString: "")
         
+        AppDelegate.shared().transferQuotaTotal = 0
+        AppDelegate.shared().transferQuotaLeft = 0
+        
         AppDelegate.shared().getPurposeList()
         AppDelegate.shared().getRelationList()
     }
@@ -565,10 +647,13 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        plotQuotaState()
+        
         if loadOnce {
             //這邊每次都要重新設定
             setUpKursValue()
             callMemberData()
+            getQuota()
             AppDelegate.shared().showTopButton()
             return
         }
@@ -576,6 +661,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
         loadOnce = true
         rightBgV.addGradienOfIndoGo()
         callMemberData()
+        getQuota()
         //頂部兩個按鈕
         AppDelegate.shared().topMargin = self.view.safeAreaInsets.top
         AppDelegate.shared().addTopButton()

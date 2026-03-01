@@ -29,6 +29,37 @@ class PureWebVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        // NOTE: WKWebViewConfiguration must be provided at initialization time.
+        // You cannot assign to an existing WKWebView's configuration.
+        let config = WKWebViewConfiguration()
+        config.websiteDataStore = .nonPersistent()
+
+        // Replace the storyboard WKWebView with a new one using this configuration
+        let oldWebView = webView
+        let newWebView = WKWebView(frame: .zero, configuration: config)
+        newWebView.translatesAutoresizingMaskIntoConstraints = false
+
+        if let superview = oldWebView?.superview {
+            superview.insertSubview(newWebView, aboveSubview: oldWebView!)
+            NSLayoutConstraint.activate([
+                newWebView.leadingAnchor.constraint(equalTo: oldWebView!.leadingAnchor),
+                newWebView.trailingAnchor.constraint(equalTo: oldWebView!.trailingAnchor),
+                newWebView.topAnchor.constraint(equalTo: oldWebView!.topAnchor),
+                newWebView.bottomAnchor.constraint(equalTo: oldWebView!.bottomAnchor)
+            ])
+            oldWebView?.removeFromSuperview()
+        } else {
+            // Fallback (should not happen in storyboard)
+            view.addSubview(newWebView)
+            NSLayoutConstraint.activate([
+                newWebView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                newWebView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                newWebView.topAnchor.constraint(equalTo: view.topAnchor),
+                newWebView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+        }
+
+        self.webView = newWebView
         
     }
     
@@ -53,3 +84,4 @@ class PureWebVC: UIViewController {
     */
 
 }
+

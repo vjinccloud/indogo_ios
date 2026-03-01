@@ -23,6 +23,7 @@ class RegisterAgreementVC: UIViewController, UIScrollViewDelegate, WKNavigationD
     var hasEnd = false
     var touchOrder = 0
     var tempARC = ""
+    var loadOnce = false
     
     //MARK: - API
     public func getAgreement() {
@@ -151,12 +152,19 @@ class RegisterAgreementVC: UIViewController, UIScrollViewDelegate, WKNavigationD
         nextBtn.setTitle(NSLocalizedString("agree", comment: ""), for: .normal)
         cancelBtn.setTitle(NSLocalizedString("cancel", comment: ""), for: .normal)
         
-        barV.addGradienOfIndoGo()
-        
         getAgreement()
     }
     
-
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
+        barV.addGradienOfIndoGo()
+    }
+    
     /*
     // MARK: - Navigation
 

@@ -26,6 +26,7 @@ class RegisterIDTakePhotoVC: UIViewController {
     @IBOutlet weak var subBarV2: UIView!
     var firstHasTaked = false
     var secHasTaked = false
+    var loadOnce = false
     
     var frontImage:UIImage!
     var backImage:UIImage!
@@ -135,12 +136,21 @@ class RegisterIDTakePhotoVC: UIViewController {
         
         checkNextBtnState()
         
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
         barV.addGradienOfIndoGo()
         subBarV2.addGradienOfIndoGo()
         subBarV3.addGradienOfIndoGo()
     }
     
-
     /*
     // MARK: - Navigation
 

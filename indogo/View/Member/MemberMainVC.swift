@@ -28,6 +28,10 @@ class MemberMainVC: UIViewController {
     @IBOutlet weak var foiL: UILabel!
     @IBOutlet weak var eRecieptL: UILabel!
     @IBOutlet weak var deleteL: UILabel!
+    @IBOutlet weak var upgradevipBtn: UIButton!
+    @IBOutlet weak var isVipImgV: UIImageView!
+    @IBOutlet weak var bonusBtn: UIButton!
+    @IBOutlet weak var promoBtn: UIButton!
     
     var showDeleteContainer:UIView!
     var loadOnce = false
@@ -60,6 +64,80 @@ class MemberMainVC: UIViewController {
                 if result == ResponseState.ok {
                     AppDelegate.shared().pointRootShowHistory = true
                     AppDelegate.shared().changeRootOfFunc(Type: .sharing)
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                }
+        }
+    }
+    
+    func checkVip() {
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
+        let headers: HTTPHeaders = [:]
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_CheckMemberVip;
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("todoEndpoint = \(todoEndpoint),responseStr = \(responseStr ?? "")")
+                
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                
+                if result == ResponseState.ok {
+                    if AppDelegate.shared().tempIsVIP == "true" {
+                        self.isVipImgV.isHidden = false
+                        self.upgradevipBtn.isHidden = true
+                    } else {
+                        self.isVipImgV.isHidden = true
+                        self.upgradevipBtn.isHidden = false
+                    }
+                } else if result == ResponseState.failed {
+                    AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
+                }
+        }
+    }
+    
+    func upgradeVIP() {
+        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
+        let headers: HTTPHeaders = [:]
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_UpgradeMemberVip;
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("todoEndpoint = \(todoEndpoint),responseStr = \(responseStr ?? "")")
+                
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                
+                if result == ResponseState.ok {
+                    if let callURL = URL(string: AppDelegate.shared().tempVIPUrlStr) {
+                        if (UIApplication.shared.canOpenURL(callURL)) {
+                            UIApplication.shared.open(callURL, options: [:], completionHandler: nil)
+                        }
+                    }
                 } else if result == ResponseState.failed {
                     AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
@@ -182,23 +260,26 @@ class MemberMainVC: UIViewController {
         AppDelegate.shared().changeRootOfFunc(Type: .main)
     }
     
+    @IBAction func promoAction(_ sender: Any) {
+        promoBtn.isHidden = true
+        let userDefaults = UserDefaults.standard
+        userDefaults.set("1", forKey: "isShowPromoBtn")
+        userDefaults.synchronize()
+    }
+    
     @IBAction func eRecieptAction(_ sender: Any) {
-        let urlPath = "https://invoice.indogo.com.tw/alist?arc=\(AppDelegate.shared().getRemeberedAccount())&pass=\(String(describing: AppDelegate.shared().getRemeberedAccount().base64EncodedString()!))"
-        Dlog("url = \(urlPath)")
-        /*
-        let urlString:String = urlPath
-
-        if let phoneCallURL = URL(string: urlString) {
-            if (UIApplication.shared.canOpenURL(phoneCallURL)) {
-                UIApplication.shared.open(phoneCallURL, options: [:], completionHandler: nil)
-            }
-        }
+        bonusBtn.isHidden = true
+        let userDefaults = UserDefaults.standard
+        userDefaults.set("1", forKey: "isShowERecieptBtn")
+        userDefaults.synchronize()
         
-        return
-         */
-        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "PureWebVC") as? PureWebVC
-        nextVC?.setTitleAndCallURL(URL: urlPath, Title: NSLocalizedString("Profile Main About", comment: ""))
+        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "BonusSelectVC") as? BonusSelectVC
+        nextVC?.backTitle = NSLocalizedString("ereciept", comment: "")
         self.navigationController?.pushViewController(nextVC!, animated: true)
+    }
+    
+    @IBAction func upgradeAction(_ sender: Any) {
+        upgradeVIP()
     }
     
     //MARK: - View-Life
@@ -224,6 +305,16 @@ class MemberMainVC: UIViewController {
         memberImgV.clipsToBounds = true
         
         memberImgV.isHidden = true
+        upgradevipBtn.isHidden = true
+        isVipImgV.isHidden = true
+        
+        let userDefaults = UserDefaults.standard
+        if userDefaults.string(forKey: "isShowERecieptBtn") != nil {
+            bonusBtn.isHidden = true
+        }
+        if userDefaults.string(forKey: "isShowPromoBtn") != nil {
+            promoBtn.isHidden = true
+        }
         
         eRecieptL.text = NSLocalizedString("ereciept", comment: "")
         
@@ -259,15 +350,23 @@ class MemberMainVC: UIViewController {
         
         if loadOnce {
             AppDelegate.shared().showTopButton()
+            if AppDelegate.shared().tempIsVIP != "true" {
+                checkVip()
+            }
             return
         }
         
         loadOnce = true
-        
+        checkVip()
         //頂部兩個按鈕
         AppDelegate.shared().topMargin = self.view.safeAreaInsets.top
         AppDelegate.shared().addTopButton()
-        
+        upgradevipBtn.layer.cornerRadius = upgradevipBtn.frame.height / 2
+        upgradevipBtn.addGradienOfIndoGo()
+        bonusBtn.layer.cornerRadius = bonusBtn.frame.height / 2
+        bonusBtn.addGradienOfIndoGo()
+        promoBtn.layer.cornerRadius = promoBtn.frame.height / 2
+        promoBtn.addGradienOfIndoGo()
         AppDelegate.shared().nowBottomMenuType = .profile
         AppDelegate.shared().bottomMenu.paintMenu()
         

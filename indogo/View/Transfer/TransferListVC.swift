@@ -320,7 +320,13 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         closeAll()
         AppDelegate.shared().addLoadingView()
         
-        let todoEndpoint: String = API_TransferHistory;
+        var todoEndpoint: String = ""//API_TransferHistory;
+        if choseState == 0 {
+            todoEndpoint = API_TransferToday
+        } else if choseState == 1 {
+            todoEndpoint = API_TransferHistoryBeforeToday
+        }
+        
         Dlog("a list count = \(AppDelegate.shared().transferStateListObjs.count)")
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
@@ -440,14 +446,20 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     
     //MARK: - Utility
     func btnStateAndAction(Next next:Bool = false) {
+        leftV.layer.borderColor = Color_Main_Red.cgColor
+        leftV.layer.borderWidth = 1
+        rightV.layer.borderColor = Color_Main_Red.cgColor
+        rightV.layer.borderWidth = 1
         if choseState == 0 {
-            leftV.backgroundColor = Color_BtnChose
-            rightV.backgroundColor = Color_BtnNotChose
-            rightImgV.image = UIImage.init(named: "rightcircle0")
+            leftV.backgroundColor = Color_Main_Red
+            leftL.textColor = UIColor.white
+            rightV.backgroundColor = UIColor.clear
+            rightL.textColor = Color_Main_Red
         } else {
-            rightV.backgroundColor = Color_BtnChose
-            leftV.backgroundColor = Color_BtnNotChose
-            rightImgV.image = UIImage.init(named: "rightcircle")
+            rightV.backgroundColor = Color_Main_Red
+            rightL.textColor = UIColor.white
+            leftV.backgroundColor = UIColor.clear
+            leftL.textColor = Color_Main_Red
         }
         
         if next {
@@ -495,10 +507,11 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         
         leftV.layer.cornerRadius = 5
         rightV.layer.cornerRadius = 5
-        leftImgV.image = UIImage.init(named: "leftcircle")
+        leftImgV.isHidden = true
+        //leftImgV.image = UIImage.init(named: "leftcircle")
         leftL.text = NSLocalizedString("Transfer State Left Btn", comment: "")
-        
-        rightImgV.image = UIImage.init(named: "rightcircle0")
+        rightImgV.isHidden = true
+        //rightImgV.image = UIImage.init(named: "rightcircle0")
         rightL.text = NSLocalizedString("Transfer State Right Btn", comment: "")
         btnStateAndAction()
         

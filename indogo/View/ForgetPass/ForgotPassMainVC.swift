@@ -15,6 +15,8 @@ class ForgotPassMainVC: UIViewController {
     @IBOutlet weak var introL: UILabel!
     @IBOutlet weak var barV: GradianBarView!
     
+    var loadOnce = false
+    
     //MARK: - Button-Action
     @IBAction func nextAction(_ sender: Any) {
         let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPassIntroVC") as? ForgotPassIntroVC
@@ -38,6 +40,16 @@ class ForgotPassMainVC: UIViewController {
         introL.text = NSLocalizedString("intro for forgoet main", comment: "")
         
         AppDelegate.shared().hideTopButton()
+        barV.addGradienOfIndoGo()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
         barV.addGradienOfIndoGo()
     }
     

@@ -16,6 +16,7 @@ class ForgotPassIntroVC: UIViewController {
     @IBOutlet weak var bottomL: UILabel!
     @IBOutlet weak var barView: UIView!
     public var fromType:ScanParentType = ScanParentType.forgotPass
+    var loadOnce = false
     
     //MARK: - Button-Action
     @IBAction func nextAction(_ sender: Any) {
@@ -38,10 +39,18 @@ class ForgotPassIntroVC: UIViewController {
         nextBtn.layer.cornerRadius = nextBtn.frame.height/2
         topL.text = NSLocalizedString("top for forgoet sec", comment: "")
         bottomL.text = NSLocalizedString("bottom for forgoet sec", comment: "")
-        nextBtn.addGradienOfIndoGo()
-        barView.addGradienOfIndoGo()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
+        barView.addGradienOfIndoGo()
+        nextBtn.addGradienOfIndoGo()
+    }
 
     /*
     // MARK: - Navigation

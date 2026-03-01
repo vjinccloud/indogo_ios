@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 import WebKit
 
-class CompanyV: UIView {
+class CompanyV: UIView, WKNavigationDelegate {
     
     var companyL:UILabel!
     var serialNoL:UILabel!
@@ -49,7 +49,8 @@ class CompanyV: UIView {
         
         //1002:440
         let hei:CGFloat = boxWid * 1320 / 2236 - 15
-        let warnWebV = WKWebView.init(frame: CGRect.init(x: 10, y: 0, width: boxWid, height: hei))
+        let warnWebV = WKWebView(frame: CGRect(x: 10, y: 0, width: boxWid, height: hei))
+        warnWebV.navigationDelegate = self
         
         if let url = URL(string: "https://prod.indogo.com.tw/anti_fraud.php") {
             let request = URLRequest(url: url)
@@ -270,5 +271,23 @@ class CompanyV: UIView {
                     //AppDelegate.shared().showAlertWithWindow(self, Message: AppDelegate.shared().apiBackContentStr)
                 }
         }
+    }
+    
+    // MARK: - WKNavigationDelegate
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        guard let url = navigationAction.request.url else {
+            decisionHandler(.allow)
+            return
+        }
+        let scheme = url.scheme?.lowercased() ?? ""
+        // Only intercept user-tapped HTTP/HTTPS links; allow initial load and programmatic navigations.
+        if (scheme == "http" || scheme == "https"),
+           navigationAction.navigationType == .linkActivated {
+            Dlog("url = \(url.absoluteString)")
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            decisionHandler(.cancel)
+            return
+        }
+        decisionHandler(.allow)
     }
 }

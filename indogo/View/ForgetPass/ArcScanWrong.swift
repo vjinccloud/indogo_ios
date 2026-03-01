@@ -18,6 +18,7 @@ class ArcScanWrong: UIViewController {
     @IBOutlet weak var barV: UIView!
     
     public var fromType:ScanParentType = ScanParentType.forgotPass
+    var loadOnce = false
     
     //MARK: - Button-Action
     @IBAction func nextAction(_ sender: Any) {
@@ -54,11 +55,19 @@ class ArcScanWrong: UIViewController {
         preBtn.layer.borderColor = Color_Purple.cgColor
         topL.text = NSLocalizedString("scan failed", comment: "")
         orL.text = NSLocalizedString("or", comment: "")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
         barV.addGradienOfIndoGo()
         nextBtn.addGradienOfIndoGo()
     }
     
-
     /*
     // MARK: - Navigation
 

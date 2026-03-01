@@ -23,6 +23,7 @@ class ForgotPassChangeVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var barV: UIView!
     
     @IBOutlet weak var nextBtn: UIButton!
+    var loadOnce = false
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
@@ -197,11 +198,19 @@ class ForgotPassChangeVC: UIViewController, UITextFieldDelegate {
         warn2L.text = NSLocalizedString("TFFRHP Change warn2", comment: "")
         warnL.isHidden = true
         warn2L.isHidden = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if loadOnce {
+            return
+        }
+        loadOnce = true
         barV.addGradienOfIndoGo()
         nextBtn.addGradienOfIndoGo()
     }
     
-
     /*
     // MARK: - Navigation
 

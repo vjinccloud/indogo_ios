@@ -135,11 +135,20 @@ class APIHandle {
         case API_CheckMemExist:
             checkMemExist(DataStr: resultStr)
             break
+        case API_CheckDiscountCode:
+            checkDiscountCodeResult(DataStr: resultStr)
+            break
         case API_SendSMS:
             sendSMS(DataStr: resultStr)
             break
         case API_Register: //API_ResendRegisterSMS
             sendRegisterSMS(DataStr: resultStr)
+            break
+        case API_CheckMemberVip:
+            checkVIPResult(DataStr: resultStr)
+            break
+        case API_UpgradeMemberVip:
+            getVIPUrlStr(DataStr: resultStr)
             break
         case API_RegisterStep1, API_RegisterStep2,API_ResendRegisterSMS:
             sendRegisterSMS2(DataStr: resultStr)
@@ -165,6 +174,12 @@ class APIHandle {
         case API_TransferHistory:
             checkTransferStateList(DataStr: resultStr)
             break
+        case API_TransferToday:
+            checkTransferStateList(DataStr: resultStr)
+            break
+        case API_TransferHistoryBeforeToday:
+            checkTransferStateList(DataStr: resultStr)
+            break
         case API_OrderCheckMuilti:
             checkTransferOrderCheckList(DataStr: resultStr)
             break
@@ -182,6 +197,9 @@ class APIHandle {
             break
         case API_GetRelation:
             checkRelation(DataStr: resultStr)
+            break
+        case API_GetQuota:
+            checkQuotaResult(DataStr: resultStr)
             break
         default:
             break
@@ -209,6 +227,51 @@ class APIHandle {
         }
         
         return ans
+    }
+    
+    private func checkQuotaResult(DataStr dataStr:String) {
+        
+        //目前直接用zero width空格
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        for j in 0..<ary.count {
+            Dlog("checkQuotaResult \(j+1). value = \(ary[j])")
+            if j==0 {
+                AppDelegate.shared().transferQuotaTotal = Int(ary[0]) ?? 0
+            } else if j==1 {
+                AppDelegate.shared().transferQuotaLeft = Int(ary[1]) ?? 0
+            }
+        }
+        
+    }
+    
+    private func checkVIPResult(DataStr dataStr:String) {
+        
+        //目前直接用zero width空格
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        for j in 0..<ary.count {
+            Dlog("checkVIPResult \(j+1). value = \(ary[j])")
+            if j==0 {
+                AppDelegate.shared().temparcVIP = ary[0]
+            } else if j==1 {
+                AppDelegate.shared().tempIsVIP = ary[1]
+            }
+        }
+        
+    }
+    
+    private func checkDiscountCodeResult(DataStr dataStr:String) {
+        
+        //目前直接用zero width空格
+        let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
+        for j in 0..<ary.count {
+            Dlog("checkVIPResult \(j+1). value = \(ary[j])")
+            if j==0 {
+                AppDelegate.shared().temparcVIP = ary[0]
+            } else if j==1 {
+                AppDelegate.shared().tempIsVIP = ary[1]
+            }
+        }
+        
     }
     
     private func checkAddRecipientResult(DataStr dataStr:String) {
@@ -428,6 +491,10 @@ class APIHandle {
     
     private func sendRegisterSMS(DataStr dataStr:String) {
         AppDelegate.shared().forgotPassTempSMS = dataStr
+    }
+    
+    private func getVIPUrlStr(DataStr dataStr:String) {
+        AppDelegate.shared().tempVIPUrlStr = dataStr
     }
     
     private func sendRegisterSMS2(DataStr dataStr:String) {
