@@ -290,3 +290,13 @@
 
 "Promote Check Title" = "PRMO DISKON";
 "Promote Check Label" = "Masukkan Kode Promo";
+
+"Pre TransferAccount Head" = "PROMO DISKON";
+"Pre TransferAccount Title" = "Masukkan Kode Promo LANJUT";
+"Pre TransferAccount Wrong" = "Kode promo salah / tidak tersedia";
+"Pre TransferAccount Bottom Title" = "Kode promo Yang Bisa Digunakan";
+"Pre TransferAccount Bottom Amount" = "DISKON ONGKUR";
+"Pre TransferAccount Bottom Time" = "Masa Berlaku s/d";
+"Pre TransferAccount Bottom Available" = "GUNAKAN";
+"Pre TransferAccount Bottom Used" = "TELAH DIGUNAKAN";
+"Pre TransferAccount Bottom Expired" = "EXPIRED";

@@ -12,7 +12,7 @@ import SwiftyJSON
 import Kingfisher
 import KingfisherWebP
 
-class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate {
+class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var boxV: UIView!
     @IBOutlet weak var upNameL: UILabel!
@@ -51,6 +51,24 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
     var decresedChargeUnit = 50
     var totalChage = 0
     var statusNow = 0
+    var discountCodeValue = 0
+    private var isManualRefreshing = false
+    private let manualRefreshTriggerDistance: CGFloat = 90
+    private lazy var manualRefreshIndicator: UIActivityIndicatorView = {
+        let indicator: UIActivityIndicatorView
+        if #available(iOS 13.0, *) {
+            indicator = UIActivityIndicatorView(style: .large)
+        } else {
+            indicator = UIActivityIndicatorView(style: .whiteLarge)
+        }
+        indicator.color = .black
+        indicator.hidesWhenStopped = true
+        indicator.isHidden = true
+        return indicator
+    }()
+    private var manualRefreshIndicatorTopConstraint: NSLayoutConstraint?
+    private var manualRefreshIndicatorBaseOffset: CGFloat = 8
+    private var currentPullDistance: CGFloat = 0
     
     func customAlertnextAction(Ref obj: CustomAlertView) {
         obj.removeFromSuperview()
@@ -174,13 +192,15 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
         }
         
         valueL.text = "\(serviceCharge)"
-        if decresedCharge == 0 {
-            pointLeftL.text = "\(decresedCharge)"
+        let totalDiscount:Int = decresedCharge + discountCodeValue
+        
+        if totalDiscount == 0 {
+            pointLeftL.text = "\(totalDiscount)"
         } else {
-            pointLeftL.text = "-\(decresedCharge)"
+            pointLeftL.text = "-\(totalDiscount)"
         }
         
-        totalChage = upValue! + serviceCharge - decresedCharge
+        totalChage = upValue! + serviceCharge - decresedCharge - discountCodeValue
         totalNTDL.text = "\(totalChage)".stringToIntDecimalString()
         
         Dlog("totalChage = \(totalChage)")
@@ -254,7 +274,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
         let downValue = Int(ceil(Double(AppDelegate.shared().transactionObj.ntdValue) * kursValue))
         AppDelegate.shared().transactionObj.targetValue = downValue
         AppDelegate.shared().transactionObj.feeValue = serviceCharge
-        AppDelegate.shared().transactionObj.usePoint = decresedCharge
+        AppDelegate.shared().transactionObj.usePoint = decresedCharge + discountCodeValue
         AppDelegate.shared().transactionObj.totalNtdValue = totalChage
         
         //送出前要查詢是否超過金額
@@ -265,19 +285,30 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
     }
     
     //MARK: - API
-    public func callMemberData() {
+    public func callMemberData(completion: (() -> Void)? = nil) {
         let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         let headers: HTTPHeaders = [:]
         
-        AppDelegate.shared().addLoadingView()
+        if !isManualRefreshing {
+            AppDelegate.shared().addLoadingView()
+        }
         
         let todoEndpoint: String = API_CheckLogin;
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
         AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
-            .responseString(encoding: String.Encoding.utf8)  { response in
-                AppDelegate.shared().removeLoadingView()
+            .responseString(encoding: String.Encoding.utf8)  { [weak self] response in
+                defer {
+                    completion?()
+                }
+                
+                let shouldHideLoading = !(self?.isManualRefreshing ?? false)
+                if shouldHideLoading {
+                    AppDelegate.shared().removeLoadingView()
+                }
+                
+                guard let self = self else { return }
                 
                 guard response.result.error == nil else {
                     // got an error in getting the data, need to handle it
@@ -370,13 +401,18 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
         let charge = Int(upTextField.text!.replacingOccurrences(of: ",", with: ""))!
         //AppDelegate.shared().transactionObj.totalNtdValue
         
-        let parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":charge, "use_remit_point":use_remit_point, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
+        var parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":charge, "use_remit_point":use_remit_point, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
+        
+        if AppDelegate.shared().discountForTransfer != "" {
+            parameters["discount_code"] = AppDelegate.shared().discountCode
+            parameters["dicount_amt"] = AppDelegate.shared().discountForTransfer
+        }
         
         let headers: HTTPHeaders = [:]
         closeAll()
         AppDelegate.shared().addLoadingView()
         
-        let todoEndpoint: String = API_MemberRecipents;
+        let todoEndpoint: String = API_MemberRecipentsV2;
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
@@ -428,18 +464,32 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
         }
     }
     
-    public func getQuota() {
+    public func getQuota(completion: (() -> Void)? = nil) {
         let parameters:Parameters = ["token":AppDelegate.shared().sessionToken]
         let headers: HTTPHeaders = [:]
-        AppDelegate.shared().addLoadingView()
+        if !isManualRefreshing {
+            AppDelegate.shared().addLoadingView()
+        }
         
         let todoEndpoint: String = API_GetQuota;
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
         AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
-            .responseString(encoding: String.Encoding.utf8)  { response in
-                AppDelegate.shared().removeLoadingView()
+            .responseString(encoding: String.Encoding.utf8)  { [weak self] response in
+                guard let self = self else {
+                    completion?()
+                    return
+                }
+                
+                defer {
+                    completion?()
+                }
+                
+                let shouldHideLoading = !self.isManualRefreshing
+                if shouldHideLoading {
+                    AppDelegate.shared().removeLoadingView()
+                }
                 
                 guard response.result.error == nil else {
                     // got an error in getting the data, need to handle it
@@ -480,8 +530,17 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == upTextField {
+            /*
+            if upTextField.text == "1" {
+                upTextField.text = ""
+            } else {
+                upTextField.text = upTextField.text!.replacingOccurrences(of: ",", with: "")
+                upTextField.selectAll(nil)
+            }*/
+            
             upTextField.text = upTextField.text!.replacingOccurrences(of: ",", with: "")
             upTextField.selectAll(nil)
+            
         } else if textField == downTextField {
             downTextField.text = downTextField.text!.replacingOccurrences(of: ",", with: "")
             downTextField.selectAll(nil)
@@ -593,6 +652,11 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
         return true
     }*/
     
+    //MARK: - Gesture Delegate
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
     //MARK: - View-Life
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -636,6 +700,14 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
         leftDownL.text = NSLocalizedString("Transfer Main Total Point Title", comment: "")
         rightTitleL.text = NSLocalizedString("send", comment: "")
         
+        if AppDelegate.shared().discountForTransfer != "" {
+            discountCodeValue = Int(AppDelegate.shared().discountForTransfer) ?? 0
+            leftButton.isEnabled = false
+        } else {
+            discountCodeValue = 0
+            leftButton.isEnabled = true
+        }
+        
         leftTotalPL.text = AppDelegate.shared().memberData["remit_point"]!
         checkAndCalculateValue(UseStyle:0, NweString: "")
         
@@ -644,6 +716,150 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
         
         AppDelegate.shared().getPurposeList()
         AppDelegate.shared().getRelationList()
+        setupManualRefreshGesture()
+    }
+    
+    private func setupManualRefreshGesture() {
+        manualRefreshIndicator.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(manualRefreshIndicator)
+        if #available(iOS 11.0, *) {
+            manualRefreshIndicatorBaseOffset = 8
+            manualRefreshIndicatorTopConstraint = manualRefreshIndicator.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: manualRefreshIndicatorBaseOffset)
+        } else {
+            manualRefreshIndicatorBaseOffset = 28
+            manualRefreshIndicatorTopConstraint = manualRefreshIndicator.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: manualRefreshIndicatorBaseOffset)
+        }
+        NSLayoutConstraint.activate([
+            manualRefreshIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            manualRefreshIndicatorTopConstraint!
+        ])
+        view.bringSubviewToFront(manualRefreshIndicator)
+        
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleFullScreenPan(_:)))
+        panGesture.delegate = self
+        panGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(panGesture)
+    }
+    
+    private func showIndicatorIfNeeded() {
+        if manualRefreshIndicator.isHidden {
+            manualRefreshIndicator.isHidden = false
+        }
+        if !manualRefreshIndicator.isAnimating {
+            manualRefreshIndicator.startAnimating()
+        }
+    }
+    
+    private func updateIndicatorPosition(for pullDistance: CGFloat) {
+        guard let topConstraint = manualRefreshIndicatorTopConstraint else { return }
+        let effectiveDistance = min(pullDistance, manualRefreshTriggerDistance * 1.3)
+        topConstraint.constant = manualRefreshIndicatorBaseOffset + effectiveDistance * 0.5
+        UIView.performWithoutAnimation {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    private func resetIndicator(animated: Bool) {
+        guard let topConstraint = manualRefreshIndicatorTopConstraint else { return }
+        let animations = {
+            topConstraint.constant = self.manualRefreshIndicatorBaseOffset
+            self.view.layoutIfNeeded()
+        }
+        let completion = {
+            self.manualRefreshIndicator.stopAnimating()
+            self.manualRefreshIndicator.isHidden = true
+        }
+        
+        if animated {
+            UIView.animate(withDuration: 0.2, delay: 0, options: [.beginFromCurrentState, .curveEaseOut], animations: animations) { _ in
+                completion()
+            }
+        } else {
+            animations()
+            completion()
+        }
+    }
+    
+    private func snapIndicatorToBase() {
+        guard let topConstraint = manualRefreshIndicatorTopConstraint else { return }
+        topConstraint.constant = manualRefreshIndicatorBaseOffset
+        UIView.animate(withDuration: 0.2, delay: 0, options: [.beginFromCurrentState, .curveEaseOut], animations: {
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+    @objc private func handleFullScreenPan(_ gesture: UIPanGestureRecognizer) {
+        if isManualRefreshing {
+            return
+        }
+        
+        let translation = gesture.translation(in: view)
+        let pullDistance = max(0, translation.y)
+        
+        switch gesture.state {
+        case .began:
+            currentPullDistance = 0
+            if pullDistance == 0 {
+                resetIndicator(animated: false)
+            }
+        case .changed:
+            currentPullDistance = pullDistance
+            if pullDistance > 0 {
+                showIndicatorIfNeeded()
+                updateIndicatorPosition(for: pullDistance)
+            } else {
+                resetIndicator(animated: false)
+            }
+        case .ended, .cancelled, .failed:
+            gesture.setTranslation(.zero, in: view)
+            if currentPullDistance >= manualRefreshTriggerDistance {
+                beginManualRefresh()
+            } else {
+                resetIndicator(animated: true)
+            }
+            currentPullDistance = 0
+        default:
+            break
+        }
+    }
+    
+    private func beginManualRefresh() {
+        guard !isManualRefreshing else { return }
+        isManualRefreshing = true
+        manualRefreshIndicator.isHidden = false
+        manualRefreshIndicator.startAnimating()
+        snapIndicatorToBase()
+        refreshTransferData { [weak self] in
+            guard let self = self else { return }
+            self.isManualRefreshing = false
+            self.resetIndicator(animated: true)
+            let newValue = (Int(AppDelegate.shared().memberData["remit_point"]!) ?? 0) - decresedCharge
+            leftTotalPL.text = "\(newValue)"
+            //self.justCalculateValue(UseStyle: 0, NweString: "")
+            checkAndCalculateValue(UseStyle: 0, NweString: "")
+        }
+    }
+    
+    private func refreshTransferData(completion: (() -> Void)? = nil) {
+        setUpKursValue()
+        let group = DispatchGroup()
+        self.upTextField.text = "1"
+        decresedCharge = 0
+        group.enter()
+        callMemberData {
+            group.leave()
+        }
+        
+        group.enter()
+        getQuota {
+            group.leave()
+        }
+        
+        AppDelegate.shared().showTopButton()
+        
+        group.notify(queue: .main) {
+            completion?()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -653,17 +869,13 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
         
         if loadOnce {
             //這邊每次都要重新設定
-            setUpKursValue()
-            callMemberData()
-            getQuota()
-            AppDelegate.shared().showTopButton()
+            refreshTransferData()
             return
         }
         
         loadOnce = true
         rightBgV.addGradienOfIndoGo()
-        callMemberData()
-        getQuota()
+        refreshTransferData()
         //頂部兩個按鈕
         AppDelegate.shared().topMargin = self.view.safeAreaInsets.top
         AppDelegate.shared().addTopButton()

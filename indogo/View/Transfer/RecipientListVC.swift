@@ -156,11 +156,16 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
             parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":0, "use_remit_point":0, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         }
         
+        if AppDelegate.shared().discountForTransfer != "" {
+            parameters["discount_code"] = AppDelegate.shared().discountCode
+            parameters["dicount_amt"] = AppDelegate.shared().discountForTransfer
+        }
+        
         let headers: HTTPHeaders = [:]
         closeAll()
         AppDelegate.shared().addLoadingView()
         
-        let todoEndpoint: String = API_MemberRecipents;
+        let todoEndpoint: String = API_MemberRecipentsV2;
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         

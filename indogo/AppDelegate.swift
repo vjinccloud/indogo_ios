@@ -130,7 +130,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var temparcVIP = ""
     var tempIsVIP = ""
     var tempVIPUrlStr = ""
-    var tempDiscountCodeResultAry:[String] = ["","","",""]
+    var tempDiscountCodeResultAry:[String] = ["","","","",""]
+    var discountForTransfer:String = ""
+    var discountCode:String = ""
     
     //MARK: - Web Delegate
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
@@ -1145,11 +1147,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     //MARK: - Change Root
-    public func changeRootOfFunc(Type type:LoginFuncType) {
+    public func changeRootOfFunc(Type type:LoginFuncType, discountForTransfer:String = "", discountCode:String = "") {
         
         var storyboardId = ""
         var navigaterId = ""
-        
+        AppDelegate.shared().discountForTransfer = ""
+        AppDelegate.shared().discountCode = ""
         if type == LoginFuncType.main {
             storyboardId = "Main"
             navigaterId = "MainNC"
@@ -1164,6 +1167,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             } else if type == LoginFuncType.transaction {
                 storyboardId = "Member"
                 navigaterId = "TransferMainNC"
+                AppDelegate.shared().discountForTransfer = discountForTransfer
+                AppDelegate.shared().discountCode = discountCode
             } else if type == LoginFuncType.sharing {
                 storyboardId = "Member"
                 var storyboardId = "ShareMainNC"  //ShareMainNCSmall

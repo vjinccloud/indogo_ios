@@ -87,6 +87,14 @@ class APIHandle {
                 }
                 
                 return ResponseState.maxExceed
+            } else if apiStr == API_MemberRecipentsV2 && (stateStr == "509" || stateStr == "714" || stateStr == "715" || stateStr == "716") {
+                if stateStr == "509" {
+                    getRecipientMaxAmount(DataStr: resultStr, Is509: true)
+                } else {
+                    getRecipientMaxAmount(DataStr: resultStr)
+                }
+                
+                return ResponseState.maxExceed
             } else if apiStr == API_BankList {
                 return ResponseState.failed
             } else if apiStr == API_DataCheck && stateStr == "1" {
@@ -168,6 +176,9 @@ class APIHandle {
         case API_MemberRecipents:
             checkRecipientList(DataStr: resultStr)
             break
+        case API_MemberRecipentsV2:
+            checkRecipientList(DataStr: resultStr)
+            break
         case API_BankList:
             checkBankList(DataStr: resultStr)
             break
@@ -184,6 +195,9 @@ class APIHandle {
             checkTransferOrderCheckList(DataStr: resultStr)
             break
         case API_TransactionCreate:
+            checkTransactionResult(DataStr: resultStr)
+            break
+        case API_TransactionCreateV2:
             checkTransactionResult(DataStr: resultStr)
             break
         case API_AddRecipient:
@@ -263,12 +277,19 @@ class APIHandle {
         
         //目前直接用zero width空格
         let ary = dataStr.components(separatedBy: AppDelegate.shared().seperatorStr)
-        for j in 0..<ary.count {
-            Dlog("checkVIPResult \(j+1). value = \(ary[j])")
-            if j==0 {
-                AppDelegate.shared().temparcVIP = ary[0]
-            } else if j==1 {
-                AppDelegate.shared().tempIsVIP = ary[1]
+        
+        for i in 0..<ary.count {
+            
+            let subAry = ary[i].components(separatedBy: AppDelegate.shared().subSeperatorStr)
+            if subAry.count < 2 {
+                return
+            }
+            for j in 0..<subAry.count {
+                if j > 5 {
+                    return
+                }
+                Dlog("checkDiscountCodeResult \(j+1). value = \(subAry[j])")
+                AppDelegate.shared().tempDiscountCodeResultAry[j] = subAry[j]
             }
         }
         

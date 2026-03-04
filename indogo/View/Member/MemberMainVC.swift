@@ -265,6 +265,9 @@ class MemberMainVC: UIViewController {
         let userDefaults = UserDefaults.standard
         userDefaults.set("1", forKey: "isShowPromoBtn")
         userDefaults.synchronize()
+        
+        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "TransfePreCountVC") as? TransfePreCountVC
+        self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
     @IBAction func eRecieptAction(_ sender: Any) {
