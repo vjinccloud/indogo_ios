@@ -93,9 +93,21 @@ extension UIImage {
         return UIImage.init(cgImage: newCGImage, scale: 1, orientation: .left)
     }
     
+    private func flattenedOnWhiteBackground() -> UIImage {
+        let format = UIGraphicsImageRendererFormat.default()
+        format.scale = self.scale
+        format.opaque = true
+        let renderer = UIGraphicsImageRenderer(size: self.size, format: format)
+        return renderer.image { ctx in
+            UIColor.white.setFill()
+            ctx.fill(CGRect(origin: .zero, size: self.size))
+            self.draw(in: CGRect(origin: .zero, size: self.size))
+        }
+    }
+    
     //壓縮圖檔
     func ImgPress(LimitInBytes dataLimit:Int) -> Data{
-        let img = self
+        let img = flattenedOnWhiteBackground()
         let limit = 1200
         let newWidth:CGFloat = 1000
         let width = img.size.width

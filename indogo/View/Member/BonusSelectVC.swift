@@ -24,24 +24,23 @@ class BonusSelectVC: UIViewController {
     @IBAction func upAction(_ sender: Any) {
         let urlPath = "https://bonus.indogo.com.tw/bonus?arc=\(AppDelegate.shared().getRemeberedAccount())&pass=\(String(describing: AppDelegate.shared().getRemeberedAccount().base64EncodedString()!))"
         Dlog("url = \(urlPath)")
-        UIApplication.shared.open(URL.init(string: urlPath.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)!)!, options: [:], completionHandler: nil)
-        /*
+        //UIApplication.shared.open(URL.init(string: urlPath.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)!)!, options: [:], completionHandler: nil)
+        
         let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "PureWebVC") as? PureWebVC
         nextVC?.setTitleAndCallURL(URL: urlPath, Title: NSLocalizedString("Profile Main About", comment: ""))
         self.navigationController?.pushViewController(nextVC!, animated: true)
-         */
     }
     
     @IBAction func downAction(_ sender: Any) {
         let urlPath = "https://invoice.indogo.com.tw/alist?arc=\(AppDelegate.shared().getRemeberedAccount())&pass=\(String(describing: AppDelegate.shared().getRemeberedAccount().base64EncodedString()!))"
         Dlog("url = \(urlPath)")
-        UIApplication.shared.open(URL.init(string: urlPath.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)!)!, options: [:], completionHandler: nil)
-        /*
-        return
+        //UIApplication.shared.open(URL.init(string: urlPath.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)!)!, options: [:], completionHandler: nil)
+        
+        //return
         let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "PureWebVC") as? PureWebVC
         nextVC?.setTitleAndCallURL(URL: urlPath, Title: NSLocalizedString("Profile Main About", comment: ""))
         self.navigationController?.pushViewController(nextVC!, animated: true)
-         */
+         
     }
     
     override func viewDidLoad() {

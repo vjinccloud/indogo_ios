@@ -73,7 +73,9 @@ class TransactionAgreeMentVC: UIViewController {
             parameters["use_points"] = obj.usePoint
         }
         
+        var todoEndpoint: String = API_TransactionCreate;
         if AppDelegate.shared().discountForTransfer != "" {
+            todoEndpoint = API_TransactionCreateV2
             parameters["discount_code"] = AppDelegate.shared().discountCode
             parameters["dicount_amt"] = AppDelegate.shared().discountForTransfer
         }
@@ -81,8 +83,6 @@ class TransactionAgreeMentVC: UIViewController {
         let headers: HTTPHeaders = [:]
         
         AppDelegate.shared().addLoadingView()
-        
-        let todoEndpoint: String = API_TransactionCreateV2;
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         

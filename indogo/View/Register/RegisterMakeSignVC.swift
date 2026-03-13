@@ -68,6 +68,7 @@ class RegisterMakeSignVC: UIViewController {
         bottomL.text = NSLocalizedString("bottom for forgoet sec Sign", comment: "")
         signView.layer.cornerRadius = 10
         signView.clipsToBounds = true
+        signView.bgColor = .white
         
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.height/2
         cancelBtn.backgroundColor = .clear

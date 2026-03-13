@@ -403,7 +403,10 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
         
         var parameters:Parameters = ["token":AppDelegate.shared().sessionToken, "amount_ntd":charge, "use_remit_point":use_remit_point, "gps_code":AppDelegate.shared().gpsCode, "mobile_type":"iphone","ip_addr":AppDelegate.shared().ipAddr, "req_timestamp":Date.giveCurrentDateString()]
         
+        var todoEndpoint: String = API_MemberRecipents;
+        
         if AppDelegate.shared().discountForTransfer != "" {
+            todoEndpoint = API_MemberRecipentsV2
             parameters["discount_code"] = AppDelegate.shared().discountCode
             parameters["dicount_amt"] = AppDelegate.shared().discountForTransfer
         }
@@ -411,8 +414,6 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
         let headers: HTTPHeaders = [:]
         closeAll()
         AppDelegate.shared().addLoadingView()
-        
-        let todoEndpoint: String = API_MemberRecipentsV2;
         
         Dlog("todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
         
@@ -455,7 +456,7 @@ class TransferMainVC: UIViewController, UITextFieldDelegate, CustomAlertDelegate
     }
     
     func plotQuotaState() {
-        topbox_MoneyL.text = String.stringToOnlyIntString(Number: AppDelegate.shared().transferQuotaTotal) + " NTD"
+        topbox_MoneyL.text = String.stringToOnlyIntString(Number: AppDelegate.shared().transferQuotaLeft) + " NTD"
         
         if AppDelegate.shared().transferQuotaLeft == 0 || AppDelegate.shared().transferQuotaTotal == 0 {
             topbox_barLength.constant = 1
