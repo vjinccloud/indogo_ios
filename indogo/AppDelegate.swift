@@ -183,6 +183,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         AppDelegate.shared().seperatorStr = NSLocalizedString("leading space", comment: "")
         AppDelegate.shared().subSeperatorStr = NSLocalizedString("leading sub space", comment: "")
         self.getBankList()
+        //後台控制 App icon
+        AppIconManager.shared.fetchAndApplyIcon()
         NotificationCenter.default.addObserver(self, selector: #selector(screenshotTaken), name: UIApplication.userDidTakeScreenshotNotification, object: nil)
 
         //測試AES
@@ -1389,7 +1391,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func addLoadingView() {
         //PKHUD.sharedHUD.contentView = PKHUDProgressView()
         //PKHUD.sharedHUD.show()
-        ZKProgressHUD.show()
+        ZKProgressHUD.show("Mohon Tunggu")
     }
     
     //關掉讀取按鈕

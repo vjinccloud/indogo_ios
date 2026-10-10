@@ -148,7 +148,7 @@
 "Profile Main Reciter" = "Daftar Nomor Rekening";
 "Profile Main Transaction" = "Riwayat Transaksi";
 "Profile Main Call" = "Layanan Konsumen";
-"Profile Main About" = "CEK FAPIAO";
+"Profile Main About" = "Tentang IndoGo";
 "Profile Main Terms" = "Syarat & Ketentuan";
 "Profile Main Faq" = "FAQ";
 "Profile Main Logout" = "Keluar";
@@ -292,7 +292,7 @@
 "Promote Check Label" = "Masukkan Kode Promo";
 
 "Pre TransferAccount Head" = "PROMO DISKON";
-"Pre TransferAccount Title" = "Masukkan Kode Promo LANJUT";
+"Pre TransferAccount Title" = "Masukkan Kode Promo";
 "Pre TransferAccount Wrong" = "Kode promo salah / tidak tersedia";
 "Pre TransferAccount Bottom Title" = "Kode promo Yang Bisa Digunakan";
 "Pre TransferAccount Bottom Amount" = "DISKON ONGKIR";

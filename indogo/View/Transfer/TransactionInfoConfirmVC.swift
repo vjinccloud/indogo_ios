@@ -85,7 +85,7 @@ class TransactionInfoConfirmVC: UIViewController {
         if AppDelegate.shared().discountForTransfer != "" {
             todoEndpoint = API_TransactionCreateV2
             parameters["discount_code"] = AppDelegate.shared().discountCode
-            parameters["dicount_amt"] = AppDelegate.shared().discountForTransfer
+            parameters["discount_amt"] = AppDelegate.shared().discountForTransfer
         }
         
         let headers: HTTPHeaders = [:]

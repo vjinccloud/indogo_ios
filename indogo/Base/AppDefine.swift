@@ -111,6 +111,9 @@ let API_TransferToday = ServerURL + "/app/remit/money_transfer_today"
 let API_TransferHistoryBeforeToday = ServerURL + "/app/remit/money_transfer_before_today"
 let API_CheckDiscountCode = ServerURL + "/app/remit/check_discount_code"
 
+//後台控制 App icon（POST、免參數，回傳 remit_reply 0 <icon名稱>）
+let API_LauncherIcon = ServerURL + "/app/getLauncherIcon.php"
+
 public enum TransferMemberStyle {
     case normal
     case shop
