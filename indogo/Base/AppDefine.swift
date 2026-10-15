@@ -44,9 +44,15 @@ let Lang_APIDecodeFail = NSLocalizedString("API DecodeFail", comment: "伺服器
 let AppVersion = "1.0"
 let AppId = 1
 //正式
-//let ServerURL = "https://prod.indogo.com.tw"
-//測試機
-let ServerURL = "https://Prod.indogo.com.tw"
+// ---- 環境切換（由 CTO 維護；見 ../docs/工作流程.md）----
+// Debug build（開發、QA）打測試機；Release / Archive 打正式機。不要再用註解切換。
+let ProdServerURL = "https://Prod.indogo.com.tw"
+let TestServerURL = "https://Prod.indogo.com.tw"   // TODO(CTO): 等客戶提供測試機網址後換掉。git 歷史曾用過 https://dev.indogo.link，目前連不上
+#if DEBUG
+let ServerURL = TestServerURL
+#else
+let ServerURL = ProdServerURL
+#endif
 //(測試機全家會有問題)
 
 let PinCodeMode = 3
