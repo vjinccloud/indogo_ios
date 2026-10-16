@@ -421,6 +421,78 @@ class CustomAlertView: UIView {
         
     }
     
+    //提醒視窗：點視窗外不會關閉，只有一顆確認鈕；內容過長時可捲動
+    public func initNoticeAlert(Title title:String, Content content:String, NextBtn1Str btnStr1:String) {
+        self.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.8)
+        let divX:CGFloat = 40
+        let centerY:CGFloat = self.frame.size.height/2
+        
+        //擋住背景點擊，但不關閉視窗
+        let blockBtn = UIButton.init(frame: self.bounds)
+        blockBtn.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.addSubview(blockBtn)
+        
+        //背景框
+        let centerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.frame.size.width-2*divX, height: 0))
+        self.addSubview(centerView)
+        centerView.backgroundColor = .white
+        let width = centerView.frame.size.width
+        var startY:CGFloat = 0
+        
+        let divX2:CGFloat = 20
+        let labelTitleL = UILabel.init(frame: CGRect.init(x:divX2 , y: startY+12, width: width-2*divX2, height: 0))
+        labelTitleL.textAlignment = .center
+        labelTitleL.textColor = .white
+        labelTitleL.font = UIFont.systemFont(ofSize: 25)
+        labelTitleL.text = title
+        labelTitleL.numberOfLines = 0
+        labelTitleL.sizeToFit()
+        
+        startY += 24 + labelTitleL.frame.size.height
+        
+        //標題列
+        let barView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: width, height: startY))
+        barView.addSubview(labelTitleL)
+        barView.backgroundColor = Color_Main_Red
+        centerView.addSubview(barView)
+        
+        labelTitleL.center = CGPoint(x: barView.center.x, y: labelTitleL.center.y)
+        
+        //內容（超過可用高度就捲動）
+        startY += 18
+        let labelContentL = UILabel.init(frame: CGRect.init(x: 0, y: 0, width: width-2*divX2, height: 0))
+        labelContentL.textColor = .black
+        labelContentL.font = UIFont.systemFont(ofSize: 15)
+        labelContentL.text = content
+        labelContentL.numberOfLines = 0
+        labelContentL.sizeToFit()
+        
+        let maxContentHeight = self.frame.size.height * 0.55
+        let contentHeight = min(labelContentL.frame.size.height, maxContentHeight)
+        let contentScroll = UIScrollView.init(frame: CGRect.init(x: divX2, y: startY, width: width-2*divX2, height: contentHeight))
+        contentScroll.contentSize = labelContentL.frame.size
+        contentScroll.addSubview(labelContentL)
+        centerView.addSubview(contentScroll)
+        
+        //按鈕
+        startY += contentHeight + 25
+        let nextBtn = UIButton.init(frame: CGRect.init(x: divX2, y: startY, width: width-2*divX2, height: 40))
+        nextBtn.setTitle(btnStr1, for: .normal)
+        nextBtn.backgroundColor = Color_Main_Red
+        nextBtn.setTitleColor(.white, for: .normal)
+        nextBtn.layer.cornerRadius = nextBtn.frame.size.height/2
+        centerView.addSubview(nextBtn)
+        nextBtn.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
+        
+        startY += nextBtn.frame.size.height + 15
+        
+        //最後位置調整
+        centerView.frame = CGRect.init(x: 0, y: 0, width: self.frame.size.width-2*divX, height: startY)
+        centerView.center = CGPoint(x: self.frame.size.width/2, y: centerY-20)
+        centerView.layer.cornerRadius = 15
+        centerView.clipsToBounds = true
+    }
+    
     @objc func nextAction() {
         customDelegate?.customAlertnextAction(Ref: self)
     }
