@@ -300,3 +300,11 @@
 "Pre TransferAccount Bottom Available" = "GUNAKAN";
 "Pre TransferAccount Bottom Used" = "TELAH DIGUNAKAN";
 "Pre TransferAccount Bottom Expired" = "EXPIRED";
+
+//compliance-202610 ARC 發證日期
+"Register ARC Issue Date" = "Tanggal Terbit ARC";
+"Register ARC Issue Date Placeholder" = "Pilih Tanggal Terbit ARC";
+"Register Error ARC Issue Date Empty" = "Silahkan pilih Tanggal Terbit ARC";
+"Register Error ARC Issue Date Future" = "Tanggal Terbit ARC tidak boleh melebihi hari ini";
+"Register Error ARC Issue Date After Expire" = "Tanggal Terbit ARC tidak boleh setelah Masa Berlaku ARC";
+
