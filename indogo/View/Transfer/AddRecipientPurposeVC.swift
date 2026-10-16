@@ -178,6 +178,13 @@ class AddRecipientPurposeVC: UIViewController, UITextFieldDelegate, UITableViewD
     
     //MARK: - Button-Action
     @IBAction func nextAction(_ sender: Any) {
+        //匯款目的必選，送出的是後端給的 id，不是清單位置
+        if choseRelationIdx < 0 || choseRelationIdx >= AppDelegate.shared().purposeObj.count {
+            purposeTextfield.becomeFirstResponder()
+            return
+        }
+        AppDelegate.shared().transactionObj.purposes_id = AppDelegate.shared().purposeObj[choseRelationIdx].idx
+        
         var storyboardId = "TransactionInfoConfirmVC"
         if AppDelegate.shared().deviceSmall {
             storyboardId = "TransactionInfoConfirmVCSmall"
