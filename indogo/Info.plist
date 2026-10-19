@@ -4,135 +4,167 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIcons</key>
 	<dict>
-		<key>CFBundlePrimaryIcon</key>
-		<dict>
-			<key>CFBundleIconName</key>
-			<string>AppIcon</string>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string>AppIcon</string>
-			</array>
-		</dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
 			<key>AltIcon1010</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
-				<array><string>AltIcon1010</string></array>
+				<array>
+					<string>AltIcon1010</string>
+				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
 			<key>Batik</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
-				<array><string>Batik</string></array>
+				<array>
+					<string>Batik</string>
+				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
 			<key>ChineseNewYear</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
-				<array><string>ChineseNewYear</string></array>
+				<array>
+					<string>ChineseNewYear</string>
+				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
 			<key>DragonBoat</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
-				<array><string>DragonBoat</string></array>
+				<array>
+					<string>DragonBoat</string>
+				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
 			<key>Halloween</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
-				<array><string>Halloween</string></array>
+				<array>
+					<string>Halloween</string>
+				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
 			<key>Halloween2</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
-				<array><string>Halloween2</string></array>
+				<array>
+					<string>Halloween2</string>
+				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
 			<key>IdulAdha</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
-				<array><string>IdulAdha</string></array>
+				<array>
+					<string>IdulAdha</string>
+				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
 			<key>Kartini</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
-				<array><string>Kartini</string></array>
+				<array>
+					<string>Kartini</string>
+				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
 			<key>Kemerdekaan</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
-				<array><string>Kemerdekaan</string></array>
+				<array>
+					<string>Kemerdekaan</string>
+				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
 			<key>Mooncake</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
-				<array><string>Mooncake</string></array>
+				<array>
+					<string>Mooncake</string>
+				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
 			<key>Natal</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
-				<array><string>Natal</string></array>
+				<array>
+					<string>Natal</string>
+				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
 			<key>Natal1</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
-				<array><string>Natal1</string></array>
+				<array>
+					<string>Natal1</string>
+				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
 			<key>NewYear</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
-				<array><string>NewYear</string></array>
+				<array>
+					<string>NewYear</string>
+				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
 			<key>Olimpiade</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
-				<array><string>Olimpiade</string></array>
+				<array>
+					<string>Olimpiade</string>
+				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
 			<key>Ramadan</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
-				<array><string>Ramadan</string></array>
+				<array>
+					<string>Ramadan</string>
+				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
 			<key>Valentine</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
-				<array><string>Valentine</string></array>
+				<array>
+					<string>Valentine</string>
+				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
 		</dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>AppIcon</string>
+			</array>
+			<key>CFBundleIconName</key>
+			<string>AppIcon</string>
+		</dict>
 	</dict>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -154,6 +186,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
