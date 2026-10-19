@@ -44,9 +44,16 @@ let Lang_APIDecodeFail = NSLocalizedString("API DecodeFail", comment: "伺服器
 let AppVersion = "1.0"
 let AppId = 1
 //正式
-//let ServerURL = "https://prod.indogo.com.tw"
-//測試機
-let ServerURL = "https://Prod.indogo.com.tw"
+// ---- 環境切換（由 CTO 維護；見 ../docs/工作流程.md）----
+// Debug build（開發、QA）打測試機；Release / Archive 打正式機。不要再用註解切換。
+// 要打「測試機版」上 TestFlight：用 scripts/archive-staging.sh（Release 加 -D TESTSERVER），不要手改這裡。
+let ProdServerURL = "https://Prod.indogo.com.tw"
+let TestServerURL = "https://test-prod.indogo.com.tw"   // 測試機（後端 2026-10-16 提供）。上線 Archive 用 Release，自動走 ProdServerURL
+#if DEBUG || TESTSERVER
+let ServerURL = TestServerURL
+#else
+let ServerURL = ProdServerURL
+#endif
 //(測試機全家會有問題)
 
 let PinCodeMode = 3
@@ -94,6 +101,7 @@ let API_PhoneTokenSet = ServerURL + "/app/remit/phone_token_set"
 
 let API_GetBankCode = ServerURL + "/console/api/getVAccount"
 let API_GetPurpose = ServerURL + "/app/remit/transfer_purpose"
+let API_FraudMessage = ServerURL + "/app/remit/fraud_message"   //防詐提醒（路徑沒有 .php）
 let API_GetRelation = ServerURL + "/app/remit/relationship"
 let API_SendUpdatePhoneSMS = ServerURL + "/app/remit/update_phone_sms"
 let API_VerifyUpdatePhoneSMS = ServerURL + "/app/remit/update_phone"

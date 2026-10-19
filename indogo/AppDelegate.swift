@@ -96,6 +96,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var shareContent = ""
     
     var apiBackContentStr = ""
+    var fraudMessageStr = ""   //防詐提醒文字（fraud_message 回傳）
     
     var transactionObj:TransactionObj = TransactionObj()
     var noticeNotReadNum = 0

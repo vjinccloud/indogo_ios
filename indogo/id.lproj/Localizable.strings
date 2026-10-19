@@ -5,3 +5,14 @@
   Created by mac on 2020/7/11.
   Copyright © 2020 DIM. All rights reserved.
 */
+
+//compliance-202610 ARC 發證日期
+"Register ARC Issue Date" = "Tanggal Terbit ARC";
+"Register ARC Issue Date Placeholder" = "Pilih Tanggal Terbit ARC";
+"Register Error ARC Issue Date Empty" = "Silahkan pilih Tanggal Terbit ARC";
+"Register Error ARC Issue Date Future" = "Tanggal Terbit ARC tidak boleh melebihi hari ini";
+"Register Error ARC Issue Date After Expire" = "Tanggal Terbit ARC tidak boleh setelah Masa Berlaku ARC";
+
+//compliance-202610 防詐提醒
+"Fraud Alert Title" = "Peringatan";
+"Fraud Alert Confirm" = "Saya Mengerti";

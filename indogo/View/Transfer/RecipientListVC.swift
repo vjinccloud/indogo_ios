@@ -201,10 +201,14 @@ class RecipientListVC: UIViewController, UITextFieldDelegate, UITableViewDelegat
         }
     }
     
+    //新增收款人入口（右上加號、清單空時自動開啟）都走這裡，先跳防詐提醒
     func goAddRecipient() {
-        let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "AddRecipientVC") as? AddRecipientVC
-        nextVC!.canSelectForTransfer = canSelectForTransfer
-        self.navigationController?.pushViewController(nextVC!, animated: true)
+        FraudMessageHelper.shared.checkThenProceed(From: self) { [weak self] in
+            guard let self = self else { return }
+            let nextVC = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(withIdentifier: "AddRecipientVC") as? AddRecipientVC
+            nextVC!.canSelectForTransfer = self.canSelectForTransfer
+            self.navigationController?.pushViewController(nextVC!, animated: true)
+        }
     }
     
     //MARK: - Button-Action

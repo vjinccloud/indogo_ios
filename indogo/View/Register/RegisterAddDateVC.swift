@@ -28,6 +28,14 @@ class RegisterAddDateVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var phoneNewBtn: UIButton!
     @IBOutlet weak var phoneNewTextfield: UITextField!
     
+    //ARC 發證日期
+    @IBOutlet weak var issueTitle: UILabel!
+    @IBOutlet weak var issueView: UIView!
+    @IBOutlet weak var issueBtn: UIButton!
+    @IBOutlet weak var issueTextfield: UITextField!
+    var dateIssue:Date?
+    var issueDatePicker:UIDatePicker!
+    
     @IBOutlet weak var registerBtn: UIButton!
     @IBOutlet weak var arcCodeL: UILabel!
     
@@ -81,13 +89,37 @@ class RegisterAddDateVC: UIViewController, UITextFieldDelegate {
                 datePicker.preferredDatePickerStyle = .wheels
             }
         }
+        
+        if issueTextfield != nil {
+            let datePicker = UIDatePicker.init(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: 200))
+            datePicker.datePickerMode = .date
+            //發證日期：最晚今天、最早往前 10 年（與 Android 一致，10 年為暫定值）
+            datePicker.date = dateNow
+            datePicker.minimumDate = dateNow.addDays(Days: 0, Month: 0, Year: -10)
+            datePicker.maximumDate = dateNow
+            
+            issueTextfield.inputView = datePicker
+            let doneButton = UIBarButtonItem.init(title: NSLocalizedString("ok", comment: ""), style: .done, target: self, action: #selector(self.datePickerDone))
+            let toolBar = UIToolbar.init(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: 44))
+            toolBar.setItems([UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil), doneButton], animated: true)
+            issueTextfield.inputAccessoryView = toolBar
+            issueDatePicker = datePicker
+            if #available(iOS 14, *) {
+                datePicker.preferredDatePickerStyle = .wheels
+            }
+        }
     }
     
     @objc func datePickerDone() {
         phoneTextfield.resignFirstResponder()
         phoneNewTextfield.resignFirstResponder()
+        issueTextfield.resignFirstResponder()
         
-        if nowTextIdx == 0 {
+        if nowTextIdx == 2 {
+            let date = issueDatePicker.date
+            dateIssue = date
+            issueTextfield.text = date.toString()
+        } else if nowTextIdx == 0 {
             let date = startDatePicker.date
             dateStart = date
             phoneTextfield.text = date.toString()
@@ -96,11 +128,50 @@ class RegisterAddDateVC: UIViewController, UITextFieldDelegate {
             dateEnd = date
             phoneNewTextfield.text = date.toString()
         }
+        updateRegisterBtnState()
+    }
+    
+    //日期整列（含右側箭頭）都可點
+    @objc func dateRowTapped(_ sender: UIButton) {
+        if sender == phoneBtn {
+            phoneTextfield.becomeFirstResponder()
+        } else if sender == phoneNewBtn {
+            phoneNewTextfield.becomeFirstResponder()
+        } else if sender == issueBtn {
+            issueTextfield.becomeFirstResponder()
+        }
+    }
+    
+    //ARC 發證日期：必填、不可晚於今天、不可晚於到期日。回傳錯誤字串的 key，通過回傳空字串
+    func checkIssueDate() -> String {
+        guard let issue = dateIssue else {
+            return "Register Error ARC Issue Date Empty"
+        }
+        let calendar = Calendar.current
+        let issueDay = calendar.startOfDay(for: issue)
+        if issueDay > calendar.startOfDay(for: Date()) {
+            return "Register Error ARC Issue Date Future"
+        }
+        if issueDay > calendar.startOfDay(for: dateEnd) {
+            return "Register Error ARC Issue Date After Expire"
+        }
+        return ""
+    }
+    
+    func updateRegisterBtnState() {
+        let pass = checkIssueDate() == ""
+        registerBtn.isEnabled = pass
+        registerBtn.alpha = pass ? 1.0 : 0.5
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         nowTextIdx = textField.tag
         return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        //日期欄只能用日期選擇器選
+        return false
     }
     
     //MARK: - View-Life
@@ -129,6 +200,18 @@ class RegisterAddDateVC: UIViewController, UITextFieldDelegate {
         phoneNewTextfield.delegate = self
         phoneNewTextfield.tag = 1
         phoneNewTextfield.inputAccessoryView = generateToolBar()
+        
+        issueTitle.text = NSLocalizedString("Register ARC Issue Date", comment: "")
+        issueBtn.layer.cornerRadius = issueBtn.frame.size.height/2
+        issueBtn.layer.borderColor =  UIColor.white.cgColor
+        issueBtn.layer.borderWidth = 0.5
+        issueTextfield.delegate = self
+        issueTextfield.tag = 2
+        issueTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register ARC Issue Date Placeholder", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        
+        phoneBtn.addTarget(self, action: #selector(dateRowTapped(_:)), for: .touchUpInside)
+        phoneNewBtn.addTarget(self, action: #selector(dateRowTapped(_:)), for: .touchUpInside)
+        issueBtn.addTarget(self, action: #selector(dateRowTapped(_:)), for: .touchUpInside)
         //phoneNewTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Register Input Phone", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         registerBtn.setTitle(NSLocalizedString("ok", comment: ""), for: .normal)
@@ -141,6 +224,9 @@ class RegisterAddDateVC: UIViewController, UITextFieldDelegate {
         addDatePicker()
         phoneTextfield.text = dateStart.toString()
         phoneNewTextfield.text = dateEnd.toString()
+        //發證日期必填，不預填
+        issueTextfield.text = ""
+        updateRegisterBtnState()
     }
     
     //MARK: - Text Bar
@@ -158,13 +244,21 @@ class RegisterAddDateVC: UIViewController, UITextFieldDelegate {
     @objc func nextBarAction() {
         phoneTextfield.resignFirstResponder()
         phoneNewTextfield.resignFirstResponder()
+        issueTextfield.resignFirstResponder()
     }
     
     //MARK: - Button-Action
     @IBAction func nextAction(_ sender: Any) {
         
+        let issueError = checkIssueDate()
+        if issueError != "" {
+            AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString(issueError, comment: ""))
+            return
+        }
+        
         AppDelegate.shared().tempRegisterObj.birthday = phoneTextfield.text!
         AppDelegate.shared().tempRegisterObj.arcDay = phoneNewTextfield.text!
+        AppDelegate.shared().tempRegisterObj.arcIssueDay = dateIssue!.toString()
         registerStep1()
         /*
         let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterIDTakePhotoVC") as? RegisterIDTakePhotoVC
@@ -197,6 +291,7 @@ class RegisterAddDateVC: UIViewController, UITextFieldDelegate {
             multipartFormData.append(UtilityTool().sha256(Code: obj.passwaord!).data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: "password")
             multipartFormData.append(obj.shareCode.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: "share_member_id")
             multipartFormData.append(obj.arcDay.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: "arc_expire_date")
+            multipartFormData.append(obj.arcIssueDay.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: "arc_issue_date")
             multipartFormData.append(obj.birthday.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: "birthday")
             
         }, usingThreshold: UInt64.init(), to: todoEndpoint, method: .post, headers: headers) { (result) in

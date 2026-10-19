@@ -59,9 +59,12 @@ class APIHandle {
             var endIndex = resStr.index(resStr.startIndex, offsetBy: 13)
             stateStr = String(resStr[startIndex..<endIndex])
             
-            startIndex = resStr.index(resStr.startIndex, offsetBy: 14)
-            endIndex = resStr.endIndex
-            resultStr = String(resStr[startIndex..<endIndex]).trimmingCharacters(in: .whitespaces)
+            //回傳剛好是「remit_reply 0」、後面沒有內容時，第 14 個字元不存在，直接取會閃退
+            if resStr.count > 14 {
+                startIndex = resStr.index(resStr.startIndex, offsetBy: 14)
+                endIndex = resStr.endIndex
+                resultStr = String(resStr[startIndex..<endIndex]).trimmingCharacters(in: .whitespaces)
+            }
         }
         
         Dlog("resultStr = \(resultStr), stateStr = -\(stateStr)-")
@@ -209,6 +212,9 @@ class APIHandle {
         case API_GetPurpose:
             checkPurpose(DataStr: resultStr)
             break
+        case API_FraudMessage:
+            checkFraudMessage(DataStr: resultStr)
+            break
         case API_GetRelation:
             checkRelation(DataStr: resultStr)
             break
@@ -341,6 +347,11 @@ class APIHandle {
         } else {
             AppDelegate.shared().tempBarCodeInfoObj = BarCodeInfoObj()
         }
+    }
+    
+    //防詐提醒：整段文字照原樣顯示（可能含換行）
+    private func checkFraudMessage(DataStr dataStr:String) {
+        AppDelegate.shared().fraudMessageStr = dataStr.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     private func checkPurpose(DataStr dataStr:String) {
