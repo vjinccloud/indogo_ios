@@ -29,6 +29,7 @@ public let Color_Main_Bule = UtilityTool().hexStringToUIColor(hex: "#2a65ec")
 public let Color_Main_Red = UtilityTool().hexStringToUIColor(hex: "#83088c") //UtilityTool().hexStringToUIColor(hex: "#b20808")
 public let Color_Main_LightGray = UtilityTool().hexStringToUIColor(hex: "#d6d7d8")
 public let Color_Main_DarkGray = UtilityTool().hexStringToUIColor(hex: "#3b3f47")
+public let Color_Notice_Btn_Blue = UtilityTool().hexStringToUIColor(hex: "#1F2E5C") //提醒視窗確認鈕（設計稿深藍）
 public let Color_Gradient_Left = UtilityTool().hexStringToUIColor(hex: "#83088c")
 public let Color_Gradient_Right = UtilityTool().hexStringToUIColor(hex: "#d2118a")
 
