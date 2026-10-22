@@ -77,8 +77,8 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let realIdx = searchShowIndex[indexPath.row]
-        let cellOrderCheckData = showOrderCheckDataList[realIdx]
-        
+        let cellOrderCheckData = orderCheckData(For: showDataList[realIdx].payment_info)
+
         if cellOrderCheckData.order_status == "5" {
             return 215
         } else {
@@ -93,28 +93,15 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
         let realIdx = searchShowIndex[indexPath.row]
         let cellData = showDataList[realIdx]
         
-        let payment_info = cellData.payment_info
-        var cellOrderCheckData:TransferOrderCheckObj = TransferOrderCheckObj()
-        //api可能會重複給訂單資料，所以用找到的第一個
-        for i in 0..<showDataList.count {
-            if showDataList[i].payment_info == payment_info {
-                cellOrderCheckData = showOrderCheckDataList[i]
-                break
-            }
-        }
-        
-        //let cellOrderCheckData = showOrderCheckDataList[realIdx]
-       
+        let cellOrderCheckData = orderCheckData(For: cellData.payment_info)
+
         let serchBankobj = UtilityTool().searchBankObj(BankCode: cellData.bank_code!)
-        
+
         cell.barTitleL.text = NSLocalizedString("Transfer State " + cellOrderCheckData.order_status, comment: "")
         cell.midL.text = NSLocalizedString("Transfer State Mid Text Title", comment: "")
-        
-        let colorIdx = Int(cellOrderCheckData.order_status)! - 1
-        if colorIdx >= 0, colorIdx <= 4 {
-            Dlog("cellBarColor\(colorIdx), \(cellOrderCheckData.order_status)")
-            cell.barV.backgroundColor = cellBarColor[colorIdx]
-        }
+
+        //order_status 可能是空字串或非數字（找不到對應 orders_check、或後端欄位對不上），安全解析，失敗或超出顏色範圍用預設灰色
+        cell.barV.backgroundColor = barColor(ForStatus: cellOrderCheckData.order_status)
         
         cell.failV.isHidden = true
         cell.downV.isHidden = false
@@ -239,8 +226,8 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let realIdx = searchShowIndex[indexPath.row]
         let cellData = showDataList[realIdx]
-        let cellOrderCheckData = showOrderCheckDataList[realIdx]
-        
+        let cellOrderCheckData = orderCheckData(For: cellData.payment_info)
+
         if cellOrderCheckData.order_status == "5" {
             AppDelegate.shared().showFloatingContainer()
             return
@@ -445,6 +432,34 @@ class TransferListVC: UIViewController, UITextFieldDelegate, UITableViewDelegate
     }
     
     //MARK: - Utility
+    /// orders_check 回傳要用 payment_info 配對本機訂單，不能用陣列 index 或清單列位置（後端 10/21 文件）。
+    /// api 可能重複給同一筆訂單，取找到的第一個；找不到回空物件（order_status 為空字串），畫面照無狀態顯示、不閃退。
+    func orderCheckData(For paymentInfo:String?) -> TransferOrderCheckObj {
+        guard let paymentInfo = paymentInfo, paymentInfo != "" else {
+            return TransferOrderCheckObj()
+        }
+        for obj in showOrderCheckDataList {
+            if obj.payment_info == paymentInfo {
+                return obj
+            }
+        }
+        return TransferOrderCheckObj()
+    }
+
+    /// order_status "1"~"5" 對應 cellBarColor[0]~[4]；空字串、非數字或超出範圍一律用最後一個（灰色）當預設，不閃退
+    func barColor(ForStatus statusStr:String?) -> UIColor {
+        let defaultColor = cellBarColor.last ?? UIColor.lightGray
+        guard let status = Int(statusStr ?? "") else {
+            return defaultColor
+        }
+        let colorIdx = status - 1
+        if colorIdx >= 0, colorIdx < cellBarColor.count {
+            Dlog("cellBarColor\(colorIdx), \(statusStr ?? "")")
+            return cellBarColor[colorIdx]
+        }
+        return defaultColor
+    }
+
     func btnStateAndAction(Next next:Bool = false) {
         leftV.layer.borderColor = Color_Main_Red.cgColor
         leftV.layer.borderWidth = 1
