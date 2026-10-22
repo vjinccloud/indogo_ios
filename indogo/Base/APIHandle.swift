@@ -438,7 +438,13 @@ class APIHandle {
             for j in 0..<subAry.count {
                 obj.setValueByOrder(Order: j, Value: subAry[j])
             }
-            
+
+            //後端 10/21 起會把繳費單（business_type == tagihan）混進匯款清單，金額等欄位是空字串，這裡跳過，不當匯款卡片
+            if obj.isTagihan {
+                Dlog("== \(i) skip tagihan \(obj.payment_info ?? "")")
+                continue
+            }
+
             if obj.payment_info != "" {
                 Dlog("== \(i) =========")
                 obj.printSelf()
@@ -458,7 +464,13 @@ class APIHandle {
             for j in 0..<subAry.count {
                 obj.setValueByOrder(Order: j, Value: subAry[j])
             }
-            
+
+            //繳費單（business_type == tagihan）跳過，與 checkTransferStateList 一致
+            if obj.isTagihan {
+                Dlog("== \(i) skip tagihan \(obj.payment_info ?? "")")
+                continue
+            }
+
             if obj.payment_info != "" {
                 Dlog("== \(i) =========")
                 obj.printSelf()
