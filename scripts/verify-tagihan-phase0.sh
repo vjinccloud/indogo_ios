@@ -127,9 +127,9 @@ func remit(_ no:String, status:String, name:String, idr:String, bt:String? = nil
     if let bt = bt { f.append(bt) }
     return f
 }
-func tagihanRow(_ no:String) -> [String] {
+func tagihanRow(_ no:String, bt:String = "tagihan") -> [String] {
     // 規格：recipient_name = Tagihan，transfer_amount_idr（index 6）等欄位空字串，index 19 = tagihan
-    return [no, "2", "Status 2", "Tagihan", "", "2026-10-21 10:00:00", "", "", "", "", "", "", "", "", "", "", "", "", "", "tagihan"]
+    return [no, "2", "Status 2", "Tagihan", "", "2026-10-21 10:00:00", "", "", "", "", "", "", "", "", "", "", "", "", "", bt]
 }
 func orderRow(_ no:String, status:String, bt:String? = nil) -> [String] {
     var f = [no, status, "2026-10-21 10:00:00", "2026-10-21 10:30:00", "", "", "2026-10-21 12:00:00", "2026-10-21 13:00:00", "", ""]
@@ -150,7 +150,10 @@ let mixed = rows([remit("ERT001", status: "1", name: "Budi", idr: "1500000", bt:
                   tagihanRow("ERT900"),
                   remit("ERT002", status: "2", name: "Siti", idr: "2000000", bt: "remittance"),
                   tagihanRow("ERT901"),
-                  remit("ERT003", status: "5", name: "Agus", idr: "500000", bt: "remittance") + ["x1", "x2", "x3", "x4", "x5"]])
+                  remit("ERT003", status: "5", name: "Agus", idr: "500000", bt: "remittance") + ["x1", "x2", "x3", "x4", "x5"],
+                  tagihanRow("ERT902", bt: "Tagihan\n"),       // 結尾換行 + 大寫（CTO 10/22 要求的案例）
+                  tagihanRow("ERT903", bt: " TAGIHAN "),       // 前後空白 + 全大寫
+                  remit("ERT004", status: "2", name: "Dewi", idr: "750000", bt: "remittance\n")])  // 匯款列結尾換行，不能被誤擋
 
 let ordersNormalOld = rows([orderRow("ERT001", status: "1"), orderRow("ERT002", status: "2"), orderRow("ERT003", status: "5")])
 let ordersNormalNew = rows([orderRow("ERT001", status: "1", bt: "remittance"), orderRow("ERT002", status: "2", bt: "remittance"), orderRow("ERT003", status: "5", bt: "remittance")])
@@ -160,7 +163,9 @@ let ordersMixed = rows([orderRow("ERT001", status: "1", bt: "remittance"),
                         orderRow("ERT002", status: "", bt: "remittance"),
                         orderRow("ERT003", status: "abc", bt: "remittance"),
                         orderRow("ERT004", status: "9", bt: "remittance"),
-                        orderRow("ERT901", status: "6", bt: "tagihan")])
+                        orderRow("ERT901", status: "6", bt: "tagihan"),
+                        orderRow("ERT902", status: "2", bt: "Tagihan\n"),     // 結尾換行 + 大寫
+                        orderRow("ERT005", status: "3", bt: "remittance\n")])  // 匯款列結尾換行，要保留
 
 func dumpState(_ o:TransferStateObj) -> String {
     // 只印改前就有的 19 欄，拿來跟舊版比對
@@ -203,16 +208,21 @@ EOF
 check(sNormalNew.allSatisfy { $0.business_type == "remittance" }, "新格式：business_type 讀到 remittance")
 check(sNormalOld.allSatisfy { $0.business_type == "" }, "舊格式：沒有 index 19 時 business_type 為空字串、不是 tagihan")
 check(!sMixed.contains { $0.recipient_name == "Tagihan" }, "混入資料：清單裡沒有 recipient_name=Tagihan 的列（剩 \(sMixed.count) 列：\(sMixed.map { $0.payment_info ?? "" }))")
-check(sMixed.map { $0.payment_info ?? "" } == ["ERT001", "ERT002", "ERT003"], "混入資料：剩下的正好是三筆匯款，順序不變")
+check(sMixed.map { $0.payment_info ?? "" } == ["ERT001", "ERT002", "ERT003", "ERT004"], "混入資料：剩下的正好是四筆匯款，順序不變")
+check(!sMixed.contains { $0.payment_info == "ERT902" }, "business_type 為 \"Tagihan\\n\"（結尾換行、大寫）的列也被跳過")
+check(!sMixed.contains { $0.payment_info == "ERT903" }, "business_type 為 \" TAGIHAN \"（前後空白、全大寫）的列也被跳過")
+check(sMixed.contains { $0.payment_info == "ERT004" && $0.business_type == "remittance\n" }, "business_type 為 \"remittance\\n\" 的匯款列保留，欄位原值不動")
 check(sMixed.allSatisfy { $0.transfer_amount_idr != "" }, "混入資料：剩下的列 transfer_amount_idr 都不是空字串")
-check(sMixed.count == 3 && dumpState(sMixed[2]) == dumpState(sNormalNew[2]), "多到 25 欄的列：未知索引被忽略，前 19 欄不變")
+check(sMixed.count == 4 && dumpState(sMixed[2]) == dumpState(sNormalNew[2]), "多到 25 欄的列：未知索引被忽略，前 19 欄不變")
 
 print("[\(tag)] orders_check")
 check(oNormalOld.count == 3 && oNormalNew.count == 3, "正常資料 3 列全保留（\(oNormalOld.count)/\(oNormalNew.count)）")
 check(oNormalNew.map(dumpOrder) == oNormalOld.map(dumpOrder), "新格式與舊格式正常資料 10 欄解析相同")
 check(oNormalNew.allSatisfy { $0.business_type == "remittance" }, "新格式：index 10 讀到 remittance")
 check(!oMixed.contains { $0.payment_info == "ERT900" || $0.payment_info == "ERT901" }, "混入資料：business_type=tagihan 的兩列被跳過（剩 \(oMixed.map { $0.payment_info ?? "" }))")
-check(oMixed.count == 4, "混入資料：剩 4 列匯款（含 order_status 空字串／abc／9 的列，解析層不丟）")
+check(!oMixed.contains { $0.payment_info == "ERT902" }, "business_type 為 \"Tagihan\\n\" 的 orders_check 列也被跳過")
+check(oMixed.contains { $0.payment_info == "ERT005" }, "business_type 為 \"remittance\\n\" 的 orders_check 列保留")
+check(oMixed.count == 5, "混入資料：剩 5 列匯款（含 order_status 空字串／abc／9 的列，解析層不丟）")
 EOF
     else
       cat <<'EOF'
