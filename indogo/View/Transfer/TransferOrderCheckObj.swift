@@ -19,7 +19,14 @@ class TransferOrderCheckObj: NSObject {
     var mini_mart_id:String! = ""
     var lm_time_failed:String! = ""
     var lm_time_expire:String! = ""
-    
+    /// 後端 10/21 起多的欄位（orders_check 多筆在 index 10）：remittance／tagihan；舊回傳沒有這欄時為空字串
+    var business_type:String! = ""
+
+    /// 繳費單（tagihan）列，共用匯款清單要跳過
+    var isTagihan:Bool {
+        return business_type == "tagihan"
+    }
+
     public func setValueByOrder(Order orderNum:Int, Value valueStr:String) {
         
         if orderNum == 0 {
@@ -42,10 +49,13 @@ class TransferOrderCheckObj: NSObject {
             mini_mart_id = valueStr
         } else if orderNum == 9 {
             lm_time_failed = valueStr
+        } else if orderNum == 10 {
+            business_type = valueStr
         }
+        // 其他索引：後端日後再加欄位時忽略，不出錯
     }
-    
+
     public func printSelf() {
-        Dlog("payment_info(\(payment_info ?? "")), order_status(\(order_status ?? "")), lm_time_pending(\(lm_time_pending ?? "")), lm_time_paid(\(lm_time_paid ?? "")), lm_time_process(\(lm_time_process ?? "")), lm_time_transfer(\(lm_time_transfer ?? "")), server_time(\(server_time ?? "")), lm_time_expire(\(lm_time_expire ?? "")), mini_mart_id(\(mini_mart_id ?? "")), lm_time_failed(\(lm_time_failed ?? ""))")
+        Dlog("payment_info(\(payment_info ?? "")), order_status(\(order_status ?? "")), lm_time_pending(\(lm_time_pending ?? "")), lm_time_paid(\(lm_time_paid ?? "")), lm_time_process(\(lm_time_process ?? "")), lm_time_transfer(\(lm_time_transfer ?? "")), server_time(\(server_time ?? "")), lm_time_expire(\(lm_time_expire ?? "")), mini_mart_id(\(mini_mart_id ?? "")), lm_time_failed(\(lm_time_failed ?? "")), business_type(\(business_type ?? ""))")
     }
 }
