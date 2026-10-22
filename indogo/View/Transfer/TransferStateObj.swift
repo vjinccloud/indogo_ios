@@ -32,8 +32,9 @@ class TransferStateObj: NSObject {
     var business_type:String! = ""
 
     /// 繳費單（tagihan）列，共用匯款清單要跳過，第 1 期另外用 tagihan_today 畫
+    /// 比對前先去頭尾空白／換行再轉小寫，避免回傳結尾帶換行或大小寫不同漏擋
     var isTagihan:Bool {
-        return business_type == "tagihan"
+        return (business_type ?? "").trimmingCharacters(in: .whitespacesAndNewlines).lowercased() == "tagihan"
     }
 
     public func setValueByOrder(Order orderNum:Int, Value valueStr:String) {
