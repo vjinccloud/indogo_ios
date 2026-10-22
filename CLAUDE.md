@@ -13,6 +13,13 @@
 
 簡報前三頁附的畫面是設計稿，第一輪沒照做。規格 `../docs/spec/三國合規更新.md` 的「需求 5」列了 IndoGO 要改的：5-1、5-2。設計稿圖檔在 `../docs/design/compliance-202610/`，用它並排比對，做到肉眼看不出差異為止。功能邏輯不動。做完更新 handoff（加「第五輪」段落，每個改動畫面附「設計稿 vs 實作」截圖），回 CTO 訊息「IndoGO 第五輪已交付」。
 
+## 目前任務（2026-10-22 起）：TAGIHAN 印尼繳費
+
+規格：`../docs/spec/TAGIHAN.md`（分三期），行為基準：`../docs/reference-Android-TAGIHAN開發說明.md`，設計稿：`../docs/design/tagihan/screens/`（Figma 匯出 85 張，照流程編號），素材：`../docs/design/tagihan/assets/`。
+- 第 0 期「共用匯款紀錄防呆」在分支 `feature/tagihan-phase0`，獨立先做先上。
+- 第 1、2 期在分支 `feature/tagihan-202610`（worktree 在 `../indogo_ios-tagihan`）。
+- 合規 compliance-202610 已完成上線，不再動。
+
 ## 專案結構
 
 - 開 `indogo.xcworkspace`，scheme `indogo`。CocoaPods 的 `Pods/` 已進版控，**不要跑 `pod install`**。
