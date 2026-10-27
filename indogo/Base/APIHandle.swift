@@ -212,6 +212,10 @@ class APIHandle {
         case API_GetPurpose:
             checkPurpose(DataStr: resultStr)
             break
+        case API_ShareMemberCheck:
+            //成功時 payload 是推薦人 ID（照 GoPadala），失敗訊息已在上面存進 apiBackContentStr
+            AppDelegate.shared().tempShareMemberId = resultStr.trimmingCharacters(in: .whitespacesAndNewlines)
+            break
         case API_FraudMessage:
             checkFraudMessage(DataStr: resultStr)
             break

@@ -111,6 +111,7 @@ let API_GetInfo = ServerURL + "/app/get_info"
 let API_VerifyPointMsg = ServerURL + "/app/remit/verify_point_msg"
 let API_VerifyPoint = ServerURL + "/app/remit/verify_point"
 let API_DataCheck = ServerURL + "/app/remit/data_check"
+let API_ShareMemberCheck = ServerURL + "/app/remit/share_member_check"   //註冊推薦碼驗證（照 GoPadala 移植）
 
 let API_GetQuota = ServerURL + "/app/remit/get_quota"
 let API_CheckMemberVip = ServerURL + "/app/remit/check_member_vip"

@@ -34,26 +34,65 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
     var presetCode = ""
     var loadOnce = false
     
+    //推薦碼只收數字（含貼上），不限長度，其餘交給後端判斷
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        guard let text = textField.text else{
-            return true
+        if string.isEmpty {
+            return true   //刪除
         }
-        
-        let textLength = text.count + string.count - range.length
-        if textLength>20 {
-            return false
-        }
-        
-        return true
-
+        return string.unicodeScalars.allSatisfy { CharacterSet.decimalDigits.contains($0) }
     }
     
     //MARK: - API
+    //按 KIRIM 先打 share_member_check，成功才回填到註冊資料頁；失敗留在原頁顯示後端訊息
+    func checkShareMember(Code code:String) {
+        
+        AppDelegate.shared().tempShareMemberId = ""
+        
+        let parameters:Parameters = ["share_member_id":code]
+        let headers: HTTPHeaders = [:]
+        
+        AppDelegate.shared().addLoadingView()
+        
+        let todoEndpoint: String = API_ShareMemberCheck
+        
+        Dlog("checkShareMember todoEndpoint=\(todoEndpoint)\nparameters=\(parameters)")
+        
+        AppDelegate.shared().alamofireManagerWithTimeout.requestWithoutCache(todoEndpoint,method: .post,parameters: parameters,encoding: URLEncoding.default, headers:headers)
+            .responseString(encoding: String.Encoding.utf8)  { response in
+                AppDelegate.shared().removeLoadingView()
+                
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling on \(todoEndpoint)")
+                    print(response.result.error!)
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("API Timeout", comment: ""))
+                    return
+                }
+                
+                let responseStr = String.init(data: response.data!, encoding: String.Encoding.utf8)
+                Dlog("checkShareMember responseStr = \(responseStr ?? "")")
+                
+                let result = APIHandle().getResponseState(ResponseStr: responseStr!, APIStr: todoEndpoint, SubStr: "")
+                if result == ResponseState.ok {
+                    //回填到註冊資料頁的推薦碼變數（不是 ARC 號碼）
+                    self.parentVC?.setShareCode(Code: code)
+                    self.navigationController?.popViewController(animated: true)
+                } else {
+                    //顯示後端回的訊息；回傳格式不對、沒有訊息時才退回既有的連線異常文字
+                    var msg = AppDelegate.shared().apiBackContentStr
+                    if msg == "" {
+                        msg = NSLocalizedString("API Timeout", comment: "")
+                    }
+                    AppDelegate.shared().showAlertWithWindow(self, Message: msg)
+                }
+        }
+    }
+    
     //KIRIM 按鈕樣式比照註冊資料頁的 Lanjut：可按是紫色漸層膠囊，不可按是透明底紫框
+    //輸入值和目前已填的碼相同（含兩者都是空）時不可按；清空後可按，送出會清掉已填的碼
     func checkBtnState() {
         downBtn.removeGradienLayer()
-        if inputTextField.text!.count>0 {
+        if inputTextField.text! != presetCode {
             downBtn.addGradienOfIndoGo()
             downBtn.layer.borderWidth = 0
             downBtn.isEnabled = true
@@ -62,6 +101,11 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
             downBtn.layer.borderWidth = 0.5
             downBtn.isEnabled = false
         }
+    }
+    
+    //邊打字就更新 KIRIM 狀態；數字鍵盤沒有 return 鍵，不必先收鍵盤才能送
+    @objc func inputTextChanged(_ textField: UITextField) {
+        checkBtnState()
     }
     
     //MARK: - Button-Action
@@ -77,12 +121,18 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func downAction(_ sender: Any) {
-        if inputTextField.text == "" {
+        let code = inputTextField.text ?? ""
+        if code == presetCode {
             return
         }
-        //回填到註冊資料頁的推薦碼變數（不是 ARC 號碼）
-        parentVC?.setShareCode(Code: inputTextField.text!)
-        self.navigationController?.popViewController(animated: true)
+        inputTextField.resignFirstResponder()
+        if code == "" {
+            //清空送出：不打 API，直接清掉註冊資料頁已填的碼
+            parentVC?.setShareCode(Code: "")
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
+        checkShareMember(Code: code)
     }
     
     @IBAction func backAction(_ sender: Any) {
@@ -152,6 +202,7 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
         inputMoreSpaceView.isHidden = true
         
         inputTextField.delegate = self
+        inputTextField.addTarget(self, action: #selector(inputTextChanged(_:)), for: .editingChanged)
         inputTextField.keyboardType = .numberPad
         inputTextField.attributedPlaceholder = NSAttributedString(string: "MID", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         checkBtnState()
