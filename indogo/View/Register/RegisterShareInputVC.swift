@@ -54,12 +54,10 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
     func checkBtnState() {
         downBtn.removeGradienLayer()
         if inputTextField.text!.count>0 {
-            scanBgV.alpha = 0.2
             downBtn.addGradienOfIndoGo()
             downBtn.layer.borderWidth = 0
             downBtn.isEnabled = true
         } else {
-            scanBgV.alpha = 1
             downBtn.backgroundColor = .clear
             downBtn.layer.borderWidth = 0.5
             downBtn.isEnabled = false
@@ -128,7 +126,9 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
         downBtn.layer.borderWidth = 0.5
         downBtn.layer.borderColor = Color_Purple.cgColor
         
+        //掃碼卡片一律不淡化（舊程式輸入後會把 alpha 降到 0.2，看起來像停用）
         scanBgV.backgroundColor = .white
+        scanBgV.alpha = 1
         //掃碼圖示原本是白色 QR 配紫色框角，放到白卡上會看不見，改成整張染紫
         scanImgV.image = scanImgV.image?.withRenderingMode(.alwaysTemplate)
         scanImgV.tintColor = Color_Purple
@@ -141,9 +141,11 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
         textBgV.layer.borderColor = Color_Purple.cgColor
         textBgV.layer.cornerRadius = textBgV.frame.size.height/2
         
-        for l in [introL, scanL, msgL, divL, belowL] {
+        for l in [introL, msgL, divL, belowL] {
             l?.textColor = .black
         }
+        scanL.textColor = Color_Purple
+        scanL.font = UIFont.boldSystemFont(ofSize: 23)
         inputTextField.textColor = .black
         
         downBtn.setTitle(NSLocalizedString("send", comment: ""), for: .normal)
