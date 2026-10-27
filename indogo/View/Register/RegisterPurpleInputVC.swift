@@ -45,6 +45,8 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var registerBtn: UIButton!
     @IBOutlet weak var arcCodeL: UILabel!
+    //推薦碼入口（Masa Berlaku ARC 下方、Lanjut 上方）
+    @IBOutlet weak var shareCodeBtn: UIButton!
     
     @IBOutlet weak var titelL: UILabel!
     @IBOutlet weak var titleBtn: UIButton!
@@ -232,6 +234,8 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
         registerBtn.layer.borderColor = Color_Purple.cgColor
         registerBtn.layer.borderWidth = 0.5
         
+        updateShareCodeBtn()
+        
         phoneTextfield.text = "09"
         //inputArcView.isHidden = true
         checkNextBtnState(CheckText: false)
@@ -377,6 +381,13 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
     }
     
     //MARK: - Button-Action
+    //推薦碼：推既有的輸入／掃碼頁，回傳走 setShareCode
+    @IBAction func shareCodeInputAction(_ sender: Any) {
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterShareInputVC") as? RegisterShareInputVC
+        nextVC?.parentVC = self
+        self.navigationController?.pushViewController(nextVC!, animated: true)
+    }
+    
     @IBAction func nextAction(_ sender: Any) {
         
         //前端檢查（含 ARC 發證日期），不通過不送出
@@ -589,6 +600,18 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
     public func setArcCodeString(Code code:String) {
         arcCodeL.text = code
         checkNextBtnState(CheckText: true)
+    }
+    
+    //推薦碼連結：紫色、底線、置中（照 Android）
+    func updateShareCodeBtn() {
+        let text = NSLocalizedString("Register Input ARC Placehold", comment: "")
+        let attr = NSAttributedString(string: text, attributes: [
+            .font: UIFont.systemFont(ofSize: 15),
+            .foregroundColor: Color_Purple,
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
+            .underlineColor: Color_Purple
+        ])
+        shareCodeBtn.setAttributedTitle(attr, for: .normal)
     }
     
     //測試用(僅在模擬器發生)

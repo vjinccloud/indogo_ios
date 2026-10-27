@@ -4663,8 +4663,34 @@ Anda dibawah ini :</string>
                                                     <constraint firstAttribute="trailing" secondItem="v2D-mG-yaf" secondAttribute="trailing" constant="50" id="tUw-Rf-PJJ"/>
                                                 </constraints>
                                             </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="shC-od-eRw" userLabel="ShareCodeView">
+                                                <rect key="frame" x="0.0" y="674" width="414" height="40"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="shC-od-eBt" userLabel="ShareCodeBtn">
+                                                        <rect key="frame" x="92" y="0.0" width="230" height="40"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="40" id="shC-od-eH1"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <state key="normal" title="Saya mau isi kode poin dari teman">
+                                                            <color key="titleColor" name="Purple"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="shareCodeInputAction:" destination="3BU-fQ-kv9" eventType="touchUpInside" id="shC-od-eAc"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="shC-od-eH0"/>
+                                                    <constraint firstItem="shC-od-eBt" firstAttribute="centerX" secondItem="shC-od-eRw" secondAttribute="centerX" id="shC-od-eCX"/>
+                                                    <constraint firstItem="shC-od-eBt" firstAttribute="centerY" secondItem="shC-od-eRw" secondAttribute="centerY" id="shC-od-eCY"/>
+                                                    <constraint firstItem="shC-od-eBt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="shC-od-eRw" secondAttribute="leading" constant="50" id="shC-od-eLe"/>
+                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="shC-od-eBt" secondAttribute="trailing" constant="50" id="shC-od-eTr"/>
+                                                </constraints>
+                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iPR-wa-3kM">
-                                                <rect key="frame" x="0.0" y="674" width="414" height="100"/>
+                                                <rect key="frame" x="0.0" y="714" width="414" height="100"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TYJ-Ha-y1N">
                                                         <rect key="frame" x="103.5" y="38" width="207" height="44"/>
@@ -4690,7 +4716,7 @@ Anda dibawah ini :</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7bV-uR-W4M">
-                                                <rect key="frame" x="0.0" y="774" width="414" height="50"/>
+                                                <rect key="frame" x="0.0" y="814" width="414" height="50"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="tuY-o1-TTU"/>
@@ -4750,6 +4776,7 @@ Anda dibawah ini :</string>
                         <outlet property="rePassTextField" destination="Dj5-HB-kOe" id="oCo-yn-HG3"/>
                         <outlet property="rePassView" destination="T4r-Mx-aiE" id="fwW-qs-CeN"/>
                         <outlet property="registerBtn" destination="TYJ-Ha-y1N" id="PMf-b3-Lc3"/>
+                        <outlet property="shareCodeBtn" destination="shC-od-eBt" id="shC-od-eOu"/>
                         <outlet property="showPassBtn" destination="wVz-IL-5JV" id="ASl-3B-OXT"/>
                         <outlet property="showRePassBtn" destination="QiG-if-ea8" id="h5T-sQ-osz"/>
                         <outlet property="titelL" destination="Eqx-zP-8O6" id="hfe-b5-QC1"/>
