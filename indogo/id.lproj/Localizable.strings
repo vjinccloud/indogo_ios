@@ -16,3 +16,6 @@
 //compliance-202610 防詐提醒
 "Fraud Alert Title" = "Peringatan";
 "Fraud Alert Confirm" = "Saya Mengerti";
+
+//register-share-code 填過推薦碼後連結顯示
+"Register Share Code Filled" = "Kode Poin Teman: %@";

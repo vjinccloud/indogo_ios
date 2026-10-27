@@ -390,6 +390,8 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
     @IBAction func shareCodeInputAction(_ sender: Any) {
         let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterShareInputVC") as? RegisterShareInputVC
         nextVC?.parentVC = self
+        //已填過就帶入，方便修改
+        nextVC?.presetCode = shareCodeStr
         self.navigationController?.pushViewController(nextVC!, animated: true)
     }
     
@@ -608,9 +610,12 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
         checkNextBtnState(CheckText: true)
     }
     
-    //推薦碼連結：紫色、底線、置中（照 Android）
+    //推薦碼連結：紫色、底線、置中（照 Android）；填過後改顯示已填的碼，可再點開修改
     func updateShareCodeBtn() {
-        let text = NSLocalizedString("Register Input ARC Placehold", comment: "")
+        var text = NSLocalizedString("Register Input ARC Placehold", comment: "")
+        if shareCodeStr != "" {
+            text = String(format: NSLocalizedString("Register Share Code Filled", comment: ""), shareCodeStr)
+        }
         let attr = NSAttributedString(string: text, attributes: [
             .font: UIFont.systemFont(ofSize: 15),
             .foregroundColor: Color_Purple,

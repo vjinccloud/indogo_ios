@@ -106,6 +106,8 @@
 "Register Input Pass" = "Kata Sandi";
 "Register Input rePass" = "Ketik Ulang Kata Sandi";
 "Register Input ARC Placehold" = "Saya mau isi kode poin dari teman";
+//register-share-code 填過推薦碼後連結顯示
+"Register Share Code Filled" = "Kode Poin Teman: %@";
 
 //註冊輸入分享碼and Scan
 "Register Share Input Title" = "Masukan Kode Poin";

@@ -28,6 +28,8 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var topScrollView: UIScrollView!
     
     var parentVC:RegisterPurpleInputVC!
+    //從註冊資料頁帶入的已填推薦碼
+    var presetCode = ""
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
@@ -133,6 +135,9 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
         inputTextField.delegate = self
         inputTextField.keyboardType = .numberPad
         inputTextField.attributedPlaceholder = NSAttributedString(string: "MID", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        if presetCode != "" {
+            setCodeString(Code: presetCode)
+        }
     }
 
     /*
