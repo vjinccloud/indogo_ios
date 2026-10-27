@@ -67,6 +67,8 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
     
     var presetArc = ""
     var hasSharedCode = false
+    //推薦碼（share_member_id），與 arcCodeL（ARC 號碼）分開存
+    var shareCodeStr = ""
     var loadOnce = false
     var canPress = true
     
@@ -281,8 +283,11 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func setArcText(Text text:String) {
-        arcCodeL.text = text
+    //推薦碼輸入頁回傳用
+    public func setShareCode(Code code:String) {
+        shareCodeStr = code
+        hasSharedCode = (code != "")
+        updateShareCodeBtn()
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -402,8 +407,9 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
         AppDelegate.shared().tempRegisterObj.phoneNum = phoneTextfield.text
         AppDelegate.shared().tempRegisterObj.passwaord = passTextField.text
         AppDelegate.shared().tempRegisterObj.arcNum = arcCodeL.text
+        //推薦碼沒填就帶空字串
         if hasSharedCode {
-            AppDelegate.shared().tempRegisterObj.shareCode =  arcCodeL.text!
+            AppDelegate.shared().tempRegisterObj.shareCode = shareCodeStr
         } else {
             AppDelegate.shared().tempRegisterObj.shareCode = ""
         }

@@ -75,7 +75,8 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
         if inputTextField.text == "" {
             return
         }
-        parentVC.setArcText(Text:inputTextField.text!)
+        //回填到註冊資料頁的推薦碼變數（不是 ARC 號碼）
+        parentVC?.setShareCode(Code: inputTextField.text!)
         self.navigationController?.popViewController(animated: true)
     }
     
