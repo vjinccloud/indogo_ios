@@ -39,7 +39,8 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
         if string.isEmpty {
             return true   //刪除
         }
-        return string.unicodeScalars.allSatisfy { CharacterSet.decimalDigits.contains($0) }
+        //只收 ASCII 0～9（decimalDigits 會放行全形數字，不用）
+        return string.unicodeScalars.allSatisfy { $0.value >= 0x30 && $0.value <= 0x39 }
     }
     
     //MARK: - API
@@ -47,6 +48,8 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
     func checkShareMember(Code code:String) {
         
         AppDelegate.shared().tempShareMemberId = ""
+        //回應夾 PHP 警告時 getResponseState 不會清空上一次的錯誤訊息，送出前先清
+        AppDelegate.shared().apiBackContentStr = ""
         
         let parameters:Parameters = ["share_member_id":code]
         let headers: HTTPHeaders = [:]
