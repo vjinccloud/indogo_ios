@@ -14,6 +14,8 @@ import Alamofire
 class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var backL: UILabel!
+    @IBOutlet weak var barV: UIView!
+    @IBOutlet weak var scanImgV: UIImageView!
     @IBOutlet weak var introL: UILabel!
     @IBOutlet weak var scanL: UILabel!
     @IBOutlet weak var msgL: UILabel!
@@ -30,6 +32,7 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
     var parentVC:RegisterPurpleInputVC!
     //從註冊資料頁帶入的已填推薦碼
     var presetCode = ""
+    var loadOnce = false
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
@@ -47,17 +50,19 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
     }
     
     //MARK: - API
+    //KIRIM 按鈕樣式比照註冊資料頁的 Lanjut：可按是紫色漸層膠囊，不可按是透明底紫框
     func checkBtnState() {
+        downBtn.removeGradienLayer()
         if inputTextField.text!.count>0 {
             scanBgV.alpha = 0.2
-            textBgV.backgroundColor = Color_Main_LightGray
-            inputTextField.textColor = .black
-            downBtn.backgroundColor = Color_Main_Red
+            downBtn.addGradienOfIndoGo()
+            downBtn.layer.borderWidth = 0
+            downBtn.isEnabled = true
         } else {
             scanBgV.alpha = 1
-            textBgV.backgroundColor = .clear
-            inputTextField.textColor = .white
             downBtn.backgroundColor = .clear
+            downBtn.layer.borderWidth = 0.5
+            downBtn.isEnabled = false
         }
     }
     
@@ -116,28 +121,52 @@ class RegisterShareInputVC: UIViewController, UITextFieldDelegate {
         divL.text = NSLocalizedString("Register Share Input Div", comment: "")
         belowL.text = NSLocalizedString("Register Share Input Below", comment: "")
         
+        //紫色主題（與 RegisterPurpleInputVC 同款）：淺灰底、深色字、白色圓角卡片與輸入框
         downBtn.backgroundColor = .clear
         downBtn.setTitleColor(.white, for: .normal)
+        downBtn.setTitleColor(.white, for: .disabled)
         downBtn.layer.borderWidth = 0.5
-        downBtn.layer.borderColor = Color_Main_Red.cgColor
+        downBtn.layer.borderColor = Color_Purple.cgColor
         
-        scanBgV.layer.borderWidth = 0.5
-        scanBgV.layer.borderColor = UIColor.white.cgColor
+        scanBgV.backgroundColor = .white
+        //掃碼圖示原本是白色 QR 配紫色框角，放到白卡上會看不見，改成整張染紫
+        scanImgV.image = scanImgV.image?.withRenderingMode(.alwaysTemplate)
+        scanImgV.tintColor = Color_Purple
+        scanBgV.layer.borderWidth = 1
+        scanBgV.layer.borderColor = Color_Purple.cgColor
         scanBgV.layer.cornerRadius = 20
         
+        textBgV.backgroundColor = .white
         textBgV.layer.borderWidth = 0.5
-        textBgV.layer.borderColor = UIColor.white.cgColor
+        textBgV.layer.borderColor = Color_Purple.cgColor
         textBgV.layer.cornerRadius = textBgV.frame.size.height/2
+        
+        for l in [introL, scanL, msgL, divL, belowL] {
+            l?.textColor = .black
+        }
+        inputTextField.textColor = .black
         
         downBtn.setTitle(NSLocalizedString("send", comment: ""), for: .normal)
         inputMoreSpaceView.isHidden = true
         
         inputTextField.delegate = self
         inputTextField.keyboardType = .numberPad
-        inputTextField.attributedPlaceholder = NSAttributedString(string: "MID", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        inputTextField.attributedPlaceholder = NSAttributedString(string: "MID", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        checkBtnState()
         if presetCode != "" {
             setCodeString(Code: presetCode)
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if loadOnce {
+            return
+        }
+        loadOnce = true
+        barV.addGradienOfIndoGo()
+        //版面定好後再畫一次按鈕漸層，避免用到 storyboard 的舊尺寸
+        checkBtnState()
     }
 
     /*

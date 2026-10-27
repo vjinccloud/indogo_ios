@@ -824,7 +824,7 @@ berada dalam kotak yang ditentukan</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.74117647060000003" green="0.086274509799999996" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="Purple"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="45" id="4iq-0h-One"/>
                                             <constraint firstItem="ejR-Em-20O" firstAttribute="centerY" secondItem="3Wj-Ge-J4P" secondAttribute="centerY" id="4rh-bG-aMu"/>
@@ -937,14 +937,14 @@ SEKARANG</string>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9WJ-OR-ZKL">
                                                                 <rect key="frame" x="40" y="20" width="334" height="0.5"/>
-                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="0.5" id="F6h-DY-904"/>
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xnR-e1-Fvu">
                                                                 <rect key="frame" x="167" y="0.5" width="80" height="40"/>
-                                                                <color key="backgroundColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <color key="backgroundColor" name="NewBg"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="40" id="UQa-Ex-Lvb"/>
                                                                     <constraint firstAttribute="width" constant="80" id="u8q-fY-qYw"/>
@@ -1052,7 +1052,7 @@ SEKARANG</string>
                                         </constraints>
                                     </scrollView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="NewBg"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="xJL-PB-uNS" secondAttribute="bottom" id="C8k-sD-wnn"/>
                                     <constraint firstItem="3Wj-Ge-J4P" firstAttribute="leading" secondItem="TgR-oa-MIU" secondAttribute="leading" id="Dz0-aZ-uNd"/>
@@ -1065,7 +1065,7 @@ SEKARANG</string>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="KLv-wA-Yxm"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" name="NewBg"/>
                         <constraints>
                             <constraint firstItem="TgR-oa-MIU" firstAttribute="top" secondItem="KLv-wA-Yxm" secondAttribute="top" id="G00-rL-anQ"/>
                             <constraint firstItem="KLv-wA-Yxm" firstAttribute="trailing" secondItem="TgR-oa-MIU" secondAttribute="trailing" id="qvH-KL-pMZ"/>
@@ -1075,6 +1075,8 @@ SEKARANG</string>
                     </view>
                     <connections>
                         <outlet property="backL" destination="ejR-Em-20O" id="xmA-5l-SIa"/>
+                        <outlet property="barV" destination="3Wj-Ge-J4P" id="shC-od-eBv"/>
+                        <outlet property="scanImgV" destination="qXa-Oe-v4p" id="shC-od-eIm"/>
                         <outlet property="belowL" destination="5BD-ZP-im7" id="OlH-iq-oPp"/>
                         <outlet property="divL" destination="N9V-CQ-gZT" id="2Rb-hB-HRx"/>
                         <outlet property="downBtn" destination="naA-vx-muv" id="6RW-Q8-zoj"/>
