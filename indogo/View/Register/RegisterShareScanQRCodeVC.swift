@@ -78,17 +78,20 @@ class RegisterShareScanQRCodeVC: UIViewController, UINavigationControllerDelegat
     //檢查相機權限
     func checkCameraPermission() {
         AVCaptureDevice.requestAccess(for: AVMediaType.video) { (access) in
-            print("access = \(access)")
-            let authStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
-            switch authStatus {
-            case .authorized:
-                self.initCamera()
-                break
-            case .denied, .restricted, .notDetermined:
-                AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("Agreement to Scan", comment: ""))
-                break
-            default:
-                break
+            //回呼在背景執行緒，開相機與顯示提示都要回主執行緒（照 GoVN），否則拒絕權限時會閃退
+            DispatchQueue.main.async {
+                print("access = \(access)")
+                let authStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
+                switch authStatus {
+                case .authorized:
+                    self.initCamera()
+                    break
+                case .denied, .restricted, .notDetermined:
+                    AppDelegate.shared().showAlertWithWindow(self, Message: NSLocalizedString("Agreement to Scan", comment: ""))
+                    break
+                default:
+                    break
+                }
             }
         }
     }

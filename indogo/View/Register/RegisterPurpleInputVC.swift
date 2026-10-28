@@ -45,6 +45,8 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var registerBtn: UIButton!
     @IBOutlet weak var arcCodeL: UILabel!
+    //推薦碼入口（Masa Berlaku ARC 下方、Lanjut 上方）
+    @IBOutlet weak var shareCodeBtn: UIButton!
     
     @IBOutlet weak var titelL: UILabel!
     @IBOutlet weak var titleBtn: UIButton!
@@ -65,6 +67,8 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
     
     var presetArc = ""
     var hasSharedCode = false
+    //推薦碼（share_member_id），與 arcCodeL（ARC 號碼）分開存
+    var shareCodeStr = ""
     var loadOnce = false
     var canPress = true
     
@@ -232,6 +236,8 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
         registerBtn.layer.borderColor = Color_Purple.cgColor
         registerBtn.layer.borderWidth = 0.5
         
+        updateShareCodeBtn()
+        
         phoneTextfield.text = "09"
         //inputArcView.isHidden = true
         checkNextBtnState(CheckText: false)
@@ -277,8 +283,11 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func setArcText(Text text:String) {
-        arcCodeL.text = text
+    //推薦碼輸入頁回傳用
+    public func setShareCode(Code code:String) {
+        shareCodeStr = code
+        hasSharedCode = (code != "")
+        updateShareCodeBtn()
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -377,6 +386,15 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
     }
     
     //MARK: - Button-Action
+    //推薦碼：推既有的輸入／掃碼頁，回傳走 setShareCode
+    @IBAction func shareCodeInputAction(_ sender: Any) {
+        let nextVC = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "RegisterShareInputVC") as? RegisterShareInputVC
+        nextVC?.parentVC = self
+        //已填過就帶入，方便修改
+        nextVC?.presetCode = shareCodeStr
+        self.navigationController?.pushViewController(nextVC!, animated: true)
+    }
+    
     @IBAction func nextAction(_ sender: Any) {
         
         //前端檢查（含 ARC 發證日期），不通過不送出
@@ -391,8 +409,9 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
         AppDelegate.shared().tempRegisterObj.phoneNum = phoneTextfield.text
         AppDelegate.shared().tempRegisterObj.passwaord = passTextField.text
         AppDelegate.shared().tempRegisterObj.arcNum = arcCodeL.text
+        //推薦碼沒填就帶空字串
         if hasSharedCode {
-            AppDelegate.shared().tempRegisterObj.shareCode =  arcCodeL.text!
+            AppDelegate.shared().tempRegisterObj.shareCode = shareCodeStr
         } else {
             AppDelegate.shared().tempRegisterObj.shareCode = ""
         }
@@ -589,6 +608,21 @@ class RegisterPurpleInputVC: UIViewController, UITextFieldDelegate {
     public func setArcCodeString(Code code:String) {
         arcCodeL.text = code
         checkNextBtnState(CheckText: true)
+    }
+    
+    //推薦碼連結：紫色、底線、置中（照 Android）；填過後改顯示已填的碼，可再點開修改
+    func updateShareCodeBtn() {
+        var text = NSLocalizedString("Register Input ARC Placehold", comment: "")
+        if shareCodeStr != "" {
+            text = String(format: NSLocalizedString("Register Share Code Filled", comment: ""), shareCodeStr)
+        }
+        let attr = NSAttributedString(string: text, attributes: [
+            .font: UIFont.systemFont(ofSize: 15),
+            .foregroundColor: Color_Purple,
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
+            .underlineColor: Color_Purple
+        ])
+        shareCodeBtn.setAttributedTitle(attr, for: .normal)
     }
     
     //測試用(僅在模擬器發生)
